@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@mipmap/splash_background"/>
+    <item
+        android:drawable="@mipmap/splash_icon_logo"
+        android:width="78dp"
+        android:height="78dp"
+        android:gravity="center_horizontal"
+        android:top="166dp"/>
+    <item
+        android:drawable="@mipmap/splash_icon_text"
+        android:width="232dp"
+        android:height="25dp"
+        android:gravity="center_horizontal"
+        android:top="282dp"/>
+</layer-list>
