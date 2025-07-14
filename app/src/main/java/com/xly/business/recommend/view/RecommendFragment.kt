@@ -1,4 +1,4 @@
-package com.xly.business.recommend
+package com.xly.business.recommend.view
 
 import android.R
 import androidx.fragment.app.Fragment
