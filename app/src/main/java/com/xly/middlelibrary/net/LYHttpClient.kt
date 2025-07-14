@@ -1,5 +1,6 @@
 package com.xly.middlelibrary.net
 
+import com.xly.middlelibrary.LYApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
