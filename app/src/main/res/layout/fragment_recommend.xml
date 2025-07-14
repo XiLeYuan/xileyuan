@@ -3,4 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <include
+        android:id="@+id/topNav"
+        layout="@layout/activity_main_top_nav"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
