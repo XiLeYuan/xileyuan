@@ -1,0 +1,63 @@
+package com.xly.index
+
+import com.xly.R
+import android.os.Bundle
+import android.view.LayoutInflater
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.xly.base.LYBaseActivity
+import com.xly.business.recommend.RecommendFragment
+import com.xly.databinding.ActivityMainBinding
+import com.xly.index.viewmodel.MainViewModel
+
+class LYMainActivity: LYBaseActivity<ActivityMainBinding,MainViewModel>() {
+
+    private val homeFragment = RecommendFragment()
+    private val discoverFragment = RecommendFragment()
+    private val offlineFragment = RecommendFragment()
+    private val messageFragment = RecommendFragment()
+    private val profileFragment = RecommendFragment()
+    private var activeFragment: Fragment = homeFragment
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        supportFragmentManager.beginTransaction().apply {
+            add(R.id.fragmentContainer, profileFragment, "5").hide(profileFragment)
+            add(R.id.fragmentContainer, messageFragment, "4").hide(messageFragment)
+            add(R.id.fragmentContainer, offlineFragment, "3").hide(offlineFragment)
+            add(R.id.fragmentContainer, discoverFragment, "2").hide(discoverFragment)
+            add(R.id.fragmentContainer, homeFragment, "1")
+        }.commit()
+
+        viewBind.bottomNavigation.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.tab_home -> switchFragment(homeFragment)
+                R.id.tab_discover -> switchFragment(discoverFragment)
+                R.id.tab_offline -> switchFragment(offlineFragment)
+                R.id.tab_message -> switchFragment(messageFragment)
+                R.id.tab_profile -> switchFragment(profileFragment)
+            }
+            true
+        }
+    }
+
+
+    private fun switchFragment(target: Fragment) {
+        if (activeFragment != target) {
+            supportFragmentManager.beginTransaction()
+                .hide(activeFragment)
+                .show(target)
+                .commit()
+            activeFragment = target
+        }
+    }
+
+    override fun inflateBinding(layoutInflater: LayoutInflater): ActivityMainBinding {
+        return ActivityMainBinding.inflate(layoutInflater)
+    }
+
+    override fun initViewModel(): MainViewModel {
+        return ViewModelProvider(this)[MainViewModel::class.java]
+    }
+
+}
