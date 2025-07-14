@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.xly.base.LYBaseFragment
-import com.xly.business.recommend.view.RecommendFragment
 import com.xly.business.recommend.viewmodel.RecommendViewModel
 import com.xly.databinding.FragmentFavoriteBinding
 import kotlin.jvm.java
