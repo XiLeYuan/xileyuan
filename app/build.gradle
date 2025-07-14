@@ -171,6 +171,10 @@ android {
 
         implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2'
 
+        implementation 'com.geyifeng.immersionbar:immersionbar:3.2.2'
+        implementation 'com.geyifeng.immersionbar:immersionbar-ktx:3.2.2'
+        implementation 'com.geyifeng.immersionbar:immersionbar-components:3.2.2'
+
 
     }
     lint {

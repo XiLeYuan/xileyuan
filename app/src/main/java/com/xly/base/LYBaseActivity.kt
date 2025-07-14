@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
+import com.gyf.immersionbar.BarHide
+import com.gyf.immersionbar.ImmersionBar
 
 abstract class LYBaseActivity<VB : ViewBinding, VM : ViewModel> : AppCompatActivity() {
 
@@ -33,7 +35,10 @@ abstract class LYBaseActivity<VB : ViewBinding, VM : ViewModel> : AppCompatActiv
 
 
     private fun initTabBar() {
-
+        ImmersionBar.with(this)
+            .statusBarDarkFont(true)
+            .hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR)
+            .init()
     }
 
 
