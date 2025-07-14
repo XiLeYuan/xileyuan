@@ -31,7 +31,7 @@ class SplashActivity :AppCompatActivity() {
 
     private fun enterMain() {
         handler.postDelayed(Runnable {
-            LYMainActivity
+            LYMainActivity.start(SplashActivity@this)
         },2500)
     }
 
