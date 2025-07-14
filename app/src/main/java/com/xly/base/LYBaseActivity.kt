@@ -1,15 +1,16 @@
 package com.xly.base
-
-
-
-
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
 import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
+import com.xly.R
 
 abstract class LYBaseActivity<VB : ViewBinding, VM : ViewModel> : AppCompatActivity() {
 
@@ -71,6 +72,29 @@ abstract class LYBaseActivity<VB : ViewBinding, VM : ViewModel> : AppCompatActiv
     /************************************公共UI提示类***************************************************/
 
 
+    @SuppressLint("InflateParams")
+    fun showToast(str: String) {
+        val layout = layoutInflater.inflate(R.layout.view_toast_custom, null)
+        val tvToast: TextView = layout.findViewById(R.id.toast_text)
+        tvToast.setText(str)
+        val toast = Toast(this)
+        toast.setDuration(Toast.LENGTH_SHORT)
+        toast.setView(layout)
+        toast.setGravity(Gravity.CENTER, 0, 0)
+        toast.show()
+    }
+
+    fun showLoading() {
+        if (!isFinishing && !isDestroyed) {
+
+        }
+    }
+
+    fun cancelLoading() {
+        if (!isFinishing && !isDestroyed) {
+
+        }
+    }
 
 
 
