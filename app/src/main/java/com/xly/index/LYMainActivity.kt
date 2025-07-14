@@ -1,5 +1,8 @@
 package com.xly.index
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import com.xly.R
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,6 +21,15 @@ class LYMainActivity: LYBaseActivity<ActivityMainBinding,MainViewModel>() {
     private val messageFragment = RecommendFragment()
     private val profileFragment = RecommendFragment()
     private var activeFragment: Fragment = homeFragment
+
+    companion object {
+
+        fun start(c: Context) {
+            val intent = Intent(c, LYMainActivity::class.java)
+            (c as? Activity)?.startActivity(intent)
+            (c as? Activity)?.finish()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
