@@ -9,7 +9,7 @@ import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.xly.base.LYBaseActivity
-import com.xly.business.favorite.FavoriteFragment
+import com.xly.business.favorite.view.FavoriteFragment
 import com.xly.business.recommend.view.RecommendFragment
 import com.xly.databinding.ActivityMainBinding
 import com.xly.index.viewmodel.MainViewModel
