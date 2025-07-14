@@ -88,12 +88,12 @@ android {
     }*/
 
     compileOptions {
-        sourceCompatibility 11
-        targetCompatibility 11
-
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
+
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
     sourceSets {
         main {
@@ -152,36 +152,26 @@ android {
     }
     dependencies {
         implementation fileTree(include: ['*.jar'], dir: 'libs')
+        implementation 'androidx.core:core:1.5.0'
+        implementation 'androidx.media:media:1.0.0'
         implementation 'androidx.legacy:legacy-support-v4:1.0.0'
         testImplementation 'junit:junit:4.12'
         androidTestImplementation 'androidx.test.ext:junit:1.1.0'
         androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
         implementation 'androidx.appcompat:appcompat:1.3.1'
         implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-        implementation 'androidx.emoji:emoji:1.2.0-alpha01'
         implementation 'com.google.android.material:material:1.2.1'
         //以下依赖都需要添加
         implementation 'androidx.annotation:annotation:1.1.0'
-        //=======oppo push end===========
-
-        implementation 'com.android.support:support-v4:25.0.0'
 
         //kotlin
         implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1"
         implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1"
         implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
 
-        // 版本号建议设置成最新的版本（快手）
-
-
-
-
-
         implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2'
 
-        // 多盟
-        implementation 'com.android.support:cardview-v7:21.0.0'
-        //屏幕适配方案
+
     }
     lint {
         disable 'GoogleAppIndexingWarning'
