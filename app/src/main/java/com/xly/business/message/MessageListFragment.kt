@@ -5,8 +5,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.xly.base.LYBaseFragment
 import com.xly.business.recommend.viewmodel.RecommendViewModel
+import com.xly.databinding.FragmentMessageListBinding
 
-class MessageListFragment  : LYBaseFragment<FragmentFavoriteBinding,RecommendViewModel>() {
+class MessageListFragment  : LYBaseFragment<FragmentMessageListBinding,RecommendViewModel>() {
 
 
 
@@ -16,8 +17,8 @@ class MessageListFragment  : LYBaseFragment<FragmentFavoriteBinding,RecommendVie
     override fun inflateBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ): FragmentFavoriteBinding {
-        return FragmentFavoriteBinding.inflate(layoutInflater)
+    ): FragmentMessageListBinding {
+        return FragmentMessageListBinding.inflate(layoutInflater)
     }
 
     override fun initViewModel(): RecommendViewModel {
