@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.xly.base.LYBaseActivity
 import com.xly.business.favorite.view.FavoriteFragment
+import com.xly.business.message.MessageListFragment
 import com.xly.business.recommend.view.RecommendFragment
 import com.xly.databinding.ActivityMainBinding
 import com.xly.index.viewmodel.MainViewModel
@@ -19,7 +20,7 @@ class LYMainActivity: LYBaseActivity<ActivityMainBinding,MainViewModel>() {
     private val homeFragment = RecommendFragment()
     private val favoriteFragment = FavoriteFragment()
     private val offlineFragment = RecommendFragment()
-    private val messageFragment = RecommendFragment()
+    private val messageFragment = MessageListFragment()
     private val profileFragment = RecommendFragment()
     private var activeFragment: Fragment = homeFragment
 
