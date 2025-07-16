@@ -1,31 +1,34 @@
-package com.xly.business.recommend.view.adapter
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.xly.R
 
+data class Person(val name: String, val desc: String, val avatarRes: Int)
 
-class CardAdapter(private val cardList: List<List<String>>) :
-    RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
+class CardAdapter(private val list: List<Person>) :
+    RecyclerView.Adapter<CardAdapter.PersonViewHolder>() {
 
-    class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val innerRecyclerView: RecyclerView = itemView.findViewById(R.id.innerRecyclerView)
+    class PersonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val avatar: ImageView = itemView.findViewById(R.id.avatar)
+        val name: TextView = itemView.findViewById(R.id.name)
+        val desc: TextView = itemView.findViewById(R.id.desc)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.fragment_recommend_item_card, parent, false)
-        return CardViewHolder(view)
+        return PersonViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        val innerList = cardList[position]
-        holder.innerRecyclerView.layoutManager = LinearLayoutManager(holder.itemView.context)
-        holder.innerRecyclerView.adapter = InnerListAdapter(innerList)
+    override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
+        val person = list[position]
+        holder.avatar.setImageResource(person.avatarRes)
+        holder.name.text = person.name
+        holder.desc.text = person.desc
     }
 
-    override fun getItemCount(): Int = cardList.size
+    override fun getItemCount(): Int = list.size
 }

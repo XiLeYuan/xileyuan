@@ -1,6 +1,5 @@
 package com.xly.business.recommend.view
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
@@ -22,13 +21,13 @@ class CardRecycleView @JvmOverloads constructor(
                 startX = e.x
                 startY = e.y
                 isVerticalScroll = false
-                parent.requestDisallowInterceptTouchEvent(false)
+                // 不要在这里 parent.requestDisallowInterceptTouchEvent
             }
             MotionEvent.ACTION_MOVE -> {
                 val dx = Math.abs(e.x - startX)
                 val dy = Math.abs(e.y - startY)
                 if (dy > dx && dy > touchSlop) {
-                    // 垂直滑动，自己拦截
+                    // 垂直滑动，自己拦截，禁止父控件拦截
                     isVerticalScroll = true
                     parent.requestDisallowInterceptTouchEvent(true)
                     return true
@@ -47,7 +46,6 @@ class CardRecycleView @JvmOverloads constructor(
         return super.onInterceptTouchEvent(e)
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(e: MotionEvent): Boolean {
         if (isVerticalScroll) {
             parent.requestDisallowInterceptTouchEvent(true)
