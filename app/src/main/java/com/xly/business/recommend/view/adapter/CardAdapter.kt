@@ -1,16 +1,22 @@
+import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.xly.business.recommend.model.Person
 import com.xly.R
+import com.xly.middlelibrary.utils.LYUtils.blurBitmap
+import com.xly.middlelibrary.utils.LYUtils.createColorBitmap
+import com.xly.middlelibrary.utils.LYUtils.getRandomColor
 
 class CardAdapter(private val list: List<Person>) :
     RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
 
     class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val itemLayout: LinearLayout = itemView.findViewById(R.id.itemLayout)
         val avatar: ImageView = itemView.findViewById(R.id.avatar)
         val name: TextView = itemView.findViewById(R.id.name)
         val age: TextView = itemView.findViewById(R.id.age)
@@ -29,6 +35,15 @@ class CardAdapter(private val list: List<Person>) :
         holder.name.text = person.name
         holder.age.text = "${person.age}岁"
         holder.desc.text = person.desc
+
+        // 随机颜色并缓存
+        val color = getRandomColor()
+        val width = holder.itemView.width.takeIf { it > 0 } ?: 600
+        val height = holder.itemView.height.takeIf { it > 0 } ?: 400
+        val bmp = createColorBitmap(color, width, height)
+        val blurred = blurBitmap(holder.itemView.context, bmp)
+        holder.itemLayout.background = BitmapDrawable(holder.itemLayout.resources, blurred)
+
     }
 
     override fun getItemCount(): Int = list.size

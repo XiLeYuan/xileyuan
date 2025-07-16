@@ -33,6 +33,15 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
         val data = listOf(
             Person("张三", 25, "热爱运动，喜欢旅行", R.mipmap.ic_launcher),
             Person("李四", 28, "产品经理，喜欢摄影", R.mipmap.ic_launcher),
+            Person("王五", 22, "设计师，极简主义", R.mipmap.ic_launcher),
+            Person("王五", 22, "设计师，极简主义", R.mipmap.ic_launcher),
+            Person("王五", 22, "设计师，极简主义", R.mipmap.ic_launcher),
+            Person("王五", 22, "设计师，极简主义", R.mipmap.ic_launcher),
+            Person("张三", 25, "热爱运动，喜欢旅行", R.mipmap.ic_launcher),
+            Person("李四", 28, "产品经理，喜欢摄影", R.mipmap.ic_launcher),
+            Person("王五", 22, "设计师，极简主义", R.mipmap.ic_launcher),
+            Person("王五", 22, "设计师，极简主义", R.mipmap.ic_launcher),
+            Person("王五", 22, "设计师，极简主义", R.mipmap.ic_launcher),
             Person("王五", 22, "设计师，极简主义", R.mipmap.ic_launcher)
             // ...更多数据
         )

@@ -29,6 +29,8 @@ android {
                 arguments = [moduleName: project.getName()]
             }
         }
+        renderscriptTargetApi 21
+        renderscriptSupportModeEnabled true
         /*manifestPlaceholders = [
         ]*/
     }
@@ -182,7 +184,7 @@ android {
         implementation 'com.yuyakaido.android:card-stack-view:2.3.4'
         implementation 'androidx.recyclerview:recyclerview:1.3.2'
         implementation 'androidx.cardview:cardview:1.0.0'
-        implementation 'androidx.renderscript:renderscript:1.1.0'
+//        implementation 'androidx.renderscript:renderscript:1.1.0'
 
 
 //        implementation 'com.github.liaoinstan:SpringView:1.5.0'
