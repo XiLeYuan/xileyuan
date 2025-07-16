@@ -15,12 +15,12 @@ import com.xly.R
 import com.xly.business.recommend.model.Person
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.Direction
+import com.yuyakaido.android.cardstackview.StackFrom
 
 
 class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewModel>() {
 
 
-    private lateinit var adapter: CardAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,6 +28,7 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
         val cardStackLayoutManager = CardStackLayoutManager(requireActivity())
         cardStackLayoutManager.setDirections(Direction.HORIZONTAL)
         viewBind.cardStackView.layoutManager = cardStackLayoutManager
+        cardStackLayoutManager.setStackFrom(StackFrom.TopAndRight)
 
         val data = listOf(
             Person("张三", 25, "热爱运动，喜欢旅行", R.mipmap.ic_launcher),
