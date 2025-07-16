@@ -23,6 +23,13 @@
             android:orientation="vertical"
             android:padding="24dp">
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@mipmap/ranking_more_pressed_icon"/>
+
             <com.xly.middlelibrary.widget.LYRoundImageView
                 android:id="@+id/avatar"
                 android:layout_width="80dp"
@@ -31,6 +38,17 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="40dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/avatar"
+                android:layout_marginTop="50dp"
+                android:layout_marginStart="20dp"
+                android:text="vacandy"
+                android:textSize="20sp"
+                android:textColor="#ffffff"
+                android:textStyle="bold"/>
 
             <!--<TextView
                 android:id="@+id/name"
