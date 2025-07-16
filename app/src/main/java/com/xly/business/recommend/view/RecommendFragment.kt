@@ -50,6 +50,12 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
         })
     }
 
+
+    override fun initView() {
+        viewBind.topNav.topImgOne.setImageResource(R.mipmap.msf)
+        viewBind.topNav.topImgTwo.setImageResource(R.mipmap.msc)
+    }
+
     override fun inflateBinding(
         inflater: LayoutInflater,
         container: ViewGroup?

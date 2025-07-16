@@ -13,10 +13,6 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
 
-
-
-
-
     <include
         android:id="@+id/topNav"
         layout="@layout/activity_main_top_nav"
@@ -34,7 +30,8 @@
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingTop="100dp"/>
 
 
 
