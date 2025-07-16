@@ -179,6 +179,21 @@ android {
         implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
         implementation 'androidx.viewpager2:viewpager2:1.0.0'
 
+        implementation 'com.yuyakaido.android:card-stack-view:2.3.4'
+        implementation 'androidx.recyclerview:recyclerview:1.3.2'
+        implementation 'androidx.cardview:cardview:1.0.0'
+
+
+//        implementation 'com.github.liaoinstan:SpringView:1.5.0'
+//        implementation 'com.github.liaoinstan:SpringView:1.3.0'
+//        implementation 'com.github.liaoinstan:SpringView:master-SNAPSHOT'
+//        implementation 'com.github.liaoinstan.SpringView:AcfunHeader:0220cd6520'
+//        implementation 'com.github.liaoinstan.SpringView:library:0220cd6520'
+//        implementation 'com.github.liaoinstan.SpringView:MeituanHeader:master-SNAPSHOT'
+//        implementation 'com.github.liaoinstan.SpringView:AcfunHeader:master-SNAPSHOT'
+//        implementation 'com.github.liaoinstan.SpringView:AcfunHeader:-SNAPSHOT'
+//        implementation 'com.yuyakaido.android:card-stack-view:2.3.4'
+
 
     }
     lint {

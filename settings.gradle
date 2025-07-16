@@ -16,6 +16,22 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://developer.huawei.com/repo/' }
+        maven { url 'https://repo1.maven.org/maven2/' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/releases/' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        //添加友盟相关的maven地址
+        maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven { url "https://dl.bintray.com/thelasterstar/maven/" } //微博
+        //穿山甲小视频
+        maven { url "https://artifact.bytedance.com/repository/Volcengine/" }
+        maven {
+            url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_support/"  //mintegral SDK依赖
+        }
+        maven { url "https://artifact.bytedance.com/repository/pangle/" } //穿山甲融合SDK依赖
+        maven { url 'https://developer.huawei.com/repo/' }
+        maven { url 'https://developer.hihonor.com/repo' }
     }
 }
 
