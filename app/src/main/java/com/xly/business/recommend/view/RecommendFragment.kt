@@ -28,7 +28,7 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
         val cardStackLayoutManager = CardStackLayoutManager(requireActivity())
         cardStackLayoutManager.setDirections(Direction.HORIZONTAL)
         viewBind.cardStackView.layoutManager = cardStackLayoutManager
-        cardStackLayoutManager.setStackFrom(StackFrom.TopAndRight)
+        cardStackLayoutManager.setStackFrom(StackFrom.TopAndLeft)
 
         val data = listOf(
             Person("张三", 25, "热爱运动，喜欢旅行", R.mipmap.ic_launcher),
