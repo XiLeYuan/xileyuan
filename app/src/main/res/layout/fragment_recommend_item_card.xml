@@ -15,7 +15,7 @@
         app:cardBackgroundColor="@android:color/transparent"
         app:cardCornerRadius="25dp">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/itemLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -23,16 +23,16 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <ImageView
+            <com.xly.middlelibrary.widget.LYRoundImageView
                 android:id="@+id/avatar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:background="@mipmap/ic_launcher"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_launcher_foreground" />
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@mipmap/ic_launcher"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="40dp"/>
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="热爱运动，喜欢旅行"
-                android:textSize="16sp" />
-        </LinearLayout>
+                android:textSize="16sp" />-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </FrameLayout>

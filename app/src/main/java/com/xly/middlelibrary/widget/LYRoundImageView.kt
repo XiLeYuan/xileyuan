@@ -1,91 +1,51 @@
-package com.xly.middlelibrary.widget;
-
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.graphics.Shader;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.util.AttributeSet;
-
-import androidx.appcompat.widget.AppCompatImageView;
+package com.xly.middlelibrary.widget
 
 
-public class LYRoundImageView extends AppCompatImageView {
 
-    //圆角大小，默认为10
-    private int mBorderRadius = 16;
+import android.content.Context
+import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
+import android.util.AttributeSet
+import androidx.appcompat.widget.AppCompatImageView
 
-    private final Paint mPaint;
+class LYRoundImageView @JvmOverloads constructor(
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) : AppCompatImageView(context, attrs, defStyleAttr) {
 
-    // 3x3 矩阵，主要用于缩小放大
-    private final Matrix mMatrix;
+    private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private var radius = 0f
 
-    //渲染图像，使用图像为绘制图形着色
-    private BitmapShader mBitmapShader;
+    override fun onDraw(canvas: Canvas) {
+        val drawable = drawable ?: return
+        val bitmap = drawableToBitmap(drawable) ?: return
 
-    public LYRoundImageView(Context context) {
-        this(context, null);
+        val viewWidth = width
+        val viewHeight = height
+        radius = (minOf(viewWidth, viewHeight) / 2).toFloat()
+
+        // 计算缩放
+        val scale = radius * 2 / minOf(bitmap.width, bitmap.height)
+        val matrix = Matrix()
+        matrix.setScale(scale, scale)
+
+        val shader = BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+        shader.setLocalMatrix(matrix)
+        paint.shader = shader
+
+        canvas.drawCircle(viewWidth / 2f, viewHeight / 2f, radius, paint)
     }
 
-    public LYRoundImageView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
-
-    public LYRoundImageView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-
-        mMatrix = new Matrix();
-        mPaint = new Paint();
-        mPaint.setAntiAlias(true);
-
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        if (getDrawable() == null) {
-            return;
+    private fun drawableToBitmap(drawable: android.graphics.drawable.Drawable): Bitmap? {
+        if (drawable is BitmapDrawable) {
+            return drawable.bitmap
         }
-        Bitmap bitmap = drawableToBitmap(getDrawable());
-        if (bitmap == null) {
-            return;
-        }
-
-        mBitmapShader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-        float scale = 1.0f;
-        if (!(bitmap.getWidth() == getWidth() && bitmap.getHeight() == getHeight())) {
-            // 如果图片的宽或者高与view的宽高不匹配，计算出需要缩放的比例；缩放后的图片的宽高，一定要大于我们view的宽高；所以我们这里取大值；
-            scale = Math.max(getWidth() * 1.0f / bitmap.getWidth(),
-                    getHeight() * 1.0f / bitmap.getHeight());
-        }
-        // shader的变换矩阵，我们这里主要用于放大或者缩小
-        mMatrix.setScale(scale, scale);
-        // 设置变换矩阵
-        mBitmapShader.setLocalMatrix(mMatrix);
-        // 设置shader
-        mPaint.setShader(mBitmapShader);
-        canvas.drawRoundRect(new RectF(0, 0, getWidth(), getHeight()), mBorderRadius, mBorderRadius,
-                mPaint);
-    }
-
-
-    private Bitmap drawableToBitmap(Drawable drawable) {
-        if (drawable instanceof BitmapDrawable) {
-            BitmapDrawable bd = (BitmapDrawable) drawable;
-            return bd.getBitmap();
-        }
-        // 当设置不为图片，为颜色时，获取的drawable宽高会有问题，所有当为颜色时候获取控件的宽高
-        int w = drawable.getIntrinsicWidth() <= 0 ? getWidth() : drawable.getIntrinsicWidth();
-        int h = drawable.getIntrinsicHeight() <= 0 ? getHeight() : drawable.getIntrinsicHeight();
-        Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, w, h);
-        drawable.draw(canvas);
-        return bitmap;
+        val w = drawable.intrinsicWidth.takeIf { it > 0 } ?: width
+        val h = drawable.intrinsicHeight.takeIf { it > 0 } ?: height
+        if (w <= 0 || h <= 0) return null
+        val bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, w, h)
+        drawable.draw(canvas)
+        return bitmap
     }
 }
-

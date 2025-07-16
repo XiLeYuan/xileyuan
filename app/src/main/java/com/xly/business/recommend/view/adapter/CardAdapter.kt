@@ -5,22 +5,24 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.xly.business.recommend.model.Person
 import com.xly.R
 import com.xly.middlelibrary.utils.LYUtils.blurBitmap
 import com.xly.middlelibrary.utils.LYUtils.createColorBitmap
 import com.xly.middlelibrary.utils.LYUtils.getRandomColor
+import com.xly.middlelibrary.widget.LYRoundImageView
 
 class CardAdapter(private val list: List<Person>) :
     RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
 
     class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val itemLayout: LinearLayout = itemView.findViewById(R.id.itemLayout)
-        val avatar: ImageView = itemView.findViewById(R.id.avatar)
-        val name: TextView = itemView.findViewById(R.id.name)
+        val itemLayout: ConstraintLayout = itemView.findViewById(R.id.itemLayout)
+        val avatar: LYRoundImageView = itemView.findViewById(R.id.avatar)
+        /*val name: TextView = itemView.findViewById(R.id.name)
         val age: TextView = itemView.findViewById(R.id.age)
-        val desc: TextView = itemView.findViewById(R.id.desc)
+        val desc: TextView = itemView.findViewById(R.id.desc)*/
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
@@ -32,9 +34,9 @@ class CardAdapter(private val list: List<Person>) :
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         val person = list[position]
         holder.avatar.setImageResource(person.avatarRes)
-        holder.name.text = person.name
+        /*holder.name.text = person.name
         holder.age.text = "${person.age}岁"
-        holder.desc.text = person.desc
+        holder.desc.text = person.desc*/
 
         // 随机颜色并缓存
         val color = getRandomColor()
