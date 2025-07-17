@@ -1,12 +1,17 @@
 package com.xly.business.find.view
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.scwang.smart.refresh.header.BezierRadarHeader
+import com.scwang.smart.refresh.header.ClassicsHeader
+import com.scwang.smart.refresh.header.FalsifyHeader
+import com.scwang.smart.refresh.header.MaterialHeader
 import com.xly.base.LYBaseFragment
 import com.xly.business.find.model.Moment
 import com.xly.business.recommend.viewmodel.RecommendViewModel
@@ -60,8 +65,21 @@ class FindFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() {
             // ...更多mock数据
         )
 
+        viewBind.refreshLayout.setRefreshHeader(MaterialHeader(requireActivity()))
+
+        // 下拉刷新监听
+        viewBind.refreshLayout.setOnRefreshListener { refreshLayout ->
+            // 模拟网络请求
+            Handler().postDelayed({
+                // 刷新数据
+                refreshLayout.finishRefresh()
+            }, 2000)
+        }
+
+
         viewBind.momentRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewBind.momentRecyclerView.adapter = MomentAdapter(mockList, requireActivity())
+
     }
 
 

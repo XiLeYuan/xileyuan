@@ -199,7 +199,7 @@ android {
         implementation 'io.github.scwang90:refresh-layout-kernel:2.0.6'
 
         // 各种头部样式（根据需要选择）
-        implementation 'io.github.scwang90:refresh-header-classics:2.0.6'      // 经典样式
+        implementation 'io.github.scwang90:refresh-header-classics:2.0.7'      // 经典样式
         implementation 'io.github.scwang90:refresh-header-material:2.0.6'      // Material 样式
         implementation 'io.github.scwang90:refresh-header-radar:2.0.6'         // 雷达样式
         implementation 'io.github.scwang90:refresh-header-falsify:2.0.6'       // 仿苹果样式
