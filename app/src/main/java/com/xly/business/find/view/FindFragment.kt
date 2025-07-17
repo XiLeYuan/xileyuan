@@ -29,8 +29,33 @@ class FindFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() {
             ),
             Moment(
                 "2", R.mipmap.ic_launcher, "小红", "美食分享~",
-                listOf(R.mipmap.stylemax_5,R.mipmap.stylemax_6,R.mipmap.stylemax_7),
+                listOf(R.mipmap.stylemax_5,R.mipmap.stylemax_6,R.mipmap.stylemax_7,R.mipmap.stylemax_8,R.mipmap.stylemax_9,R.mipmap.stylemax_11),
                 "5分钟前"
+            ),
+            Moment(
+                "1", R.mipmap.ic_launcher, "小明", "今天心情不错！",
+                listOf(R.mipmap.stylemax_5,R.mipmap.stylemax_6,R.mipmap.stylemax_7,R.mipmap.stylemax_8),
+                "1分钟前"
+            ),
+            Moment(
+                "1", R.mipmap.ic_launcher, "小明", "今天心情不错！",
+                listOf(R.mipmap.stylemax_5,R.mipmap.stylemax_6,R.mipmap.stylemax_7,R.mipmap.stylemax_8),
+                "1分钟前"
+            ),
+            Moment(
+                "1", R.mipmap.ic_launcher, "小明", "今天心情不错！",
+                listOf(R.mipmap.stylemax_5,R.mipmap.stylemax_6,R.mipmap.stylemax_7,R.mipmap.stylemax_8),
+                "1分钟前"
+            ),
+            Moment(
+                "1", R.mipmap.ic_launcher, "小明", "今天心情不错！",
+                listOf(R.mipmap.stylemax_5,R.mipmap.stylemax_6,R.mipmap.stylemax_7,R.mipmap.stylemax_8),
+                "1分钟前"
+            ),
+            Moment(
+                "1", R.mipmap.ic_launcher, "小明", "今天心情不错！",
+                listOf(R.mipmap.stylemax_5,R.mipmap.stylemax_6,R.mipmap.stylemax_7,R.mipmap.stylemax_8),
+                "1分钟前"
             ),
             // ...更多mock数据
         )
