@@ -6,6 +6,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.widget.FrameLayout
 import com.github.chrisbanes.photoview.PhotoView
@@ -32,7 +33,7 @@ class DragPhotoView @JvmOverloads constructor(
 
     init {
         addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-        setBackgroundColor(Color.BLACK)
+        setBackgroundColor(Color.TRANSPARENT)
     }
 
     // 添加获取 PhotoView 的方法
@@ -95,7 +96,7 @@ class DragPhotoView @JvmOverloads constructor(
     private fun updateDragProgress(progress: Float) {
         val alpha = (255 * (1 - progress)).toInt()
         paint.alpha = max(0, alpha)
-
+        Log.i("alpha","" + alpha)
         val scale = 1f - progress * 0.3f
         val translateY = (currentY - downY) * 0.5f
         val translateX = (currentX - downX) * 0.5f
@@ -122,8 +123,10 @@ class DragPhotoView @JvmOverloads constructor(
     }
 
     override fun dispatchDraw(canvas: Canvas) {
-        canvas.drawColor(paint.color)
+//        canvas.drawColor(paint.color)
+        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
         super.dispatchDraw(canvas)
+
     }
 
     fun setOnDragListener(listener: OnDragListener) {
