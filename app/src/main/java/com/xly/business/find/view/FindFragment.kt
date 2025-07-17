@@ -52,6 +52,7 @@ class FindFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() {
 
     override fun initView() {
 
+        viewBind.topNav.titleName.text = "发现"
     }
 
     override fun inflateBinding(
