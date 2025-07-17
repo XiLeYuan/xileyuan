@@ -12,6 +12,7 @@ import androidx.core.util.Pair
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.flexbox.FlexboxLayout
+import com.google.android.material.imageview.ShapeableImageView
 import com.xly.business.find.model.Moment
 import com.xly.R
 import com.xly.business.find.view.MomentImageDetailActivity
@@ -48,13 +49,28 @@ class MomentAdapter(
         holder.imageContainer.removeAllViews()
         // 在 MomentAdapter 的 onBindViewHolder 中
         moment.images.forEachIndexed { idx, imageResId ->
-            val img = ImageView(holder.itemView.context)
+            /*val img = ImageView(holder.itemView.context)
             val size = holder.itemView.resources.displayMetrics.widthPixels / 4
             val lp = FlexboxLayout.LayoutParams(size, size)
             lp.setMargins(4, 4, 4, 4)
             img.layoutParams = lp
             img.scaleType = ImageView.ScaleType.CENTER_CROP
             img.transitionName = "moment_image_${moment.id}_$idx"
+            Glide.with(img).load(imageResId).into(img)*/
+
+            val img = ShapeableImageView(holder.itemView.context)
+            val size = holder.itemView.resources.displayMetrics.widthPixels / 4
+            val lp = FlexboxLayout.LayoutParams(size, size)
+            lp.setMargins(4, 4, 4, 4)
+            img.layoutParams = lp
+            img.scaleType = ImageView.ScaleType.CENTER_CROP
+            img.transitionName = "moment_image_${moment.id}_$idx"
+
+            img.shapeAppearanceModel = img.shapeAppearanceModel
+                .toBuilder()
+                .setAllCornerSizes(18f) // 16f px, 也可以用 TypedValue.applyDimension
+                .build()
+
             Glide.with(img).load(imageResId).into(img)
 
             img.setOnClickListener {
