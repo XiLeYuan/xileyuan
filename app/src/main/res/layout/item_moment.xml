@@ -41,7 +41,6 @@
                 android:layout_toRightOf="@id/userName"
                 android:background="@drawable/blue_radius_bg"
                 android:text="官方"
-                android:textStyle="bold"
                 android:textSize="10sp"
                 android:textColor="#ffffff"
                 android:layout_marginStart="6dp"
