@@ -1,21 +1,22 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="8dp"
-    android:layout_height="wrap_content"
-    app:cardCornerRadius="20dp"
-    android:elevation="2dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:padding="12dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:gravity="center_vertical">
 
             <com.xly.middlelibrary.widget.LYRoundImageView
@@ -57,6 +58,7 @@
             android:layout_height="wrap_content"
             android:text="动态内容"
             android:textSize="15sp"
+            android:layout_marginStart="68dp"
             android:layout_marginTop="8dp"/>
 
         <com.google.android.flexbox.FlexboxLayout
@@ -66,7 +68,8 @@
             android:layout_marginTop="8dp"
             app:alignContent="flex_start"
             app:flexWrap="wrap"
-            app:justifyContent="flex_start"/>
+            app:justifyContent="flex_start"
+            android:layout_marginStart="68dp"/>
 
         <TextView
             android:id="@+id/time"
@@ -75,12 +78,14 @@
             android:text="1分钟前"
             android:textSize="12sp"
             android:textColor="#888888"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="68dp"/>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="68dp"
             android:layout_marginTop="8dp">
 
             <ImageView
@@ -96,4 +101,4 @@
                 android:layout_marginStart="16dp"/>
         </LinearLayout>
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
