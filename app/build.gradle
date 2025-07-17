@@ -13,6 +13,8 @@ android {
         }
     }
 
+    namespace "com.xly"  //
+
     compileSdk 34
     defaultConfig {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -94,6 +96,8 @@ android {
         targetCompatibility JavaVersion.VERSION_11
     }
 
+
+
     kotlinOptions {
         jvmTarget = "11"
     }
@@ -158,8 +162,10 @@ android {
         implementation 'androidx.media:media:1.0.0'
         implementation 'androidx.legacy:legacy-support-v4:1.0.0'
         testImplementation 'junit:junit:4.12'
-        androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-        androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+        androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+        androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+        androidTestImplementation 'androidx.test:runner:1.5.2'
+        androidTestImplementation 'androidx.test:rules:1.5.0'
         implementation 'androidx.appcompat:appcompat:1.3.1'
         implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
         implementation 'com.google.android.material:material:1.4.0'
@@ -188,6 +194,16 @@ android {
         implementation 'com.github.bumptech.glide:glide:4.16.0'
         annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
         implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
+        // SmartRefreshLayout 核心库
+        implementation 'io.github.scwang90:refresh-layout-kernel:2.0.6'
+
+        // 各种头部样式（根据需要选择）
+        implementation 'io.github.scwang90:refresh-header-classics:2.0.6'      // 经典样式
+        implementation 'io.github.scwang90:refresh-header-material:2.0.6'      // Material 样式
+        implementation 'io.github.scwang90:refresh-header-radar:2.0.6'         // 雷达样式
+        implementation 'io.github.scwang90:refresh-header-falsify:2.0.6'       // 仿苹果样式
+        implementation 'io.github.scwang90:refresh-header-two-level:2.0.6'     // 二级刷新
 
     }
     lint {
