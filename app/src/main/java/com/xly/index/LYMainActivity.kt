@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.xly.base.LYBaseActivity
 import com.xly.business.favorite.view.FavoriteFragment
+import com.xly.business.find.view.FindFragment
 import com.xly.business.message.view.MessageListFragment
 import com.xly.business.recommend.view.RecommendFragment
 import com.xly.databinding.ActivityMainBinding
@@ -19,7 +20,7 @@ class LYMainActivity: LYBaseActivity<ActivityMainBinding,MainViewModel>() {
 
     private val homeFragment = RecommendFragment()
     private val favoriteFragment = FavoriteFragment()
-    private val offlineFragment = RecommendFragment()
+    private val findFragment = FindFragment()
     private val messageFragment = MessageListFragment()
     private val profileFragment = RecommendFragment()
     private var activeFragment: Fragment = homeFragment
@@ -38,7 +39,7 @@ class LYMainActivity: LYBaseActivity<ActivityMainBinding,MainViewModel>() {
         supportFragmentManager.beginTransaction().apply {
             add(R.id.fragmentContainer, profileFragment, "5").hide(profileFragment)
             add(R.id.fragmentContainer, messageFragment, "4").hide(messageFragment)
-            add(R.id.fragmentContainer, offlineFragment, "3").hide(offlineFragment)
+            add(R.id.fragmentContainer, findFragment, "3").hide(findFragment)
             add(R.id.fragmentContainer, favoriteFragment, "2").hide(favoriteFragment)
             add(R.id.fragmentContainer, homeFragment, "1")
         }.commit()
@@ -47,7 +48,7 @@ class LYMainActivity: LYBaseActivity<ActivityMainBinding,MainViewModel>() {
             when (item.itemId) {
                 R.id.tab_home -> switchFragment(homeFragment)
                 R.id.tab_discover -> switchFragment(favoriteFragment)
-                R.id.tab_offline -> switchFragment(offlineFragment)
+                R.id.tab_offline -> switchFragment(findFragment)
                 R.id.tab_message -> switchFragment(messageFragment)
                 R.id.tab_profile -> switchFragment(profileFragment)
             }

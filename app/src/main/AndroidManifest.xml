@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- 上网权限获取网络状态改变 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 读写SD卡 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".LYApplication"
         android:allowBackup="true"
@@ -29,6 +35,16 @@
             android:exported="true"
             android:theme="@style/AppTheme">
         </activity>
+
+        <activity
+            android:name="com.xly.business.find.view.MomentImageDetailActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme">
+        </activity>
+
+
+
+
     </application>
 
 </manifest>
