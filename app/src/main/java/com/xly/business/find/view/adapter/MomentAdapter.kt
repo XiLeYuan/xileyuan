@@ -58,7 +58,7 @@ class MomentAdapter(
             img.setOnClickListener {
                 // 转场动画跳转
                 val intent = Intent(holder.itemView.context, MomentImageDetailActivity::class.java)
-                intent.putExtra("imageList", ArrayList(moment.images))
+                intent.putExtra("imageList", moment.images.toIntArray())
                 intent.putExtra("index", idx)
                 intent.putExtra("momentId", moment.id)
                 val options = ActivityOptionsCompat.makeSceneTransitionAnimation(

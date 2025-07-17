@@ -38,8 +38,8 @@
 
         <activity
             android:name="com.xly.business.find.view.MomentImageDetailActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:exported="false">
         </activity>
 
 
