@@ -49,15 +49,6 @@ class MomentAdapter(
         holder.imageContainer.removeAllViews()
         // 在 MomentAdapter 的 onBindViewHolder 中
         moment.images.forEachIndexed { idx, imageResId ->
-            /*val img = ImageView(holder.itemView.context)
-            val size = holder.itemView.resources.displayMetrics.widthPixels / 4
-            val lp = FlexboxLayout.LayoutParams(size, size)
-            lp.setMargins(4, 4, 4, 4)
-            img.layoutParams = lp
-            img.scaleType = ImageView.ScaleType.CENTER_CROP
-            img.transitionName = "moment_image_${moment.id}_$idx"
-            Glide.with(img).load(imageResId).into(img)*/
-
             val img = ShapeableImageView(holder.itemView.context)
             val size = holder.itemView.resources.displayMetrics.widthPixels / 4
             val lp = FlexboxLayout.LayoutParams(size, size)
@@ -70,9 +61,7 @@ class MomentAdapter(
                 .toBuilder()
                 .setAllCornerSizes(18f) // 16f px, 也可以用 TypedValue.applyDimension
                 .build()
-
             Glide.with(img).load(imageResId).into(img)
-
             img.setOnClickListener {
                 // 只传递单张图片
                 val intent = Intent(holder.itemView.context, MomentImageDetailActivity::class.java)
