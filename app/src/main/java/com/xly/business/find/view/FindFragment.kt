@@ -24,12 +24,12 @@ class FindFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() {
         val mockList = listOf(
             Moment(
                 "1", R.mipmap.ic_launcher, "小明", "今天心情不错！",
-                listOf("https://image.baidu.com/search/detail?ct=503316480&z=0&tn=baiduimagedetail&ipn=d&cl=2&cm=1&sc=0&sa=vs_ala_img_datu&lm=-1&ie=utf8&pn=0&rn=1&di=7518804108115968001&ln=0&word=%E5%9B%BE%E7%89%87&os=4074351579%2C2126130336&cs=2047808885%2C2267858098&objurl=http%3A%2F%2Fww2.sinaimg.cn%2Fmw690%2F007ut4Uhly1hx4v37mpxcj30u017cgrv.jpg&bdtype=0&simid=3335039407%2C285183104&pi=0&adpicid=0&timingneed=&spn=0&is=0%2C0&lid=cbbfc45100547e69", url, url),
+                listOf(R.mipmap.stylemax_5,R.mipmap.stylemax_6,R.mipmap.stylemax_7,R.mipmap.stylemax_8),
                 "1分钟前"
             ),
             Moment(
                 "2", R.mipmap.ic_launcher, "小红", "美食分享~",
-                listOf(url),
+                listOf(R.mipmap.stylemax_5,R.mipmap.stylemax_6,R.mipmap.stylemax_7),
                 "5分钟前"
             ),
             // ...更多mock数据

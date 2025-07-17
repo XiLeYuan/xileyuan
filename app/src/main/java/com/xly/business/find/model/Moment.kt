@@ -5,6 +5,6 @@ data class Moment(
     val userAvatar: Int, // drawable res
     val userName: String,
     val content: String,
-    val images: List<String>, // 图片url或本地路径
+    val images: List<Int>, // 图片url或本地路径
     val time: String
 )
