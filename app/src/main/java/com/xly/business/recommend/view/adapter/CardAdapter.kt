@@ -35,10 +35,16 @@ class CardAdapter(private val list: List<Person>) :
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         val person = list[position]
         holder.avatar.setImageResource(person.avatarRes)
-        if (position == 0 || position == 2 || position == 4) {
-            holder.topBgImg.setImageResource(R.mipmap.stylemax_11)
+        if (position == 0) {
+            holder.topBgImg.setImageResource(R.mipmap.find_img_2)
+        } else if (position == 1) {
+            holder.topBgImg.setImageResource(R.mipmap.find_img_3)
+        } else if (position == 2) {
+            holder.topBgImg.setImageResource(R.mipmap.find_img_4)
+        } else if (position == 3) {
+            holder.topBgImg.setImageResource(R.mipmap.find_img_1)
         } else {
-            holder.topBgImg.setImageResource(R.mipmap.card_bg)
+            holder.topBgImg.setImageResource(R.mipmap.find_img_2)
         }
         /*holder.name.text = person.name
         holder.age.text = "${person.age}岁"
