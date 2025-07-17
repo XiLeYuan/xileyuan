@@ -8,9 +8,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.scwang.smart.refresh.header.BezierRadarHeader
-import com.scwang.smart.refresh.header.ClassicsHeader
-import com.scwang.smart.refresh.header.FalsifyHeader
 import com.scwang.smart.refresh.header.MaterialHeader
 import com.xly.base.LYBaseFragment
 import com.xly.business.find.model.Moment
@@ -29,12 +26,12 @@ class FindFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() {
         val mockList = listOf(
             Moment(
                 "1", R.mipmap.ic_launcher, "结婚吧", "我们结婚啦！",
-                listOf(R.mipmap.find_img_2,R.mipmap.find_img_3,R.mipmap.find_img_1,R.mipmap.stylemax_8),
+                listOf(R.mipmap.find_img_2,R.mipmap.find_img_3,R.mipmap.find_img_4,R.mipmap.find_img_3),
                 "1分钟前"
             ),
             Moment(
                 "2", R.mipmap.ic_launcher, "结婚吧", "我们结婚啦",
-                listOf(R.mipmap.find_img_3,R.mipmap.find_img_2,R.mipmap.stylemax_7,R.mipmap.stylemax_8,R.mipmap.stylemax_9,R.mipmap.stylemax_11),
+                listOf(R.mipmap.find_img_3,R.mipmap.find_img_2,R.mipmap.find_img_4,R.mipmap.stylemax_8,R.mipmap.find_img_1,R.mipmap.stylemax_11),
                 "5分钟前"
             ),
             Moment(
@@ -44,22 +41,22 @@ class FindFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() {
             ),
             Moment(
                 "1", R.mipmap.ic_launcher, "小明", "今天心情不错！",
-                listOf(R.mipmap.find_img_3,R.mipmap.stylemax_6,R.mipmap.stylemax_7,R.mipmap.find_img_1),
+                listOf(R.mipmap.find_img_3,R.mipmap.stylemax_6,R.mipmap.find_img_4,R.mipmap.find_img_1),
                 "1分钟前"
             ),
             Moment(
                 "1", R.mipmap.ic_launcher, "小明", "今天心情不错！",
-                listOf(R.mipmap.stylemax_5,R.mipmap.find_img_3,R.mipmap.stylemax_7,R.mipmap.stylemax_8),
+                listOf(R.mipmap.find_img_4,R.mipmap.find_img_3,R.mipmap.stylemax_7,R.mipmap.stylemax_8),
                 "1分钟前"
             ),
             Moment(
                 "1", R.mipmap.ic_launcher, "小明", "今天心情不错！",
-                listOf(R.mipmap.stylemax_5,R.mipmap.stylemax_6,R.mipmap.find_img_3,R.mipmap.stylemax_8),
+                listOf(R.mipmap.find_img_4,R.mipmap.stylemax_6,R.mipmap.find_img_3,R.mipmap.stylemax_8),
                 "1分钟前"
             ),
             Moment(
                 "1", R.mipmap.ic_launcher, "小明", "今天心情不错！",
-                listOf(R.mipmap.stylemax_5,R.mipmap.find_img_3,R.mipmap.stylemax_7,R.mipmap.stylemax_8),
+                listOf(R.mipmap.find_img_4,R.mipmap.find_img_3,R.mipmap.stylemax_7,R.mipmap.stylemax_8),
                 "1分钟前"
             ),
             // ...更多mock数据
