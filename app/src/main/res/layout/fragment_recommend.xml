@@ -7,7 +7,7 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@drawable/main_page_top_center_bg"
+        android:background="@drawable/main_top_nav_bg"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -82,6 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/chatImg"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_centerHorizontal="true"

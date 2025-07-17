@@ -11,7 +11,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/main_page_top_center_bg" />
+        android:background="@drawable/main_top_nav_bg" />
 
 
     <include

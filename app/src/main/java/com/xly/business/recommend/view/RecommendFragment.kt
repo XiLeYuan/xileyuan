@@ -13,6 +13,8 @@ import com.xly.business.recommend.viewmodel.RecommendViewModel
 import com.xly.databinding.FragmentRecommendBinding
 import com.xly.R
 import com.xly.business.recommend.model.Person
+import com.xly.business.vip.view.LookStarMeActivity
+import com.xly.middlelibrary.utils.click
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.Direction
 import com.yuyakaido.android.cardstackview.StackFrom
@@ -63,6 +65,12 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
     override fun initView() {
         viewBind.topNav.topImgOne.setImageResource(R.mipmap.msf)
         viewBind.topNav.topImgTwo.setImageResource(R.mipmap.msc)
+    }
+
+    override fun initOnClick() {
+        viewBind.chatImg.click {
+            LookStarMeActivity.start(requireActivity())
+        }
     }
 
     override fun inflateBinding(

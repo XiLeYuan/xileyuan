@@ -43,6 +43,15 @@
         </activity>
 
 
+        <activity
+            android:name="com.xly.business.vip.view.LookStarMeActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme">
+        </activity>
+
+
+
+
 
 
     </application>

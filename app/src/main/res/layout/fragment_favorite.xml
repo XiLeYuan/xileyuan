@@ -7,7 +7,7 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@drawable/main_page_top_center_bg"
+        android:background="@drawable/main_top_nav_bg"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -22,7 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="50dp"
-        app:tabIndicatorColor="#FF5722"
+        app:tabIndicatorColor="#FF3B3B"
         app:tabIndicatorFullWidth="false"
         app:tabGravity="start"
         app:tabMode="scrollable"
