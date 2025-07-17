@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
+        <RelativeLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,11 +28,28 @@
                 android:id="@+id/userName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/avatar"
                 android:text="昵称"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:layout_marginStart="12dp"/>
-        </LinearLayout>
+
+            <TextView
+                android:id="@+id/fromTypeTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/userName"
+                android:background="@drawable/blue_radius_bg"
+                android:text="官方"
+                android:textStyle="bold"
+                android:textSize="10sp"
+                android:textColor="#ffffff"
+                android:layout_marginStart="12dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:layout_marginTop="5dp"/>
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/content"
