@@ -31,6 +31,9 @@ class MomentImageDetailActivity : AppCompatActivity() {
                 supportFinishAfterTransition()
             }
         })
+        dragPhotoView.getPhotoView().setOnClickListener {
+            supportFinishAfterTransition()
+        }
     }
 
     private fun finishWithTransition() {
