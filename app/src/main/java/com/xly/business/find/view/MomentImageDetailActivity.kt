@@ -25,7 +25,16 @@ class MomentImageDetailActivity : AppCompatActivity() {
 
         // 点击关闭
         photoView.setOnClickListener {
-            finish()
+            finishWithTransition()
         }
+    }
+
+    private fun finishWithTransition() {
+        // 手动触发转场动画
+        supportFinishAfterTransition()
+    }
+
+    override fun onBackPressed() {
+        finishWithTransition()
     }
 }
