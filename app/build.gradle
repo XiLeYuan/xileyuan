@@ -198,6 +198,8 @@ android {
         // SmartRefreshLayout 核心库
         implementation 'io.github.scwang90:refresh-layout-kernel:2.0.6'
 
+        implementation 'com.google.android.exoplayer:exoplayer:2.19.1'
+
         // 各种头部样式（根据需要选择）
         implementation 'io.github.scwang90:refresh-header-classics:2.0.7'      // 经典样式
         implementation 'io.github.scwang90:refresh-header-material:2.0.6'      // Material 样式
