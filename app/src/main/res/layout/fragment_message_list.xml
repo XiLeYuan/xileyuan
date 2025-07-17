@@ -6,12 +6,12 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="#ff7ba1"
-        android:alpha="0.3"/>
+        android:background="@mipmap/icon_luck_record_bg"
+        android:alpha="0.2"/>
 
 
     <include
