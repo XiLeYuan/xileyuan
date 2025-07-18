@@ -1,83 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/main_top_nav_bg">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="50dp">
+        android:layout_height="match_parent"
+        android:background="@drawable/main_top_nav_bg"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/cancelTv"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/icon_group_error"
-            android:layout_marginStart="16dp"/>
+        <RelativeLayout
+            android:id="@+id/navRl"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/cancelTv"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:src="@mipmap/icon_group_error" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="查看喜欢关注我的人"
+                android:textColor="#ffffff"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+        </RelativeLayout>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="300dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/vipRechargeRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+             />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="查看喜欢关注我的人"
-            android:textSize="20sp"
+            android:id="@+id/lookStarBtn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="22dp"
+            android:background="@drawable/main_button_selector_bg"
+            android:gravity="center"
+            android:text="查看谁喜欢了我"
             android:textColor="#ffffff"
-            android:textStyle="bold"/>
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/rechargeTipTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="22dp"
+            android:gravity="left"
+            android:text="阅读并同意《自动续费与增值服务协议》，自动续费可随时取消，服务到期时，将从你的支付账户自动扣费并续订服务"
+            android:textColor="#999999"
+            android:textSize="11sp"
+            tools:ignore="RtlHardcoded" />
 
 
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/lookStarBtn"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="100dp"
-        android:gravity="center"
-        android:text="查看谁喜欢了我"
-        android:background="@drawable/main_button_selector_bg"
-        android:layout_marginStart="22dp"
-        android:layout_marginEnd="22dp"
-        android:textSize="18sp"
-        android:textColor="#ffffff"/>
-
-    <TextView
-        android:id="@+id/rechargeTipTv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lookStarBtn"
-        android:gravity="left"
-        android:text="阅读并同意《自动续费与增值服务协议》，自动续费可随时取消，服务到期时，将从你的支付账户自动扣费并续订服务"
-        android:layout_marginStart="22dp"
-        android:layout_marginEnd="22dp"
-        android:layout_marginTop="10dp"
-        android:textSize="11sp"
-        android:textColor="#999999"
-        tools:ignore="RtlHardcoded" />
-
-    <include
-        android:id="@+id/rechargeContainer"
-        layout="@layout/vip_recharge_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/lookStarBtn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="20dp"/>
-
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</LinearLayout>

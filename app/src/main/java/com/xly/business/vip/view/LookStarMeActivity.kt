@@ -27,7 +27,7 @@ class LookStarMeActivity: LYBaseActivity<ActivityStarMeBinding, MainViewModel>()
 
     override fun initView() {
 
-        viewBind.rechargeContainer.vipRechargeRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        viewBind.vipRechargeRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
 
         val options = listOf(
             VipRechargeOption("¥30", "30天VIP"),
@@ -36,7 +36,7 @@ class LookStarMeActivity: LYBaseActivity<ActivityStarMeBinding, MainViewModel>()
             VipRechargeOption("¥299", "365天VIP")
         )
 
-        viewBind.rechargeContainer.vipRechargeRecyclerView.adapter = VipRechargeAdapter(options) { selectedOption ->
+        viewBind.vipRechargeRecyclerView.adapter = VipRechargeAdapter(options) { selectedOption ->
             // 处理点击事件，如弹窗确认、跳转支付等
             showToast("选择了：${selectedOption.desc}")
         }
