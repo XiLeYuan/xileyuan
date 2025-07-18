@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:layout="http://schemas.android.com/tools"
-    android:background="@drawable/main_page_top_center_bg">
+    android:background="@drawable/main_top_nav_bg">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,6 +12,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="50dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/cancelTv"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_group_error"
+            android:layout_marginStart="16dp"/>
 
         <TextView
             android:layout_width="wrap_content"

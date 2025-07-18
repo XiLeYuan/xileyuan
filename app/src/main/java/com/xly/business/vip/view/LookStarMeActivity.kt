@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +12,7 @@ import com.xly.business.vip.model.VipRechargeOption
 import com.xly.business.vip.view.adapter.VipRechargeAdapter
 import com.xly.databinding.ActivityStarMeBinding
 import com.xly.index.viewmodel.MainViewModel
+import com.xly.middlelibrary.utils.click
 
 class LookStarMeActivity: LYBaseActivity<ActivityStarMeBinding, MainViewModel>() {
 
@@ -21,7 +21,6 @@ class LookStarMeActivity: LYBaseActivity<ActivityStarMeBinding, MainViewModel>()
         fun start(c: Context) {
             val intent = Intent(c,LookStarMeActivity::class.java)
             (c as? Activity)?.startActivity(intent)
-            (c as? Activity)?.finish()
         }
     }
 
@@ -46,8 +45,11 @@ class LookStarMeActivity: LYBaseActivity<ActivityStarMeBinding, MainViewModel>()
 
 
     override fun initOnClick() {
-        viewBind.lookStarBtn.setOnClickListener {
+        viewBind.lookStarBtn.click {
             showToast("查看喜欢我的人")
+        }
+        viewBind.cancelTv.click {
+            finish()
         }
     }
 
