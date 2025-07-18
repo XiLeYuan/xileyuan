@@ -1,6 +1,7 @@
 package com.xly.business.recommend.view
 
 import CardAdapter
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.xly.business.recommend.viewmodel.RecommendViewModel
 import com.xly.databinding.FragmentRecommendBinding
 import com.xly.R
 import com.xly.business.recommend.model.Person
+import com.xly.business.user.UserInfo
 import com.xly.business.vip.view.LookStarMeActivity
 import com.xly.middlelibrary.utils.click
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
@@ -69,7 +71,35 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
 
     override fun initOnClick() {
         viewBind.chatImg.click {
-            LookStarMeActivity.start(requireActivity())
+
+//            LookStarMeActivity.start(requireActivity())
+
+            val testUser = UserInfo(
+                id = "test_001",
+                name = "测试用户",
+                age = 25,
+                height = 165,
+                weight = 50,
+                occupation = "软件工程师",
+                education = "硕士",
+                bio = "这是一个测试用户，用于演示详情页功能。喜欢编程、阅读、旅行，希望找到一个志同道合的伴侣。",
+                hobbies = listOf("编程", "阅读", "旅行", "摄影", "健身", "音乐"),
+                wechat = "test_user_001",
+                qq = "123456789",
+                avatarUrl = "https://example.com/test_avatar.jpg"
+            )
+
+            // 直接启动详情页（不经过转场动画）
+            val intent = Intent(requireActivity(), UserDetailActivity::class.java).apply {
+                putExtra(UserDetailActivity.EXTRA_USER_INFO, testUser)
+                putExtra(UserDetailActivity.EXTRA_IMAGE_URL, testUser.avatarUrl)
+                putExtra(UserDetailActivity.EXTRA_TRANSITION_NAME, "test_transition")
+            }
+            requireActivity().startActivity(intent)
+
+
+
+
         }
     }
 

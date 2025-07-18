@@ -49,6 +49,12 @@
             android:theme="@style/AppTheme">
         </activity>
 
+        <activity
+            android:name="com.xly.business.recommend.view.UserDetailActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme">
+        </activity>
+
 
 
 
