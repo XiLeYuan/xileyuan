@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.MaterialHeader
 import com.xly.base.LYBaseFragment
 import com.xly.business.find.model.Moment
@@ -64,6 +65,9 @@ class FindFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() {
 
         viewBind.refreshLayout.setRefreshHeader(MaterialHeader(requireActivity()))
 
+        // 设置加载更多底部
+        viewBind.refreshLayout.setRefreshFooter(ClassicsFooter(requireActivity()))
+
         // 下拉刷新监听
         viewBind.refreshLayout.setOnRefreshListener { refreshLayout ->
             // 模拟网络请求
@@ -71,6 +75,13 @@ class FindFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() {
                 // 刷新数据
                 refreshLayout.finishRefresh()
             }, 2000)
+        }
+
+        // 上拉加载更多监听
+        viewBind.refreshLayout.setOnLoadMoreListener { refreshLayout ->
+            /*loadMoreData { success, hasMore ->
+                viewBind.refreshLayout.finishLoadMore(success, hasMore)
+            }*/
         }
 
 
