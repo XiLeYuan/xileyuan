@@ -47,7 +47,7 @@
             android:id="@+id/vipRechargeRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-             />
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:id="@+id/lookStarBtn"
@@ -66,7 +66,7 @@
             android:id="@+id/rechargeTipTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="22dp"
+            android:layout_marginStart="23dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="22dp"
             android:gravity="left"
