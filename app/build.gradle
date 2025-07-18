@@ -206,6 +206,7 @@ android {
         implementation 'io.github.scwang90:refresh-header-radar:2.0.6'         // 雷达样式
         implementation 'io.github.scwang90:refresh-header-falsify:2.0.6'       // 仿苹果样式
         implementation 'io.github.scwang90:refresh-header-two-level:2.0.6'     // 二级刷新
+        implementation 'com.github.CarGuo.GSYCoordinatorTabLayout:GSYCoordinatorTabLayout:1.0.0'
 
     }
     lint {

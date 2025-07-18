@@ -90,12 +90,8 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
             )
 
             // 直接启动详情页（不经过转场动画）
-            val intent = Intent(requireActivity(), UserDetailActivity::class.java).apply {
-                putExtra(UserDetailActivity.EXTRA_USER_INFO, testUser)
-                putExtra(UserDetailActivity.EXTRA_IMAGE_URL, testUser.avatarUrl)
-                putExtra(UserDetailActivity.EXTRA_TRANSITION_NAME, "test_transition")
-            }
-            requireActivity().startActivity(intent)
+
+            UserDetailActivity.start(requireActivity())
 
 
 
