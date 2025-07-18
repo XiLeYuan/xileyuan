@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:layout="http://schemas.android.com/tools"
     android:background="@drawable/main_page_top_center_bg">
 
     <RelativeLayout
@@ -41,5 +42,18 @@
         android:layout_marginEnd="22dp"
         android:textSize="18sp"
         android:textColor="#ffffff"/>
+
+    <include
+        android:id="@+id/rechargeContainer"
+        layout="@layout/vip_recharge_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/lookStarBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="20dp"/>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
