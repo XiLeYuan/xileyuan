@@ -16,17 +16,28 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.xly.R
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.xly.base.LYBaseActivity
 import com.xly.business.recommend.model.UserDetailItem
 import com.xly.business.user.UserInfo
 import com.xly.databinding.ActivityUserDetailBinding
 import com.xly.index.viewmodel.MainViewModel
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.xly.business.recommend.view.adapter.UserDetailAdapter
 
 class UserDetailActivity : LYBaseActivity<ActivityUserDetailBinding,MainViewModel>() {
 
 
+    val initialHeaderHeight = 300
+
+    private var dragHandle: View ?= null
+    private var handleIcon: View ?= null
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
 
 
     companion object {
@@ -40,20 +51,76 @@ class UserDetailActivity : LYBaseActivity<ActivityUserDetailBinding,MainViewMode
 
 
     override fun initView() {
-//        val bottomSheet = findViewById<View>(R.id.bottomSheetContainer)
-        val behavior = BottomSheetBehavior.from(viewBind.bottomSheetContainer)
-        behavior.peekHeight = 220  // 卡片初始高度（可根据实际调整）
-        behavior.isHideable = false
-        behavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
-        // 可选：监听滑动，联动顶部图片缩放/透明度
-        behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {}
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                // 你可以在这里动态调整顶部图片的透明度/缩放，实现联动动画
+
+        // 初始化底部面板
+        val bottomSheetBehavior = BottomSheetBehavior.from(viewBind.bottomSheet)
+        dragHandle = findViewById(R.id.drag_handle);
+        handleIcon = findViewById(R.id.handle_icon);
+
+        // 设置面板行为
+        bottomSheetBehavior.setPeekHeight(120); // 初始高度
+
+        // 自由停靠模式：允许面板停在任何位置
+        bottomSheetBehavior.setFitToContents(false);
+        bottomSheetBehavior.setSkipCollapsed(true);
+        bottomSheetBehavior.setHideable(false);
+        dragHandle?.let {
+            it.setOnClickListener {
+                if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                } else {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
             }
+        }
+
+
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    handleIcon?.setRotation(180f);
+                } else {
+                    handleIcon?.setRotation(0f);
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+            }
+
         })
+
+        // 在屏幕底部添加安全区域（用于内容滚动到底部时）
+        val root = findViewById<View>(android.R.id.content)
+        root.setPadding(0, 0, 0, getNavigationBarHeight());
+
+
+
+
+// 设置滑动面板监听器
+
+
     }
+
+
+
+
+
+
+
+    // 获取导航栏高度
+    private fun getNavigationBarHeight(): Int {
+//        int resourceId = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+        val resourceId = getResources().getIdentifier("navigation_bar_height", "dimen", "android")
+        if (resourceId > 0) {
+            return getResources().getDimensionPixelSize(resourceId)
+        } else {
+            return 0
+        }
+    }
+
 
 
 
@@ -62,6 +129,8 @@ class UserDetailActivity : LYBaseActivity<ActivityUserDetailBinding,MainViewMode
         // 支持返回动画
         super.onBackPressed()
     }
+
+
 
 
     override fun inflateBinding(layoutInflater: LayoutInflater): ActivityUserDetailBinding {

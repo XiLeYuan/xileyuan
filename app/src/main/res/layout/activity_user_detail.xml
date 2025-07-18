@@ -1,80 +1,231 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- activity_main.xml -->
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="false">
+    android:layout_height="match_parent">
 
-    <!-- 顶部大图 -->
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBar"
+    <!-- 顶部大图区域 -->
+    <ImageView
+        android:id="@+id/header_image"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:fitsSystemWindows="false"
-        android:background="@android:color/transparent"
-        android:elevation="0dp">
+        android:scaleType="centerCrop"
+        android:src="@mipmap/head_img"
+        app:layout_behavior="com.xly.middlelibrary.widget.HeaderBehavior"/>
 
-        <ImageView
-            android:id="@+id/ivHeader"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:fitsSystemWindows="false"
-            android:src="@mipmap/head_img"
-            android:background="@android:color/black"
-            app:layout_collapseMode="parallax"
-            app:layout_collapseParallaxMultiplier="0.7" />
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <!-- 悬浮圆角卡片整体可滑动 -->
-    <FrameLayout
-        android:id="@+id/bottomSheetContainer"
+    <!-- 底部可滑动面板 -->
+    <LinearLayout
+        android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        app:behavior_peekHeight="120dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/bottomSheetCard"
+        <!-- 标题栏（初始露出的部分） -->
+        <LinearLayout
+            android:id="@+id/drag_handle"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/purple_500"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="商品标题"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <ImageView
+                android:id="@+id/handle_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/head_img"
+                android:tint="@color/white"/>
+        </LinearLayout>
+
+        <!-- 可滚动内容区域 -->
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:cardCornerRadius="32dp"
-            app:cardElevation="12dp"
-            android:background="@android:color/white">
+            android:fillViewport="true">
 
-            <androidx.core.widget.NestedScrollView
-                android:id="@+id/nestedScrollView"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- 商品详情内容 -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="商品详情"
+                    android:textSize="20sp"
+                    android:padding="16dp"/>
+
+                <!-- 商品图片轮播 -->
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:padding="16dp"
+                    android:paddingTop="0dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="140dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="8dp"
+                            android:src="#666666"
+                            android:scaleType="centerCrop"/>
+
+                        <ImageView
+                            android:layout_width="140dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="8dp"
+                            android:src="#666666"
+                            android:scaleType="centerCrop"/>
+
+                        <ImageView
+                            android:layout_width="140dp"
+                            android:layout_height="match_parent"
+                            android:src="#666666"
+                            android:scaleType="centerCrop"/>
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <!-- 商品描述 -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="lorem_ipsum"
+                    android:padding="16dp"
+                    android:paddingTop="0dp"/>
+
+                <!-- 商品规格 -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="规格参数"
+                    android:textSize="20sp"
+                    android:padding="16dp"/>
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="1"
+                    android:padding="16dp"
+                    android:paddingTop="0dp">
+
+                    <TableRow>
+                        <TextView android:text="品牌" android:textStyle="bold"/>
+                        <TextView android:text="Apple"/>
+                    </TableRow>
+
+                    <TableRow>
+                        <TextView android:text="型号" android:textStyle="bold"/>
+                        <TextView android:text="iPhone 15 Pro"/>
+                    </TableRow>
+
+                    <TableRow>
+                        <TextView android:text="存储" android:textStyle="bold"/>
+                        <TextView android:text="512GB"/>
+                    </TableRow>
+
+                    <TableRow>
+                        <TextView android:text="颜色" android:textStyle="bold"/>
+                        <TextView android:text="深空灰"/>
+                    </TableRow>
+                </TableLayout>
+
+                <!-- 评论区域 -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="用户评价"
+                    android:textSize="20sp"
+                    android:padding="16dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="24dp">
+                    android:padding="16dp"
+                    android:paddingTop="0dp">
 
-                    <!-- 用户详细信息内容示例 -->
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <!-- 评论项 -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="姓名：张三"
-                        android:textSize="18sp"
-                        android:textColor="#222"/>
-                    <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        app:cardElevation="2dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="12dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="用户A (五星)"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="产品质量非常好，物流也很快！"
+                                android:textSize="16sp"
+                                android:layout_marginTop="4dp"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- 更多评论项（在实际应用中应使用RecyclerView） -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="年龄：25"
-                        android:textSize="18sp"
-                        android:textColor="#222"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="职业：工程师"
-                        android:textSize="18sp"
-                        android:textColor="#222"/>
-                    <!-- ...更多内容... -->
+                        android:layout_marginBottom="8dp"
+                        app:cardElevation="2dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="12dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="用户B (四星)"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="整体满意，就是充电接口变化有点不便"
+                                android:textSize="16sp"
+                                android:layout_marginTop="4dp"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- 底部占位 -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"/>
                 </LinearLayout>
-            </androidx.core.widget.NestedScrollView>
-        </androidx.cardview.widget.CardView>
-    </FrameLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -51,8 +51,7 @@
 
         <activity
             android:name="com.xly.business.recommend.view.UserDetailActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme">
+            android:exported="true">
         </activity>
 
 
