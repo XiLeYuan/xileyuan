@@ -42,6 +42,10 @@
             android:exported="false">
         </activity>
 
+        <activity
+            android:name="com.xly.business.login.view.LoginActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme"/>
 
         <activity
             android:name="com.xly.business.vip.view.LookStarMeActivity"
@@ -54,6 +58,13 @@
             android:exported="true">
         </activity>
 
+        <activity
+            android:name="com.xly.base.LYWebViewActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme"/>
+        <activity android:name="com.xly.business.login.view.PhoneLoginActivity" />
+        <activity android:name="com.xly.business.login.view.CodeLoginActivity" />
+        <activity android:name="com.xly.business.login.view.UserInfoActivity" />
 
 
 

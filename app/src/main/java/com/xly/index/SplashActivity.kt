@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
 import com.xly.R
+import com.xly.business.login.view.LoginActivity
 import kotlinx.coroutines.Runnable
 
 @SuppressLint("CustomSplashScreen")
@@ -31,7 +32,7 @@ class SplashActivity :AppCompatActivity() {
 
     private fun enterMain() {
         handler.postDelayed(Runnable {
-            LYMainActivity.start(SplashActivity@this)
+            LoginActivity.start(this)
         },1000)
     }
 
