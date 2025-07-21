@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="32dp"
+    android:background="@android:color/white">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="请问你的性别是？"
+        android:textSize="20sp"
+        android:textColor="#222222"
+        android:layout_gravity="start"/>
+
+    <RelativeLayout
+        android:id="@+id/rlMale"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/bg_gender_unselected"
+        android:layout_marginTop="32dp"
+        android:padding="16dp">
+        <ImageView
+            android:id="@+id/ivMale"
+            android:layout_width="68dp"
+            android:layout_height="68dp"
+            android:src="@mipmap/ic_male"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/tvMale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="男士"
+            android:textColor="#888888"
+            android:textSize="18sp"
+            android:layout_toEndOf="@id/ivMale"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="24dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlFemale"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/bg_gender_unselected"
+        android:layout_marginTop="24dp"
+        android:padding="16dp">
+        <ImageView
+            android:id="@+id/ivFemale"
+            android:layout_width="68dp"
+            android:layout_height="68dp"
+            android:src="@mipmap/ic_female"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/tvFemale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="女士"
+            android:textColor="#888888"
+            android:textSize="18sp"
+            android:layout_toEndOf="@id/ivFemale"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="24dp"/>
+    </RelativeLayout>
+
+</LinearLayout> 

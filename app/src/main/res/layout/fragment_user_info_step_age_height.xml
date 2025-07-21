@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="32dp"
+    android:background="@android:color/white">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="年龄和身高呢？"
+        android:textSize="20sp"
+        android:textColor="#222222"
+        android:layout_gravity="start"/>
+
+    <TextView
+        android:id="@+id/tvAgeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="年龄"
+        android:textSize="16sp"
+        android:textColor="#888888"
+        android:layout_marginTop="32dp"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
+        <SeekBar
+            android:id="@+id/seekBarAge"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_marginTop="30dp"
+            android:progressDrawable="@drawable/progress_bar_flamingo"
+            android:thumb="@mipmap/ic_seekbar_thumb"
+            android:max="32"/>
+        <TextView
+            android:id="@+id/tvAgeBubble"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_bubble_flamingo"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:text=""
+            android:layout_gravity="top"
+            android:visibility="gone"/>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvHeightLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="身高"
+        android:textSize="16sp"
+        android:textColor="#888888"
+        android:layout_marginTop="32dp"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
+        <SeekBar
+            android:id="@+id/seekBarHeight"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_marginTop="30dp"
+            android:progressDrawable="@drawable/progress_bar_flamingo"
+            android:thumb="@mipmap/ic_seekbar_thumb"
+            android:max="70"/>
+        <TextView
+            android:id="@+id/tvHeightBubble"
+            android:layout_width="55dp"
+            android:layout_height="32dp"
+            android:background="@drawable/bg_bubble_flamingo"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:text=""
+            android:gravity="center"
+            android:layout_gravity="top"
+            android:visibility="gone"/>
+    </FrameLayout>
+
+</LinearLayout> 

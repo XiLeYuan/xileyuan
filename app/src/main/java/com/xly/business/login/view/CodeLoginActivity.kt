@@ -4,12 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
+import android.view.KeyEvent
 import androidx.lifecycle.ViewModelProvider
 import com.xly.base.LYBaseActivity
 import com.xly.business.login.viewmodel.LoginViewModel
 import com.xly.databinding.ActivityCodeLoginBinding
-import android.view.KeyEvent
 import com.xly.index.LYMainActivity
 
 class CodeLoginActivity : LYBaseActivity<ActivityCodeLoginBinding, LoginViewModel>() {
@@ -34,11 +33,11 @@ class CodeLoginActivity : LYBaseActivity<ActivityCodeLoginBinding, LoginViewMode
                     if (allCodeFilled(codeInputs)) {
                         val code = codeInputs.joinToString(separator = "") { it.text.toString() }
                         // 跳转到个人信息收集页面
-                        // val intent = Intent(this@CodeLoginActivity, UserInfoActivity::class.java)
-                        // intent.putExtra("phone", phone)
-                        // intent.putExtra("code", code)
-                        // startActivity(intent)
-                        LYMainActivity.start(this@CodeLoginActivity)
+                         val intent = Intent(this@CodeLoginActivity, UserInfoActivity::class.java)
+                         intent.putExtra("phone", phone)
+                         intent.putExtra("code", code)
+                         startActivity(intent)
+//                        LYMainActivity.start(this@CodeLoginActivity)
                     }
                 }
                 override fun afterTextChanged(s: Editable?) {}

@@ -1,5 +1,6 @@
 package com.xly.business.login.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,8 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.xly.base.LYBaseActivity
 import com.xly.business.login.viewmodel.LoginViewModel
 import com.xly.databinding.ActivityPhoneLoginBinding
-import android.content.Intent
-import com.xly.R
 
 class PhoneLoginActivity : LYBaseActivity<ActivityPhoneLoginBinding, LoginViewModel>() {
     override fun inflateBinding(layoutInflater: android.view.LayoutInflater) = ActivityPhoneLoginBinding.inflate(layoutInflater)
