@@ -12,6 +12,12 @@ class LoginViewModel : ViewModel() {
     val showTextIndex = MutableLiveData<Int>() // 控制动画显示第几行
     val showDialog = MutableLiveData<Boolean>()
 
+    // 新增：保存用户信息的字段
+    var gender: String? = null
+    var age: Int? = null
+    var height: Int? = null
+    var education: String? = null
+
     private val repository = LoginRepository()
 
     fun startTextAnimation() {

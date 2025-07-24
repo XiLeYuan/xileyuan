@@ -17,11 +17,11 @@ class UserInfoActivity : LYBaseActivity<ActivityUserInfoBinding, LoginViewModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        pagerAdapter = UserInfoPagerAdapter(this, totalSteps, this)
+        pagerAdapter = UserInfoPagerAdapter(this, totalSteps)
         viewBind.viewPager.adapter = pagerAdapter
         viewBind.viewPager.isUserInputEnabled = false // 禁止滑动
         updateProgress(0)
-        updateButtonState(true)
+        updateButtonState(false) // 默认禁用下一步按钮
         viewBind.btnBack.setOnClickListener {
             if (currentStep > 0) {
                 currentStep--
@@ -55,6 +55,7 @@ class UserInfoActivity : LYBaseActivity<ActivityUserInfoBinding, LoginViewModel>
 
     // Fragment回调，输入有效性变化时调用
     override fun onInputValid(step: Int, valid: Boolean) {
+        android.util.Log.e("UserInfoActivity", "onInputValid: step=$step, valid=$valid currentStep=$currentStep")
         if (step == currentStep) {
             updateButtonState(valid)
         }

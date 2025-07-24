@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="32dp"
+    android:background="@android:color/white">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="你的学历是？"
+        android:textSize="20sp"
+        android:textColor="#222222"
+        android:layout_gravity="start"/>
+
+    <LinearLayout
+        android:id="@+id/llEducationOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="32dp">
+
+        <TextView
+            android:id="@+id/tvDoctor"
+            style="@style/EducationOptionStyle"
+            android:text="博士"/>
+        <TextView
+            android:id="@+id/tvMaster"
+            style="@style/EducationOptionStyle"
+            android:text="硕士"/>
+        <TextView
+            android:id="@+id/tvBachelor"
+            style="@style/EducationOptionStyle"
+            android:text="本科"/>
+        <TextView
+            android:id="@+id/tvJuniorCollege"
+            style="@style/EducationOptionStyle"
+            android:text="大专"/>
+        <TextView
+            android:id="@+id/tvBelowJunior"
+            style="@style/EducationOptionStyle"
+            android:text="大专以下"/>
+    </LinearLayout>
+
+</LinearLayout> 

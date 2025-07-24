@@ -8,13 +8,12 @@ import com.xly.business.login.view.UserInfoStepFragment
 
 class UserInfoPagerAdapter(
     fa: FragmentActivity,
-    private val totalSteps: Int,
-    private val inputValidListener: UserInfoStepFragment.OnInputValidListener
+    private val totalSteps: Int
 ) : FragmentStateAdapter(fa) {
     private val stepValid = BooleanArray(totalSteps) { false }
     override fun getItemCount() = totalSteps
     override fun createFragment(position: Int): Fragment {
-        return UserInfoStepFragment.newInstance(position, inputValidListener)
+        return UserInfoStepFragment.newInstance(position)
     }
     fun setStepValid(step: Int, valid: Boolean) {
         stepValid[step] = valid

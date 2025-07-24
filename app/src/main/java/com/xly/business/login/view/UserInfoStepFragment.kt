@@ -13,16 +13,21 @@ import com.xly.business.login.viewmodel.LoginViewModel
 import com.xly.databinding.FragmentUserInfoStepBinding
 import com.xly.databinding.FragmentUserInfoStepGenderBinding
 import com.xly.databinding.FragmentUserInfoStepAgeHeightBinding
+import com.xly.databinding.FragmentUserInfoStepEducationBinding
 import android.widget.SeekBar
+import android.widget.TextView
 
 class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginViewModel>() {
     private var stepIndex: Int = 0
     private var inputValidListener: OnInputValidListener? = null
     private var selectedGender: String? = null
+
     private var genderBinding: FragmentUserInfoStepGenderBinding? = null
     private var ageHeightBinding: FragmentUserInfoStepAgeHeightBinding? = null
     private var ageValue = 0
     private var heightValue = 0
+    private var educationBinding: FragmentUserInfoStepEducationBinding? = null
+    private var selectedEducation: String? = null
 
     interface OnInputValidListener {
         fun onInputValid(step: Int, valid: Boolean)
@@ -31,7 +36,7 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
     override fun onAttach(context: Context) {
         super.onAttach(context)
         arguments?.getInt(ARG_STEP_INDEX)?.let { stepIndex = it }
-        inputValidListener = arguments?.getSerializable(ARG_LISTENER) as? OnInputValidListener
+        inputValidListener = context as? OnInputValidListener
     }
 
     override fun inflateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentUserInfoStepBinding {
@@ -51,6 +56,10 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
                 ageHeightBinding = FragmentUserInfoStepAgeHeightBinding.inflate(inflater, container, false)
                 ageHeightBinding!!.root
             }
+            2 -> {
+                educationBinding = FragmentUserInfoStepEducationBinding.inflate(inflater, container, false)
+                educationBinding!!.root
+            }
             else -> {
                 super.onCreateView(inflater, container, savedInstanceState)
             }
@@ -66,12 +75,28 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
         when (stepIndex) {
             0 -> {
                 genderBinding?.apply {
+                    // 恢复性别
+                    val savedGender = viewModel.gender
+                    if (savedGender != null) {
+                        selectGender(savedGender == "male", fromRestore = true)
+                    }
                     rlMale.setOnClickListener { selectGender(true) }
                     rlFemale.setOnClickListener { selectGender(false) }
                 }
             }
             1 -> {
                 ageHeightBinding?.apply {
+                    // 恢复年龄
+                    val savedAge = viewModel.age
+                    if (savedAge != null) {
+                        val progress = if (savedAge >= 51) 32 else (savedAge - 18)
+                        seekBarAge.progress = progress
+                    }
+                    // 恢复身高
+                    val savedHeight = viewModel.height
+                    if (savedHeight != null) {
+                        seekBarHeight.progress = savedHeight - 140
+                    }
                     // 年龄SeekBar
                     seekBarAge.max = 32 // 18~50+ 共33档
                     seekBarAge.progress = 0
@@ -83,6 +108,7 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
                             val ageText = if (progress == 32) "50+岁" else "${age}岁"
                             tvAgeBubble.text = ageText
                             tvAgeBubble.visibility = View.VISIBLE
+                            android.util.Log.d("UserInfoStep", "Age changed: $ageValue")
                             // 气泡位置
                             val bubbleWidth = tvAgeBubble.width.toFloat()
                             val seekBarWidth = seekBarAge.width.toFloat()
@@ -109,6 +135,7 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
                             val heightText = "${height}cm"
                             tvHeightBubble.text = heightText
                             tvHeightBubble.visibility = View.VISIBLE
+                            android.util.Log.d("UserInfoStep", "Height changed: $heightValue")
                             // 气泡位置
                             val bubbleWidth = tvHeightBubble.width.toFloat()
                             val seekBarWidth = seekBarHeight.width.toFloat()
@@ -148,6 +175,25 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
                     }
                 }
             }
+            2 -> {
+                educationBinding?.apply {
+                    val options = listOf(
+                        tvDoctor to "doctor",
+                        tvMaster to "master",
+                        tvBachelor to "bachelor",
+                        tvJuniorCollege to "junior_college",
+                        tvBelowJunior to "below_junior"
+                    )
+                    // 恢复选中
+                    val savedEdu = viewModel.education
+                    if (savedEdu != null) {
+                        options.find { it.second == savedEdu }?.let { selectEducation(it.first, it.second, fromRestore = true) }
+                    }
+                    options.forEach { (tv, value) ->
+                        tv.setOnClickListener { selectEducation(tv, value) }
+                    }
+                }
+            }
             else -> {
                 // 示例：第0步为昵称输入
                 viewBind.inputEdit.visibility = View.VISIBLE
@@ -164,32 +210,52 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
         }
     }
 
-    private fun selectGender(isMale: Boolean) {
+    private fun selectGender(isMale: Boolean, fromRestore: Boolean = false) {
         genderBinding?.apply {
             rlMale.setBackgroundResource(if (isMale) R.drawable.bg_gender_selected else R.drawable.bg_gender_unselected)
             rlFemale.setBackgroundResource(if (!isMale) R.drawable.bg_gender_selected else R.drawable.bg_gender_unselected)
             tvMale.setTextColor(if (isMale) resources.getColor(R.color.flamingo) else 0xFF888888.toInt())
             tvFemale.setTextColor(if (!isMale) resources.getColor(R.color.flamingo) else 0xFF888888.toInt())
             selectedGender = if (isMale) "male" else "female"
-            inputValidListener?.onInputValid(0, true)
+            viewModel.gender = selectedGender // 保存到ViewModel
+            android.util.Log.d("UserInfoStep", "Gender selected: $selectedGender, step=$stepIndex")
+            if (!fromRestore) {
+                inputValidListener?.onInputValid(stepIndex, true)
+            }
+        }
+    }
+
+    private fun selectEducation(tv: TextView, value: String, fromRestore: Boolean = false) {
+        educationBinding?.apply {
+            val all = listOf(tvDoctor, tvMaster, tvBachelor, tvJuniorCollege, tvBelowJunior)
+            all.forEach {
+                it.setBackgroundResource(if (it == tv) R.drawable.bg_education_selected else R.drawable.bg_education_unselected)
+                it.setTextColor(if (it == tv) resources.getColor(R.color.flamingo) else 0xFF222222.toInt())
+            }
+            selectedEducation = value
+            viewModel.education = value
+            if (!fromRestore) {
+                inputValidListener?.onInputValid(stepIndex, true)
+            }
         }
     }
 
     private fun checkAgeHeightValid() {
         val valid = ageValue >= 18 && heightValue >= 140
+        // 保存到ViewModel
+        if (ageValue >= 18) viewModel.age = ageValue
+        if (heightValue >= 140) viewModel.height = heightValue
+        android.util.Log.d("UserInfoStep", "Checking valid: age=$ageValue, height=$heightValue, valid=$valid, step=$stepIndex")
         inputValidListener?.onInputValid(stepIndex, valid)
     }
 
     companion object {
         private const val ARG_STEP_INDEX = "step_index"
-        private const val ARG_LISTENER = "input_valid_listener"
-        fun newInstance(step: Int, listener: OnInputValidListener): UserInfoStepFragment {
+        fun newInstance(step: Int): UserInfoStepFragment {
             val fragment = UserInfoStepFragment()
             val args = Bundle()
             args.putInt(ARG_STEP_INDEX, step)
-            // 不能直接putSerializable接口，实际项目可用ViewModel或Activity持有Listener
             fragment.arguments = args
-            fragment.inputValidListener = listener
             return fragment
         }
     }
