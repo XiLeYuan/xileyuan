@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="32dp"
+    android:background="@android:color/white">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="买房情况"
+        android:textSize="20sp"
+        android:textColor="#222222"
+        android:layout_gravity="start"/>
+
+    <LinearLayout
+        android:id="@+id/llHouseOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="24dp">
+        <TextView android:id="@+id/tvHouse1" style="@style/EducationOptionStyle" android:text="未购房"/>
+        <TextView android:id="@+id/tvHouse2" style="@style/EducationOptionStyle" android:text="已购房无贷款"/>
+        <TextView android:id="@+id/tvHouse3" style="@style/EducationOptionStyle" android:text="已购房有贷款"/>
+        <TextView android:id="@+id/tvHouse4" style="@style/EducationOptionStyle" android:text="有多套房"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvCarTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="买车情况"
+        android:textSize="16sp"
+        android:textColor="@color/text"
+        android:layout_marginTop="32dp"/>
+
+    <LinearLayout
+        android:id="@+id/llCarOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp">
+        <TextView android:id="@+id/tvCar1" style="@style/EducationOptionStyle" android:text="未购车"/>
+        <TextView android:id="@+id/tvCar2" style="@style/EducationOptionStyle" android:text="已购车无贷款"/>
+        <TextView android:id="@+id/tvCar3" style="@style/EducationOptionStyle" android:text="已购车有贷款"/>
+    </LinearLayout>
+
+</LinearLayout> 

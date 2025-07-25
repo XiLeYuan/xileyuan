@@ -19,6 +19,8 @@ import com.xly.databinding.FragmentUserInfoStepEducationBinding
 import com.xly.databinding.FragmentUserInfoStepGenderBinding
 import com.xly.databinding.FragmentUserInfoStepJobIncomeBinding
 import com.xly.databinding.FragmentUserInfoStepSchoolBinding
+import com.xly.databinding.FragmentUserInfoStepHouseCarBinding
+import com.xly.databinding.FragmentUserInfoStepMarriageChildrenBinding
 
 class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginViewModel>() {
     private var stepIndex: Int = 0
@@ -39,6 +41,14 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
     private var addressBinding: FragmentUserInfoStepAddressBinding? = null
     private var currentAddress: String? = null
     private var hometownAddress: String? = null
+
+    private var houseCarBinding: FragmentUserInfoStepHouseCarBinding? = null
+    private var selectedHouse: String? = null
+    private var selectedCar: String? = null
+
+    private var marriageChildrenBinding: FragmentUserInfoStepMarriageChildrenBinding? = null
+    private var selectedMarriage: String? = null
+    private var selectedChildren: String? = null
 
     interface OnInputValidListener {
         fun onInputValid(step: Int, valid: Boolean)
@@ -82,6 +92,14 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
             5 -> {
                 addressBinding = FragmentUserInfoStepAddressBinding.inflate(inflater, container, false)
                 addressBinding!!.root
+            }
+            6 -> {
+                houseCarBinding = FragmentUserInfoStepHouseCarBinding.inflate(inflater, container, false)
+                houseCarBinding!!.root
+            }
+            7 -> {
+                marriageChildrenBinding = FragmentUserInfoStepMarriageChildrenBinding.inflate(inflater, container, false)
+                marriageChildrenBinding!!.root
             }
             else -> {
                 super.onCreateView(inflater, container, savedInstanceState)
@@ -274,6 +292,59 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
                     }
                 }
             }
+            6 -> {
+                houseCarBinding?.apply {
+                    val houseOptions = listOf(
+                        tvHouse1 to "no_house",
+                        tvHouse2 to "house_no_loan",
+                        tvHouse3 to "house_with_loan",
+                        tvHouse4 to "multi_house"
+                    )
+                    val carOptions = listOf(
+                        tvCar1 to "no_car",
+                        tvCar2 to "car_no_loan",
+                        tvCar3 to "car_with_loan"
+                    )
+                    houseOptions.forEach { (tv, value) ->
+                        tv.setOnClickListener {
+                            selectHouse(tv, value)
+                            checkHouseCarValid()
+                        }
+                    }
+                    carOptions.forEach { (tv, value) ->
+                        tv.setOnClickListener {
+                            selectCar(tv, value)
+                            checkHouseCarValid()
+                        }
+                    }
+                }
+            }
+            7 -> {
+                marriageChildrenBinding?.apply {
+                    val marriageOptions = listOf(
+                        tvMarriage1 to "single",
+                        tvMarriage2 to "divorced",
+                        tvMarriage3 to "widowed"
+                    )
+                    val childrenOptions = listOf(
+                        tvChildren1 to "no_child",
+                        tvChildren2 to "child_with_me",
+                        tvChildren3 to "child_with_other"
+                    )
+                    marriageOptions.forEach { (tv, value) ->
+                        tv.setOnClickListener {
+                            selectMarriage(tv, value)
+                            checkMarriageChildrenValid()
+                        }
+                    }
+                    childrenOptions.forEach { (tv, value) ->
+                        tv.setOnClickListener {
+                            selectChildren(tv, value)
+                            checkMarriageChildrenValid()
+                        }
+                    }
+                }
+            }
             else -> {
                 // 示例：第0步为昵称输入
                 viewBind.inputEdit.visibility = View.VISIBLE
@@ -331,6 +402,48 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
         }
     }
 
+    private fun selectHouse(tv: TextView, value: String) {
+        houseCarBinding?.apply {
+            val all = listOf(tvHouse1, tvHouse2, tvHouse3, tvHouse4)
+            all.forEach {
+                it.setBackgroundResource(if (it == tv) R.drawable.bg_education_selected else R.drawable.bg_education_unselected)
+                it.setTextColor(if (it == tv) resources.getColor(R.color.flamingo) else 0xFF222222.toInt())
+            }
+            selectedHouse = value
+        }
+    }
+    private fun selectCar(tv: TextView, value: String) {
+        houseCarBinding?.apply {
+            val all = listOf(tvCar1, tvCar2, tvCar3)
+            all.forEach {
+                it.setBackgroundResource(if (it == tv) R.drawable.bg_education_selected else R.drawable.bg_education_unselected)
+                it.setTextColor(if (it == tv) resources.getColor(R.color.flamingo) else 0xFF222222.toInt())
+            }
+            selectedCar = value
+        }
+    }
+
+    private fun selectMarriage(tv: TextView, value: String) {
+        marriageChildrenBinding?.apply {
+            val all = listOf(tvMarriage1, tvMarriage2, tvMarriage3)
+            all.forEach {
+                it.setBackgroundResource(if (it == tv) R.drawable.bg_education_selected else R.drawable.bg_education_unselected)
+                it.setTextColor(if (it == tv) resources.getColor(R.color.flamingo) else 0xFF222222.toInt())
+            }
+            selectedMarriage = value
+        }
+    }
+    private fun selectChildren(tv: TextView, value: String) {
+        marriageChildrenBinding?.apply {
+            val all = listOf(tvChildren1, tvChildren2, tvChildren3)
+            all.forEach {
+                it.setBackgroundResource(if (it == tv) R.drawable.bg_education_selected else R.drawable.bg_education_unselected)
+                it.setTextColor(if (it == tv) resources.getColor(R.color.flamingo) else 0xFF222222.toInt())
+            }
+            selectedChildren = value
+        }
+    }
+
     private fun checkAgeHeightValid() {
         val valid = ageValue >= 18 && heightValue >= 140
         // 保存到ViewModel
@@ -350,6 +463,16 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
 
     private fun checkAddressValid() {
         val valid = !currentAddress.isNullOrEmpty() && !hometownAddress.isNullOrEmpty()
+        inputValidListener?.onInputValid(stepIndex, valid)
+    }
+
+    private fun checkHouseCarValid() {
+        val valid = !selectedHouse.isNullOrEmpty() && !selectedCar.isNullOrEmpty()
+        inputValidListener?.onInputValid(stepIndex, valid)
+    }
+
+    private fun checkMarriageChildrenValid() {
+        val valid = !selectedMarriage.isNullOrEmpty() && !selectedChildren.isNullOrEmpty()
         inputValidListener?.onInputValid(stepIndex, valid)
     }
 

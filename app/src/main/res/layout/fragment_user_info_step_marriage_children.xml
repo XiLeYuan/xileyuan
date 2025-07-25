@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="32dp"
+    android:background="@android:color/white">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="婚姻状况"
+        android:textSize="20sp"
+        android:textColor="#222222"
+        android:layout_gravity="start"/>
+
+    <LinearLayout
+        android:id="@+id/llMarriageOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="24dp">
+        <TextView android:id="@+id/tvMarriage1" style="@style/EducationOptionStyle" android:text="未婚"/>
+        <TextView android:id="@+id/tvMarriage2" style="@style/EducationOptionStyle" android:text="离异"/>
+        <TextView android:id="@+id/tvMarriage3" style="@style/EducationOptionStyle" android:text="丧偶"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvChildrenTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="子女情况"
+        android:textSize="16sp"
+        android:textColor="#222222"
+        android:layout_marginTop="32dp"/>
+
+    <LinearLayout
+        android:id="@+id/llChildrenOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp">
+        <TextView android:id="@+id/tvChildren1" style="@style/EducationOptionStyle" android:text="没有孩子"/>
+        <TextView android:id="@+id/tvChildren2" style="@style/EducationOptionStyle" android:text="有孩子随本人"/>
+        <TextView android:id="@+id/tvChildren3" style="@style/EducationOptionStyle" android:text="有孩子随对方"/>
+    </LinearLayout>
+
+</LinearLayout> 
