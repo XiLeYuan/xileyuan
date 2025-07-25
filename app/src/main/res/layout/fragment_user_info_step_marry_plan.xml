@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="32dp"
+    android:background="@android:color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="何时准备结婚呢？"
+        android:textSize="20sp"
+        android:textColor="#222222"
+        android:layout_gravity="start"/>
+
+    <LinearLayout
+        android:id="@+id/llPlanOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="24dp">
+        <TextView android:id="@+id/tvPlan1" style="@style/EducationOptionStyle" android:text="一年内"/>
+        <TextView android:id="@+id/tvPlan2" style="@style/EducationOptionStyle" android:text="两年内"/>
+        <TextView android:id="@+id/tvPlan3" style="@style/EducationOptionStyle" android:text="三年内"/>
+        <TextView android:id="@+id/tvPlan4" style="@style/EducationOptionStyle" android:text="缘分到了就结婚"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="32dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/tvAgeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="希望他/她的年龄"
+            android:textSize="16sp"
+            android:textColor="#222222"/>
+        <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/tvAgeRange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="18岁-18岁"
+            android:textSize="16sp"
+            android:textColor="@color/flamingo"/>
+    </LinearLayout>
+
+    <!-- 预留年龄范围选择器控件 -->
+    <com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/rangeSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:rsb_min="18"
+        app:rsb_max="50"
+        app:rsb_progress_color="@color/flamingo"
+        app:rsb_thumb_drawable="@mipmap/ic_seekbar_thumb"
+        app:rsb_mode="range"
+        app:rsb_steps="1"
+        app:rsb_indicator_show_mode="alwaysHide"
+        app:rsb_indicator_height="25dp"
+        app:rsb_indicator_width="50dp"
+        app:rsb_indicator_margin="5dp"
+        app:rsb_indicator_text_size="14sp"
+        app:rsb_indicator_radius="8dp"
+        app:rsb_progress_height="10dp"
+        app:rsb_indicator_background_color="@color/flamingo"
+        app:rsb_tick_mark_text_margin="10dp"
+        app:rsb_tick_mark_text_color="#000000"
+        app:rsb_tick_mark_mode="number"
+        />
+
+</LinearLayout> 

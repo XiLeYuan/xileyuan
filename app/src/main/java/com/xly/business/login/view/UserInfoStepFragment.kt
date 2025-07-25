@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.TextView
+import com.jaygoo.widget.RangeSeekBar
 import com.xly.R
 import com.xly.base.LYBaseFragment
 import com.xly.business.login.viewmodel.LoginViewModel
@@ -17,10 +18,12 @@ import com.xly.databinding.FragmentUserInfoStepAgeHeightBinding
 import com.xly.databinding.FragmentUserInfoStepBinding
 import com.xly.databinding.FragmentUserInfoStepEducationBinding
 import com.xly.databinding.FragmentUserInfoStepGenderBinding
-import com.xly.databinding.FragmentUserInfoStepJobIncomeBinding
-import com.xly.databinding.FragmentUserInfoStepSchoolBinding
 import com.xly.databinding.FragmentUserInfoStepHouseCarBinding
+import com.xly.databinding.FragmentUserInfoStepJobIncomeBinding
 import com.xly.databinding.FragmentUserInfoStepMarriageChildrenBinding
+import com.xly.databinding.FragmentUserInfoStepMarryPlanBinding
+import com.xly.databinding.FragmentUserInfoStepSchoolBinding
+
 
 class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginViewModel>() {
     private var stepIndex: Int = 0
@@ -49,6 +52,10 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
     private var marriageChildrenBinding: FragmentUserInfoStepMarriageChildrenBinding? = null
     private var selectedMarriage: String? = null
     private var selectedChildren: String? = null
+
+    private var marryPlanBinding: FragmentUserInfoStepMarryPlanBinding? = null
+    private var selectedPlan: String? = null
+    private var ageRange: Pair<Int, Int>? = null
 
     interface OnInputValidListener {
         fun onInputValid(step: Int, valid: Boolean)
@@ -100,6 +107,10 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
             7 -> {
                 marriageChildrenBinding = FragmentUserInfoStepMarriageChildrenBinding.inflate(inflater, container, false)
                 marriageChildrenBinding!!.root
+            }
+            8 -> {
+                marryPlanBinding = FragmentUserInfoStepMarryPlanBinding.inflate(inflater, container, false)
+                marryPlanBinding!!.root
             }
             else -> {
                 super.onCreateView(inflater, container, savedInstanceState)
@@ -345,6 +356,38 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
                     }
                 }
             }
+            8 -> {
+                marryPlanBinding?.apply {
+                    val planOptions = listOf(
+                        tvPlan1 to "1year",
+                        tvPlan2 to "2year",
+                        tvPlan3 to "3year",
+                        tvPlan4 to "anytime"
+                    )
+                    planOptions.forEach { (tv, value) ->
+                        tv.setOnClickListener {
+                            selectPlan(tv, value)
+                            checkMarryPlanValid()
+                        }
+                    }
+                    // 年龄范围选择（Jay-Goo RangeSeekBar）
+                    rangeSeekBar.setOnRangeChangedListener(object : com.jaygoo.widget.OnRangeChangedListener {
+                        override fun onRangeChanged(rangeSeekBar: RangeSeekBar?, min: Float, max: Float, isFromUser: Boolean) {
+                            ageRange = min.toInt() to max.toInt()
+                            tvAgeRange.text = if (max.toInt() >= 50) "${min.toInt()}岁-50+岁" else "${min.toInt()}岁-${max.toInt()}岁"
+                            checkMarryPlanValid()
+                        }
+
+                        override fun onStartTrackingTouch(view: RangeSeekBar, isLeft: Boolean) {
+                            // 可选实现
+                        }
+
+                        override fun onStopTrackingTouch(view: RangeSeekBar, isLeft: Boolean) {
+                            // 可选实现
+                        }
+                    })
+                }
+            }
             else -> {
                 // 示例：第0步为昵称输入
                 viewBind.inputEdit.visibility = View.VISIBLE
@@ -444,6 +487,17 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
         }
     }
 
+    private fun selectPlan(tv: TextView, value: String) {
+        marryPlanBinding?.apply {
+            val all = listOf(tvPlan1, tvPlan2, tvPlan3, tvPlan4)
+            all.forEach {
+                it.setBackgroundResource(if (it == tv) R.drawable.bg_education_selected else R.drawable.bg_education_unselected)
+                it.setTextColor(if (it == tv) resources.getColor(R.color.flamingo) else 0xFF222222.toInt())
+            }
+            selectedPlan = value
+        }
+    }
+
     private fun checkAgeHeightValid() {
         val valid = ageValue >= 18 && heightValue >= 140
         // 保存到ViewModel
@@ -473,6 +527,11 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
 
     private fun checkMarriageChildrenValid() {
         val valid = !selectedMarriage.isNullOrEmpty() && !selectedChildren.isNullOrEmpty()
+        inputValidListener?.onInputValid(stepIndex, valid)
+    }
+
+    private fun checkMarryPlanValid() {
+        val valid = !selectedPlan.isNullOrEmpty() && ageRange != null && ageRange!!.first >= 18 && ageRange!!.second >= ageRange!!.first
         inputValidListener?.onInputValid(stepIndex, valid)
     }
 
