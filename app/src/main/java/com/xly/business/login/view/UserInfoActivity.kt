@@ -53,6 +53,15 @@ class UserInfoActivity : LYBaseActivity<ActivityUserInfoBinding, LoginViewModel>
         viewBind.btnNext.alpha = if (valid) 1f else 0.5f
     }
 
+    fun goToStep(step: Int) {
+        if (step in 0 until totalSteps) {
+            currentStep = step
+            viewBind.viewPager.setCurrentItem(step, true)
+            updateProgress(step)
+            updateButtonState(pagerAdapter.isStepValid(step))
+        }
+    }
+
     // Fragment回调，输入有效性变化时调用
     override fun onInputValid(step: Int, valid: Boolean) {
         android.util.Log.e("UserInfoActivity", "onInputValid: step=$step, valid=$valid currentStep=$currentStep")

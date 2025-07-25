@@ -7,15 +7,18 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
+import android.widget.TextView
 import com.xly.R
 import com.xly.base.LYBaseFragment
 import com.xly.business.login.viewmodel.LoginViewModel
-import com.xly.databinding.FragmentUserInfoStepBinding
-import com.xly.databinding.FragmentUserInfoStepGenderBinding
+import com.xly.databinding.FragmentUserInfoStepAddressBinding
 import com.xly.databinding.FragmentUserInfoStepAgeHeightBinding
+import com.xly.databinding.FragmentUserInfoStepBinding
 import com.xly.databinding.FragmentUserInfoStepEducationBinding
-import android.widget.SeekBar
-import android.widget.TextView
+import com.xly.databinding.FragmentUserInfoStepGenderBinding
+import com.xly.databinding.FragmentUserInfoStepJobIncomeBinding
+import com.xly.databinding.FragmentUserInfoStepSchoolBinding
 
 class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginViewModel>() {
     private var stepIndex: Int = 0
@@ -28,6 +31,14 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
     private var heightValue = 0
     private var educationBinding: FragmentUserInfoStepEducationBinding? = null
     private var selectedEducation: String? = null
+
+    private var schoolBinding: FragmentUserInfoStepSchoolBinding? = null
+    private var jobIncomeBinding: FragmentUserInfoStepJobIncomeBinding? = null
+    private var selectedIncome: String? = null
+
+    private var addressBinding: FragmentUserInfoStepAddressBinding? = null
+    private var currentAddress: String? = null
+    private var hometownAddress: String? = null
 
     interface OnInputValidListener {
         fun onInputValid(step: Int, valid: Boolean)
@@ -59,6 +70,18 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
             2 -> {
                 educationBinding = FragmentUserInfoStepEducationBinding.inflate(inflater, container, false)
                 educationBinding!!.root
+            }
+            3 -> {
+                schoolBinding = FragmentUserInfoStepSchoolBinding.inflate(inflater, container, false)
+                schoolBinding!!.root
+            }
+            4 -> {
+                jobIncomeBinding = FragmentUserInfoStepJobIncomeBinding.inflate(inflater, container, false)
+                jobIncomeBinding!!.root
+            }
+            5 -> {
+                addressBinding = FragmentUserInfoStepAddressBinding.inflate(inflater, container, false)
+                addressBinding!!.root
             }
             else -> {
                 super.onCreateView(inflater, container, savedInstanceState)
@@ -184,13 +207,70 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
                         tvJuniorCollege to "junior_college",
                         tvBelowJunior to "below_junior"
                     )
-                    // 恢复选中
                     val savedEdu = viewModel.education
                     if (savedEdu != null) {
                         options.find { it.second == savedEdu }?.let { selectEducation(it.first, it.second, fromRestore = true) }
                     }
                     options.forEach { (tv, value) ->
-                        tv.setOnClickListener { selectEducation(tv, value) }
+                        tv.setOnClickListener {
+                            selectEducation(tv, value)
+                            // 移除自动跳转逻辑，跳转交由Activity控制
+                        }
+                    }
+                }
+            }
+            3 -> {
+                schoolBinding?.apply {
+                    etSchool.addTextChangedListener(object : TextWatcher {
+                        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                            btnClearSchool.visibility = if (!s.isNullOrEmpty()) View.VISIBLE else View.GONE
+                            inputValidListener?.onInputValid(stepIndex, !s.isNullOrEmpty())
+                        }
+                        override fun afterTextChanged(s: Editable?) {}
+                    })
+                    btnClearSchool.setOnClickListener { etSchool.text?.clear() }
+                }
+            }
+            4 -> {
+                jobIncomeBinding?.apply {
+                    etJob.addTextChangedListener(object : TextWatcher {
+                        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                            btnClearJob.visibility = if (!s.isNullOrEmpty()) View.VISIBLE else View.GONE
+                            checkJobIncomeValid()
+                        }
+                        override fun afterTextChanged(s: Editable?) {}
+                    })
+                    btnClearJob.setOnClickListener { etJob.text?.clear() }
+                    val incomeOptions = listOf(
+                        tvIncome1, tvIncome2, tvIncome3, tvIncome4, tvIncome5, tvIncome6, tvIncome7
+                    )
+                    incomeOptions.forEach { tv ->
+                        tv.setOnClickListener {
+                            selectIncome(tv)
+                            checkJobIncomeValid()
+                        }
+                    }
+                }
+            }
+            5 -> {
+                addressBinding?.apply {
+                    tvCurrentAddress.setOnClickListener {
+                        val addressJson = AddressPickerDialog.loadAddressJson(requireContext())
+                        AddressPickerDialog(requireContext(), addressJson) { p, c, d ->
+                            currentAddress = "$p $c $d"
+                            tvCurrentAddress.text = currentAddress
+                            checkAddressValid()
+                        }.show()
+                    }
+                    tvHometownAddress.setOnClickListener {
+                        val addressJson = AddressPickerDialog.loadAddressJson(requireContext())
+                        AddressPickerDialog(requireContext(), addressJson) { p, c, d ->
+                            hometownAddress = "$p $c $d"
+                            tvHometownAddress.text = hometownAddress
+                            checkAddressValid()
+                        }.show()
                     }
                 }
             }
@@ -240,12 +320,36 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
         }
     }
 
+    private fun selectIncome(tv: TextView) {
+        jobIncomeBinding?.apply {
+            val all = listOf(tvIncome1, tvIncome2, tvIncome3, tvIncome4, tvIncome5, tvIncome6, tvIncome7)
+            all.forEach {
+                it.setBackgroundResource(if (it == tv) R.drawable.bg_education_selected else R.drawable.bg_education_unselected)
+                it.setTextColor(if (it == tv) resources.getColor(R.color.flamingo) else 0xFF222222.toInt())
+            }
+            selectedIncome = tv.text.toString()
+        }
+    }
+
     private fun checkAgeHeightValid() {
         val valid = ageValue >= 18 && heightValue >= 140
         // 保存到ViewModel
         if (ageValue >= 18) viewModel.age = ageValue
         if (heightValue >= 140) viewModel.height = heightValue
         android.util.Log.d("UserInfoStep", "Checking valid: age=$ageValue, height=$heightValue, valid=$valid, step=$stepIndex")
+        inputValidListener?.onInputValid(stepIndex, valid)
+    }
+
+    private fun checkJobIncomeValid() {
+        jobIncomeBinding?.apply {
+            val jobValid = !etJob.text.isNullOrEmpty()
+            val incomeValid = selectedIncome != null
+            inputValidListener?.onInputValid(stepIndex, jobValid && incomeValid)
+        }
+    }
+
+    private fun checkAddressValid() {
+        val valid = !currentAddress.isNullOrEmpty() && !hometownAddress.isNullOrEmpty()
         inputValidListener?.onInputValid(stepIndex, valid)
     }
 

@@ -11,4 +11,6 @@
     <color name="login_bg_pink">#FFF1F1</color>
     <color name="login_bg_yellow">#FFF9C4</color>
     <color name="login_bg_red">#FFE0E0</color>
+    <color name="text">#222222</color>
+    <color name="text_light">#999999</color>
 </resources>
