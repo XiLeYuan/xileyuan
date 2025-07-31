@@ -37,6 +37,7 @@ class CodeLoginActivity : LYBaseActivity<ActivityCodeLoginBinding, LoginViewMode
                          intent.putExtra("phone", phone)
                          intent.putExtra("code", code)
                          startActivity(intent)
+                        finish()
 //                        LYMainActivity.start(this@CodeLoginActivity)
                     }
                 }
