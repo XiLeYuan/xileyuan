@@ -6,6 +6,7 @@ import com.xly.base.LYBaseActivity
 import com.xly.business.login.view.adapter.UserInfoPagerAdapter
 import com.xly.business.login.viewmodel.LoginViewModel
 import com.xly.databinding.ActivityUserInfoBinding
+import com.xly.index.LYMainActivity
 
 class UserInfoActivity : LYBaseActivity<ActivityUserInfoBinding, LoginViewModel>(), UserInfoStepFragment.OnInputValidListener {
     private val totalSteps = 17
@@ -40,6 +41,7 @@ class UserInfoActivity : LYBaseActivity<ActivityUserInfoBinding, LoginViewModel>
                 updateButtonState(pagerAdapter.isStepValid(currentStep))
             } else {
                 // TODO: 提交所有信息
+                LYMainActivity.start(this)
             }
         }
     }
