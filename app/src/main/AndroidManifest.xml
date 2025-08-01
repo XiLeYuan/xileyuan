@@ -64,7 +64,12 @@
         <activity
             android:name="com.jspp.activity.UserDetailActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name="com.jspp.activity.TestUserDetailActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme" />
 
         <activity
             android:name="com.xly.base.LYWebViewActivity"

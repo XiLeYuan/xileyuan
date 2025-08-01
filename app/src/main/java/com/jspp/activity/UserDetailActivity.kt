@@ -8,10 +8,11 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.xly.R
 import com.jspp.model.UserCard
+import com.jspp.widget.AdvancedBottomSheetBehavior
 
 class UserDetailActivity : AppCompatActivity() {
 
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
+    private lateinit var bottomSheetBehavior: AdvancedBottomSheetBehavior<View>
     private lateinit var ivHeader: ImageView
     private lateinit var ivDetailAvatar: ImageView
     private lateinit var tvDetailName: android.widget.TextView
@@ -21,7 +22,7 @@ class UserDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_user_detail)
+        setContentView(R.layout.activity_user_detail_custom)
 
         initViews()
         setupBottomSheet()
@@ -48,7 +49,7 @@ class UserDetailActivity : AppCompatActivity() {
 
     private fun setupBottomSheet() {
         val bottomSheetContainer = findViewById<View>(R.id.bottomSheetContainer)
-        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer)
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer) as AdvancedBottomSheetBehavior<View>
 
         // 设置初始状态
         bottomSheetBehavior.apply {
@@ -56,19 +57,39 @@ class UserDetailActivity : AppCompatActivity() {
             isHideable = false
             state = BottomSheetBehavior.STATE_COLLAPSED
 
-            // 添加滑动监听
+            // 设置滑动监听
+            setOnSlideListener { slideOffset ->
+                // 联动顶部图片
+                ivHeader.translationY = -slideOffset * 200 // 图片上移
+                ivHeader.alpha = 1f - 0.3f * slideOffset   // 图片透明度变化
+            }
+
+            // 设置状态变化监听
+            setOnStateChangeListener { state ->
+                when (state) {
+                    AdvancedBottomSheetBehavior.STATE_FULL -> {
+                        // 完全展开状态
+                        println("卡片完全展开")
+                    }
+                    AdvancedBottomSheetBehavior.STATE_HALF -> {
+                        // 半展开状态
+                        println("卡片半展开")
+                    }
+                    AdvancedBottomSheetBehavior.STATE_PEEK -> {
+                        // 露出状态
+                        println("卡片露出")
+                    }
+                }
+            }
+
+            // 添加状态变化监听
             addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
                 override fun onStateChanged(bottomSheet: View, newState: Int) {
                     // 状态变化处理
                 }
 
                 override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                    // 滑动过程中处理
-                    // slideOffset: -1（隐藏）~0（初始）~1（完全展开）
-
-                    // 联动顶部图片
-                    ivHeader.translationY = -slideOffset * 200 // 图片上移
-                    ivHeader.alpha = 1f - 0.3f * slideOffset   // 图片透明度变化
+                    // 滑动过程中处理（这里由setOnSlideListener处理）
                 }
             })
         }
@@ -135,5 +156,12 @@ class UserDetailActivity : AppCompatActivity() {
      */
     fun collapseBottomSheet() {
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+    }
+
+    /**
+     * 获取当前滑动偏移量
+     */
+    fun getCurrentSlideOffset(): Float {
+        return bottomSheetBehavior.getCurrentSlideOffset()
     }
 }
