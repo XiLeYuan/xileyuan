@@ -1,6 +1,8 @@
 package com.jspp.activity
 
+import android.app.Activity
 import android.app.ActivityOptions
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -17,6 +19,14 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var cardStackView: CardStackView
     private lateinit var cardStackLayoutManager: CardStackLayoutManager
     private lateinit var userCardAdapter: UserCardAdapter
+
+    companion object {
+
+        fun start(c: Context) {
+            val intent = Intent(c, HomeActivity::class.java)
+            (c as? Activity)?.startActivity(intent)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

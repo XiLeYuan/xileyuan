@@ -23,10 +23,10 @@ public class HeaderBehavior extends CoordinatorLayout.Behavior<View> {
 
     @Override
     public boolean layoutDependsOn(CoordinatorLayout parent, View child, View dependency) {
-        if (dependency.getId() == R.id.bottom_sheet) {
+        /*if (dependency.getId() == R.id.bottom_sheet) {
             bottomSheetBehavior = BottomSheetBehavior.from(dependency);
             return true;
-        }
+        }*/
         return false;
     }
 

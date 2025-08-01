@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.jspp.activity.HomeActivity
 import com.xly.base.LYBaseFragment
 import com.xly.business.recommend.viewmodel.RecommendViewModel
 import com.xly.databinding.FragmentRecommendBinding
@@ -91,7 +92,9 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
 
             // 直接启动详情页（不经过转场动画）
 
-            UserDetailActivity.start(requireActivity())
+            HomeActivity.start(requireActivity())
+
+//            UserDetailActivity.start(requireActivity())
 
 
 

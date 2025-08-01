@@ -32,7 +32,7 @@
             android:layout_margin="16dp"
             android:background="@drawable/circle_background"
             android:padding="12dp"
-            android:src="@drawable/ic_back"
+            android:src="@mipmap/ic_back"
             app:layout_collapseMode="pin" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -109,8 +109,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
-                                android:drawableStart="@drawable/ic_location"
-                                android:drawablePadding="4dp"
                                 android:text="北京"
                                 android:textColor="#999999"
                                 android:textSize="14sp" />
