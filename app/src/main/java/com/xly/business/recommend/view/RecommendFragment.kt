@@ -3,6 +3,7 @@ package com.xly.business.recommend.view
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -145,6 +146,7 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
         }
 
         if (cardView != null) {
+            Log.i("cardView","NO-NULL")
             // 使用共享元素转场动画
             val options = ActivityOptions.makeSceneTransitionAnimation(
                 requireActivity(),
@@ -153,6 +155,7 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
             )
             startActivity(intent, options.toBundle())
         } else {
+            Log.i("cardView","NULL")
             // 普通转场
             startActivity(intent)
         }
