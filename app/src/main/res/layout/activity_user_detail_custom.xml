@@ -81,7 +81,7 @@
                             android:id="@+id/handle_icon"
                             android:layout_width="32dp"
                             android:layout_height="4dp"
-                            android:background="@drawable/ic_drag_handle" />
+                            android:background="@drawable/ic_drag_handle_shadow" />
                     </LinearLayout>
 
                     <!-- 用户头像和基本信息 -->

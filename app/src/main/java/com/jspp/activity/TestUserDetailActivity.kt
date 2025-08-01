@@ -1,5 +1,7 @@
 package com.jspp.activity
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -8,6 +10,14 @@ import com.xly.R
 import com.jspp.model.UserCard
 
 class TestUserDetailActivity : AppCompatActivity() {
+
+    companion object {
+
+        fun start(c: Context) {
+            val intent = Intent(c, TestUserDetailActivity::class.java)
+            (c as? Activity)?.startActivity(intent)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

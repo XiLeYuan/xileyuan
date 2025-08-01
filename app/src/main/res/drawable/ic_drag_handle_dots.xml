@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 第一个圆点 -->
+    <item android:gravity="center_vertical">
+        <shape android:shape="oval">
+            <solid android:color="#CCCCCC" />
+            <size android:width="4dp" android:height="4dp" />
+        </shape>
+    </item>
+    
+    <!-- 第二个圆点 -->
+    <item android:gravity="center_vertical" android:left="8dp">
+        <shape android:shape="oval">
+            <solid android:color="#CCCCCC" />
+            <size android:width="4dp" android:height="4dp" />
+        </shape>
+    </item>
+    
+    <!-- 第三个圆点 -->
+    <item android:gravity="center_vertical" android:left="16dp">
+        <shape android:shape="oval">
+            <solid android:color="#CCCCCC" />
+            <size android:width="4dp" android:height="4dp" />
+        </shape>
+    </item>
+</layer-list> 
