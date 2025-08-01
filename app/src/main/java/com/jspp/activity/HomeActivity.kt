@@ -205,7 +205,7 @@ class HomeActivity : AppCompatActivity() {
         val intent = Intent(this, UserDetailActivity::class.java).apply {
             putExtra("user_card", userCard)
         }
-
+        
         if (cardView != null) {
             // 使用共享元素转场动画
             val options = ActivityOptions.makeSceneTransitionAnimation(

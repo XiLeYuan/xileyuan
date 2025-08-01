@@ -1,10 +1,8 @@
 package com.jspp.model
 
-import android.annotation.SuppressLint
 import android.os.Parcel
 import android.os.Parcelable
 
-@SuppressLint("ParcelCreator")
 data class UserCard(
     val id: String,
     val name: String,
@@ -22,11 +20,54 @@ data class UserCard(
     val distance: String = "",
     val lastActiveTime: Long = 0L
 ) : Parcelable {
+    
+    constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readInt(),
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.createStringArrayList() ?: emptyList(),
+        parcel.createStringArrayList() ?: emptyList(),
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readByte() != 0.toByte(),
+        parcel.readString() ?: "",
+        parcel.readLong()
+    )
+    
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(id)
+        parcel.writeString(name)
+        parcel.writeInt(age)
+        parcel.writeString(location)
+        parcel.writeString(avatarUrl)
+        parcel.writeString(bio)
+        parcel.writeStringList(tags)
+        parcel.writeStringList(photos)
+        parcel.writeString(occupation)
+        parcel.writeString(education)
+        parcel.writeInt(height)
+        parcel.writeInt(weight)
+        parcel.writeByte(if (isOnline) 1 else 0)
+        parcel.writeString(distance)
+        parcel.writeLong(lastActiveTime)
+    }
+    
     override fun describeContents(): Int {
         return 0
     }
-
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-
+    
+    companion object CREATOR : Parcelable.Creator<UserCard> {
+        override fun createFromParcel(parcel: Parcel): UserCard {
+            return UserCard(parcel)
+        }
+        
+        override fun newArray(size: Int): Array<UserCard?> {
+            return arrayOfNulls(size)
+        }
     }
 }

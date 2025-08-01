@@ -75,21 +75,29 @@ class UserDetailActivity : AppCompatActivity() {
     }
 
     private fun loadUserData() {
-        val userCard = intent.getParcelableExtra<UserCard>("user_card")
+        // 使用getParcelableExtra的正确方式
+        val userCard = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra("user_card", UserCard::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getParcelableExtra("user_card")
+        }
+        
         userCard?.let { user ->
             // 加载头像
             Glide.with(this)
                 .load(user.avatarUrl)
+                .placeholder(R.mipmap.head_img)
                 .circleCrop()
                 .into(ivDetailAvatar)
-
+            
             // 加载背景图片（这里使用头像作为背景）
             Glide.with(this)
                 .load(user.avatarUrl)
                 .placeholder(R.mipmap.find_img_3)
                 .centerCrop()
                 .into(ivHeader)
-
+            
             // 设置用户信息
             tvDetailName.text = user.name
             tvDetailAge.text = "${user.age}岁"
