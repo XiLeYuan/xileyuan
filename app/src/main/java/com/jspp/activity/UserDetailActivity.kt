@@ -44,6 +44,8 @@ class UserDetailActivity : LYBaseActivity<ActivityUserDetailFloatingBinding, Log
             onBackPressed()
         }
 
+
+
         // 设置共享元素转场
         viewBind.ivHeader.transitionName = "user_card"
     }
@@ -91,6 +93,7 @@ class UserDetailActivity : LYBaseActivity<ActivityUserDetailFloatingBinding, Log
 
     override fun onBackPressed() {
         // 如果卡片是展开状态，先收起
+        finish()
 
     }
 
