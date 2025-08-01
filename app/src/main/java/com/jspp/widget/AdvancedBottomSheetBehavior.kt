@@ -59,7 +59,9 @@ class AdvancedBottomSheetBehavior<V : View> : BottomSheetBehavior<V> {
         axes: Int,
         type: Int
     ): Boolean {
-        return super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, axes, type)
+        // 确保可以响应垂直滑动
+        return super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, axes, type) ||
+                (axes and ViewCompat.SCROLL_AXIS_VERTICAL != 0)
     }
 
     override fun onStopNestedScroll(
@@ -106,6 +108,25 @@ class AdvancedBottomSheetBehavior<V : View> : BottomSheetBehavior<V> {
         
         val slideOffset = getSlideOffset(child, coordinatorLayout)
         onSlideListener?.invoke(slideOffset)
+    }
+
+    override fun onNestedScroll(
+        coordinatorLayout: CoordinatorLayout,
+        child: V,
+        target: View,
+        dxConsumed: Int,
+        dyConsumed: Int,
+        dxUnconsumed: Int,
+        dyUnconsumed: Int,
+        type: Int
+    ) {
+        super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type)
+        
+        // 处理未消费的滑动
+        if (dyUnconsumed != 0) {
+            val slideOffset = getSlideOffset(child, coordinatorLayout)
+            onSlideListener?.invoke(slideOffset)
+        }
     }
 
     private fun getSlideOffset(child: V, parent: ViewGroup): Float {

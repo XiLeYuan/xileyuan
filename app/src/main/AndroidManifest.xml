@@ -72,6 +72,16 @@
             android:theme="@style/AppTheme" />
 
         <activity
+            android:name="com.jspp.activity.TestBottomSheetActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name="com.jspp.activity.TestFloatingCardActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme" />
+
+        <activity
             android:name="com.xly.base.LYWebViewActivity"
             android:exported="true"
             android:theme="@style/AppTheme"/>

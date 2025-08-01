@@ -5,14 +5,13 @@ import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.xly.R
 import com.jspp.model.UserCard
-import com.jspp.widget.AdvancedBottomSheetBehavior
+import com.jspp.widget.FloatingCardBehavior
 
 class UserDetailActivity : AppCompatActivity() {
 
-    private lateinit var bottomSheetBehavior: AdvancedBottomSheetBehavior<View>
+    private lateinit var floatingCardBehavior: FloatingCardBehavior<View>
     private lateinit var ivHeader: ImageView
     private lateinit var ivDetailAvatar: ImageView
     private lateinit var tvDetailName: android.widget.TextView
@@ -22,10 +21,10 @@ class UserDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_user_detail_custom)
+        setContentView(R.layout.activity_user_detail_floating)
 
         initViews()
-        setupBottomSheet()
+        setupFloatingCard()
         loadUserData()
         setupTransitions()
     }
@@ -47,16 +46,17 @@ class UserDetailActivity : AppCompatActivity() {
         ivHeader.transitionName = "user_card"
     }
 
-    private fun setupBottomSheet() {
-        val bottomSheetContainer = findViewById<View>(R.id.bottomSheetContainer)
-        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer) as AdvancedBottomSheetBehavior<View>
+    private fun setupFloatingCard() {
+        val floatingCard = findViewById<View>(R.id.floatingCard)
+        
+        // 获取Behavior实例
+        val params = floatingCard.layoutParams as androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams
+        floatingCardBehavior = params.behavior as FloatingCardBehavior<View>
 
-        // 设置初始状态
-        bottomSheetBehavior.apply {
-            peekHeight = 220  // 初始露出高度
-            isHideable = false
-            state = BottomSheetBehavior.STATE_COLLAPSED
-
+        // 设置Behavior参数
+        floatingCardBehavior.apply {
+            setPeekHeight(220)
+            
             // 设置滑动监听
             setOnSlideListener { slideOffset ->
                 // 联动顶部图片
@@ -67,31 +67,17 @@ class UserDetailActivity : AppCompatActivity() {
             // 设置状态变化监听
             setOnStateChangeListener { state ->
                 when (state) {
-                    AdvancedBottomSheetBehavior.STATE_FULL -> {
-                        // 完全展开状态
+                    FloatingCardBehavior.STATE_EXPANDED -> {
                         println("卡片完全展开")
                     }
-                    AdvancedBottomSheetBehavior.STATE_HALF -> {
-                        // 半展开状态
-                        println("卡片半展开")
+                    FloatingCardBehavior.STATE_DRAGGING -> {
+                        println("卡片拖动中")
                     }
-                    AdvancedBottomSheetBehavior.STATE_PEEK -> {
-                        // 露出状态
+                    FloatingCardBehavior.STATE_PEEK -> {
                         println("卡片露出")
                     }
                 }
             }
-
-            // 添加状态变化监听
-            addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-                override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    // 状态变化处理
-                }
-
-                override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                    // 滑动过程中处理（这里由setOnSlideListener处理）
-                }
-            })
         }
     }
 
@@ -136,32 +122,32 @@ class UserDetailActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        // 如果底部卡片是展开状态，先收起
-        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        // 如果卡片是展开状态，先收起
+        if (floatingCardBehavior.getCurrentSlideOffset() > 0.5f) {
+            floatingCardBehavior.collapse()
         } else {
             super.onBackPressed()
         }
     }
 
     /**
-     * 展开底部卡片
+     * 展开卡片
      */
-    fun expandBottomSheet() {
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+    fun expandCard() {
+        floatingCardBehavior.expand()
     }
 
     /**
-     * 收起底部卡片
+     * 收起卡片
      */
-    fun collapseBottomSheet() {
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+    fun collapseCard() {
+        floatingCardBehavior.collapse()
     }
 
     /**
      * 获取当前滑动偏移量
      */
     fun getCurrentSlideOffset(): Float {
-        return bottomSheetBehavior.getCurrentSlideOffset()
+        return floatingCardBehavior.getCurrentSlideOffset()
     }
 }

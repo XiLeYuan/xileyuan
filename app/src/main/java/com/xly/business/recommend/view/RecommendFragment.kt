@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.jspp.activity.HomeActivity
+import com.jspp.activity.TestFloatingCardActivity
 import com.jspp.activity.TestUserDetailActivity
 import com.xly.base.LYBaseFragment
 import com.xly.business.recommend.viewmodel.RecommendViewModel
@@ -93,7 +94,7 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
 
             // 直接启动详情页（不经过转场动画）
 
-            TestUserDetailActivity.start(requireActivity())
+            TestFloatingCardActivity.start(requireActivity())
 
 //            UserDetailActivity.start(requireActivity())
 
