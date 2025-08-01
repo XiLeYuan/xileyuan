@@ -118,12 +118,7 @@ object MMKVManager {
         mmkv.encode(key, value)
     }
     
-    /**
-     * 获取对象
-     */
-    inline fun <reified T : android.os.Parcelable> getParcelable(key: String, mmkv: MMKV = defaultMMKV): T? {
-        return mmkv.decodeParcelable(key, T::class.java)
-    }
+
     
     // ==================== 用户数据操作 ====================
     
@@ -247,26 +242,8 @@ object MMKVManager {
         mmkv.clearAll()
     }
     
-    /**
-     * 获取所有键
-     */
-    fun allKeys(mmkv: MMKV = defaultMMKV): Set<String> {
-        return mmkv.allKeys()
-    }
-    
-    /**
-     * 获取存储大小
-     */
-    fun totalSize(mmkv: MMKV = defaultMMKV): Int {
-        return mmkv.totalSize()
-    }
-    
-    /**
-     * 获取实际大小
-     */
-    fun actualSize(mmkv: MMKV = defaultMMKV): Int {
-        return mmkv.actualSize()
-    }
+
+
     
     // ==================== 异步操作 ====================
     
