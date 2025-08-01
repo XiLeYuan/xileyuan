@@ -41,7 +41,7 @@ class UserDetailActivity : LYBaseActivity<ActivityUserDetailFloatingBinding, Log
 
 
         viewBind.ivBack.click {
-            onBackPressed()
+            finish()
         }
 
 
