@@ -1,21 +1,23 @@
 package com.jspp.activity
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.xly.R
 import com.jspp.model.UserCard
+import com.xly.base.LYBaseActivity
+import com.xly.business.login.viewmodel.LoginViewModel
+import com.xly.databinding.ActivityUserDetailFloatingBinding
+import com.xly.middlelibrary.utils.click
 
-class UserDetailActivity : AppCompatActivity() {
 
-    private lateinit var ivHeader: ImageView
-    private lateinit var ivDetailAvatar: ImageView
-    private lateinit var tvDetailName: android.widget.TextView
-    private lateinit var tvDetailAge: android.widget.TextView
-    private lateinit var tvDetailLocation: android.widget.TextView
-    private lateinit var tvDetailBio: android.widget.TextView
+class UserDetailActivity : LYBaseActivity<ActivityUserDetailFloatingBinding, LoginViewModel>() {
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,21 +28,24 @@ class UserDetailActivity : AppCompatActivity() {
         setupTransitions()
     }
 
-    private fun initViews() {
-        ivHeader = findViewById(R.id.ivHeader)
-        ivDetailAvatar = findViewById(R.id.ivDetailAvatar)
-        tvDetailName = findViewById(R.id.tvDetailName)
-        tvDetailAge = findViewById(R.id.tvDetailAge)
-        tvDetailLocation = findViewById(R.id.tvDetailLocation)
-        tvDetailBio = findViewById(R.id.tvDetailBio)
+    override fun inflateBinding(layoutInflater: LayoutInflater): ActivityUserDetailFloatingBinding {
+        return ActivityUserDetailFloatingBinding.inflate(layoutInflater)
+    }
 
-        // 设置返回按钮
-        findViewById<View>(R.id.ivBack).setOnClickListener {
+    override fun initViewModel(): LoginViewModel {
+        return ViewModelProvider(this)[LoginViewModel::class.java]
+    }
+
+    private fun initViews() {
+
+
+
+        viewBind.ivBack.click {
             onBackPressed()
         }
 
         // 设置共享元素转场
-        ivHeader.transitionName = "user_card"
+        viewBind.ivHeader.transitionName = "user_card"
     }
 
 
@@ -59,20 +64,20 @@ class UserDetailActivity : AppCompatActivity() {
                 .load(user.avatarUrl)
                 .placeholder(R.mipmap.head_img)
                 .circleCrop()
-                .into(ivDetailAvatar)
+                .into(viewBind.ivDetailAvatar)
             
             // 加载背景图片（这里使用头像作为背景）
             Glide.with(this)
                 .load(user.avatarUrl)
                 .placeholder(R.mipmap.find_img_3)
                 .centerCrop()
-                .into(ivHeader)
+                .into(viewBind.ivHeader)
             
             // 设置用户信息
-            tvDetailName.text = user.name
-            tvDetailAge.text = "${user.age}岁"
-            tvDetailLocation.text = user.location
-            tvDetailBio.text = user.bio
+            viewBind.tvDetailName.text = user.name
+            viewBind.tvDetailAge.text = "${user.age}岁"
+            viewBind.tvDetailLocation.text = user.location
+            viewBind.tvDetailBio.text = user.bio
         }
     }
 
