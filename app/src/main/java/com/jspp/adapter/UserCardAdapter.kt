@@ -39,6 +39,17 @@ class UserCardAdapter(
         val userCard = cards[position]
         holder.bind(userCard)
 
+        if (position == 0) {
+            holder.ivBackground.setImageResource(R.mipmap.find_img_3)
+        } else if (position == 1) {
+            holder.ivBackground.setImageResource(R.mipmap.find_img_2)
+        } else if (position == 2) {
+            holder.ivBackground.setImageResource(R.mipmap.find_img_4)
+        } else if (position == 3) {
+            holder.ivBackground.setImageResource(R.mipmap.find_img_1)
+        } else {
+            holder.ivBackground.setImageResource(R.mipmap.find_img_4)
+        }
         // 设置点击事件
         holder.itemView.setOnClickListener { view ->
             onCardClickListener(userCard, view)
@@ -49,6 +60,7 @@ class UserCardAdapter(
 
     class UserCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+        val ivBackground: ImageView = itemView.findViewById(R.id.ivBackground)
         private val ivAvatar: ImageView = itemView.findViewById(R.id.ivAvatar)
         private val tvName: TextView = itemView.findViewById(R.id.tvName)
         private val tvAge: TextView = itemView.findViewById(R.id.tvAge)

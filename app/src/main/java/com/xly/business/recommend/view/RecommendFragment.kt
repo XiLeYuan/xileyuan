@@ -79,11 +79,11 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
             }
         }).apply {
             // 设置堆叠方向
-            setStackFrom(StackFrom.None)
+            setStackFrom(StackFrom.TopAndLeft)
             // 设置可见卡片数量
             setVisibleCount(3)
             // 设置缩放比例
-            setScaleInterval(0.95f)
+            setScaleInterval(0.85f)
             // 设置透明度
             setMaxDegree(20f)
             // 设置移动距离
@@ -93,8 +93,7 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
             // 设置可滑动的方向
             setSwipeThreshold(0.3f)
             // 设置最大角度
-            setMaxDegree(20f)
-
+            setMaxDegree(50f)
             // 设置方向
             setDirections(Direction.HORIZONTAL)
 
