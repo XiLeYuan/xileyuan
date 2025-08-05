@@ -37,6 +37,7 @@ Thumbs.db
 
 output.json
 
+.vscode/
 
 # Android Studio
 .idea
