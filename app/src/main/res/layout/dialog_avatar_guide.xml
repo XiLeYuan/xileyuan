@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:padding="24dp">
+
+    <!-- 标题 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="如何展示形象照？"
+        android:textSize="18sp"
+        android:textColor="#222222"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="24dp"/>
+
+    <!-- 正面示例图片 -->
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:src="@mipmap/head_img"
+        android:scaleType="centerCrop"
+        android:background="@drawable/bg_avatar_circle"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- 正面示例文字 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="下面是一个能看到清晰五官的能审核通过的照片"
+        android:textSize="14sp"
+        android:textColor="#666666"
+        android:gravity="center"
+        android:layout_marginBottom="24dp"/>
+
+    <!-- 分割线 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="24dp">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="#E0E0E0"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="以下照片不能通过审核"
+            android:textSize="12sp"
+            android:textColor="#999999"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="#E0E0E0"/>
+    </LinearLayout>
+
+    <!-- 反面示例图片 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="32dp">
+
+        <!-- 他人照片 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <FrameLayout
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="8dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/head_img"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_avatar_circle"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_gravity="bottom"
+                    android:background="#4D000000"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_gravity="bottom"
+                    android:text="他人照片"
+                    android:textSize="10sp"
+                    android:textColor="@android:color/white"
+                    android:gravity="center"/>
+            </FrameLayout>
+        </LinearLayout>
+
+        <!-- 看不清脸 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <FrameLayout
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="8dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/head_img"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_avatar_circle"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_gravity="bottom"
+                    android:background="#4D000000"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_gravity="bottom"
+                    android:text="看不清脸"
+                    android:textSize="10sp"
+                    android:textColor="@android:color/white"
+                    android:gravity="center"/>
+            </FrameLayout>
+        </LinearLayout>
+
+        <!-- 墨镜/吸烟 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <FrameLayout
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="8dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/head_img"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_avatar_circle"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_gravity="bottom"
+                    android:background="#4D000000"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_gravity="bottom"
+                    android:text="墨镜/吸烟"
+                    android:textSize="10sp"
+                    android:textColor="@android:color/white"
+                    android:gravity="center"/>
+            </FrameLayout>
+        </LinearLayout>
+
+        <!-- AI生成 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <FrameLayout
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="8dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/head_img"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_avatar_circle"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_gravity="bottom"
+                    android:background="#4D000000"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_gravity="bottom"
+                    android:text="AI生成"
+                    android:textSize="10sp"
+                    android:textColor="@android:color/white"
+                    android:gravity="center"/>
+            </FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 按钮 -->
+    <Button
+        android:id="@+id/btnGoSelectPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="知道了，去选照片"
+        android:textSize="16sp"
+        android:textColor="@android:color/white"
+        android:background="@drawable/flamingo_radius_btn"/>
+
+</LinearLayout> 

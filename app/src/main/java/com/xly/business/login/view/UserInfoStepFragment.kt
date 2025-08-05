@@ -1,15 +1,27 @@
 package com.xly.business.login.view
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.jaygoo.widget.RangeSeekBar
+import com.luck.picture.lib.basic.PictureSelector
+import com.luck.picture.lib.config.SelectMimeType
+import com.luck.picture.lib.config.SelectModeConfig
+import com.luck.picture.lib.entity.LocalMedia
+import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.xly.R
 import com.xly.base.LYBaseFragment
 import com.xly.business.login.viewmodel.LoginViewModel
@@ -22,8 +34,16 @@ import com.xly.databinding.FragmentUserInfoStepHouseCarBinding
 import com.xly.databinding.FragmentUserInfoStepJobIncomeBinding
 import com.xly.databinding.FragmentUserInfoStepMarriageChildrenBinding
 import com.xly.databinding.FragmentUserInfoStepMarryPlanBinding
+import com.xly.databinding.FragmentUserInfoStepNicknameAvatarBinding
 import com.xly.databinding.FragmentUserInfoStepSchoolBinding
-
+import com.xly.middlelibrary.utils.GlideEngine
+import com.xly.middlelibrary.utils.LYUtils
+import top.zibin.luban.Luban
+import top.zibin.luban.OnCompressListener
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.util.ArrayList
 
 class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginViewModel>() {
     private var stepIndex: Int = 0
@@ -56,6 +76,10 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
     private var marryPlanBinding: FragmentUserInfoStepMarryPlanBinding? = null
     private var selectedPlan: String? = null
     private var ageRange: Pair<Int, Int>? = null
+
+    private var nicknameAvatarBinding: FragmentUserInfoStepNicknameAvatarBinding? = null
+    private var nickname: String? = null
+    private var avatarPath: String? = null
 
     interface OnInputValidListener {
         fun onInputValid(step: Int, valid: Boolean)
@@ -111,6 +135,10 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
             8 -> {
                 marryPlanBinding = FragmentUserInfoStepMarryPlanBinding.inflate(inflater, container, false)
                 marryPlanBinding!!.root
+            }
+            9 -> {
+                nicknameAvatarBinding = FragmentUserInfoStepNicknameAvatarBinding.inflate(inflater, container, false)
+                nicknameAvatarBinding!!.root
             }
             else -> {
                 super.onCreateView(inflater, container, savedInstanceState)
@@ -388,6 +416,29 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
                     })
                 }
             }
+            9 -> {
+                nicknameAvatarBinding?.apply {
+                    // 昵称输入
+                    etNickname.addTextChangedListener(object : TextWatcher {
+                        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                            nickname = s?.toString()
+                            btnClearNickname.visibility = if (!s.isNullOrEmpty()) View.VISIBLE else View.GONE
+                            checkNicknameAvatarValid()
+                        }
+                        override fun afterTextChanged(s: Editable?) {}
+                    })
+                    
+                    btnClearNickname.setOnClickListener { 
+                        etNickname.text?.clear() 
+                    }
+                    
+                    // 头像选择
+                    avatarContainer.setOnClickListener {
+                        showAvatarGuideDialog()
+                    }
+                }
+            }
             else -> {
                 // 示例：第0步为昵称输入
                 viewBind.inputEdit.visibility = View.VISIBLE
@@ -532,6 +583,148 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
 
     private fun checkMarryPlanValid() {
         val valid = !selectedPlan.isNullOrEmpty() && ageRange != null && ageRange!!.first >= 18 && ageRange!!.second >= ageRange!!.first
+        inputValidListener?.onInputValid(stepIndex, valid)
+    }
+
+    private fun showAvatarGuideDialog() {
+        AvatarGuideDialog(requireContext()) {
+            // 点击"知道了，去选照片"后的回调
+            selectAvatarFromGallery()
+        }.show()
+    }
+
+    private fun selectAvatarFromGallery() {
+        // 检查权限
+        if (!LYUtils.checkStoragePermission(requireContext())) {
+            LYUtils.requestStoragePermission(requireActivity())
+            return
+        }
+
+        // 使用PictureSelector选择图片
+        PictureSelector.create(this)
+            .openGallery(SelectMimeType.ofImage())
+            .setImageEngine(GlideEngine.instance)
+            .setMaxSelectNum(1)
+            .setSelectionMode(SelectModeConfig.SINGLE)
+//            .setCropEngine(ImageCropEngine.instance)
+//            .setCompressEngine(getCompressFileEngine())
+            .forResult(object : OnResultCallbackListener<LocalMedia> {
+                override fun onResult(result: ArrayList<LocalMedia?>?) {
+                    if (result != null && result.isNotEmpty()) {
+                        val localMedia = result[0]
+                        val filePath = localMedia?.availablePath
+                        if (!filePath.isNullOrEmpty()) {
+                            processSelectedImage(File(filePath))
+                        }
+                    }
+                }
+
+                override fun onCancel() {
+                    // 用户取消选择
+                }
+            })
+    }
+
+    private fun processSelectedImage(originalFile: File) {
+        // 检查文件大小
+        val fileSizeKB = originalFile.length() / 1024
+        Log.d("AvatarUpload", "Original file size: ${fileSizeKB}KB")
+        
+        if (fileSizeKB > 200) {
+            // 需要压缩
+            compressImage(originalFile)
+        } else {
+            // 不需要压缩，直接上传
+            uploadImage(originalFile)
+        }
+    }
+
+    private fun compressImage(originalFile: File) {
+        Luban.with(requireContext())
+            .load(originalFile)
+            .ignoreBy(200) // 忽略200KB以下的文件
+            .setCompressListener(object : OnCompressListener {
+                override fun onStart() {
+                    // 开始压缩
+                    showLoading("正在压缩图片...")
+                }
+
+                override fun onSuccess(compressFile: File?) {
+                    hideLoading()
+                    if (compressFile != null) {
+                        val compressedSizeKB = compressFile.length() / 1024
+                        Log.d("AvatarUpload", "Compressed file size: ${compressedSizeKB}KB")
+                        uploadImage(compressFile)
+                    } else {
+                        Toast.makeText(requireContext(), "图片压缩失败", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onError(e: Throwable?) {
+                    hideLoading()
+                    Toast.makeText(requireContext(), "图片压缩失败: ${e?.message}", Toast.LENGTH_SHORT).show()
+                }
+            }).launch()
+    }
+
+    private fun uploadImage(file: File) {
+        showLoading("正在上传头像...")
+        
+        viewModel.uploadAvatar(file,
+            onSuccess = { avatarUrl ->
+                hideLoading()
+                // 上传成功，更新UI
+                nicknameAvatarBinding?.apply {
+                    // 加载网络图片到ImageView
+                    Glide.with(requireContext())
+                        .load(avatarUrl)
+                        .placeholder(R.drawable.bg_avatar_circle)
+                        .error(R.drawable.bg_avatar_circle)
+                        .into(ivAvatar)
+                    
+                    ivAvatar.visibility = View.VISIBLE
+                    ivAddAvatar.visibility = View.GONE
+                }
+                
+                avatarPath = avatarUrl
+                viewModel.avatarUrl = avatarUrl
+                checkNicknameAvatarValid()
+                
+                Toast.makeText(requireContext(), "头像上传成功", Toast.LENGTH_SHORT).show()
+            },
+            onError = { errorMsg ->
+                hideLoading()
+                nicknameAvatarBinding?.apply {
+                    // 加载网络图片到ImageView
+                    Glide.with(requireContext())
+                        .load(R.mipmap.head_img)
+                        .placeholder(R.drawable.bg_avatar_circle)
+                        .error(R.drawable.bg_avatar_circle)
+                        .into(ivAvatar)
+
+                    ivAvatar.visibility = View.VISIBLE
+                    ivAddAvatar.visibility = View.GONE
+                }
+
+                avatarPath = "head_url"
+                viewModel.avatarUrl = "head_url"
+                checkNicknameAvatarValid()
+                Toast.makeText(requireContext(), "头像上传失败: $errorMsg", Toast.LENGTH_SHORT).show()
+            }
+        )
+    }
+
+    private fun showLoading(message: String) {
+        // 显示加载提示，可以使用ProgressDialog或自定义LoadingView
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun hideLoading() {
+        // 隐藏加载提示
+    }
+
+    private fun checkNicknameAvatarValid() {
+        val valid = !nickname.isNullOrEmpty() && !avatarPath.isNullOrEmpty()
         inputValidListener?.onInputValid(stepIndex, valid)
     }
 
