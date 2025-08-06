@@ -48,6 +48,9 @@ import java.util.ArrayList
 import androidx.recyclerview.widget.GridLayoutManager
 import com.xly.business.login.view.adapter.LifePhotoAdapter
 import com.xly.databinding.FragmentUserInfoStepLifePhotosBinding
+import com.xly.databinding.FragmentUserInfoStepIntroBinding
+import com.xly.databinding.FragmentUserInfoStepIntro2Binding
+import com.xly.databinding.FragmentUserInfoStepIntro3Binding
 
 class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginViewModel>() {
     private var stepIndex: Int = 0
@@ -88,6 +91,15 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
     private var lifePhotosBinding: FragmentUserInfoStepLifePhotosBinding? = null
     private val lifePhotoList = mutableListOf<String>()
     private lateinit var lifePhotoAdapter: LifePhotoAdapter
+
+    private var introBinding: FragmentUserInfoStepIntroBinding? = null
+    private var introText: String? = null
+
+    private var intro2Binding: FragmentUserInfoStepIntro2Binding? = null
+    private var intro2Text: String? = null
+
+    private var intro3Binding: FragmentUserInfoStepIntro3Binding? = null
+    private var intro3Text: String? = null
 
     interface OnInputValidListener {
         fun onInputValid(step: Int, valid: Boolean)
@@ -151,6 +163,18 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
             10 -> {
                 lifePhotosBinding = FragmentUserInfoStepLifePhotosBinding.inflate(inflater, container, false)
                 lifePhotosBinding!!.root
+            }
+            11 -> {
+                introBinding = FragmentUserInfoStepIntroBinding.inflate(inflater, container, false)
+                introBinding!!.root
+            }
+            12 -> {
+                intro2Binding = FragmentUserInfoStepIntro2Binding.inflate(inflater, container, false)
+                intro2Binding!!.root
+            }
+            13 -> {
+                intro3Binding = FragmentUserInfoStepIntro3Binding.inflate(inflater, container, false)
+                intro3Binding!!.root
             }
             else -> {
                 super.onCreateView(inflater, container, savedInstanceState)
@@ -463,9 +487,60 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
                         }
                     )
                     rvLifePhotos.adapter = lifePhotoAdapter
-                    checkLifePhotosValid()
-                }
-            }
+                                         checkLifePhotosValid()
+                 }
+             }
+             11 -> {
+                 introBinding?.apply {
+                     // 根据性别设置不同的示例文本
+                     val gender = viewModel.gender
+                     val exampleText = "示例：我是典型的白羊座，性格热情喜欢认识新朋友，遇到喜欢的人我一定会对他很好很好的。我偶尔也有多愁善感的一面，尤其是看到小动物有关的事很容易被感动。"
+                     tvExample.text = exampleText
+                     
+                     // 设置文本变化监听
+                     etIntro.addTextChangedListener(object : TextWatcher {
+                         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                             val currentLength = s?.length ?: 0
+                             tvCharCount.text = "$currentLength/100"
+                             introText = s?.toString()
+                             checkIntroValid()
+                         }
+                         override fun afterTextChanged(s: Editable?) {}
+                     })
+                 }
+             }
+             12 -> {
+                 intro2Binding?.apply {
+                     // 设置文本变化监听
+                     etIntro2.addTextChangedListener(object : TextWatcher {
+                         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                         @SuppressLint("SetTextI18n")
+                         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                             val currentLength = s?.length ?: 0
+                             tvCharCount2.text = "$currentLength/100"
+                             intro2Text = s?.toString()
+                             checkIntro2Valid()
+                         }
+                         override fun afterTextChanged(s: Editable?) {}
+                     })
+                 }
+             }
+             13 -> {
+                 intro3Binding?.apply {
+                     // 设置文本变化监听
+                     etIntro3.addTextChangedListener(object : TextWatcher {
+                         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                             val currentLength = s?.length ?: 0
+                             tvCharCount3.text = "$currentLength/100"
+                             intro3Text = s?.toString()
+                             checkIntro3Valid()
+                         }
+                         override fun afterTextChanged(s: Editable?) {}
+                     })
+                 }
+             }
             else -> {
                 // 示例：第0步为昵称输入
                 viewBind.inputEdit.visibility = View.VISIBLE
@@ -824,6 +899,21 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
     }
     private fun checkLifePhotosValid() {
         val valid = lifePhotoList.size >= 3
+        inputValidListener?.onInputValid(stepIndex, valid)
+    }
+
+    private fun checkIntroValid() {
+        val valid = !introText.isNullOrEmpty() && (introText?.length ?: 0) >= 10
+        inputValidListener?.onInputValid(stepIndex, valid)
+    }
+
+    private fun checkIntro2Valid() {
+        val valid = !intro2Text.isNullOrEmpty() && (intro2Text?.length ?: 0) >= 10
+        inputValidListener?.onInputValid(stepIndex, valid)
+    }
+
+    private fun checkIntro3Valid() {
+        val valid = !intro3Text.isNullOrEmpty() && (intro3Text?.length ?: 0) >= 10
         inputValidListener?.onInputValid(stepIndex, valid)
     }
 
