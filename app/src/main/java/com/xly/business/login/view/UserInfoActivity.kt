@@ -9,7 +9,7 @@ import com.xly.databinding.ActivityUserInfoBinding
 import com.xly.index.LYMainActivity
 
 class UserInfoActivity : LYBaseActivity<ActivityUserInfoBinding, LoginViewModel>(), UserInfoStepFragment.OnInputValidListener {
-    private val totalSteps = 20
+    private val totalSteps = 21
     private lateinit var pagerAdapter: UserInfoPagerAdapter
     private var currentStep = 0
 

@@ -51,6 +51,7 @@ import com.xly.databinding.FragmentUserInfoStepLifePhotosBinding
 import com.xly.databinding.FragmentUserInfoStepIntroBinding
 import com.xly.databinding.FragmentUserInfoStepIntro2Binding
 import com.xly.databinding.FragmentUserInfoStepIntro3Binding
+import com.xly.databinding.FragmentUserInfoStepTagsBinding
 
 class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginViewModel>() {
     private var stepIndex: Int = 0
@@ -100,6 +101,9 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
 
     private var intro3Binding: FragmentUserInfoStepIntro3Binding? = null
     private var intro3Text: String? = null
+
+    private var tagsBinding: FragmentUserInfoStepTagsBinding? = null
+    private val selectedTags = mutableSetOf<String>()
 
     interface OnInputValidListener {
         fun onInputValid(step: Int, valid: Boolean)
@@ -175,6 +179,10 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
             13 -> {
                 intro3Binding = FragmentUserInfoStepIntro3Binding.inflate(inflater, container, false)
                 intro3Binding!!.root
+            }
+            14 -> {
+                tagsBinding = FragmentUserInfoStepTagsBinding.inflate(inflater, container, false)
+                tagsBinding!!.root
             }
             else -> {
                 super.onCreateView(inflater, container, savedInstanceState)
@@ -539,6 +547,11 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
                          }
                          override fun afterTextChanged(s: Editable?) {}
                      })
+                 }
+             }
+             14 -> {
+                 tagsBinding?.apply {
+                     initTags()
                  }
              }
             else -> {
@@ -914,6 +927,68 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
 
     private fun checkIntro3Valid() {
         val valid = !intro3Text.isNullOrEmpty() && (intro3Text?.length ?: 0) >= 10
+        inputValidListener?.onInputValid(stepIndex, valid)
+    }
+
+    private fun initTags() {
+        val tags = listOf(
+            "有坚持很久的爱好", "爱运动", "有幽默感", "阳光开朗", "性格随和",
+            "享受家庭时光", "对职业有规划", "成熟理智", "每天都很开心", "感性浪漫",
+            "有自己的主见和想法", "比较细心", "身材匀称", "有颜值", "衣品好",
+            "真诚重感情", "逻辑思维强", "有追求能一起进步", "想象力丰富", "善良有爱心",
+            "生活习惯好", "想过安稳生活", "有一定经济能力", "对生活有追求", "有良好学历背景",
+            "会享受生活", "有共同爱好", "善于沟通，会换位思考", "相比物质更看重爱情", "聊得来", "加班少"
+        )
+
+        tagsBinding?.flexboxLayout?.apply {
+            removeAllViews()
+            tags.forEach { tag ->
+                val tagView = createTagView(tag)
+                addView(tagView)
+            }
+        }
+    }
+
+    private fun createTagView(tag: String): TextView {
+        return TextView(requireContext()).apply {
+            text = tag
+            setPadding(16, 8, 16, 8)
+            setTextColor(resources.getColor(R.color.gray))
+            background = resources.getDrawable(R.drawable.bg_tag_unselected)
+            setOnClickListener {
+                toggleTag(tag, this)
+            }
+            
+            val params = com.google.android.flexbox.FlexboxLayout.LayoutParams(
+                com.google.android.flexbox.FlexboxLayout.LayoutParams.WRAP_CONTENT,
+                com.google.android.flexbox.FlexboxLayout.LayoutParams.WRAP_CONTENT
+            )
+            params.setMargins(8, 8, 8, 8)
+            layoutParams = params
+        }
+    }
+
+    private fun toggleTag(tag: String, tagView: TextView) {
+        if (selectedTags.contains(tag)) {
+            // 取消选中
+            selectedTags.remove(tag)
+            tagView.setTextColor(resources.getColor(R.color.gray))
+            tagView.background = resources.getDrawable(R.drawable.bg_tag_unselected)
+        } else {
+            // 选中
+            if (selectedTags.size < 3) {
+                selectedTags.add(tag)
+                tagView.setTextColor(resources.getColor(R.color.flamingo))
+                tagView.background = resources.getDrawable(R.drawable.bg_tag_selected)
+            } else {
+                Toast.makeText(requireContext(), "最多只能选择3个标签", Toast.LENGTH_SHORT).show()
+            }
+        }
+        checkTagsValid()
+    }
+
+    private fun checkTagsValid() {
+        val valid = selectedTags.isNotEmpty()
         inputValidListener?.onInputValid(stepIndex, valid)
     }
 
