@@ -1,5 +1,6 @@
 package com.xly.business.login.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -44,6 +45,9 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.ArrayList
+import androidx.recyclerview.widget.GridLayoutManager
+import com.xly.business.login.view.adapter.LifePhotoAdapter
+import com.xly.databinding.FragmentUserInfoStepLifePhotosBinding
 
 class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginViewModel>() {
     private var stepIndex: Int = 0
@@ -80,6 +84,10 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
     private var nicknameAvatarBinding: FragmentUserInfoStepNicknameAvatarBinding? = null
     private var nickname: String? = null
     private var avatarPath: String? = null
+
+    private var lifePhotosBinding: FragmentUserInfoStepLifePhotosBinding? = null
+    private val lifePhotoList = mutableListOf<String>()
+    private lateinit var lifePhotoAdapter: LifePhotoAdapter
 
     interface OnInputValidListener {
         fun onInputValid(step: Int, valid: Boolean)
@@ -139,6 +147,10 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
             9 -> {
                 nicknameAvatarBinding = FragmentUserInfoStepNicknameAvatarBinding.inflate(inflater, container, false)
                 nicknameAvatarBinding!!.root
+            }
+            10 -> {
+                lifePhotosBinding = FragmentUserInfoStepLifePhotosBinding.inflate(inflater, container, false)
+                lifePhotosBinding!!.root
             }
             else -> {
                 super.onCreateView(inflater, container, savedInstanceState)
@@ -439,6 +451,21 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
                     }
                 }
             }
+            10 -> {
+                lifePhotosBinding?.apply {
+                    rvLifePhotos.layoutManager = GridLayoutManager(requireContext(), 3)
+                    lifePhotoAdapter = LifePhotoAdapter(lifePhotoList,
+                        onAddClick = { selectLifePhotos() },
+                        onDeleteClick = { pos ->
+                            lifePhotoList.removeAt(pos)
+                            lifePhotoAdapter.notifyDataSetChanged()
+                            checkLifePhotosValid()
+                        }
+                    )
+                    rvLifePhotos.adapter = lifePhotoAdapter
+                    checkLifePhotosValid()
+                }
+            }
             else -> {
                 // 示例：第0步为昵称输入
                 viewBind.inputEdit.visibility = View.VISIBLE
@@ -725,6 +752,78 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
 
     private fun checkNicknameAvatarValid() {
         val valid = !nickname.isNullOrEmpty() && !avatarPath.isNullOrEmpty()
+        inputValidListener?.onInputValid(stepIndex, valid)
+    }
+
+    private fun selectLifePhotos() {
+        if (!LYUtils.checkStoragePermission(requireContext())) {
+            LYUtils.requestStoragePermission(requireActivity())
+            return
+        }
+        PictureSelector.create(this)
+            .openGallery(SelectMimeType.ofImage())
+            .setImageEngine(GlideEngine.instance)
+            .setMaxSelectNum(5 - lifePhotoList.size)
+            .setSelectionMode(SelectModeConfig.MULTIPLE)
+            .forResult(object : OnResultCallbackListener<LocalMedia> {
+                override fun onResult(result: ArrayList<LocalMedia?>?) {
+                    if (result != null && result.isNotEmpty()) {
+                        for (media in result) {
+                            val filePath = media?.availablePath
+                            if (!filePath.isNullOrEmpty()) {
+                                processLifePhoto(File(filePath))
+                            }
+                        }
+                    }
+                }
+                override fun onCancel() {}
+            })
+    }
+    private fun processLifePhoto(originalFile: File) {
+        val fileSizeKB = originalFile.length() / 1024
+        if (fileSizeKB > 200) {
+            Luban.with(requireContext())
+                .load(originalFile)
+                .ignoreBy(200)
+                .setCompressListener(object : OnCompressListener {
+                    override fun onStart() { showLoading("正在压缩图片...") }
+                    override fun onSuccess(compressFile: File?) {
+                        hideLoading()
+                        if (compressFile != null) uploadLifePhoto(compressFile)
+                    }
+                    override fun onError(e: Throwable?) {
+                        hideLoading()
+                        Toast.makeText(requireContext(), "图片压缩失败: ${e?.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }).launch()
+        } else {
+            uploadLifePhoto(originalFile)
+        }
+    }
+    @SuppressLint("NotifyDataSetChanged")
+    private fun uploadLifePhoto(file: File) {
+        showLoading("正在上传图片...")
+        viewModel.uploadAvatar(file, // 复用头像上传接口，实际应有单独生活照接口
+            onSuccess = { url ->
+                hideLoading()
+                lifePhotoList.add(url)
+                lifePhotoAdapter.notifyDataSetChanged()
+                checkLifePhotosValid()
+            },
+            onError = { msg ->
+                hideLoading()
+                Toast.makeText(requireContext(), "图片上传失败: $msg", Toast.LENGTH_SHORT).show()
+                //TODO: DELETE BELOW
+                lifePhotoList.add("http://gips0.baidu.com/it/u=3602773692,1512483864&fm=3028&app=3028&f=JPEG&fmt=auto?w=960&h=1280")
+                lifePhotoList.add("http://gips3.baidu.com/it/u=100751361,1567855012&fm=3028&app=3028&f=JPEG&fmt=auto?w=960&h=1280")
+                lifePhotoList.add("https://gips3.baidu.com/it/u=3732737575,1337431568&fm=3028&app=3028&f=JPEG&fmt=auto&q=100&size=f1440_2560")
+                lifePhotoList.add("http://gips2.baidu.com/it/u=3944689179,983354166&fm=3028&app=3028&f=JPEG&fmt=auto?w=1024&h=1024")
+                lifePhotoAdapter.notifyDataSetChanged()
+            }
+        )
+    }
+    private fun checkLifePhotosValid() {
+        val valid = lifePhotoList.size >= 3
         inputValidListener?.onInputValid(stepIndex, valid)
     }
 
