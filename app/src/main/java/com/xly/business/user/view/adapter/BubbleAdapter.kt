@@ -1,8 +1,9 @@
-package com.xly.business.user.adapter
+package com.xly.business.user.view.adapter
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -114,7 +115,7 @@ class BubbleAdapter(
             }
         } catch (e: Exception) {
             // 如果动画启动失败，记录日志但不崩溃
-            android.util.Log.e("BubbleAdapter", "Failed to start bubble animation", e)
+            Log.e("BubbleAdapter", "Failed to start bubble animation", e)
         }
     }
 }

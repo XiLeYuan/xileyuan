@@ -1,29 +1,30 @@
-package com.xly.business.user
+package com.xly.business.user.view
 
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.view.View
-import android.widget.FrameLayout
+import android.view.LayoutInflater
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.xly.R
 import com.xly.base.LYBaseActivity
-import com.xly.business.user.adapter.BubbleAdapter
-import com.xly.business.user.adapter.BubbleItem
+import com.xly.business.login.viewmodel.LoginViewModel
+import com.xly.business.user.view.adapter.BubbleAdapter
+import com.xly.business.user.view.adapter.BubbleItem
 import com.xly.databinding.ActivityBubblesBinding
 import com.xly.index.LYMainActivity
 
-class BubbleChooseActivity : LYBaseActivity<ActivityBubblesBinding, com.xly.business.login.viewmodel.LoginViewModel>() {
+class BubbleChooseActivity : LYBaseActivity<ActivityBubblesBinding, LoginViewModel>() {
 
     private lateinit var adapter: BubbleAdapter
     private val bubbleItems = mutableListOf<BubbleItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         setupRecyclerView()
         setupConfirmButton()
         updateButtonState()
@@ -58,7 +59,7 @@ class BubbleChooseActivity : LYBaseActivity<ActivityBubblesBinding, com.xly.busi
     private fun setupConfirmButton() {
         // 默认按钮不可点击
         viewBind.confirmBtn.isEnabled = false
-        
+
         viewBind.confirmBtn.setOnClickListener {
             if (getSelectedCount() >= 8) {
                 // 跳转到主页面
@@ -72,7 +73,7 @@ class BubbleChooseActivity : LYBaseActivity<ActivityBubblesBinding, com.xly.busi
     private fun updateButtonState() {
         val selectedCount = getSelectedCount()
         val confirmBtn = viewBind.confirmBtn
-        
+
         if (selectedCount >= 8) {
             // 按钮高亮可点击
             confirmBtn.isEnabled = true
@@ -92,6 +93,6 @@ class BubbleChooseActivity : LYBaseActivity<ActivityBubblesBinding, com.xly.busi
         return bubbleItems.count { it.selected }
     }
 
-    override fun inflateBinding(layoutInflater: android.view.LayoutInflater) = ActivityBubblesBinding.inflate(layoutInflater)
-    override fun initViewModel() = androidx.lifecycle.ViewModelProvider(this)[com.xly.business.login.viewmodel.LoginViewModel::class.java]
+    override fun inflateBinding(layoutInflater: LayoutInflater) = ActivityBubblesBinding.inflate(layoutInflater)
+    override fun initViewModel() = ViewModelProvider(this)[LoginViewModel::class.java]
 }

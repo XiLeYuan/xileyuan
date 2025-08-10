@@ -232,3 +232,6 @@ android {
     }
     namespace 'com.xly'
 }
+dependencies {
+    implementation libs.androidx.constraintlayout
+}

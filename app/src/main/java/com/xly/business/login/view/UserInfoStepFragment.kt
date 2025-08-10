@@ -48,7 +48,7 @@ import java.io.IOException
 import java.util.ArrayList
 import androidx.recyclerview.widget.GridLayoutManager
 import com.xly.business.login.view.adapter.LifePhotoAdapter
-import com.xly.business.user.BubbleChooseActivity
+import com.xly.business.user.view.BubbleChooseActivity
 import com.xly.databinding.FragmentUserInfoStepLifePhotosBinding
 import com.xly.databinding.FragmentUserInfoStepIntroBinding
 import com.xly.databinding.FragmentUserInfoStepIntro2Binding
