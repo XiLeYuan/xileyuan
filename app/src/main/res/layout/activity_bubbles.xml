@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <!-- 星空背景（自定义 View） -->
+    <com.xly.middlelibrary.widget.StarFieldView
+        android:id="@+id/starField"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <!-- 顶部文字 -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="36dp"
+        android:layout_marginTop="8dp">
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="你希望“她”有哪些特征?"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="10"
+            android:shadowColor="#66FFFFFF"/>
+        <TextView
+            android:id="@+id/sub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择越多，推荐越准"
+            android:textColor="#BFD6FF"
+            android:textSize="12sp"
+            android:layout_marginTop="6dp"/>
+    </LinearLayout>
+
+    <!-- 气泡 RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/bubbleRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="120dp"
+        android:layout_marginBottom="120dp"
+        android:layout_gravity="center"
+        />
+
+    <!-- 底部确认按钮 -->
+    <TextView
+        android:id="@+id/confirmBtn"
+        android:layout_width="300dp"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="28dp"
+        android:gravity="center"
+        android:text="至少选 8 个"
+        android:textColor="#77FFFFFF"
+        android:textSize="16sp"
+        android:background="@drawable/outline_pill"/>
+</FrameLayout>

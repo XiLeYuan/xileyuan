@@ -2,6 +2,7 @@ package com.xly.business.login.view
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -47,11 +48,13 @@ import java.io.IOException
 import java.util.ArrayList
 import androidx.recyclerview.widget.GridLayoutManager
 import com.xly.business.login.view.adapter.LifePhotoAdapter
+import com.xly.business.user.BubbleChooseActivity
 import com.xly.databinding.FragmentUserInfoStepLifePhotosBinding
 import com.xly.databinding.FragmentUserInfoStepIntroBinding
 import com.xly.databinding.FragmentUserInfoStepIntro2Binding
 import com.xly.databinding.FragmentUserInfoStepIntro3Binding
 import com.xly.databinding.FragmentUserInfoStepTagsBinding
+import com.xly.databinding.FragmentUserInfoStepVerificationBinding
 
 class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginViewModel>() {
     private var stepIndex: Int = 0
@@ -104,6 +107,10 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
 
     private var tagsBinding: FragmentUserInfoStepTagsBinding? = null
     private val selectedTags = mutableSetOf<String>()
+
+    private var verificationBinding: FragmentUserInfoStepVerificationBinding? = null
+    private var realName: String? = null
+    private var idCard: String? = null
 
     interface OnInputValidListener {
         fun onInputValid(step: Int, valid: Boolean)
@@ -183,6 +190,10 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
             14 -> {
                 tagsBinding = FragmentUserInfoStepTagsBinding.inflate(inflater, container, false)
                 tagsBinding!!.root
+            }
+            15 -> {
+                verificationBinding = FragmentUserInfoStepVerificationBinding.inflate(inflater, container, false)
+                verificationBinding!!.root
             }
             else -> {
                 super.onCreateView(inflater, container, savedInstanceState)
@@ -552,6 +563,11 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
              14 -> {
                  tagsBinding?.apply {
                      initTags()
+                 }
+             }
+             15 -> {
+                 verificationBinding?.apply {
+                     initVerification()
                  }
              }
             else -> {
@@ -990,6 +1006,68 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
     private fun checkTagsValid() {
         val valid = selectedTags.isNotEmpty()
         inputValidListener?.onInputValid(stepIndex, valid)
+    }
+
+    private fun initVerification() {
+        verificationBinding?.apply {
+            // 稍后认证按钮点击事件
+            tvLaterVerification.setOnClickListener {
+                // TODO: 实现稍后认证逻辑
+                Toast.makeText(requireContext(), "稍后认证功能开发中", Toast.LENGTH_SHORT).show()
+            }
+
+            // 姓名输入框监听
+            etName.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    realName = s?.toString()
+                    checkVerificationValid()
+                }
+                override fun afterTextChanged(s: Editable?) {}
+            })
+
+            // 身份证号输入框监听
+            etIdCard.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    idCard = s?.toString()
+                    checkVerificationValid()
+                }
+                override fun afterTextChanged(s: Editable?) {}
+            })
+
+            // 完成注册按钮点击事件
+            btnCompleteRegistration.setOnClickListener {
+                completeRegistration()
+            }
+        }
+    }
+
+    private fun checkVerificationValid() {
+        val valid = !realName.isNullOrEmpty() && !idCard.isNullOrEmpty() && 
+                   (idCard?.length ?: 0) >= 15 // 身份证号至少15位
+        verificationBinding?.btnCompleteRegistration?.isEnabled = valid
+    }
+
+    private fun completeRegistration() {
+        // 验证身份证号格式（简单验证）
+        if (!isValidIdCard(idCard)) {
+            Toast.makeText(requireContext(), "请输入正确的身份证号码", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // 完成注册，跳转到我的理想型界面
+//        Toast.makeText(requireContext(), "注册完成！", Toast.LENGTH_SHORT).show()
+        // TODO: 跳转到我的理想型界面
+        // 这里可以调用Activity的finish()方法或者跳转到下一个Activity
+        startActivity(Intent(requireContext(), BubbleChooseActivity::class.java))
+    }
+
+    private fun isValidIdCard(idCard: String?): Boolean {
+        if (idCard.isNullOrEmpty()) return false
+        // 简单验证：15位或18位数字，最后一位可能是X
+        val pattern = Regex("^[1-9]\\d{5}(18|19|20)\\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$")
+        return pattern.matches(idCard)
     }
 
     companion object {

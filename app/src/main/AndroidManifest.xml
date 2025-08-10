@@ -114,9 +114,7 @@
         <activity android:name="com.xly.business.login.view.PhoneLoginActivity" />
         <activity android:name="com.xly.business.login.view.CodeLoginActivity" />
         <activity android:name="com.xly.business.login.view.UserInfoActivity" />
-
-
-
+        <activity android:name="com.xly.business.user.BubbleChooseActivity" />
 
 
     </application>
