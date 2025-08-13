@@ -1,9 +1,11 @@
 package com.xly.business.login.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xly.business.login.model.LoginUser
+import com.xly.middlelibrary.AuthResponse
 import com.xly.middlelibrary.net.LYHttpClient
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -38,11 +40,6 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    fun login(user: LoginUser) {
-        viewModelScope.launch {
-            loginState.value = repository.login(user)
-        }
-    }
 
     // 上传头像
     fun uploadAvatar(file: File, onSuccess: (String) -> Unit, onError: (String) -> Unit) {
@@ -69,4 +66,48 @@ class LoginViewModel : ViewModel() {
             }
         }
     }
-} 
+
+    private val _loginResult = MutableLiveData<AuthResponse>()
+    val loginResult: LiveData<AuthResponse> = _loginResult
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String> = _errorMessage
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+    fun phoneLogin(phoneNumber: String, verificationCode: String) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            val result = repository.phoneLogin(phoneNumber, verificationCode)
+            result.fold(
+                onSuccess = { authResponse ->
+                    _loginResult.value = authResponse
+                    handleLoginSuccess(authResponse)
+                },
+                onFailure = { exception ->
+                    _errorMessage.value = exception.message ?: "登录失败"
+                }
+            )
+
+            _isLoading.value = false
+        }
+    }
+    private fun handleLoginSuccess(authResponse: AuthResponse) {
+        // 保存token
+        authResponse.token?.let { saveToken(it) }
+
+        // 根据消息判断流程
+        when (authResponse.message) {
+            "开始注册流程" -> navigateToRegistration()
+            "登录成功" -> navigateToMain()
+        }
+    }
+    private fun saveToken(token: String) {
+        // 保存token逻辑
+    }
+    private fun navigateToRegistration() {
+        // 导航到注册页面
+    }
+    private fun navigateToMain() {
+        // 导航到主页面
+    }
+
+}

@@ -2,15 +2,18 @@ package com.xly.business.user.viewmodel
 
 import com.xly.business.user.UserInfo
 import com.xly.middlelibrary.net.LYHttpClient
-import com.xly.middlelibrary.net.safeApiCall
+import com.xly.middlelibrary.net.NetworkUtils
 
 class ProfileRepository {
 
     suspend fun getUserProfile(userId: String): Result<UserInfo> {
-        return safeApiCall { 
-            // 模拟API调用，实际项目中应该调用真实的API
-            LYHttpClient.instance.getUserProfile(userId) 
+
+
+
+        return NetworkUtils.safeApiCall {
+            LYHttpClient.instance.getUserProfile()
         }
+
     }
 
     suspend fun getProfileStats(userId: String): ProfileViewModel.ProfileStats {

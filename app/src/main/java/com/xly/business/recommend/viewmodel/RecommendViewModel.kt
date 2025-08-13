@@ -11,11 +11,6 @@ class RecommendViewModel : ViewModel() {
     private val repository = RecommendRepository()
     val userLiveData = MutableLiveData<Result<User>>()
 
-    fun loadUser(user: String) {
-        viewModelScope.launch {
-            val result = repository.getUser(user)
-            userLiveData.value = result
-        }
-    }
+
 
 }

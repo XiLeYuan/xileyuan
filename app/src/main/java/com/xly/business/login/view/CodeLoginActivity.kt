@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
 import androidx.lifecycle.ViewModelProvider
 import com.xly.base.LYBaseActivity
@@ -55,7 +56,13 @@ class CodeLoginActivity : LYBaseActivity<ActivityCodeLoginBinding, LoginViewMode
 
 
     override fun initObservers() {
-//        viewModel.
+
+        // 观察登录结果
+        viewModel.loginResult.observe(this) { authResponse ->
+            // 处理登录成功
+            Log.i("CodeLoginActivity","success")
+        }
+
     }
 
 
@@ -64,7 +71,7 @@ class CodeLoginActivity : LYBaseActivity<ActivityCodeLoginBinding, LoginViewMode
             phone = phoneNum
             password = code
         }
-        viewModel.login(user)
+        viewModel.phoneLogin(phoneNum,code)
 
         // 跳转到个人信息收集页面
         /*val intent = Intent(this@CodeLoginActivity, UserInfoActivity::class.java)
