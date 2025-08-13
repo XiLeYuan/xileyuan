@@ -7,7 +7,10 @@ import android.text.TextWatcher
 import android.view.KeyEvent
 import androidx.lifecycle.ViewModelProvider
 import com.xly.base.LYBaseActivity
+import com.xly.business.login.model.LoginUser
 import com.xly.business.login.viewmodel.LoginViewModel
+import com.xly.business.recommend.model.User
+import com.xly.business.user.UserInfo
 import com.xly.databinding.ActivityCodeLoginBinding
 import com.xly.index.LYMainActivity
 
@@ -32,13 +35,7 @@ class CodeLoginActivity : LYBaseActivity<ActivityCodeLoginBinding, LoginViewMode
                     }
                     if (allCodeFilled(codeInputs)) {
                         val code = codeInputs.joinToString(separator = "") { it.text.toString() }
-                        // 跳转到个人信息收集页面
-                         val intent = Intent(this@CodeLoginActivity, UserInfoActivity::class.java)
-                         intent.putExtra("phone", phone)
-                         intent.putExtra("code", code)
-                         startActivity(intent)
-                        finish()
-//                        LYMainActivity.start(this@CodeLoginActivity)
+                        requestLogin(phone,code)
                     }
                 }
                 override fun afterTextChanged(s: Editable?) {}
@@ -55,6 +52,29 @@ class CodeLoginActivity : LYBaseActivity<ActivityCodeLoginBinding, LoginViewMode
             }
         }
     }
+
+
+    override fun initObservers() {
+//        viewModel.
+    }
+
+
+    private fun requestLogin(phoneNum: String, code: String) {
+        val user = LoginUser().apply {
+            phone = phoneNum
+            password = code
+        }
+        viewModel.login(user)
+
+        // 跳转到个人信息收集页面
+        /*val intent = Intent(this@CodeLoginActivity, UserInfoActivity::class.java)
+        intent.putExtra("phone", phone)
+        intent.putExtra("code", code)
+        startActivity(intent)
+        finish()*/
+
+    }
+
 
     private fun allCodeFilled(inputs: List<android.widget.EditText>): Boolean {
         return inputs.all { it.text?.length == 1 }

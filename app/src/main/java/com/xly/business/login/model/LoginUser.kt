@@ -1,6 +1,6 @@
 package com.xly.business.login.model
 
 data class LoginUser(
-    val phone: String = "",
-    val password: String = ""
+    var phone: String = "",
+    var password: String = ""
 ) 

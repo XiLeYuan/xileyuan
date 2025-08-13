@@ -12,4 +12,11 @@ class LoginRepository {
             Result.failure(Exception("账号或密码错误"))
         }
     }
+
+
+    suspend fun getUser(user: String): Result<User> {
+        return safeApiCall { LYHttpClient.instance.getUser(user) }
+    }
+
+
 } 
