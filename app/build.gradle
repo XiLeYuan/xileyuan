@@ -226,6 +226,7 @@ android {
         implementation 'com.github.getActivity:XXPermissions:18.2'
 
 
+
     }
     lint {
         disable 'GoogleAppIndexingWarning'

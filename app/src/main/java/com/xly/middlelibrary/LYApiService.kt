@@ -4,6 +4,8 @@ import com.xly.business.user.UserInfo
 import com.xly.middlelibrary.net.LYResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -14,11 +16,11 @@ import retrofit2.http.Query
 // LYApiService.kt - 更新后的API接口
 interface LYApiService {
 
-    // 认证相关
+    @FormUrlEncoded
     @POST("api/auth/phone-login")
     suspend fun phoneLogin(
-        @Query("phoneNumber") phoneNumber: String,
-        @Query("verificationCode") verificationCode: String
+        @Field("phoneNumber") phoneNumber: String,
+        @Field("verificationCode") verificationCode: String
     ): LYResponse<AuthResponse>
 
     @POST("api/auth/send-verification-code")
