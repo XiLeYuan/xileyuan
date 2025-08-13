@@ -4,9 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xly.business.login.model.LoginUser
-import com.xly.middlelibrary.LYApiService
 import com.xly.middlelibrary.net.LYHttpClient
-import com.xly.middlelibrary.net.safeApiCall
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -53,7 +51,7 @@ class LoginViewModel : ViewModel() {
                 val requestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
                 val part = MultipartBody.Part.createFormData("file", file.name, requestBody)
                 
-                val result = safeApiCall {
+                /*val result = safeApiCall {
                     apiService.uploadAvatar(part)
                 }
                 
@@ -65,7 +63,7 @@ class LoginViewModel : ViewModel() {
                     onFailure = { exception ->
                         onError(exception.message ?: "上传失败")
                     }
-                )
+                )*/
             } catch (e: Exception) {
                 onError(e.message ?: "上传失败")
             }

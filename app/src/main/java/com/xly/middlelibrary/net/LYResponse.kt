@@ -1,11 +1,11 @@
 package com.xly.middlelibrary.net
 
 data class LYResponse<T>(
-    val success: Boolean = false,
-    val message: String? = null,
+    var success: Boolean = false,
+    var message: String? = null,
     val data: T? = null,
-    val timestamp: Long = 0L,
-    val rawJson: String? = null
+    var timestamp: Long = 0L,
+    var rawJson: String? = null
 ) {
     // 扩展属性
     val isSuccessful: Boolean get() = success

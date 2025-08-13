@@ -14,9 +14,7 @@ class LoginRepository {
     }
 
 
-    suspend fun getUser(user: String): Result<User> {
-        return safeApiCall { LYHttpClient.instance.getUser(user) }
-    }
+
 
 
 } 
