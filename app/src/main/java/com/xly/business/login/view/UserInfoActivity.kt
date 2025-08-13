@@ -9,7 +9,7 @@ import com.xly.databinding.ActivityUserInfoBinding
 import com.xly.index.LYMainActivity
 
 class UserInfoActivity : LYBaseActivity<ActivityUserInfoBinding, LoginViewModel>(), UserInfoStepFragment.OnInputValidListener {
-    private val totalSteps = 17
+    private val totalSteps = 16
     private lateinit var pagerAdapter: UserInfoPagerAdapter
     private var currentStep = 0
 
@@ -51,8 +51,14 @@ class UserInfoActivity : LYBaseActivity<ActivityUserInfoBinding, LoginViewModel>
     }
 
     private fun updateButtonState(valid: Boolean) {
-        viewBind.btnNext.isEnabled = valid
-        viewBind.btnNext.alpha = if (valid) 1f else 0.5f
+        // 在实名认证页面（最后一步）隐藏下一步按钮
+        if (currentStep == 15) {
+            viewBind.btnNext.visibility = android.view.View.GONE
+        } else {
+            viewBind.btnNext.visibility = android.view.View.VISIBLE
+            viewBind.btnNext.isEnabled = valid
+            viewBind.btnNext.alpha = if (valid) 1f else 0.5f
+        }
     }
 
     fun goToStep(step: Int) {

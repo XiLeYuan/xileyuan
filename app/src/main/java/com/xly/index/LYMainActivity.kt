@@ -13,6 +13,7 @@ import com.xly.business.favorite.view.FavoriteFragment
 import com.xly.business.find.view.FindFragment
 import com.xly.business.message.view.MessageListFragment
 import com.xly.business.recommend.view.RecommendFragment
+import com.xly.business.user.view.ProfileFragment
 import com.xly.databinding.ActivityMainBinding
 import com.xly.index.viewmodel.MainViewModel
 
@@ -22,7 +23,7 @@ class LYMainActivity: LYBaseActivity<ActivityMainBinding,MainViewModel>() {
     private val favoriteFragment = FavoriteFragment()
     private val findFragment = FindFragment()
     private val messageFragment = MessageListFragment()
-    private val profileFragment = RecommendFragment()
+    private val profileFragment = ProfileFragment()
     private var activeFragment: Fragment = homeFragment
 
     companion object {

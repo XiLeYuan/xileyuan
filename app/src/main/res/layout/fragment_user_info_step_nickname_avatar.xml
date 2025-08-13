@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <!-- 昵称标题 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="起个好听的名字吧"
+        android:textSize="20sp"
+        android:textColor="#222222"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- 昵称输入框 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="32dp">
+
+        <EditText
+            android:id="@+id/etNickname"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="请输入昵称"
+            android:textSize="16sp"
+            android:textColor="#222222"
+            android:background="@drawable/bg_education_unselected"
+            android:paddingStart="10dp"
+            android:paddingEnd="40dp"
+            android:maxLines="1"
+            android:inputType="text"/>
+
+        <ImageView
+            android:id="@+id/btnClearNickname"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="8dp"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:visibility="gone"
+            android:background="?android:attr/selectableItemBackgroundBorderless"/>
+    </FrameLayout>
+
+    <!-- 头像标题 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="上传一张头像吧"
+        android:textSize="20sp"
+        android:textColor="#222222"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- 头像描述 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="请选择一张好看的照片做头像吧，记得露脸哦"
+        android:textSize="14sp"
+        android:textColor="#888888"
+        android:layout_marginBottom="24dp"/>
+
+    <!-- 头像选择区域 -->
+    <FrameLayout
+        android:id="@+id/avatarContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_avatar_selector"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground">
+
+        <!-- 头像预览 -->
+        <ImageView
+            android:id="@+id/ivAvatar"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            android:background="@drawable/bg_avatar_circle"/>
+
+        <!-- 加号按钮 -->
+        <ImageView
+            android:id="@+id/ivAddAvatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:src="@android:drawable/ic_input_add"
+            android:background="@drawable/bg_add_button"
+            app:tint="@color/flamingo" />
+
+    </FrameLayout>
+
+</LinearLayout> 

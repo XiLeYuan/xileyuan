@@ -18,5 +18,9 @@ class UserInfoPagerAdapter(
     fun setStepValid(step: Int, valid: Boolean) {
         stepValid[step] = valid
     }
-    fun isStepValid(step: Int): Boolean = stepValid[step]
+    fun isStepValid(step: Int): Boolean {
+        // 实名认证页面（最后一步）不需要验证下一步按钮状态
+        if (step == 15) return true
+        return stepValid[step]
+    }
 }

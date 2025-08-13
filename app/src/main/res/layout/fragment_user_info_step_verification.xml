@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_verification"
+            android:layout_marginEnd="8dp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="最后一步，实名认证"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/tvLaterVerification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="稍后认证"
+            android:textSize="16sp"
+            android:textColor="@color/gray"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="本平台需要实名认证，身份信息不留存，请放心填写"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="认证后即可匹配其他实名认证用户"
+        android:textSize="16sp"
+        android:textColor="@color/flamingo"
+        android:background="@drawable/bg_verification_notice"
+        android:padding="16dp"
+        android:layout_marginBottom="32dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="姓名"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="请输入真实姓名"
+        android:background="@drawable/edittext_bottom_line_flamingo"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_marginBottom="24dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="身份证号"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/etIdCard"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="请输入身份证号码"
+        android:background="@drawable/edittext_bottom_line_flamingo"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:inputType="text"
+        android:maxLength="18"
+        android:layout_marginBottom="32dp"/>
+
+    <Button
+        android:id="@+id/btnCompleteRegistration"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="完成注册"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:background="@drawable/flamingo_radius_btn"
+        android:enabled="false"/>
+
+</LinearLayout>
