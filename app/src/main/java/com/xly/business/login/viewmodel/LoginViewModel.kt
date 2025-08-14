@@ -13,6 +13,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
+import java.util.HashMap
 
 class LoginViewModel : ViewModel() {
     val loginState = MutableLiveData<Result<Boolean>>()
@@ -108,6 +109,26 @@ class LoginViewModel : ViewModel() {
     }
     private fun navigateToMain() {
         // 导航到主页面
+    }
+
+    fun getHealth() {
+        viewModelScope.launch {
+            _isLoading.value = true
+            val result = repository.getHealth()
+            result.fold(
+                onSuccess = { response ->
+
+                    if (response.containsKey("service")) {
+                        val str = response.get("service")
+                    }
+                    _errorMessage.value = "数据获取成功"
+                },
+                onFailure = { exception ->
+                    _errorMessage.value = exception.message ?: "登录失败"
+                }
+            )
+
+        }
     }
 
 }

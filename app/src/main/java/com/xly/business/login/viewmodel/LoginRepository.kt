@@ -19,6 +19,15 @@ class LoginRepository {
         }
     }
 
+    suspend fun getHealth(): Result<Map<String, Any>> {
+        return NetworkUtils.safeApiCall {
+            apiService.getHealth()
+        }
+    }
+
+
+
+
 
 
 
