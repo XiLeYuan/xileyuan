@@ -16,13 +16,17 @@ import com.xly.databinding.ActivityCodeLoginBinding
 import com.xly.index.LYMainActivity
 
 class CodeLoginActivity : LYBaseActivity<ActivityCodeLoginBinding, LoginViewModel>() {
+
+    private var phone = ""
+    private var code = ""
+
     override fun inflateBinding(layoutInflater: android.view.LayoutInflater) = ActivityCodeLoginBinding.inflate(layoutInflater)
     override fun initViewModel() = ViewModelProvider(this)[LoginViewModel::class.java]
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBind.btnBack.setOnClickListener { finish() }
-        val phone = intent.getStringExtra("phone") ?: ""
+        phone = intent.getStringExtra("phone") ?: ""
         viewBind.tvPhone.text = phone
         // 自动聚焦第一个输入框
         viewBind.etCode1.requestFocus()
@@ -35,7 +39,7 @@ class CodeLoginActivity : LYBaseActivity<ActivityCodeLoginBinding, LoginViewMode
                         codeInputs[i + 1].requestFocus()
                     }
                     if (allCodeFilled(codeInputs)) {
-                        val code = codeInputs.joinToString(separator = "") { it.text.toString() }
+                        code = codeInputs.joinToString(separator = "") { it.text.toString() }
                         requestLogin(phone,code)
                     }
                 }
@@ -61,22 +65,25 @@ class CodeLoginActivity : LYBaseActivity<ActivityCodeLoginBinding, LoginViewMode
         viewModel.loginResult.observe(this) { authResponse ->
             // 处理登录成功
             Log.i("CodeLoginActivity","success")
+            hideLoading()
+            val intent = Intent(this@CodeLoginActivity, UserInfoActivity::class.java)
+            intent.putExtra("phone", phone)
+            intent.putExtra("code", code)
+            startActivity(intent)
+            finish()
+        }
+        viewModel.errorMessage.observe(this) { errorMessage ->
+            hideLoading()
+            showToast(errorMessage)
         }
 
     }
 
 
     private fun requestLogin(phoneNum: String, code: String) {
-
+        showLoading()
         viewModel.phoneLogin(phoneNum,code)
-//        viewModel.getHealth()
-
-        // 跳转到个人信息收集页面
-        /*val intent = Intent(this@CodeLoginActivity, UserInfoActivity::class.java)
-        intent.putExtra("phone", phone)
-        intent.putExtra("code", code)
-        startActivity(intent)
-        finish()*/
+        // 跳转到个人信息收集页
 
     }
 

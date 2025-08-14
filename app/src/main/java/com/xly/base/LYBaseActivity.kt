@@ -11,11 +11,14 @@ import androidx.viewbinding.ViewBinding
 import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
 import com.xly.R
+import com.xly.middlelibrary.widget.LoadingDialog
 
 abstract class LYBaseActivity<VB : ViewBinding, VM : ViewModel> : AppCompatActivity() {
 
     lateinit var viewBind: VB
     lateinit var viewModel: VM
+
+    private var loadingDialog: LoadingDialog ?= null
 
 
 
@@ -84,20 +87,26 @@ abstract class LYBaseActivity<VB : ViewBinding, VM : ViewModel> : AppCompatActiv
         toast.show()
     }
 
+
+
     fun showLoading() {
-        if (!isFinishing && !isDestroyed) {
-
-        }
+        // 方式1：快速显示
+        loadingDialog = LoadingDialog.showLoading(this)
+        loadingDialog?.show()
     }
 
-    fun cancelLoading() {
-        if (!isFinishing && !isDestroyed) {
-
-        }
+    fun hideLoading() {
+        loadingDialog?.dismiss()
+        loadingDialog = null
     }
 
 
 
+    override fun onDestroy() {
+        super.onDestroy()
+        loadingDialog?.dismiss()
+        loadingDialog = null
+    }
 
 
 
