@@ -13,9 +13,9 @@ class LoginRepository {
     private val apiService = LYHttpClient.instance
 
     // 手机登录
-    suspend fun phoneLogin(phoneNumber: String, verificationCode: String): Result<AuthResponse> {
+    suspend fun phoneLogin(loginRequest: LoginUser): Result<AuthResponse> {
         return NetworkUtils.safeApiCall {
-            apiService.phoneLogin(phoneNumber, verificationCode)
+            apiService.phoneLogin(loginRequest)
         }
     }
 

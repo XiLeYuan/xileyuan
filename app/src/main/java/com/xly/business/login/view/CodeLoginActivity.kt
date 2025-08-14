@@ -67,12 +67,9 @@ class CodeLoginActivity : LYBaseActivity<ActivityCodeLoginBinding, LoginViewMode
 
 
     private fun requestLogin(phoneNum: String, code: String) {
-        val user = LoginUser().apply {
-            phone = phoneNum
-            password = code
-        }
-//        viewModel.phoneLogin(phoneNum,code)
-        viewModel.getHealth()
+
+        viewModel.phoneLogin(phoneNum,code)
+//        viewModel.getHealth()
 
         // 跳转到个人信息收集页面
         /*val intent = Intent(this@CodeLoginActivity, UserInfoActivity::class.java)

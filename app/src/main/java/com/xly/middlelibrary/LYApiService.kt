@@ -1,5 +1,6 @@
 package com.xly.middlelibrary
 
+import com.xly.business.login.model.LoginUser
 import com.xly.business.user.UserInfo
 import com.xly.middlelibrary.net.LYResponse
 import okhttp3.MultipartBody
@@ -16,12 +17,9 @@ import retrofit2.http.Query
 // LYApiService.kt - 更新后的API接口
 interface LYApiService {
 
-    @FormUrlEncoded
-    @POST("api/auth/phone-login")
+    @POST("api/auth/phoneLogin")
     suspend fun phoneLogin(
-        @Field("phoneNumber") phoneNumber: String,
-        @Field("verificationCode") verificationCode: String
-    ): LYResponse<AuthResponse>
+        @Body loginRequest: LoginUser): LYResponse<AuthResponse>
 
     @POST("api/auth/send-verification-code")
     suspend fun sendVerificationCode(

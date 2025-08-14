@@ -77,7 +77,7 @@ class LoginViewModel : ViewModel() {
     fun phoneLogin(phoneNumber: String, verificationCode: String) {
         viewModelScope.launch {
             _isLoading.value = true
-            val result = repository.phoneLogin(phoneNumber, verificationCode)
+            val result = repository.phoneLogin(LoginUser(phoneNumber,verificationCode))
             result.fold(
                 onSuccess = { authResponse ->
                     _loginResult.value = authResponse
