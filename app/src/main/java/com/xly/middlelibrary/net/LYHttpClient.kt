@@ -12,7 +12,9 @@ import java.util.concurrent.TimeUnit
 // LYHttpClient.kt - 改进后的HTTP客户端
 object LYHttpClient {
 
-    private const val BASE_URL = "http://192.168.20.108:8080/"
+//    private const val BASE_URL = "http://192.168.21.255:8080/"
+    private const val BASE_URL = "http://192.168.1.6:8080/"
+
 
     // 日志拦截器
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
