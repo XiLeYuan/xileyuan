@@ -1,8 +1,10 @@
 package com.xly.business.login.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import com.xly.base.LYBaseActivity
+import com.xly.business.login.model.UserInfoRegisterReq
 import com.xly.business.login.view.adapter.UserInfoPagerAdapter
 import com.xly.business.login.viewmodel.LoginViewModel
 import com.xly.databinding.ActivityUserInfoBinding
@@ -12,6 +14,7 @@ class UserInfoActivity : LYBaseActivity<ActivityUserInfoBinding, LoginViewModel>
     private val totalSteps = 16
     private lateinit var pagerAdapter: UserInfoPagerAdapter
     private var currentStep = 0
+    private var phoneNum = ""
 
     override fun inflateBinding(layoutInflater: android.view.LayoutInflater) = ActivityUserInfoBinding.inflate(layoutInflater)
     override fun initViewModel() = ViewModelProvider(this)[LoginViewModel::class.java]
@@ -39,6 +42,8 @@ class UserInfoActivity : LYBaseActivity<ActivityUserInfoBinding, LoginViewModel>
                 viewBind.viewPager.setCurrentItem(currentStep, true)
                 updateProgress(currentStep)
                 updateButtonState(pagerAdapter.isStepValid(currentStep))
+                requestRegisterUserInfo()
+
             } else {
                 // TODO: 提交所有信息
                 LYMainActivity.start(this)
@@ -60,6 +65,25 @@ class UserInfoActivity : LYBaseActivity<ActivityUserInfoBinding, LoginViewModel>
             viewBind.btnNext.alpha = if (valid) 1f else 0.5f
         }
     }
+
+    override fun initObservers() {
+        viewModel.registerResult.observe(this) { authResponse ->
+            // 处理登录成功
+            hideLoading()
+            Log.i("registerResult","registerResult==success")
+        }
+    }
+
+
+    fun requestRegisterUserInfo() {
+        val request = UserInfoRegisterReq().apply {
+            step = 1
+            phoneNumber = "18221547860"
+            gender = "1"
+        }
+        viewModel.userInfoRegister(request)
+    }
+
 
     fun goToStep(step: Int) {
         if (step in 0 until totalSteps) {

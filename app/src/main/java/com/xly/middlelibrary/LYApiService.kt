@@ -1,6 +1,7 @@
 package com.xly.middlelibrary
 
 import com.xly.business.login.model.LoginUser
+import com.xly.business.login.model.UserInfoRegisterReq
 import com.xly.business.user.UserInfo
 import com.xly.middlelibrary.net.LYResponse
 import okhttp3.MultipartBody
@@ -18,8 +19,10 @@ import retrofit2.http.Query
 interface LYApiService {
 
     @POST("api/auth/phoneLogin")
-    suspend fun phoneLogin(
-        @Body loginRequest: LoginUser): LYResponse<AuthResponse>
+    suspend fun phoneLogin(@Body loginRequest: LoginUser): LYResponse<AuthResponse>
+
+    @POST("api/auth/stepRegister")
+    suspend fun userInfoRegister(@Body userInfoRegisterReq: UserInfoRegisterReq): LYResponse<AuthResponse>
 
     @POST("api/auth/send-verification-code")
     suspend fun sendVerificationCode(

@@ -83,8 +83,6 @@ class CodeLoginActivity : LYBaseActivity<ActivityCodeLoginBinding, LoginViewMode
     private fun requestLogin(phoneNum: String, code: String) {
         showLoading()
         viewModel.phoneLogin(phoneNum,code)
-        // 跳转到个人信息收集页
-
     }
 
 

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xly.business.login.model.LoginUser
+import com.xly.business.login.model.UserInfoRegisterReq
 import com.xly.middlelibrary.AuthResponse
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -28,6 +29,10 @@ class LoginViewModel : ViewModel() {
 
     private val _loginResult = MutableLiveData<AuthResponse>()
     val loginResult: LiveData<AuthResponse> = _loginResult
+
+    private val _registerResult = MutableLiveData<AuthResponse>()
+    val registerResult: LiveData<AuthResponse> = _registerResult
+
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
 
@@ -41,6 +46,20 @@ class LoginViewModel : ViewModel() {
             result.fold(
                 onSuccess = { authResponse ->
                     _loginResult.value = authResponse
+                },
+                onFailure = { exception ->
+                    _errorMessage.value = exception.message ?: "登录失败"
+                }
+            )
+        }
+    }
+
+    fun userInfoRegister(loginRequest: UserInfoRegisterReq) {
+        viewModelScope.launch {
+            val result = repository.userInfoRegister(loginRequest)
+            result.fold(
+                onSuccess = { authResponse ->
+                    _registerResult.value = authResponse
                 },
                 onFailure = { exception ->
                     _errorMessage.value = exception.message ?: "登录失败"
