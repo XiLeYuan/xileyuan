@@ -45,7 +45,7 @@ class LYMainActivity: LYBaseActivity<ActivityMainBinding,MainViewModel>() {
             add(R.id.fragmentContainer, homeFragment, "1")
         }.commit()
 
-        viewBind.bottomNavigation.setOnNavigationItemSelectedListener { item ->
+        viewBind.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.tab_home -> switchFragment(homeFragment)
                 R.id.tab_discover -> switchFragment(favoriteFragment)
