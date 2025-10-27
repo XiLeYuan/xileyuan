@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/profile_gradient_bg"
@@ -92,7 +93,7 @@
                             android:layout_height="16dp"
                             android:layout_centerVertical="true"
                             android:src="@drawable/ic_check"
-                            android:tint="@color/gray" />
+                            app:tint="@color/gray" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -356,7 +357,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:src="@drawable/ic_play"
-                        android:tint="@color/white" />
+                        app:tint="@color/white" />
 
                 </RelativeLayout>
 
@@ -398,7 +399,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_image"
-                        android:tint="@color/purple_500" />
+                        app:tint="@color/purple_500" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -413,7 +414,7 @@
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:src="@drawable/ic_arrow_right"
-                        android:tint="@color/text_light" />
+                        app:tint="@color/text_light" />
 
                 </LinearLayout>
 
@@ -435,7 +436,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_verification"
-                        android:tint="@color/purple_500" />
+                        app:tint="@color/purple_500" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -479,7 +480,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_wallet"
-                        android:tint="@color/purple_500" />
+                        app:tint="@color/purple_500" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -494,7 +495,7 @@
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:src="@drawable/ic_arrow_right"
-                        android:tint="@color/text_light" />
+                        app:tint="@color/text_light" />
 
                 </LinearLayout>
 
@@ -516,7 +517,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_share"
-                        android:tint="@color/purple_500" />
+                        app:tint="@color/purple_500" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -545,7 +546,7 @@
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:src="@drawable/ic_arrow_right"
-                        android:tint="@color/text_light" />
+                        app:tint="@color/text_light" />
 
                 </LinearLayout>
 
@@ -567,7 +568,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_search"
-                        android:tint="@color/purple_500" />
+                        app:tint="@color/purple_500" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -582,7 +583,7 @@
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:src="@drawable/ic_arrow_right"
-                        android:tint="@color/text_light" />
+                        app:tint="@color/text_light" />
 
                 </LinearLayout>
 
@@ -604,7 +605,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_settings"
-                        android:tint="@color/purple_500" />
+                        app:tint="@color/purple_500" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -619,7 +620,8 @@
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:src="@drawable/ic_arrow_right"
-                        android:tint="@color/text_light" />
+                        app:tint="@color/text_light"
+                        tools:ignore="ContentDescription" />
 
                 </LinearLayout>
 
