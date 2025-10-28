@@ -2,6 +2,7 @@ package com.xly.business.square
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -64,6 +65,7 @@ class SquareFragment : LYBaseFragment<FragmentSquareBinding, RecommendViewModel>
 
             override fun getTitleView(context: Context, index: Int): IPagerTitleView {
                 val titleView = CustomTitleView(context)
+                titleView.typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
                 titleView.text = tabTitles[index]
                 titleView.setNormalTextSize(normalTextSize)
                 titleView.setSelectedTextSize(selectedTextSize)
