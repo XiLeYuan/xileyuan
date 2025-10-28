@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.xly.base.LYBaseFragment
 import com.xly.business.user.viewmodel.ProfileViewModel
+import com.xly.business.vip.view.LookStarMeActivity
 import com.xly.databinding.FragmentProfileBinding
 import com.xly.middlelibrary.utils.click
 
@@ -54,6 +55,11 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
     }
 
     private fun setupClickListeners() {
+
+        viewBind.vipLl.click {
+            LookStarMeActivity.start(requireContext())
+        }
+
         // 资料待完善按钮
         viewBind.profileCompleteButton.click {
             showToast("跳转到资料完善页面")

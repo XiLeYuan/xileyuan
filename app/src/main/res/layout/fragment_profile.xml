@@ -300,6 +300,7 @@
                 android:background="@drawable/gold_gradient_bg">
 
                 <LinearLayout
+                    android:id="@+id/vipLl"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
