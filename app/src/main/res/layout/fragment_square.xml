@@ -20,7 +20,17 @@
         app:tabMode="scrollable"
         app:tabTextColor="#000000"
         app:tabSelectedTextColor="#000000"
-        app:tabTextAppearance="@style/TabTextStyle"/>
+        app:tabTextAppearance="@style/TabTextStyle"
+        android:visibility="gone"/>
+
+
+
+
+    <net.lucode.hackware.magicindicator.MagicIndicator
+        android:id="@+id/magicIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="50dp"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
