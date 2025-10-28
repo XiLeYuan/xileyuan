@@ -1,4 +1,4 @@
-package com.xly.business.find.view
+package com.xly.business.square.view
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -9,10 +9,9 @@ import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.xly.base.LYBaseActivity
-import com.xly.business.favorite.view.FavoriteFragment
-import com.xly.business.find.view.FindFragment
 import com.xly.business.message.view.MessageListFragment
 import com.xly.business.recommend.view.RecommendFragment
+import com.xly.business.square.SquareFragment
 import com.xly.business.user.view.ProfileFragment
 import com.xly.databinding.ActivityMainBinding
 import com.xly.index.viewmodel.MainViewModel
@@ -21,8 +20,7 @@ import com.xly.middlelibrary.utils.click
 class LYMainActivity: LYBaseActivity<ActivityMainBinding,MainViewModel>() {
 
     private val homeFragment = RecommendFragment()
-//    private val favoriteFragment = FavoriteFragment()
-    private val findFragment = FindFragment()
+    private val squareFragment = SquareFragment()
     private val messageFragment = MessageListFragment()
     private val profileFragment = ProfileFragment()
     private var activeFragment: Fragment = homeFragment
@@ -41,21 +39,10 @@ class LYMainActivity: LYBaseActivity<ActivityMainBinding,MainViewModel>() {
         supportFragmentManager.beginTransaction().apply {
             add(R.id.fragmentContainer, profileFragment, "4").hide(profileFragment)
             add(R.id.fragmentContainer, messageFragment, "3").hide(messageFragment)
-            add(R.id.fragmentContainer, findFragment, "2").hide(findFragment)
-//            add(R.id.fragmentContainer, favoriteFragment, "2").hide(favoriteFragment)
+            add(R.id.fragmentContainer, squareFragment, "2").hide(squareFragment)
             add(R.id.fragmentContainer, homeFragment, "1")
         }.commit()
 
-        /*viewBind.bottomNavigation.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.tab_home -> switchFragment(homeFragment)
-                R.id.tab_discover -> switchFragment(favoriteFragment)
-                R.id.tab_offline -> switchFragment(findFragment)
-                R.id.tab_message -> switchFragment(messageFragment)
-                R.id.tab_profile -> switchFragment(profileFragment)
-            }
-            true
-        }*/
     }
 
     override fun initOnClick() {
@@ -63,7 +50,7 @@ class LYMainActivity: LYBaseActivity<ActivityMainBinding,MainViewModel>() {
             switchFragment(homeFragment)
         }
         viewBind.findRl.click {
-            switchFragment(findFragment)
+            switchFragment(squareFragment)
         }
 
         viewBind.messageRl.click {

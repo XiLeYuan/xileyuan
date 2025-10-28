@@ -1,4 +1,4 @@
-package com.xly.business.find.view
+package com.xly.business.square.view
 
 import android.os.Bundle
 import android.os.Handler
@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.MaterialHeader
 import com.xly.base.LYBaseFragment
-import com.xly.business.find.model.Moment
+import com.xly.business.square.model.Moment
 import com.xly.business.recommend.viewmodel.RecommendViewModel
 import com.xly.databinding.FragmentFindBinding
 import com.xly.R
-import com.xly.business.find.view.adapter.MomentAdapter
+import com.xly.business.square.view.adapter.MomentAdapter
 
 class FindFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() {
 

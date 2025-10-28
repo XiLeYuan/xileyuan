@@ -1,4 +1,4 @@
-package com.xly.business.favorite.view
+package com.xly.business.square
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,18 +8,22 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.xly.base.LYBaseFragment
+import com.xly.business.favorite.view.LikeFragment
+import com.xly.business.favorite.view.VisitorFragment
 import com.xly.business.recommend.viewmodel.RecommendViewModel
+import com.xly.business.square.view.FindFragment
 import com.xly.databinding.FragmentSquareBinding
-import kotlin.jvm.java
 
-class FavoriteFragment : LYBaseFragment<FragmentSquareBinding,RecommendViewModel>() {
+class SquareFragment : LYBaseFragment<FragmentSquareBinding, RecommendViewModel>() {
 
     private val fragments = listOf(
         LikeFragment(),
+        VisitorFragment(),
+        FindFragment(),
         VisitorFragment()
     )
 
-    private val tabTitles = listOf("喜欢我", "访客")
+    private val tabTitles = listOf("今日精选", "人工红娘","婚庆服务","动态")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewBind.viewPager.adapter = object : FragmentStateAdapter(this) {

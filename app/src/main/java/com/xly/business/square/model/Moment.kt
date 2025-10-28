@@ -1,4 +1,4 @@
-package com.xly.business.find.model
+package com.xly.business.square.model
 
 data class Moment(
     val id: String,

@@ -1,4 +1,4 @@
-package com.xly.business.find.view.adapter
+package com.xly.business.square.view.adapter
 
 import android.app.Activity
 import android.content.Intent
@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.imageview.ShapeableImageView
-import com.xly.business.find.model.Moment
+import com.xly.business.square.model.Moment
 import com.xly.R
-import com.xly.business.find.view.MomentImageDetailActivity
+import com.xly.business.square.view.MomentImageDetailActivity
 
 class MomentAdapter(
     private val list: List<Moment>,
