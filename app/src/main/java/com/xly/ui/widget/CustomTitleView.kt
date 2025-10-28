@@ -7,8 +7,8 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorT
 
 class CustomTitleView (context: Context) : ColorTransitionPagerTitleView(context) {
 
-    private var mNormalTextSize = 16f
-    private var mSelectedTextSize = 18f
+    private var mNormalTextSize = 15f
+    private var mSelectedTextSize = 19f
 
     init {
         // 设置初始状态

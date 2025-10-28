@@ -27,8 +27,8 @@ class SquareFragment : LYBaseFragment<FragmentSquareBinding, RecommendViewModel>
 
 
     // 颜色配置
-    private val normalColor = Color.parseColor("#000000")
-    private val selectedColor = Color.parseColor("#FF6B6B")
+    private val normalColor = Color.parseColor("#2C3E50")
+    private val selectedColor = Color.parseColor("#000000")
     private val indicatorColor = Color.parseColor("#FF6B6B")
 
     // 文字大小配置
@@ -40,8 +40,8 @@ class SquareFragment : LYBaseFragment<FragmentSquareBinding, RecommendViewModel>
 
     private val fragments = listOf(
         LikeFragment(),
-        VisitorFragment(),
-        VisitorFragment(),
+        LikeFragment(),
+        LikeFragment(),
         MomentFragment()
     )
 
@@ -81,7 +81,6 @@ class SquareFragment : LYBaseFragment<FragmentSquareBinding, RecommendViewModel>
                 val indicator = CustomLineIndicator(context)
                 indicator.setLineColor(indicatorColor)
                 indicator.roundRadius = indicatorRadius
-//                return indicator
                 return null
             }
         }
