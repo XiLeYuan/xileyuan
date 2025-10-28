@@ -37,7 +37,7 @@
     <LinearLayout
         android:id="@+id/bottomNavLl"
         android:layout_width="match_parent"
-        android:layout_height="68dp"
+        android:layout_height="50dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,13 +56,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/people"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:visibility="gone"/>
             <TextView
+                android:id="@+id/recommendTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="推荐"
                 android:layout_below="@id/recommendBtn"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:textSize="18sp"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -76,13 +79,16 @@
                 android:id="@+id/tabBtn2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/find"/>
+                android:src="@mipmap/find"
+                android:visibility="gone"/>
             <TextView
+                android:id="@+id/tabTv2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="广场"
                 android:layout_below="@id/tabBtn2"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:textSize="18sp"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -96,13 +102,16 @@
                 android:id="@+id/tabBtn3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/message"/>
+                android:src="@mipmap/message"
+                android:visibility="gone"/>
             <TextView
+                android:id="@+id/tabTv3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="消息"
                 android:layout_below="@id/tabBtn3"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:textSize="18sp"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -116,13 +125,16 @@
                 android:id="@+id/tabBtn4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/me"/>
+                android:src="@mipmap/me"
+                android:visibility="gone"/>
             <TextView
+                android:id="@+id/tabTv4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="我的"
                 android:layout_below="@id/tabBtn4"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:textSize="18sp"/>
         </RelativeLayout>
 
 

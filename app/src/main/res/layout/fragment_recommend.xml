@@ -49,10 +49,12 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:src="@mipmap/mine_star_icon"/>
+                android:src="@mipmap/collect_icon"
+                android:padding="8dp"
+                android:background="@drawable/black_circle_bg"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -60,10 +62,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_centerHorizontal="true"
-                android:src="@mipmap/icon_friend_circle_zan_true"/>
+                android:src="@mipmap/like_icon"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -71,10 +73,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_centerHorizontal="true"
-                android:src="@mipmap/icon_group_error"/>
+                android:src="@mipmap/cancel_icon"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -83,10 +85,10 @@
             android:layout_weight="1">
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/chatImg"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_centerHorizontal="true"
-                android:src="@mipmap/icon_face_group_building"/>
+                android:src="@mipmap/chat_hi"/>
         </RelativeLayout>
 
 

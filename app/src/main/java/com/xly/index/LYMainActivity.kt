@@ -3,6 +3,7 @@ package com.xly.index
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import com.xly.R
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -48,15 +49,24 @@ class LYMainActivity: LYBaseActivity<ActivityMainBinding,MainViewModel>() {
         viewBind.tabBtn3.setImageResource(R.mipmap.message)
         viewBind.tabBtn4.setImageResource(R.mipmap.me)
 
+        viewBind.recommendTv.setTextColor(Color.parseColor("#FF6B6B"))
+        viewBind.tabTv2.setTextColor(Color.parseColor("#2C3E50"))
+        viewBind.tabTv3.setTextColor(Color.parseColor("#2C3E50"))
+        viewBind.tabTv4.setTextColor(Color.parseColor("#2C3E50"))
+
     }
 
     override fun initOnClick() {
-        viewBind.recommendBtn.click {
+        viewBind.recommendRl.click {
             switchFragment(homeFragment)
             viewBind.recommendBtn.setImageResource(R.mipmap.find_in)
             viewBind.tabBtn2.setImageResource(R.mipmap.find)
             viewBind.tabBtn3.setImageResource(R.mipmap.message)
             viewBind.tabBtn4.setImageResource(R.mipmap.me)
+            viewBind.recommendTv.setTextColor(Color.parseColor("#FF6B6B"))
+            viewBind.tabTv2.setTextColor(Color.parseColor("#2C3E50"))
+            viewBind.tabTv3.setTextColor(Color.parseColor("#2C3E50"))
+            viewBind.tabTv4.setTextColor(Color.parseColor("#2C3E50"))
         }
         viewBind.findRl.click {
             switchFragment(squareFragment)
@@ -64,6 +74,10 @@ class LYMainActivity: LYBaseActivity<ActivityMainBinding,MainViewModel>() {
             viewBind.tabBtn2.setImageResource(R.mipmap.find_in)
             viewBind.tabBtn3.setImageResource(R.mipmap.message)
             viewBind.tabBtn4.setImageResource(R.mipmap.me)
+            viewBind.recommendTv.setTextColor(Color.parseColor("#2C3E50"))
+            viewBind.tabTv2.setTextColor(Color.parseColor("#FF6B6B"))
+            viewBind.tabTv3.setTextColor(Color.parseColor("#2C3E50"))
+            viewBind.tabTv4.setTextColor(Color.parseColor("#2C3E50"))
         }
 
         viewBind.messageRl.click {
@@ -72,6 +86,10 @@ class LYMainActivity: LYBaseActivity<ActivityMainBinding,MainViewModel>() {
             viewBind.recommendBtn.setImageResource(R.mipmap.find)
             viewBind.tabBtn2.setImageResource(R.mipmap.find)
             viewBind.tabBtn4.setImageResource(R.mipmap.me)
+            viewBind.recommendTv.setTextColor(Color.parseColor("#2C3E50"))
+            viewBind.tabTv2.setTextColor(Color.parseColor("#2C3E50"))
+            viewBind.tabTv3.setTextColor(Color.parseColor("#FF6B6B"))
+            viewBind.tabTv4.setTextColor(Color.parseColor("#2C3E50"))
         }
 
         viewBind.mineRl.click {
@@ -80,6 +98,10 @@ class LYMainActivity: LYBaseActivity<ActivityMainBinding,MainViewModel>() {
             viewBind.tabBtn3.setImageResource(R.mipmap.message)
             viewBind.recommendBtn.setImageResource(R.mipmap.find)
             viewBind.tabBtn2.setImageResource(R.mipmap.find)
+            viewBind.recommendTv.setTextColor(Color.parseColor("#2C3E50"))
+            viewBind.tabTv2.setTextColor(Color.parseColor("#2C3E50"))
+            viewBind.tabTv3.setTextColor(Color.parseColor("#2C3E50"))
+            viewBind.tabTv4.setTextColor(Color.parseColor("#FF6B6B"))
         }
 
     }
