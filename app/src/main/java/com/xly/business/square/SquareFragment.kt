@@ -19,8 +19,8 @@ class SquareFragment : LYBaseFragment<FragmentSquareBinding, RecommendViewModel>
     private val fragments = listOf(
         LikeFragment(),
         VisitorFragment(),
-        FindFragment(),
-        VisitorFragment()
+        VisitorFragment(),
+        FindFragment()
     )
 
     private val tabTitles = listOf("今日精选", "人工红娘","婚庆服务","动态")
