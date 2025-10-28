@@ -13,7 +13,7 @@ import com.xly.base.LYBaseFragment
 import com.xly.business.favorite.view.LikeFragment
 import com.xly.business.favorite.view.VisitorFragment
 import com.xly.business.recommend.viewmodel.RecommendViewModel
-import com.xly.business.square.view.FindFragment
+import com.xly.business.square.view.MomentFragment
 import com.xly.databinding.FragmentSquareBinding
 import com.xly.ui.widget.CustomLineIndicator
 import com.xly.ui.widget.CustomTitleView
@@ -41,7 +41,7 @@ class SquareFragment : LYBaseFragment<FragmentSquareBinding, RecommendViewModel>
         LikeFragment(),
         VisitorFragment(),
         VisitorFragment(),
-        FindFragment()
+        MomentFragment()
     )
 
     private val tabTitles = listOf("今日精选", "红娘","婚庆","动态")

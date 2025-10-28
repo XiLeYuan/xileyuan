@@ -17,7 +17,7 @@ import com.xly.databinding.FragmentFindBinding
 import com.xly.R
 import com.xly.business.square.view.adapter.MomentAdapter
 
-class FindFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() {
+class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() {
 
 
 
