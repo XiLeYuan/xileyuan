@@ -125,16 +125,13 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
 
 
     override fun initView() {
-        viewBind.topNav.topImgOne.setImageResource(R.mipmap.msf)
+        viewBind.topNav.topImgOne.setImageResource(R.mipmap.shaixuan_icon)
         viewBind.topNav.topImgTwo.setImageResource(R.mipmap.msc)
     }
 
     override fun initOnClick() {
         viewBind.chatImg.click {
-
-//            LookStarMeActivity.start(requireActivity())
             HomeActivity.start(requireActivity())
-
         }
     }
 
