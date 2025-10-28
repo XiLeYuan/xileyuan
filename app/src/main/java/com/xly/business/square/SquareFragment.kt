@@ -26,7 +26,7 @@ class SquareFragment : LYBaseFragment<FragmentSquareBinding, RecommendViewModel>
 
 
     // 颜色配置
-    private val normalColor = Color.parseColor("#333333")
+    private val normalColor = Color.parseColor("#000000")
     private val selectedColor = Color.parseColor("#FF6B6B")
     private val indicatorColor = Color.parseColor("#FF6B6B")
 
