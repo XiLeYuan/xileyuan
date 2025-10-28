@@ -32,8 +32,8 @@ class SquareFragment : LYBaseFragment<FragmentSquareBinding, RecommendViewModel>
     private val indicatorColor = Color.parseColor("#FF6B6B")
 
     // 文字大小配置
-    private val normalTextSize = 14f
-    private val selectedTextSize = 18f
+    private val normalTextSize = 15f
+    private val selectedTextSize = 19f
 
     // 指示器配置
     private val indicatorRadius = 4f
@@ -77,11 +77,12 @@ class SquareFragment : LYBaseFragment<FragmentSquareBinding, RecommendViewModel>
                 return titleView
             }
 
-            override fun getIndicator(context: Context): IPagerIndicator {
+            override fun getIndicator(context: Context): IPagerIndicator? {
                 val indicator = CustomLineIndicator(context)
                 indicator.setLineColor(indicatorColor)
                 indicator.roundRadius = indicatorRadius
-                return indicator
+//                return indicator
+                return null
             }
         }
         viewBind.magicIndicator.navigator = commonNavigator
