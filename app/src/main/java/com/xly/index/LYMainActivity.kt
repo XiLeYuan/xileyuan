@@ -43,22 +43,43 @@ class LYMainActivity: LYBaseActivity<ActivityMainBinding,MainViewModel>() {
             add(R.id.fragmentContainer, homeFragment, "1")
         }.commit()
 
+        viewBind.recommendBtn.setImageResource(R.mipmap.find_in)
+        viewBind.tabBtn2.setImageResource(R.mipmap.find)
+        viewBind.tabBtn3.setImageResource(R.mipmap.message)
+        viewBind.tabBtn4.setImageResource(R.mipmap.me)
+
     }
 
     override fun initOnClick() {
         viewBind.recommendBtn.click {
             switchFragment(homeFragment)
+            viewBind.recommendBtn.setImageResource(R.mipmap.find_in)
+            viewBind.tabBtn2.setImageResource(R.mipmap.find)
+            viewBind.tabBtn3.setImageResource(R.mipmap.message)
+            viewBind.tabBtn4.setImageResource(R.mipmap.me)
         }
         viewBind.findRl.click {
             switchFragment(squareFragment)
+            viewBind.recommendBtn.setImageResource(R.mipmap.find)
+            viewBind.tabBtn2.setImageResource(R.mipmap.find_in)
+            viewBind.tabBtn3.setImageResource(R.mipmap.message)
+            viewBind.tabBtn4.setImageResource(R.mipmap.me)
         }
 
         viewBind.messageRl.click {
             switchFragment(messageFragment)
+            viewBind.tabBtn3.setImageResource(R.mipmap.message_in)
+            viewBind.recommendBtn.setImageResource(R.mipmap.find)
+            viewBind.tabBtn2.setImageResource(R.mipmap.find)
+            viewBind.tabBtn4.setImageResource(R.mipmap.me)
         }
 
         viewBind.mineRl.click {
             switchFragment(profileFragment)
+            viewBind.tabBtn4.setImageResource(R.mipmap.me_in)
+            viewBind.tabBtn3.setImageResource(R.mipmap.message)
+            viewBind.recommendBtn.setImageResource(R.mipmap.find)
+            viewBind.tabBtn2.setImageResource(R.mipmap.find)
         }
 
     }

@@ -42,7 +42,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="?android:attr/windowBackground">
+        android:background="@drawable/main_bottom_tab_bg">
 
         <RelativeLayout
             android:id="@+id/recommendRl"
@@ -116,7 +116,7 @@
                 android:id="@+id/tabBtn4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/people"/>
+                android:src="@mipmap/me"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

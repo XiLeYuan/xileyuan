@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 阴影层 -->
+    <item>
+        <shape android:shape="rectangle">
+            <!-- 背景色透明 -->
+            <solid android:color="#F7F7F7"/>
+
+            <!-- 圆角 -->
+            <corners android:radius="4dp" />
+
+            <!-- 阴影偏移设置 -->
+            <padding
+                android:top="1dp"/>
+        </shape>
+    </item>
+
+    <!-- 主背景层 -->
+    <item android:left="0dp">
+        <shape android:shape="rectangle">
+            <!-- 背景色 -->
+            <solid android:color="#ffffff" />
+
+            <!-- 圆角 -->
+            <corners android:radius="4dp" />
+
+
+
+        </shape>
+    </item>
+
+</layer-list>
