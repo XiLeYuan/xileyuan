@@ -16,6 +16,7 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.xly.business.square.model.Moment
 import com.xly.R
 import com.xly.business.square.view.MomentImageDetailActivity
+import com.xly.middlelibrary.utils.click
 
 class MomentAdapter(
     private val list: List<Moment>,
@@ -77,6 +78,9 @@ class MomentAdapter(
                 activity.startActivity(intent, options.toBundle())
             }
             holder.imageContainer.addView(img)
+        }
+        holder.btnLike.click {
+            holder.btnLike.setImageResource(R.mipmap.zan_select)
         }
     }
 
