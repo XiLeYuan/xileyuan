@@ -86,7 +86,7 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
             // 设置可见卡片数量
             setVisibleCount(3)
             // 设置缩放比例
-            setScaleInterval(0.85f)
+            setScaleInterval(0.95f)
             // 设置透明度
             setMaxDegree(20f)
             // 设置移动距离
