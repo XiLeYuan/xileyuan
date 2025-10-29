@@ -42,6 +42,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <RelativeLayout
@@ -62,10 +66,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:src="@mipmap/like_icon"/>
+                android:src="@mipmap/like_icon"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingLeft="18dp"
+                android:paddingRight="18dp"
+                android:background="@drawable/black_radius_bg"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -85,10 +94,12 @@
             android:layout_weight="1">
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/chatImg"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:src="@mipmap/chat_hi"/>
+                android:src="@mipmap/chat_hi"
+                android:background="@drawable/black_circle_bg"
+                android:padding="8dp"/>
         </RelativeLayout>
 
 
