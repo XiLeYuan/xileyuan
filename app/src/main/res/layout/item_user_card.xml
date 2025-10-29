@@ -29,9 +29,11 @@
         <!-- 渐变遮罩 -->
         <View
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@drawable/gradient_overlay"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            android:layout_height="60dp"
+            android:background="@drawable/bottom_radius_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <!-- 用户信息容器 -->
         <LinearLayout
@@ -162,6 +164,10 @@
             </com.google.android.flexbox.FlexboxLayout>
 
         </LinearLayout>
+
+<!--        android:background="@drawable/bottom_radius_bg"-->
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -52,7 +52,7 @@ class UserCardAdapter(
         }
         // 设置点击事件
         holder.itemView.setOnClickListener { view ->
-            onCardClickListener(userCard, view)
+
         }
     }
 
