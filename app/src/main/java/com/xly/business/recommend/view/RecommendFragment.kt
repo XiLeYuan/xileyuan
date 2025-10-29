@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -24,7 +25,9 @@ import com.xly.middlelibrary.utils.click
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.Direction
+import com.yuyakaido.android.cardstackview.Duration
 import com.yuyakaido.android.cardstackview.StackFrom
+import com.yuyakaido.android.cardstackview.SwipeAnimationSetting
 import com.yuyakaido.android.cardstackview.SwipeableMethod
 
 
@@ -133,7 +136,24 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
             HomeActivity.start(requireActivity())
         }
         viewBind.likeIv.click {
+            val setting = SwipeAnimationSetting.Builder()
+                .setDirection(Direction.Right)
+                .setDuration(Duration.Normal.duration)
+                .setInterpolator(AccelerateInterpolator())
+                .build()
+            cardStackLayoutManager.setSwipeAnimationSetting(setting)
             viewBind.cardStackView.swipe()
+
+        }
+        viewBind.unLikeIv.click {
+            val setting = SwipeAnimationSetting.Builder()
+                .setDirection(Direction.Left)
+                .setDuration(Duration.Normal.duration)
+                .setInterpolator(AccelerateInterpolator())
+                .build()
+            cardStackLayoutManager.setSwipeAnimationSetting(setting)
+            viewBind.cardStackView.swipe()
+
         }
     }
 
