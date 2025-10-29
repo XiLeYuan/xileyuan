@@ -59,7 +59,7 @@
                     android:src="#333333"
                     android:visibility="gone"/>
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -73,14 +73,17 @@
                         android:text="用户名"
                         android:textColor="@android:color/white"
                         android:textSize="22sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_centerVertical="true"/>
 
                     <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/verifyIv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/verified_icon"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="5dp"/>
+                        android:layout_marginStart="5dp"
+                        android:layout_toRightOf="@id/tvName"
+                        android:layout_centerVertical="true"/>
 
                     <TextView
                         android:id="@+id/tvAge"
@@ -90,7 +93,8 @@
                         android:text="25岁"
                         android:textColor="#E0E0E0"
                         android:textSize="18sp"
-                        android:layout_marginStart="8dp"/>
+                        android:layout_marginStart="8dp"
+                        android:layout_toRightOf="@id/verifyIv"/>
 
                     <TextView
                         android:id="@+id/tvLocation"
@@ -100,9 +104,11 @@
                         android:drawablePadding="4dp"
                         android:text="*固始"
                         android:textColor="#E0E0E0"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:layout_toRightOf="@id/tvAge"
+                        android:visibility="gone"/>
 
-                </LinearLayout>
+                </RelativeLayout>
 
             </LinearLayout>
 
@@ -119,6 +125,10 @@
                 android:textSize="14sp"
                 android:visibility="gone"/>
 
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <!-- 标签容器 -->
             <com.google.android.flexbox.FlexboxLayout
                 android:id="@+id/tagContainer"
@@ -174,9 +184,28 @@
 
             </com.google.android.flexbox.FlexboxLayout>
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/arrowRightIv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/arrow_right_icon"
+                    android:background="@drawable/black_circle_bg"
+                    android:padding="6dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+
+            </RelativeLayout>
+
+
+
+
+
 
 
         </LinearLayout>
+
+
 
 
 

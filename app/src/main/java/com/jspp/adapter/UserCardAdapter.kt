@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.google.android.flexbox.FlexboxLayout
 import com.xly.R
 import com.jspp.model.UserCard
+import com.xly.middlelibrary.utils.click
 
 class UserCardAdapter(
     private val onCardClickListener: (UserCard, View) -> Unit
@@ -51,8 +52,11 @@ class UserCardAdapter(
             holder.ivBackground.setImageResource(R.mipmap.find_img_4)
         }
         // 设置点击事件
-        holder.ivBackground.setOnClickListener { view ->
+        holder.ivBackground.click { view ->
             onCardClickListener(userCard, view)
+        }
+        holder.arrowRightIv.click {
+            onCardClickListener(userCard, holder.ivBackground)
         }
     }
 
@@ -61,12 +65,14 @@ class UserCardAdapter(
     class UserCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val ivBackground: ImageView = itemView.findViewById(R.id.ivBackground)
-        private val ivAvatar: ImageView = itemView.findViewById(R.id.ivAvatar)
-        private val tvName: TextView = itemView.findViewById(R.id.tvName)
-        private val tvAge: TextView = itemView.findViewById(R.id.tvAge)
-        private val tvLocation: TextView = itemView.findViewById(R.id.tvLocation)
-        private val tvBio: TextView = itemView.findViewById(R.id.tvBio)
-        private val tagContainer: FlexboxLayout = itemView.findViewById(R.id.tagContainer)
+        val ivAvatar: ImageView = itemView.findViewById(R.id.ivAvatar)
+        val tvName: TextView = itemView.findViewById(R.id.tvName)
+        val tvAge: TextView = itemView.findViewById(R.id.tvAge)
+        val tvLocation: TextView = itemView.findViewById(R.id.tvLocation)
+        val tvBio: TextView = itemView.findViewById(R.id.tvBio)
+        val tagContainer: FlexboxLayout = itemView.findViewById(R.id.tagContainer)
+        val arrowRightIv: ImageView = itemView.findViewById(R.id.arrowRightIv)
+
 
         fun bind(userCard: UserCard) {
             // 加载头像
