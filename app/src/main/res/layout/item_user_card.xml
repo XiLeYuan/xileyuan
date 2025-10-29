@@ -91,9 +91,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="25岁"
-                        android:textColor="#E0E0E0"
-                        android:textSize="18sp"
+                        android:textColor="#ffffff"
+                        android:textSize="17sp"
                         android:layout_marginStart="8dp"
+                        android:textStyle="bold"
                         android:layout_toRightOf="@id/verifyIv"/>
 
                     <TextView

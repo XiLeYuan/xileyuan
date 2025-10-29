@@ -83,7 +83,7 @@ class UserCardAdapter(
 
             // 设置用户信息
             tvName.text = userCard.name
-            tvAge.text = "${userCard.age}岁"
+            tvAge.text = "${userCard.age}岁" + " * " + userCard.location
             tvLocation.text = userCard.location
             tvBio.text = userCard.bio
 
