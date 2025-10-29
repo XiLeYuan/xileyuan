@@ -132,6 +132,9 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
         viewBind.chatImg.click {
             HomeActivity.start(requireActivity())
         }
+        viewBind.likeIv.click {
+            viewBind.cardStackView.swipe()
+        }
     }
 
     private fun showUserDetail(userCard: UserCard, cardView: View? = null) {

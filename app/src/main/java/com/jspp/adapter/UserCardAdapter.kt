@@ -51,8 +51,8 @@ class UserCardAdapter(
             holder.ivBackground.setImageResource(R.mipmap.find_img_4)
         }
         // 设置点击事件
-        holder.itemView.setOnClickListener { view ->
-
+        holder.ivBackground.setOnClickListener { view ->
+            onCardClickListener(userCard, view)
         }
     }
 
