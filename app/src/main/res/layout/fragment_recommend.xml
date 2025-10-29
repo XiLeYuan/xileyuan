@@ -44,7 +44,7 @@
         android:layout_marginBottom="100dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-
+        android:background="@drawable/bottom_radius_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -82,9 +82,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingLeft="18dp"
+                android:paddingRight="18dp"
+                android:background="@drawable/black_radius_bg"
                 android:src="@mipmap/cancel_icon"/>
         </RelativeLayout>
 
