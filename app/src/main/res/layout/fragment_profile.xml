@@ -176,7 +176,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="128"
-                        android:textSize="24sp"
+                        android:textSize="20sp"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
@@ -399,8 +399,7 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_image"
-                        app:tint="@color/purple_500" />
+                        android:src="@mipmap/photo_icon"/>
 
                     <TextView
                         android:layout_width="0dp"
