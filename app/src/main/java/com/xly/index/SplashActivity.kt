@@ -19,7 +19,7 @@ class SplashActivity :AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-//        initImmersionBar()
+        initImmersionBar()
         enterMain()
     }
 
@@ -34,7 +34,7 @@ class SplashActivity :AppCompatActivity() {
         handler.postDelayed(Runnable {
 //            LoginActivity.start(this)
             LYMainActivity.start(this)
-        },1000)
+        },2000)
     }
 
 }
