@@ -50,6 +50,7 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
         cardStackLayoutManager = CardStackLayoutManager(requireActivity(), object : CardStackListener {
             override fun onCardDragging(direction: Direction, ratio: Float) {
                 // 卡片拖动中
+                updateButtonScale(direction, ratio)
             }
 
             override fun onCardSwiped(direction: Direction) {
@@ -243,4 +244,67 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
     override fun initViewModel(): RecommendViewModel {
         return ViewModelProvider(requireActivity())[RecommendViewModel::class.java]
     }
+
+
+
+    /*********************************************/
+
+
+    private val defaultScale = 1.0f      // 默认缩放比例
+    private val maxScale = 1.3f          // 最大缩放比例
+    private val minScale = 0.8f          // 最小缩放比例
+    private val defaultAlpha = 0.5f      // 默认透明度
+    private val maxAlpha = 1.0f          // 最大透明度
+    private val minAlpha = 0.3f          // 最小透明度
+
+    /*** 根据滑动方向和距离更新按钮缩放和透明度*/
+    private fun updateButtonScale(direction: Direction, ratio: Float) {
+        when (direction) {
+            Direction.Right -> {
+                // 向右滑动 - 喜欢按钮放大，不喜欢按钮缩小
+                val likeScale = defaultScale + (maxScale - defaultScale) * ratio
+                val dislikeScale = defaultScale - (defaultScale - minScale) * ratio
+                val likeAlpha = defaultAlpha + (maxAlpha - defaultAlpha) * ratio
+                val dislikeAlpha = defaultAlpha - (defaultAlpha - minAlpha) * ratio
+
+                animateButton(viewBind.likeIv, likeScale, likeAlpha)
+                animateButton(viewBind.unLikeIv, dislikeScale, dislikeAlpha)
+            }
+            Direction.Left -> {
+                // 向左滑动 - 不喜欢按钮放大，喜欢按钮缩小
+                val dislikeScale = defaultScale + (maxScale - defaultScale) * ratio
+                val likeScale = defaultScale - (defaultScale - minScale) * ratio
+                val dislikeAlpha = defaultAlpha + (maxAlpha - defaultAlpha) * ratio
+                val likeAlpha = defaultAlpha - (defaultAlpha - minAlpha) * ratio
+
+                animateButton(viewBind.unLikeIv, dislikeScale, dislikeAlpha)
+                animateButton(viewBind.likeIv, likeScale, likeAlpha)
+            }
+            else -> {
+                resetButtonState()
+            }
+        }
+    }
+
+    /**
+     * 动画更新按钮的缩放和透明度
+     */
+    private fun animateButton(button: View, scale: Float, alpha: Float) {
+        button.scaleX = scale
+        button.scaleY = scale
+        button.alpha = alpha
+    }
+
+    /**
+     * 重置按钮状态到默认值
+     */
+    private fun resetButtonState() {
+        viewBind.likeIv.scaleX = defaultScale
+        viewBind.likeIv.scaleY = defaultScale
+        viewBind.likeIv.alpha = defaultAlpha
+        viewBind.unLikeIv.scaleX = defaultScale
+        viewBind.unLikeIv.scaleY = defaultScale
+        viewBind.unLikeIv.alpha = defaultAlpha
+    }
+
 }
