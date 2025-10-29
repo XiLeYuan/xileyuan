@@ -82,7 +82,7 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
             }
         }).apply {
             // 设置堆叠方向
-            setStackFrom(StackFrom.TopAndLeft)
+            setStackFrom(StackFrom.Top)
             // 设置可见卡片数量
             setVisibleCount(3)
             // 设置缩放比例
