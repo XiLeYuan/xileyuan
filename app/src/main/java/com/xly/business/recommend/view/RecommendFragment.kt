@@ -199,7 +199,7 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
                 location = "上海",
                 avatarUrl = "https://example.com/avatar2.jpg",
                 bio = "热爱生活，喜欢尝试新事物，希望能遇到有趣的人。",
-                tags = listOf("美食", "运动", "阅读")
+                tags = listOf("178cm", "本科", "2w-3w")
             ),
             UserCard(
                 id = "3",
