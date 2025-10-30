@@ -54,26 +54,14 @@
 
 
 
-
-
-
-        <!--<activity
-            android:name="com.xly.index.SplashActivity"
-            android:exported="true"
-            android:theme="@style/StartFullscreenTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>-->
-
         <activity
             android:name=".index.SplashActivity"
             android:enabled="true"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Splash"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden">
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            tools:ignore="LockedOrientationActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
