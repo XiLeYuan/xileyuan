@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
 import com.xly.R
-import com.xly.business.login.view.LoginActivity
 import kotlinx.coroutines.Runnable
 
 @SuppressLint("CustomSplashScreen")
@@ -24,15 +23,17 @@ class SplashActivity :AppCompatActivity() {
     }
 
     private fun initImmersionBar() {
+
+
         ImmersionBar.with(this)
             .statusBarDarkFont(true)
             .hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR)
-            .init();
+            .init()
+
     }
 
     private fun enterMain() {
         handler.postDelayed(Runnable {
-//            LoginActivity.start(this)
             LYMainActivity.start(this)
         },2000)
     }
