@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:drawable="@mipmap/splash"/>
-    <!--<item
-        android:drawable="@mipmap/splash_icon"
-        android:width="178dp"
-        android:height="120dp"
-        android:gravity="center_horizontal"
-        android:top="166dp"/>
+        android:drawable="@mipmap/splash_bg"/>
     <item
+        android:drawable="@mipmap/splash_ring"
+        android:width="300dp"
+        android:height="300dp"
+        android:gravity="center_horizontal"
+        android:top="216dp"/>
+    <!--<item
         android:drawable="@mipmap/splash_icon_text"
         android:width="232dp"
         android:height="25dp"
