@@ -72,7 +72,7 @@
             android:enabled="true"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/StartFullscreenTheme"
+            android:theme="@style/Theme.Splash"
             android:windowSoftInputMode="adjustUnspecified|stateHidden">
 
             <intent-filter>

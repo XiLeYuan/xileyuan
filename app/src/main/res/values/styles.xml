@@ -55,6 +55,26 @@
         <item name="android:windowBackground">@drawable/splash_bg</item>
     </style>
 
+    <style name="Theme.Splash" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- 启动窗口的背景（必须能铺满屏幕到状态栏） -->
+        <item name="android:windowBackground">@drawable/splash_bg</item>
+
+        <!-- 全屏+透明状态栏 -->
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+
+        <!-- 禁用 translucent，避免系统先画一层黑/灰 -->
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+
+        <!-- Android 12+ 官方 Splash（有则更稳） -->
+        <!--<item name="windowSplashScreenBackground">@color/splash_bg_color</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/launcher_icon2</item>
+        <item name="postSplashScreenTheme">@style/AppThemeMain</item>-->
+    </style>
+
 
     <style name="TabTextStyle" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">20sp</item>
