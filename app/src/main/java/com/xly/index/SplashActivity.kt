@@ -23,13 +23,10 @@ class SplashActivity :AppCompatActivity() {
     }
 
     private fun initImmersionBar() {
-
-
         ImmersionBar.with(this)
             .statusBarDarkFont(true)
             .hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR)
             .init()
-
     }
 
     private fun enterMain() {

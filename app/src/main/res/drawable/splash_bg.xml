@@ -3,15 +3,15 @@
     <item
         android:drawable="@mipmap/splash_bg"/>
     <item
-        android:drawable="@mipmap/splash_ring"
+        android:drawable="@mipmap/splash_ring2"
         android:width="300dp"
         android:height="300dp"
         android:gravity="center_horizontal"
         android:top="206dp"/>
-    <!--<item
-        android:drawable="@mipmap/splash_icon_text"
+    <item
+        android:drawable="@mipmap/jiehunba"
         android:width="232dp"
-        android:height="25dp"
-        android:gravity="center_horizontal"
-        android:top="282dp"/>-->
+        android:height="160dp"
+        android:gravity="bottom|center_horizontal"
+        android:bottom="100dp"/>
 </layer-list>
