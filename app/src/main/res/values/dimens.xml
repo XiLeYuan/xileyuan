@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!-- 字体大小体系 -->
+
+<!-- 标题字体 -->
+<dimen name="text_size_h1">28sp</dimen>
+<dimen name="text_size_h2">22sp</dimen>
+<dimen name="text_size_h3">18sp</dimen>
+<dimen name="text_size_h4">16sp</dimen>
+
+<!-- 正文字体 -->
+<dimen name="text_size_body_large">15sp</dimen>
+<dimen name="text_size_body">14sp</dimen>
+<dimen name="text_size_body_small">13sp</dimen>
+
+<!-- 辅助字体 -->
+<dimen name="text_size_caption">12sp</dimen>
+<dimen name="text_size_tiny">11sp</dimen>
+
+<!-- 特殊用途 -->
+<dimen name="text_size_button">15sp</dimen>
+<dimen name="text_size_tab">15sp</dimen>
+<dimen name="text_size_card_title">16sp</dimen>
+<dimen name="text_size_card_content">14sp</dimen>
+
+</resources>
