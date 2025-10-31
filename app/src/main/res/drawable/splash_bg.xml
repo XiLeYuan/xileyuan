@@ -13,5 +13,5 @@
         android:width="232dp"
         android:height="232dp"
         android:gravity="bottom|center_horizontal"
-        android:bottom="100dp"/>
+        android:bottom="10dp"/>
 </layer-list>
