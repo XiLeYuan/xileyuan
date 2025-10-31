@@ -9,9 +9,9 @@
         android:gravity="center_horizontal"
         android:top="206dp"/>
     <item
-        android:drawable="@mipmap/jiehunba"
+        android:drawable="@mipmap/splash_bottom"
         android:width="232dp"
-        android:height="160dp"
+        android:height="232dp"
         android:gravity="bottom|center_horizontal"
         android:bottom="100dp"/>
 </layer-list>
