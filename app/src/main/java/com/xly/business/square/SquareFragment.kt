@@ -16,6 +16,7 @@ import com.xly.business.favorite.view.VisitorFragment
 import com.xly.business.recommend.viewmodel.RecommendViewModel
 import com.xly.business.square.view.MomentFragment
 import com.xly.databinding.FragmentSquareBinding
+import com.xly.middlelibrary.utils.LYFontUtil
 import com.xly.ui.widget.CustomLineIndicator
 import com.xly.ui.widget.CustomTitleView
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
@@ -27,8 +28,8 @@ class SquareFragment : LYBaseFragment<FragmentSquareBinding, RecommendViewModel>
 
 
     // 颜色配置
-    private val normalColor = Color.parseColor("#2C3E50")
-    private val selectedColor = Color.parseColor("#FF6B6B")
+    private val normalColor = Color.parseColor("#333333")
+    private val selectedColor = Color.parseColor("#000000")
     private val indicatorColor = Color.parseColor("#FF6B6B")
 
     // 文字大小配置
@@ -65,7 +66,8 @@ class SquareFragment : LYBaseFragment<FragmentSquareBinding, RecommendViewModel>
 
             override fun getTitleView(context: Context, index: Int): IPagerTitleView {
                 val titleView = CustomTitleView(context)
-                titleView.typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+//                titleView.typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+                titleView.typeface = LYFontUtil.getMediumFont(requireContext())
                 titleView.text = tabTitles[index]
                 titleView.setNormalTextSize(normalTextSize)
                 titleView.setSelectedTextSize(selectedTextSize)
