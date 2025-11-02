@@ -29,7 +29,7 @@ class SquareFragment : LYBaseFragment<FragmentSquareBinding, RecommendViewModel>
 
 
     // 颜色配置
-    private val normalColor = Color.parseColor("#333333")
+    private val normalColor = Color.parseColor("#000000")
     private val selectedColor = Color.parseColor("#000000")
     private val indicatorColor = Color.parseColor("#FF6B6B")
 
@@ -43,11 +43,11 @@ class SquareFragment : LYBaseFragment<FragmentSquareBinding, RecommendViewModel>
     private val fragments = listOf(
         LikeFragment(),
         MatchmakerFragment(),
-        LikeFragment(),
-        MomentFragment()
+        MomentFragment(),
+        LikeFragment()
     )
 
-    private val tabTitles = listOf("今日精选", "红娘","婚庆","动态")
+    private val tabTitles = listOf("今日精选", "红娘","动态","婚庆")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewBind.viewPager.adapter = object : FragmentStateAdapter(this) {
