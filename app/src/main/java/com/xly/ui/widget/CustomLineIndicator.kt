@@ -8,10 +8,10 @@ class CustomLineIndicator(context: Context) : LinePagerIndicator(context) {
     private var mBottomOffset = 2f  // 默认 2dp
 
     init {
-        mode = LinePagerIndicator.MODE_EXACTLY
-        lineHeight = 4f
-        lineWidth = 30f
-        roundRadius = 2f
+        mode = MODE_EXACTLY
+        lineHeight = 10f
+        lineWidth = 45f
+        roundRadius = 5f
         setColors(android.graphics.Color.parseColor("#FF6B6B"))
     }
 
