@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    android:foreground="?attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- 用户头像区域 -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/bg_tertiary">
+
+            <!-- 用户头像 -->
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivAvatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="#666666" />
+
+            <!-- 精选标签 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="12dp"
+                android:orientation="horizontal"
+                android:background="#666666"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="#333333"
+                    app:tint="@color/text_white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="今日精选"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:textColor="@color/text_white"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- 精选理由标签（可选） -->
+            <TextView
+                android:id="@+id/tvSelectionReason"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_margin="12dp"
+                android:text="高匹配度"
+                android:textSize="@dimen/text_size_caption"
+                android:textColor="@color/text_white"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+        <!-- 用户信息区域 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- 姓名和年龄 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tvUserName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="小美"
+                    android:textSize="@dimen/text_size_h4"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary" />
+
+                <TextView
+                    android:id="@+id/tvAge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="25岁"
+                    android:textSize="@dimen/text_size_body"
+                    android:textColor="@color/text_secondary" />
+
+            </LinearLayout>
+
+            <!-- 位置 -->
+            <TextView
+                android:id="@+id/tvLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="📍 北京 · 朝阳区"
+                android:textSize="@dimen/text_size_body_small"
+                android:textColor="@color/text_secondary" />
+
+            <!-- 标签 -->
+            <LinearLayout
+                android:id="@+id/llTags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+            <!-- 精选理由 -->
+            <TextView
+                android:id="@+id/tvSelectionDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="根据您的偏好，为您精准匹配"
+                android:textSize="@dimen/text_size_body_small"
+                android:textColor="@color/text_hint"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:lineSpacingExtra="4dp" />
+
+        </LinearLayout>
+
+        <!-- 底部操作区 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:gravity="center_vertical">
+
+            <!-- 查看详情按钮 -->
+            <TextView
+                android:id="@+id/tvViewDetail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="查看详情"
+                android:textSize="@dimen/text_size_body"
+                android:textColor="@color/text_accent"
+                android:gravity="center"
+                android:padding="8dp"
+                 />
+
+            <!-- 喜欢按钮 -->
+            <ImageButton
+                android:id="@+id/ibLike"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:src="#666666"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="喜欢" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
