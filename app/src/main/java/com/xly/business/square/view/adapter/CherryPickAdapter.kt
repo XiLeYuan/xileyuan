@@ -64,7 +64,7 @@ class CherryPickAdapter(
             binding.tvSelectionDescription.text = user.selectionDescription
 
             // 标签
-            setupTags(binding.llTags, user.tags)
+//            setupTags(binding.llTags, user.tags)
 
             // 匹配度（如果有）
             user.matchScore?.let { score ->
