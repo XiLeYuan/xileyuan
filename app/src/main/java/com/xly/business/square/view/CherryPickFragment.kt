@@ -31,7 +31,6 @@ class CherryPickFragment : LYBaseFragment<FragmentTodaySelectionBinding, TodaySe
 
     private fun initViews() {
         // 设置更新时间
-        updateRefreshTime()
     }
 
     private fun setupRecyclerView() {
@@ -57,10 +56,7 @@ class CherryPickFragment : LYBaseFragment<FragmentTodaySelectionBinding, TodaySe
             refreshData()
         }
 
-        // 刷新按钮
-        viewBind.ibRefresh.setOnClickListener {
-            refreshData()
-        }
+
     }
 
     private fun loadData() {
@@ -70,13 +66,9 @@ class CherryPickFragment : LYBaseFragment<FragmentTodaySelectionBinding, TodaySe
     private fun refreshData() {
         viewModel.refreshTodaySelection()
         viewBind.swipeRefresh.isRefreshing = false
-        updateRefreshTime()
     }
 
-    private fun updateRefreshTime() {
-        val currentTime = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
-        viewBind.tvUpdateTime.text = "最后更新：$currentTime"
-    }
+
 
     private fun navigateToUserDetail(user: TodaySelectionUser) {
         // 转换为 UserCard 并跳转
