@@ -1,30 +1,29 @@
 package com.xly.ui.widget
 
 import android.content.Context
-import android.graphics.Color
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator
 
-class CustomLineIndicator (context: Context) : LinePagerIndicator(context) {
+class CustomLineIndicator(context: Context) : LinePagerIndicator(context) {
 
-
-    private var mLineColor = Color.parseColor("#FF6B6B")
+    private var mBottomOffset = 2f  // 默认 2dp
 
     init {
-
-        // 直接设置属性，不要重写 setter 方法
-        mode = MODE_EXACTLY
-        lineHeight = 6f
-        lineWidth = 60f
-        roundRadius = 4f
-        setColors(Color.parseColor("#FF6B6B"))
-
+        mode = LinePagerIndicator.MODE_EXACTLY
+        lineHeight = 4f
+        lineWidth = 30f
+        roundRadius = 2f
+        setColors(android.graphics.Color.parseColor("#FF6B6B"))
     }
 
-
-
-    fun setLineColor(color: Int) {
-        mLineColor = color
-        setColors(color)
+    /**
+     * 设置距离底部的偏移量（dp）
+     * 值越小，指示器越靠近文本
+     */
+    fun setBottomOffset(offsetDp: Float) {
+        mBottomOffset = offsetDp * resources.displayMetrics.density
+        invalidate()  // 继承自 View，可以直接调用
     }
 
+    // 如果需要自定义绘制，可以重写 onDraw
+    // 但通常只需要调整 bottomOffset 即可通过其他方式实现
 }

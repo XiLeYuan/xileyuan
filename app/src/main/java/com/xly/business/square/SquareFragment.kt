@@ -83,9 +83,9 @@ class SquareFragment : LYBaseFragment<FragmentSquareBinding, RecommendViewModel>
 
             override fun getIndicator(context: Context): IPagerIndicator? {
                 val indicator = CustomLineIndicator(context)
-                indicator.setLineColor(indicatorColor)
                 indicator.roundRadius = indicatorRadius
-                return null
+                indicator.setBottomOffset(0f)  // 1dp，让指示器紧贴文本
+                return indicator
             }
         }
         viewBind.magicIndicator.navigator = commonNavigator
@@ -121,5 +121,9 @@ class SquareFragment : LYBaseFragment<FragmentSquareBinding, RecommendViewModel>
 
     override fun initViewModel(): RecommendViewModel {
         return ViewModelProvider(requireActivity())[RecommendViewModel::class.java]
+    }
+
+    private fun Int.dpToPx(): Int {
+        return (this * resources.displayMetrics.density).toInt()
     }
 }

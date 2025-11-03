@@ -160,7 +160,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="12dp"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:visibility="gone">
 
             <!-- 查看详情按钮 -->
             <TextView
@@ -173,7 +174,7 @@
                 android:textColor="@color/text_accent"
                 android:gravity="center"
                 android:padding="8dp"
-                 />
+                android:visibility="gone"/>
 
             <!-- 喜欢按钮 -->
             <ImageButton
