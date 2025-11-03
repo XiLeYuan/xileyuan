@@ -14,6 +14,7 @@ import com.xly.base.LYBaseFragment
 import com.xly.business.favorite.view.LikeFragment
 import com.xly.business.favorite.view.VisitorFragment
 import com.xly.business.recommend.viewmodel.RecommendViewModel
+import com.xly.business.square.view.CherryPickFragment
 import com.xly.business.square.view.MatchmakerFragment
 import com.xly.business.square.view.MomentFragment
 import com.xly.databinding.FragmentSquareBinding
@@ -41,7 +42,7 @@ class SquareFragment : LYBaseFragment<FragmentSquareBinding, RecommendViewModel>
     private val indicatorRadius = 4f
 
     private val fragments = listOf(
-        LikeFragment(),
+        CherryPickFragment(),
         MatchmakerFragment(),
         MomentFragment(),
         LikeFragment()
