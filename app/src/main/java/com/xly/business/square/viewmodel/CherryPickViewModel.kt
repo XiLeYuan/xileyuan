@@ -10,7 +10,7 @@ import com.xly.middlelibrary.utils.TodaySelectionMockData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class TodaySelectionViewModel : ViewModel() {
+class CherryPickViewModel : ViewModel() {
 
     private val _selectionUsersLiveData = MutableLiveData<List<TodaySelectionUser>>()
     val selectionUsersLiveData: LiveData<List<TodaySelectionUser>> = _selectionUsersLiveData

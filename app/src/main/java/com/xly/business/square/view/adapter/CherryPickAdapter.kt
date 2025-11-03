@@ -2,22 +2,20 @@ package com.xly.business.square.view.adapter
 
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.xly.databinding.ItemTodaySelectionUserBinding
 import com.xly.R
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.xly.business.square.model.TodaySelectionUser
 
-class TodaySelectionAdapter(
+class CherryPickAdapter(
     private val onItemClick: (TodaySelectionUser) -> Unit,
     private val onLikeClick: (TodaySelectionUser) -> Unit
-) : ListAdapter<TodaySelectionUser, TodaySelectionAdapter.SelectionViewHolder>(
+) : ListAdapter<TodaySelectionUser, CherryPickAdapter.SelectionViewHolder>(
     SelectionDiffCallback()
 ) {
 

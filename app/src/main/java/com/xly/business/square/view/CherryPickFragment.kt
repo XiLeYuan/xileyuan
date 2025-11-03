@@ -10,15 +10,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xly.business.square.model.TodaySelectionUser
-import com.xly.business.square.view.adapter.TodaySelectionAdapter
-import com.xly.business.square.viewmodel.TodaySelectionViewModel
+import com.xly.business.square.view.adapter.CherryPickAdapter
+import com.xly.business.square.viewmodel.CherryPickViewModel
 import com.xly.databinding.FragmentTodaySelectionBinding
-import java.text.SimpleDateFormat
-import java.util.*
 
-class CherryPickFragment : LYBaseFragment<FragmentTodaySelectionBinding, TodaySelectionViewModel>() {
+class CherryPickFragment : LYBaseFragment<FragmentTodaySelectionBinding, CherryPickViewModel>() {
 
-    private lateinit var selectionAdapter: TodaySelectionAdapter
+    private lateinit var selectionAdapter: CherryPickAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,7 +34,7 @@ class CherryPickFragment : LYBaseFragment<FragmentTodaySelectionBinding, TodaySe
     private fun setupRecyclerView() {
         viewBind.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        selectionAdapter = TodaySelectionAdapter(
+        selectionAdapter = CherryPickAdapter(
             onItemClick = { user ->
                 // 点击卡片，跳转到用户详情
                 navigateToUserDetail(user)
@@ -129,7 +127,7 @@ class CherryPickFragment : LYBaseFragment<FragmentTodaySelectionBinding, TodaySe
         return FragmentTodaySelectionBinding.inflate(inflater, container, false)
     }
 
-    override fun initViewModel(): TodaySelectionViewModel {
-        return ViewModelProvider(this)[TodaySelectionViewModel::class.java]
+    override fun initViewModel(): CherryPickViewModel {
+        return ViewModelProvider(this)[CherryPickViewModel::class.java]
     }
 }
