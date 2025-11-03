@@ -60,12 +60,7 @@ class TodaySelectionAdapter(
             binding.tvLocation.text = "📍 ${user.location}"
 
             // 精选理由（如果有）
-            if (user.selectionReason.isNotEmpty()) {
-                binding.tvSelectionReason.text = user.selectionReason
-                binding.tvSelectionReason.visibility = View.VISIBLE
-            } else {
-                binding.tvSelectionReason.visibility = View.GONE
-            }
+
 
             // 精选描述
             binding.tvSelectionDescription.text = user.selectionDescription
@@ -84,9 +79,7 @@ class TodaySelectionAdapter(
                 onItemClick(user)
             }
 
-            binding.ibLike.setOnClickListener {
-                onLikeClick(user)
-            }
+
         }
 
         private fun setupTags(container: ViewGroup, tags: List<String>) {
