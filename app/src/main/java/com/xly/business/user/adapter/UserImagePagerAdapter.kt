@@ -6,8 +6,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.xly.R
 import com.xly.databinding.ItemUserDetailImageBinding
 
+/**
+ * 用户详情页图片适配器（ViewPager2）
+ */
 class UserImagePagerAdapter(
     private val images: List<String>
 ) : ListAdapter<String, UserImagePagerAdapter.ImageViewHolder>(ImageDiffCallback()) {
@@ -34,11 +38,14 @@ class UserImagePagerAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(imageUrl: String) {
-            Glide.with(binding.root.context)
+            /*Glide.with(binding.root.context)
                 .load(imageUrl)
                 .centerCrop()
-                .into(binding.ivUserImage)
+                .into(binding.ivUserImage)*/
+
+            binding.ivUserImage.setImageResource(R.mipmap.find_img_2)
         }
+
     }
 
     class ImageDiffCallback : DiffUtil.ItemCallback<String>() {

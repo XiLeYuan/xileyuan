@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.xly.databinding.ItemUserDetailSectionBinding
 
+/**
+ * 用户详细信息适配器
+ */
 class UserDetailAdapter(
     private val items: List<String>
 ) : ListAdapter<String, UserDetailAdapter.DetailViewHolder>(DetailDiffCallback()) {

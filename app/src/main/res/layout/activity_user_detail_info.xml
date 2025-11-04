@@ -4,146 +4,179 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/transparent"
     android:fitsSystemWindows="true">
 
+    <!-- AppBarLayout - 实现折叠效果 -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
+        android:background="@android:color/transparent"
         app:elevation="0dp">
 
-        <!-- 用户生活照容器（可下拉放大） -->
-        <FrameLayout
-            android:id="@+id/imageContainer"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            app:layout_scrollFlags="scroll|enterAlways|snap">
-
-            <!-- ViewPager2 用于横向滑动图片 -->
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPagerImages"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <!-- 图片指示器 -->
-            <LinearLayout
-                android:id="@+id/indicatorContainer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                android:layout_marginBottom="16dp"
-                android:orientation="horizontal" />
-
-            <!-- 渐变遮罩（底部） -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_gravity="bottom"
-                android:background="@drawable/image_bottom_gradient" />
-
-        </FrameLayout>
-
-        <!-- 用户信息卡片容器 -->
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/nestedScrollView"
+        <!-- CollapsingToolbarLayout - 实现折叠动画 -->
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fillViewport="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:fitsSystemWindows="true"
+            android:background="@android:color/transparent"
+            app:contentScrim="@android:color/transparent"
+            app:expandedTitleMarginStart="0dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
+            <!-- 用户生活照容器（支持下拉放大） -->
+            <FrameLayout
+                android:id="@+id/imageContainer"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:background="@android:color/transparent"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.7">
+
+                <!-- ViewPager2 用于横向滑动图片 -->
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewPagerImages"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never" />
+
+                <!-- 图片指示器 -->
+                <LinearLayout
+                    android:id="@+id/indicatorContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="horizontal" />
+
+                <!-- 渐变遮罩（底部） -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/image_bottom_gradient" />
+
+            </FrameLayout>
+
+            <!-- 工具栏（透明，用于占位） -->
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- 内容列表 - 关键：所有容器都设置为透明背景 -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:orientation="vertical">
+
+            <!-- 顶部留白区域，与图片重叠（用于卡片覆盖） -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:background="@android:color/transparent" />
+
+            <!-- 用户信息卡片 - 使用圆角背景，覆盖在图片上 -->
             <LinearLayout
+                android:id="@+id/userInfoCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginTop="-240dp"
+                android:background="@drawable/user_card_bg"
+                android:elevation="8dp"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-                <!-- 用户基本信息卡片 -->
-                <androidx.cardview.widget.CardView
+                <!-- 用户名称和年龄 -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="4dp">
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/tvUserName"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="20dp">
+                        android:layout_weight="1"
+                        android:text="小美"
+                        android:textSize="@dimen/text_size_h2"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary" />
 
-                        <!-- 用户名称和年龄 -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical">
+                    <TextView
+                        android:id="@+id/tvAge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="25岁"
+                        android:textSize="@dimen/text_size_body"
+                        android:textColor="@color/text_secondary" />
 
-                            <TextView
-                                android:id="@+id/tvUserName"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="小美"
-                                android:textSize="@dimen/text_size_h2"
-                                android:textStyle="bold"
-                                android:textColor="@color/text_primary" />
+                </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/tvAge"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="25岁"
-                                android:textSize="@dimen/text_size_body"
-                                android:textColor="@color/text_secondary" />
+                <!-- 位置 -->
+                <TextView
+                    android:id="@+id/tvLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="📍 北京 · 朝阳区"
+                    android:textSize="@dimen/text_size_body"
+                    android:textColor="@color/text_secondary" />
 
-                        </LinearLayout>
-
-                        <!-- 位置 -->
-                        <TextView
-                            android:id="@+id/tvLocation"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="📍 北京 · 朝阳区"
-                            android:textSize="@dimen/text_size_body"
-                            android:textColor="@color/text_secondary" />
-
-                        <!-- 标签 -->
-                        <LinearLayout
-                            android:id="@+id/llTags"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:orientation="horizontal" />
-
-                        <!-- 个人简介 -->
-                        <TextView
-                            android:id="@+id/tvBio"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:text="喜欢旅行、摄影、音乐，希望找到一个志同道合的伴侣。"
-                            android:textSize="@dimen/text_size_body"
-                            android:textColor="@color/text_primary"
-                            android:lineSpacingExtra="4dp" />
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <!-- 详细信息列表 -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewDetails"
+                <!-- 标签 -->
+                <LinearLayout
+                    android:id="@+id/llTags"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"
-                    android:padding="16dp" />
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal" />
+
+                <!-- 个人简介 -->
+                <TextView
+                    android:id="@+id/tvBio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="喜欢旅行、摄影、音乐，希望找到一个志同道合的伴侣。"
+                    android:textSize="@dimen/text_size_body"
+                    android:textColor="@color/text_primary"
+                    android:lineSpacingExtra="4dp" />
 
             </LinearLayout>
 
-        </androidx.core.widget.NestedScrollView>
+            <!-- 详细信息列表 -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:background="@android:color/transparent"
+                android:padding="16dp" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <!-- 自定义 Toolbar（透明背景，显示用户名） -->
     <LinearLayout

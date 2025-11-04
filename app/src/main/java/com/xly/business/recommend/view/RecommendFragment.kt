@@ -21,7 +21,6 @@ import com.xly.business.recommend.viewmodel.RecommendViewModel
 import com.xly.databinding.FragmentRecommendBinding
 import com.xly.R
 import com.xly.business.user.LYUserDetailInfoActivity
-import com.xly.business.user.UserInfo
 import com.xly.middlelibrary.utils.click
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
