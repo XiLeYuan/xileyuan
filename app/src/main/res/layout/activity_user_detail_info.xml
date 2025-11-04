@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
-    android:fitsSystemWindows="true">
+    android:background="@android:color/transparent">
 
     <!-- AppBarLayout - 实现折叠效果 -->
     <com.google.android.material.appbar.AppBarLayout
