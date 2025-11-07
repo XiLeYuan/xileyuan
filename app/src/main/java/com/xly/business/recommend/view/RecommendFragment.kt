@@ -20,6 +20,7 @@ import com.xly.base.LYBaseFragment
 import com.xly.business.recommend.viewmodel.RecommendViewModel
 import com.xly.databinding.FragmentRecommendBinding
 import com.xly.R
+import com.xly.business.user.CheeseDetailActivity
 import com.xly.business.user.LYUserDetailInfoActivity
 import com.xly.middlelibrary.utils.click
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
@@ -160,7 +161,7 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
 
     private fun showUserDetail(userCard: UserCard, cardView: View? = null) {
 
-        val intent = Intent(requireActivity(), LYUserDetailInfoActivity::class.java).apply {
+        val intent = Intent(requireActivity(), CheeseDetailActivity::class.java).apply {
             putExtra("user_card", userCard)
         }
 
