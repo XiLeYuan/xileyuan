@@ -40,6 +40,7 @@ import com.xly.databinding.FragmentUserInfoStepNicknameAvatarBinding
 import com.xly.databinding.FragmentUserInfoStepSchoolBinding
 import com.xly.middlelibrary.utils.GlideEngine
 import com.xly.middlelibrary.utils.LYUtils
+import com.xly.middlelibrary.utils.MMKVManager
 import top.zibin.luban.Luban
 import top.zibin.luban.OnCompressListener
 import java.io.File
@@ -594,7 +595,7 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
             tvFemale.setTextColor(if (!isMale) resources.getColor(R.color.flamingo) else 0xFF888888.toInt())
             selectedGender = if (isMale) "male" else "female"
             viewModel.gender = selectedGender // 保存到ViewModel
-            android.util.Log.d("UserInfoStep", "Gender selected: $selectedGender, step=$stepIndex")
+            Log.d("UserInfoStep", "Gender selected: $selectedGender, step=$stepIndex")
             if (!fromRestore) {
                 inputValidListener?.onInputValid(stepIndex, true)
             }
@@ -825,6 +826,7 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
             },
             onError = { errorMsg ->
                 hideLoading()
+                Log.d("AvatarUpload", "Error: $errorMsg")
                 nicknameAvatarBinding?.apply {
                     // 加载网络图片到ImageView
                     Glide.with(requireContext())
@@ -1056,10 +1058,10 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
             return
         }
 
+        MMKVManager.putBoolean(MMKVManager.KEY_AUTH_SUCCESS, true)
+
         // 完成注册，跳转到我的理想型界面
-//        Toast.makeText(requireContext(), "注册完成！", Toast.LENGTH_SHORT).show()
-        // TODO: 跳转到我的理想型界面
-        // 这里可以调用Activity的finish()方法或者跳转到下一个Activity
+        Toast.makeText(requireContext(), "注册完成！", Toast.LENGTH_SHORT).show()
         startActivity(Intent(requireContext(), BubbleChooseActivity::class.java))
     }
 

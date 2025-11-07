@@ -5,7 +5,7 @@ import com.xly.business.login.model.UserInfoRegisterReq
 import com.xly.middlelibrary.AuthResponse
 import com.xly.middlelibrary.net.LYHttpClient
 import com.xly.middlelibrary.net.NetworkUtils
-import kotlinx.coroutines.delay
+import okhttp3.MultipartBody
 
 class LoginRepository {
 
@@ -26,6 +26,12 @@ class LoginRepository {
         }
     }
 
+    suspend fun uploadAvatar(avatarPart: MultipartBody.Part): Result<String> {
+        return NetworkUtils.safeApiCall {
+            apiService.uploadAvatar(avatarPart)
+        }
+    }
+
 
     suspend fun getHealth(): Result<Map<String, Any>> {
         return NetworkUtils.safeApiCall {
@@ -38,6 +44,4 @@ class LoginRepository {
 
 
 
-
-
-} 
+}

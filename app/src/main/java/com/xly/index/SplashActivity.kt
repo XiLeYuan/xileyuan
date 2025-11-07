@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
 import com.xly.R
+import com.xly.business.login.view.LoginActivity
+import com.xly.middlelibrary.utils.MMKVManager
 import kotlinx.coroutines.Runnable
 
 @SuppressLint("CustomSplashScreen")
@@ -31,7 +33,12 @@ class SplashActivity :AppCompatActivity() {
 
     private fun enterMain() {
         handler.postDelayed(Runnable {
-            LYMainActivity.start(this)
+            val hasAuth = MMKVManager.getBoolean(MMKVManager.KEY_AUTH_SUCCESS)
+            if (hasAuth) {
+                LYMainActivity.start(this)
+            } else {
+                LoginActivity.start(this)
+            }
         },2000)
     }
 

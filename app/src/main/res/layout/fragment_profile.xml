@@ -529,14 +529,14 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="把牵手推荐给朋友"
+                            android:text="把结婚吧推荐给朋友"
                             android:textSize="16sp"
                             android:textColor="@color/black" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="免费领100牵手币"
+                            android:text="免费领100结婚币"
                             android:textSize="12sp"
                             android:textColor="@color/text_light" />
 

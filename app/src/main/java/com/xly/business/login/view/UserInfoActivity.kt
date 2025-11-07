@@ -26,6 +26,10 @@ class UserInfoActivity : LYBaseActivity<ActivityUserInfoBinding, LoginViewModel>
         viewBind.viewPager.isUserInputEnabled = false // 禁止滑动
         updateProgress(0)
         updateButtonState(false) // 默认禁用下一步按钮
+        viewBind.btnSkip.setOnClickListener {
+            LYMainActivity.start(this)
+            finish()
+        }
         viewBind.btnBack.setOnClickListener {
             if (currentStep > 0) {
                 currentStep--
@@ -53,12 +57,15 @@ class UserInfoActivity : LYBaseActivity<ActivityUserInfoBinding, LoginViewModel>
 
     private fun updateProgress(step: Int) {
         viewBind.progressBar.progress = step + 1
+        updateSkipButtonVisibility(step)
     }
 
     private fun updateButtonState(valid: Boolean) {
         // 在实名认证页面（最后一步）隐藏下一步按钮
         if (currentStep == 15) {
             viewBind.btnNext.visibility = android.view.View.GONE
+            viewBind.btnBack.visibility = android.view.View.GONE
+            viewBind.tvTip.visibility = android.view.View.GONE
         } else {
             viewBind.btnNext.visibility = android.view.View.VISIBLE
             viewBind.btnNext.isEnabled = valid
@@ -94,9 +101,13 @@ class UserInfoActivity : LYBaseActivity<ActivityUserInfoBinding, LoginViewModel>
         }
     }
 
+    private fun updateSkipButtonVisibility(step: Int) {
+        viewBind.btnSkip.visibility = if (step >= 10) android.view.View.VISIBLE else android.view.View.GONE
+    }
+
     // Fragment回调，输入有效性变化时调用
     override fun onInputValid(step: Int, valid: Boolean) {
-        android.util.Log.e("UserInfoActivity", "onInputValid: step=$step, valid=$valid currentStep=$currentStep")
+        Log.e("UserInfoActivity", "onInputValid: step=$step, valid=$valid currentStep=$currentStep")
         if (step == currentStep) {
             updateButtonState(valid)
         }

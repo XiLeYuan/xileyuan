@@ -13,6 +13,9 @@ import kotlinx.coroutines.withContext
  */
 object MMKVManager {
 
+    const val KEY_LOGIN_SUCCESS = "key_login_success"
+    const val KEY_AUTH_SUCCESS = "key_auth_success"
+
     // 默认MMKV实例
     private val defaultMMKV = MMKV.defaultMMKV()
 

@@ -84,9 +84,7 @@ class LoginViewModel : ViewModel() {
                 val requestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
                 val part = MultipartBody.Part.createFormData("file", file.name, requestBody)
 
-                /*val result = safeApiCall {
-                    apiService.uploadAvatar(part)
-                }
+                val result = repository.uploadAvatar(part)
 
                 result.fold(
                     onSuccess = { avatarUrl ->
@@ -96,7 +94,7 @@ class LoginViewModel : ViewModel() {
                     onFailure = { exception ->
                         onError(exception.message ?: "上传失败")
                     }
-                )*/
+                )
             } catch (e: Exception) {
                 onError(e.message ?: "上传失败")
             }

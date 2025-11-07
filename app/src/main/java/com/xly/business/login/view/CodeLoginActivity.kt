@@ -14,6 +14,7 @@ import com.xly.business.recommend.model.User
 import com.xly.business.user.UserInfo
 import com.xly.databinding.ActivityCodeLoginBinding
 import com.xly.index.LYMainActivity
+import com.xly.middlelibrary.utils.MMKVManager
 
 class CodeLoginActivity : LYBaseActivity<ActivityCodeLoginBinding, LoginViewModel>() {
 
@@ -40,7 +41,15 @@ class CodeLoginActivity : LYBaseActivity<ActivityCodeLoginBinding, LoginViewMode
                     }
                     if (allCodeFilled(codeInputs)) {
                         code = codeInputs.joinToString(separator = "") { it.text.toString() }
-                        requestLogin(phone,code)
+
+                        MMKVManager.putBoolean(MMKVManager.KEY_LOGIN_SUCCESS, true)
+
+                        val intent = Intent(this@CodeLoginActivity, UserInfoActivity::class.java)
+                        intent.putExtra("phone", phone)
+                        intent.putExtra("code", code)
+                        startActivity(intent)
+                        finish()
+//                        requestLogin(phone,code)
                     }
                 }
                 override fun afterTextChanged(s: Editable?) {}
@@ -66,6 +75,7 @@ class CodeLoginActivity : LYBaseActivity<ActivityCodeLoginBinding, LoginViewMode
             // 处理登录成功
             Log.i("CodeLoginActivity","success")
             hideLoading()
+            MMKVManager.putBoolean(MMKVManager.KEY_LOGIN_SUCCESS, true)
             val intent = Intent(this@CodeLoginActivity, UserInfoActivity::class.java)
             intent.putExtra("phone", phone)
             intent.putExtra("code", code)

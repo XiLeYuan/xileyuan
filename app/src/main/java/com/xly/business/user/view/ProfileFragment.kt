@@ -4,13 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.xly.base.LYBaseFragment
+import com.xly.business.login.view.LoginActivity
 import com.xly.business.user.viewmodel.ProfileViewModel
 import com.xly.business.vip.view.LookStarMeActivity
 import com.xly.databinding.FragmentProfileBinding
 import com.xly.middlelibrary.utils.click
+import com.xly.middlelibrary.utils.MMKVManager
 
 class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>() {
 
@@ -104,8 +107,16 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
 
         // 设置
         viewBind.settingsItem.click {
-            showToast("跳转到设置页面")
-            // TODO: 跳转到设置页面
+            AlertDialog.Builder(requireContext())
+                .setTitle("退出登录")
+                .setMessage("是否确认退出登录？")
+                .setNegativeButton("取消", null)
+                .setPositiveButton("确定") { _, _ ->
+                    MMKVManager.remove(MMKVManager.KEY_AUTH_SUCCESS)
+                    MMKVManager.remove(MMKVManager.KEY_LOGIN_SUCCESS)
+                    LoginActivity.start(requireActivity())
+                }
+                .show()
         }
 
         // 立即上传按钮
