@@ -61,6 +61,7 @@
                 android:maxLength="11"
                 android:textSize="16sp"
                 android:textColor="@color/text_primary"
+                android:textCursorDrawable="@drawable/cursor_dark"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:paddingTop="16dp"

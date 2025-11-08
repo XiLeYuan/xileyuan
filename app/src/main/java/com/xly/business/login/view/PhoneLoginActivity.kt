@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.xly.base.LYBaseActivity
 import com.xly.business.login.viewmodel.LoginViewModel
 import com.xly.databinding.ActivityPhoneLoginBinding
+import com.xly.R
 
 class PhoneLoginActivity : LYBaseActivity<ActivityPhoneLoginBinding, LoginViewModel>() {
     override fun inflateBinding(layoutInflater: android.view.LayoutInflater) = ActivityPhoneLoginBinding.inflate(layoutInflater)
@@ -31,6 +32,9 @@ class PhoneLoginActivity : LYBaseActivity<ActivityPhoneLoginBinding, LoginViewMo
         
         // 设置键盘监听
         setupKeyboardListener()
+        
+        // 设置光标颜色
+        setupCursorColor()
         
         // 自动获取焦点并显示键盘
         autoFocusAndShowKeyboard()
@@ -230,6 +234,21 @@ class PhoneLoginActivity : LYBaseActivity<ActivityPhoneLoginBinding, LoginViewMo
         val imm = ContextCompat.getSystemService(this, InputMethodManager::class.java)
         imm?.hideSoftInputFromWindow(viewBind.etPhone.windowToken, 0)
         viewBind.etPhone.clearFocus()
+    }
+    
+    /**
+     * 设置光标颜色
+     * 注意：XML中已通过 textCursorDrawable 设置，此方法作为代码层面的备选方案
+     */
+    private fun setupCursorColor() {
+        // 在 Android Q (API 29) 及以上版本，可以直接设置 textCursorDrawable
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            try {
+                viewBind.etPhone.textCursorDrawable = ContextCompat.getDrawable(this, R.drawable.cursor_dark)
+            } catch (e: Exception) {
+                // 忽略错误，使用XML中设置的光标
+            }
+        }
     }
     
     /**
