@@ -33,13 +33,12 @@ class SplashActivity :AppCompatActivity() {
 
     private fun enterMain() {
         handler.postDelayed(Runnable {
-            /*val hasAuth = MMKVManager.getBoolean(MMKVManager.KEY_AUTH_SUCCESS)
+            val hasAuth = MMKVManager.getBoolean(MMKVManager.KEY_AUTH_SUCCESS)
             if (hasAuth) {
                 LYMainActivity.start(this)
             } else {
                 LoginActivity.start(this)
-            }*/
-            LYMainActivity.start(this)
+            }
         },2000)
     }
 
