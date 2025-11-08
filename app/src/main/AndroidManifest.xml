@@ -116,7 +116,8 @@
         <activity
             android:name="com.xly.business.login.view.PhoneLoginActivity"
             android:exported="false"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name="com.xly.business.login.view.CodeLoginActivity"

@@ -4,13 +4,18 @@
 
 
 
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowContentTransitions">true</item>
+        <!-- Material 3 颜色配置 -->
+        <item name="colorPrimary">@color/brand_primary</item>
+        <item name="colorOnPrimary">@color/text_white</item>
+        <item name="colorSecondary">@color/text_accent</item>
+        <item name="colorError">@color/text_error</item>
     </style>
 
-    <style name="AppThemeMain" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="AppThemeMain" parent="Theme.Material3.DayNight.NoActionBar">
         <!--Android 5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色-->
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
@@ -18,6 +23,11 @@
         <item name="android:windowContentTransitions">true</item>
         <item name="colorControlActivated">@color/sign_in_ed_btn_color</item>
         <item name="android:windowFullscreen">true</item>
+        <!-- Material 3 颜色配置 -->
+        <item name="colorPrimary">@color/brand_primary</item>
+        <item name="colorOnPrimary">@color/text_white</item>
+        <item name="colorSecondary">@color/text_accent</item>
+        <item name="colorError">@color/text_error</item>
     </style>
 
 
@@ -126,10 +136,10 @@
         <item name="android:windowExitAnimation">@anim/fade_out</item>
     </style>
 
-    <style name="AppTheme.UserDetail" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="AppTheme.UserDetail" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/brand_primary</item>
+        <item name="colorOnPrimary">@color/text_white</item>
+        <item name="colorSecondary">@color/text_accent</item>
         <item name="android:windowLightStatusBar">true</item> <!-- 默认浅色状态栏 -->
     </style>
 
@@ -141,21 +151,25 @@
         <item name="android:orientation">vertical</item>
     </style>
 
-
-
-
+    <!-- 自定义圆角边框 TextInputLayout 样式 -->
     <style name="RoundedBorderTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <!-- 边框颜色 -->
         <item name="boxStrokeColor">@color/selector_text_input_stroke</item>
+        <item name="boxStrokeErrorColor">@color/text_error</item>
+        <!-- 边框宽度 -->
         <item name="boxStrokeWidth">1dp</item>
-        <item name="boxStrokeWidthFocused">2dp</item>
-        <item name="boxCornerRadiusTopStart">12dp</item>
-        <item name="boxCornerRadiusTopEnd">12dp</item>
-        <item name="boxCornerRadiusBottomStart">12dp</item>
-        <item name="boxCornerRadiusBottomEnd">12dp</item>
-        <item name="hintTextColor">@color/selector_text_input_hint</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
+        <!-- 背景颜色 -->
         <item name="boxBackgroundColor">@color/bg_primary</item>
+        <!-- 提示文字颜色 -->
+        <item name="hintTextColor">@color/selector_text_input_hint</item>
         <item name="android:textColorHint">@color/text_hint</item>
+        <!-- 注意：圆角属性在 Material Components 1.7.0 中需要通过代码设置 -->
     </style>
+
+
+
+
 
 
 
