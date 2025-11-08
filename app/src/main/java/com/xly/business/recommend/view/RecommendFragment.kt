@@ -11,9 +11,6 @@ import android.view.animation.AccelerateInterpolator
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.jspp.activity.HomeActivity
-import com.jspp.activity.TestFloatingCardActivity
-import com.jspp.activity.UserDetailActivity
 import com.jspp.adapter.UserCardAdapter
 import com.jspp.model.UserCard
 import com.xly.base.LYBaseFragment
@@ -135,7 +132,6 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
 
     override fun initOnClick() {
         viewBind.chatImg.click {
-            HomeActivity.start(requireActivity())
         }
         viewBind.likeIv.click {
             val setting = SwipeAnimationSetting.Builder()

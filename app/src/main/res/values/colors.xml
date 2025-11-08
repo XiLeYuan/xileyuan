@@ -74,6 +74,23 @@
     <color name="profile_pink_button">#FFE91E63</color>
     <color name="sign_in_ed_btn_color">#1A6DFF</color>
 
+    <!-- 颜色选择器 -->
+    <color name="selector_text_input_stroke">
+        <selector xmlns:android="http://schemas.android.com/apk/res/android">
+            <item android:state_focused="true" android:color="@color/brand_primary"/>
+            <item android:state_error="true" android:color="@color/text_error"/>
+            <item android:color="@color/divider"/>
+        </selector>
+    </color>
+    
+    <!-- 输入框提示文字颜色选择器 -->
+    <color name="selector_text_input_hint">
+        <selector xmlns:android="http://schemas.android.com/apk/res/android">
+            <item android:state_focused="true" android:color="@color/brand_primary"/>
+            <item android:color="@color/text_hint"/>
+        </selector>
+    </color>
+
 </resources>
 
 

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="24dp"
     android:background="@android:color/white">
@@ -24,33 +25,33 @@
         android:layout_marginTop="42dp"
         android:layout_gravity="start"/>
 
-    <FrameLayout
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutPhone"
+        style="@style/RoundedBorderTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp">
+        android:layout_marginTop="48dp"
+        android:hint="请输入手机号"
+        app:endIconMode="clear_text"
+        app:errorEnabled="true"
+        app:errorTextColor="@color/text_error"
+        app:helperTextEnabled="false">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etPhone"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/edittext_bottom_line_flamingo"
-            android:hint="请输入手机号"
-            android:maxLength="11"
+            android:layout_height="wrap_content"
             android:inputType="phone"
-            android:textSize="18sp"
-            android:paddingEnd="48dp"
-            android:paddingRight="48dp"
-            android:gravity="center_vertical"/>
+            android:maxLength="11"
+            android:textSize="16sp"
+            android:textColor="@color/text_primary"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:minHeight="56dp" />
 
-        <ImageView
-            android:id="@+id/btnClear"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
-            android:layout_gravity="end|center_vertical"
-            android:visibility="gone"
-            android:layout_marginEnd="12dp"/>
-    </FrameLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnGetCode"

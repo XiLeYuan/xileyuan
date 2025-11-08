@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.flexbox.FlexboxLayout
-import com.xly.R
 import com.jspp.model.UserCard
+import com.xly.R
 import com.xly.middlelibrary.utils.click
 
 class UserCardAdapter(

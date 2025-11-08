@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Style to use for Outlined Textfield in this theme. -->
+    <attr name="textInputOutlinedStyle" format="reference"/>
+
+</resources>

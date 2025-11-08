@@ -89,15 +89,10 @@
             android:exported="true"
             android:theme="@style/AppTheme"/>
 
-        <activity
-            android:name="com.jspp.activity.HomeActivity"
-            android:exported="true"/>
 
 
-        <activity
-            android:name="com.jspp.activity.UserDetailActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
+
+
 
         <activity
             android:name="com.xly.business.user.LYUserDetailInfoActivity"
@@ -110,20 +105,9 @@
             android:theme="@style/AppTheme" />
 
 
-        <activity
-            android:name="com.jspp.activity.TestUserDetailActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme" />
 
-        <activity
-            android:name="com.jspp.activity.TestBottomSheetActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme" />
 
-        <activity
-            android:name="com.jspp.activity.TestFloatingCardActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme" />
+
 
         <activity
             android:name="com.xly.base.LYWebViewActivity"
