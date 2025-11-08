@@ -18,7 +18,7 @@ import com.xly.business.user.adapter.ImagePagerAdapter
 import com.xly.business.user.adapter.ThumbnailAdapter
 
 class CheeseDetailActivity : AppCompatActivity() {
-    private val primaryColor = Color.parseColor("#F44336") // Material Design Red 500
+    private val primaryColor = Color.parseColor("#FF6B6B") // 主题色珊瑚红
     private var collapsingToolbar: CollapsingToolbarLayout? = null
     private var toolbar: Toolbar? = null
     private var statusToolbarBackground: View? = null
