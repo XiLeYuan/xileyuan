@@ -4,18 +4,19 @@
 
 
 
-    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowContentTransitions">true</item>
-        <!-- Material 3 颜色配置 -->
+        <!-- Material Components 颜色配置 -->
         <item name="colorPrimary">@color/brand_primary</item>
         <item name="colorOnPrimary">@color/text_white</item>
         <item name="colorSecondary">@color/text_accent</item>
         <item name="colorError">@color/text_error</item>
     </style>
 
-    <style name="AppThemeMain" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="AppThemeMain" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!--Android 5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色-->
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
@@ -23,11 +24,7 @@
         <item name="android:windowContentTransitions">true</item>
         <item name="colorControlActivated">@color/sign_in_ed_btn_color</item>
         <item name="android:windowFullscreen">true</item>
-        <!-- Material 3 颜色配置 -->
-        <item name="colorPrimary">@color/brand_primary</item>
-        <item name="colorOnPrimary">@color/text_white</item>
-        <item name="colorSecondary">@color/text_accent</item>
-        <item name="colorError">@color/text_error</item>
+
     </style>
 
 
@@ -40,140 +37,108 @@
     </style>
 
 
-
-
-
-
+    <!-- 圆角输入框样式 -->
+    <style name="RoundedBorderTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/selector_text_input_stroke</item>
+        <item name="boxStrokeErrorColor">@color/text_error</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+        <item name="hintTextColor">@color/selector_text_input_hint</item>
+    </style>
 
     <!--<style name="StartFullscreenTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowDisablePreview">false</item>
-        <item name="android:windowContentTransitions">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowBackground">@drawable/splash_bg</item>
-        <item name="android:windowNoTitle">true</item>
     </style>-->
 
-    <style name="StartFullscreenTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="android:windowTranslucentNavigation">true</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowDisablePreview">false</item>
-        <item name="android:windowContentTransitions">true</item>
-        <item name="android:windowBackground">@drawable/splash_bg</item>
-    </style>
-
-    <style name="Theme.Splash" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <!-- 启动窗口的背景（必须能铺满屏幕到状态栏） -->
-        <item name="android:windowBackground">@drawable/splash_bg</item>
-
-        <!-- 全屏+透明状态栏 -->
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLayoutInDisplayCutoutMode" tools:ignore="NewApi">shortEdges</item>
-
-        <!-- 禁用 translucent，避免系统先画一层黑/灰 -->
+    <style name="AppTheme.UserDetail" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:windowTranslucentStatus">false</item>
-        <item name="android:windowTranslucentNavigation">false</item>
-
-        <!-- Android 12+ 官方 Splash（有则更稳） -->
-        <!--<item name="windowSplashScreenBackground">@color/splash_bg_color</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/launcher_icon2</item>
-        <item name="postSplashScreenTheme">@style/AppThemeMain</item>-->
-    </style>
-
-
-    <style name="TabTextStyle" parent="TextAppearance.Design.Tab">
-        <item name="android:textSize">20sp</item>
-        <item name="android:textColor">#000000</item>
-    </style>
-
-    <style name="TransparentTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowAnimationStyle">@android:style/Animation</item>
-    </style>
-
-    <style name="EducationOptionStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">48dp</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">#222222</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:background">@drawable/bg_education_unselected</item>
-        <item name="android:layout_marginBottom">16dp</item>
-        <item name="android:padding">0dp</item>
-    </style>
-
-    <style name="IncomeOptionStyle">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">48dp</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">#222222</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:background">@drawable/bg_education_unselected</item>
-        <item name="android:layout_marginBottom">16dp</item>
-        <item name="android:padding">0dp</item>
-    </style>
-
-    <!-- 加载对话框主题 -->
-    <style name="LoadingDialogTheme" parent="Theme.AppCompat.Dialog">
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowAnimationStyle">@style/LoadingDialogAnimation</item>
-    </style>
-
-    <!-- 加载对话框动画 -->
-    <style name="LoadingDialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/fade_in</item>
-        <item name="android:windowExitAnimation">@anim/fade_out</item>
-    </style>
-
-    <style name="AppTheme.UserDetail" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowContentTransitions">true</item>
+        <!-- Material 3 颜色配置 -->
         <item name="colorPrimary">@color/brand_primary</item>
         <item name="colorOnPrimary">@color/text_white</item>
         <item name="colorSecondary">@color/text_accent</item>
-        <item name="android:windowLightStatusBar">true</item> <!-- 默认浅色状态栏 -->
+        <item name="colorError">@color/text_error</item>
     </style>
 
-    <style name="Widget.CardContent" parent="android:Widget">
-        <item name="android:paddingLeft">16dp</item>
-        <item name="android:paddingRight">16dp</item>
-        <item name="android:paddingTop">24dp</item>
-        <item name="android:paddingBottom">24dp</item>
+    <!-- Splash Activity 主题 -->
+    <style name="Theme.Splash" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_bg</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+    <!-- 透明主题 -->
+    <style name="TransparentTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <!-- 卡片内容容器样式 -->
+    <style name="WidgetCardContent">
         <item name="android:orientation">vertical</item>
+        <item name="android:padding">16dp</item>
     </style>
 
-    <!-- 自定义圆角边框 TextInputLayout 样式 -->
-    <style name="RoundedBorderTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <!-- 边框颜色 -->
-        <item name="boxStrokeColor">@color/selector_text_input_stroke</item>
-        <item name="boxStrokeErrorColor">@color/text_error</item>
-        <!-- 边框宽度 -->
-        <item name="boxStrokeWidth">1dp</item>
-        <item name="boxStrokeWidthFocused">1dp</item>
-        <!-- 背景颜色 -->
-        <item name="boxBackgroundColor">@color/bg_primary</item>
-        <!-- 提示文字颜色 -->
-        <item name="hintTextColor">@color/selector_text_input_hint</item>
-        <item name="android:textColorHint">@color/text_hint</item>
-        <!-- 注意：圆角属性在 Material Components 1.7.0 中需要通过代码设置 -->
+    <!-- 教育选项样式（学历、婚姻、购房购车等选项） -->
+    <style name="EducationOptionStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#222222</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@drawable/bg_education_unselected</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
     </style>
 
+    <!-- 收入选项样式 -->
+    <style name="IncomeOptionStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#222222</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/bg_education_unselected</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
 
-
-
-
-
-
-
+    <!-- Loading Dialog 主题 -->
+    <style name="LoadingDialogTheme" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.5</item>
+    </style>
 
 </resources>
-
