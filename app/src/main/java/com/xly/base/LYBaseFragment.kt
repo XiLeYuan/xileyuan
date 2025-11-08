@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
+import com.gyf.immersionbar.ImmersionBar
 import com.xly.R
 
 abstract class LYBaseFragment <VB : ViewBinding, VM : ViewModel> : Fragment() {
@@ -50,6 +51,22 @@ abstract class LYBaseFragment <VB : ViewBinding, VM : ViewModel> : Fragment() {
         toast.setView(layout)
         toast.setGravity(Gravity.CENTER, 0, 0)
         toast.show()
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        initTabBar()
+    }
+
+
+    private fun initTabBar() {
+        ImmersionBar.with(requireActivity())
+            .statusBarColor(R.color.transparent)
+            .statusBarDarkFont(true)
+            .navigationBarColor(R.color.white)
+            .navigationBarDarkIcon(true)
+            .init()
     }
 
     fun showLoading() {

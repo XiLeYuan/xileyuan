@@ -16,7 +16,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
-<!--    Android 13版本适配，细化存储权限-->
+    <!--    Android 13版本适配，细化存储权限-->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
@@ -40,18 +40,17 @@
         android:allowNativeHeapPointerTagging="false"
         android:extractNativeLibs="true"
         android:hardwareAccelerated="true"
-        android:usesCleartextTraffic="true"
-        android:networkSecurityConfig="@xml/network_security_config"
-        android:requestLegacyExternalStorage="true"
         android:icon="@mipmap/launcher_icon"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/launcher_icon2"
         android:supportsRtl="true"
         android:theme="@style/AppThemeMain"
+        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:targetApi="r"
-        tools:replace="android:allowBackup,android:networkSecurityConfig">
-
+        tools:replace="android:allowBackup,android:networkSecurityConfig"
+        tools:targetApi="r">
 
 
         <activity
@@ -70,35 +69,29 @@
         </activity>
 
 
-
         <activity
             android:name="com.xly.index.LYMainActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme">
-        </activity>
-
-        <activity
-            android:name="com.xly.business.square.view.MomentImageDetailActivity"
-            android:theme="@style/TransparentTheme"
-            android:exported="false">
-        </activity>
-
-        <activity
-            android:name="com.xly.business.login.view.LoginActivity"
             android:exported="true"
             android:theme="@style/AppTheme"/>
 
         <activity
+            android:name="com.xly.business.square.view.MomentImageDetailActivity"
+            android:exported="false"
+            android:theme="@style/TransparentTheme"/>
+
+        <activity
+            android:name="com.xly.business.login.view.LoginActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme" />
+
+        <activity
             android:name="com.xly.business.vip.view.LookStarMeActivity"
             android:exported="true"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/AppTheme"/>
 
         <activity
             android:name="com.jspp.activity.HomeActivity"
-            android:exported="true">
-        </activity>
-
+            android:exported="true"/>
 
 
         <activity
@@ -115,12 +108,6 @@
             android:name="com.xly.business.user.CheeseDetailActivity"
             android:exported="false"
             android:theme="@style/AppTheme" />
-
-
-
-
-
-
 
 
         <activity
@@ -141,11 +128,24 @@
         <activity
             android:name="com.xly.base.LYWebViewActivity"
             android:exported="true"
-            android:theme="@style/AppTheme"/>
-        <activity android:name="com.xly.business.login.view.PhoneLoginActivity" />
-        <activity android:name="com.xly.business.login.view.CodeLoginActivity" />
-        <activity android:name="com.xly.business.login.view.UserInfoActivity" />
-        <activity android:name="com.xly.business.user.view.BubbleChooseActivity" />
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.xly.business.login.view.PhoneLoginActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name="com.xly.business.login.view.CodeLoginActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.xly.business.login.view.UserInfoActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.xly.business.user.view.BubbleChooseActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
 
 
     </application>

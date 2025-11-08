@@ -20,6 +20,8 @@
     <color name="text_hint">#999999</color>
     <color name="text_hint_light">#B3B3B3</color>
 
+    <color name="transparent">#00000000</color>
+
     <!-- 强调色 -->
     <color name="text_accent">#FF6B6B</color>
     <color name="text_accent_light">#FF8E8E</color>
