@@ -21,7 +21,7 @@ import com.xly.databinding.FragmentLoginBinding
 
 class LoginFragment : LYBaseFragment<FragmentLoginBinding, LoginViewModel>() {
 
-    private var loginDialog: LoginBottomSheetDialogFragment? = null
+    private var loginDialog: LoginDialog? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -80,7 +80,7 @@ class LoginFragment : LYBaseFragment<FragmentLoginBinding, LoginViewModel>() {
 
     private fun showLoginDialog() {
         if (loginDialog == null) {
-            loginDialog = LoginBottomSheetDialogFragment().apply {
+            loginDialog = LoginDialog(requireContext()).apply {
                 onLoginClick = myLambda@{
                     if (!isAgreeChecked()) {
                         showToast("请先同意协议")
@@ -89,10 +89,11 @@ class LoginFragment : LYBaseFragment<FragmentLoginBinding, LoginViewModel>() {
                     // 修改: 跳转到手机号登录页
                     val intent = Intent(requireActivity(), PhoneLoginActivity::class.java)
                     startActivity(intent)
+                    dismiss()
                 }
             }
         }
-        loginDialog?.show(parentFragmentManager, "LoginBottomSheetDialogFragment")
+        loginDialog?.show()
     }
 
     private fun showTextWithAnim(idx: Int) {

@@ -82,7 +82,7 @@
         android:layout_marginBottom="24dp"
         android:minWidth="120dp"
         android:background="@drawable/bg_arrow_button"
-        android:src="@drawable/ic_arrow_line_white"
+        android:src="@mipmap/login_arrow_icon"
         android:contentDescription="下一步"
         android:scaleType="centerInside"
         android:paddingStart="20dp"
