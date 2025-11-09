@@ -31,6 +31,11 @@
     <color name="text_success">#4ECDC4</color>
     <color name="text_warning">#FFD93D</color>
     <color name="text_info">#3498DB</color>
+    
+    <!-- 品牌辅助色和强调色 -->
+    <color name="brand_accent">#4ECDC4</color>
+    <color name="brand_secondary">#FFD93D</color>
+    <color name="brand_orange">#FF8C42</color>
 
     <!-- 禁用色 -->
     <color name="text_disabled">#CCCCCC</color>
