@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.KeyEvent
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.xly.base.ActivityStackManager
 import com.xly.base.LYBaseActivity
 import com.xly.business.login.model.LoginUser
 import com.xly.business.login.viewmodel.LoginViewModel
@@ -61,11 +62,14 @@ class CodeLoginActivity : LYBaseActivity<ActivityCodeLoginBinding, LoginViewMode
 
                         MMKVManager.putBoolean(MMKVManager.KEY_LOGIN_SUCCESS, true)
 
-                        val intent = Intent(this@CodeLoginActivity, UserInfoActivity::class.java)
-                        intent.putExtra("phone", phone)
-                        intent.putExtra("code", code)
-                        startActivity(intent)
-                        finish()
+                        // 清除所有之前的Activity并跳转到UserInfoActivity
+                        ActivityStackManager.startActivityAndClearStack(
+                            this@CodeLoginActivity,
+                            UserInfoActivity::class.java
+                        ) {
+                            putExtra("phone", phone)
+                            putExtra("code", code)
+                        }
 //                        requestLogin(phone,code)
                     }
                 }
@@ -223,11 +227,15 @@ class CodeLoginActivity : LYBaseActivity<ActivityCodeLoginBinding, LoginViewMode
             Log.i("CodeLoginActivity","success")
             hideLoading()
             MMKVManager.putBoolean(MMKVManager.KEY_LOGIN_SUCCESS, true)
-            val intent = Intent(this@CodeLoginActivity, UserInfoActivity::class.java)
-            intent.putExtra("phone", phone)
-            intent.putExtra("code", code)
-            startActivity(intent)
-            finish()
+            
+            // 清除所有之前的Activity并跳转到UserInfoActivity
+            ActivityStackManager.startActivityAndClearStack(
+                this@CodeLoginActivity,
+                UserInfoActivity::class.java
+            ) {
+                putExtra("phone", phone)
+                putExtra("code", code)
+            }
         }
         viewModel.errorMessage.observe(this) { errorMessage ->
             hideLoading()
