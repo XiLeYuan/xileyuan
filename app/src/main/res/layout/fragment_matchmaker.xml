@@ -5,25 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!-- 顶部搜索栏（可选） -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:background="@color/bg_primary">
-
-        <EditText
-            android:id="@+id/etSearch"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:hint="搜索红娘"
-            android:background="#f5f5f5"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp" />
-
-    </LinearLayout>
 
     <!-- 红娘列表 -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
