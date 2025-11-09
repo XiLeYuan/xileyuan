@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.jspp.model.UserCard
 import com.xly.R
@@ -12,6 +12,7 @@ import com.xly.base.LYBaseActivity
 import com.xly.business.recommend.viewmodel.RecommendViewModel
 import com.xly.business.square.model.Matchmaker
 import com.xly.business.square.view.adapter.MatchmakerUserAdapter
+import com.xly.business.square.view.adapter.MatchmakerListItem
 import com.xly.business.user.LYUserDetailInfoActivity
 import com.xly.databinding.ActivityMatchmakerUserResourcesBinding
 import com.xly.middlelibrary.utils.MatchmakerMockData
@@ -20,6 +21,11 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
 
     private lateinit var matchmaker: Matchmaker
     private lateinit var userAdapter: MatchmakerUserAdapter
+    
+    private var currentPage = 1
+    private val pageSize = 20
+    private var isLoadingMore = false
+    private var hasMoreData = true
 
     companion object {
         const val EXTRA_MATCHMAKER_ID = "matchmaker_id"
@@ -50,15 +56,19 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
         super.initView()
         setupToolbar()
         setupStatusBarPlaceholder()
-        setupMatchmakerInfo()
         setupRecyclerView()
-        loadUserResources()
+        setupRefreshLayout()
+        loadUserResources(isRefresh = false)
     }
 
     private fun setupToolbar() {
         viewBind.btnBack.setOnClickListener {
             finish()
         }
+        
+        // 设置导航栏标题为红娘名字
+        val toolbarTitle = viewBind.root.findViewById<android.widget.TextView>(R.id.toolbarTitle)
+        toolbarTitle?.text = matchmaker.name
     }
     
     private fun setupStatusBarPlaceholder() {
@@ -69,13 +79,15 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
             layoutParams.height = statusBarHeight
             viewBind.statusBarPlaceholder.layoutParams = layoutParams
             
-            // 设置滚动视图的paddingTop，避免内容被导航栏遮挡
+            // 设置刷新布局的paddingTop，避免内容被导航栏遮挡
+            // 但不要设置padding，让刷新头部可以正常显示
             val toolbarHeight = viewBind.toolbarContainer.height
-            viewBind.scrollContent.setPadding(
-                viewBind.scrollContent.paddingLeft,
-                toolbarHeight,
-                viewBind.scrollContent.paddingRight,
-                viewBind.scrollContent.paddingBottom
+            // 只给RecyclerView设置paddingTop，而不是整个SmartRefreshLayout
+            viewBind.recyclerView.setPadding(
+                viewBind.recyclerView.paddingLeft,
+                toolbarHeight + 8.dpToPx(), // 导航栏高度 + 原有padding
+                viewBind.recyclerView.paddingRight,
+                viewBind.recyclerView.paddingBottom
             )
         }
     }
@@ -89,62 +101,6 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
         return result
     }
 
-    private fun setupMatchmakerInfo() {
-        // 红娘头像
-        Glide.with(this)
-            .load(matchmaker.avatar)
-            .placeholder(R.mipmap.head_img)
-            .circleCrop()
-            .into(viewBind.ivMatchmakerAvatar)
-
-        // 红娘姓名
-        viewBind.tvMatchmakerName.text = matchmaker.name
-
-        // 认证标识
-        viewBind.ivVerified.visibility = 
-            if (matchmaker.isVerified) android.view.View.VISIBLE else android.view.View.GONE
-
-        // VIP标识
-        viewBind.tvVIP.visibility = 
-            if (matchmaker.isVIP) android.view.View.VISIBLE else android.view.View.GONE
-
-        // 评分
-        viewBind.tvRating.text = String.format("%.1f", matchmaker.rating)
-
-        // 用户数量
-        viewBind.tvUserCount.text = "${matchmaker.userCount}位用户"
-
-        // 服务区域
-        viewBind.tvLocation.text = "📍 ${matchmaker.location}"
-
-        // 简介
-        viewBind.tvDescription.text = matchmaker.description
-
-        // 成功率
-        viewBind.tvSuccessRate.text = "成功率：${matchmaker.successRate.toInt()}%"
-
-        // 从业年限
-        if (matchmaker.yearsOfExperience > 0) {
-            viewBind.tvExperience.text = "${matchmaker.yearsOfExperience}年从业经验"
-            viewBind.tvExperience.visibility = android.view.View.VISIBLE
-        } else {
-            viewBind.tvExperience.visibility = android.view.View.GONE
-        }
-
-        // 标签
-        setupTags(matchmaker.tags)
-    }
-
-    private fun setupTags(tags: List<String>) {
-        viewBind.llTags.removeAllViews()
-        tags.take(3).forEach { tag ->
-            val tagView = LayoutInflater.from(this)
-                .inflate(R.layout.item_tag, viewBind.llTags, false)
-            val tvTag = tagView.findViewById<android.widget.TextView>(R.id.tvTag)
-            tvTag.text = tag
-            viewBind.llTags.addView(tagView)
-        }
-    }
 
     private fun setupRecyclerView() {
         userAdapter = MatchmakerUserAdapter { userCard ->
@@ -155,8 +111,8 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
             startActivity(intent)
         }
 
-        // 使用网格布局，每行2个
-        viewBind.recyclerView.layoutManager = GridLayoutManager(this, 2)
+        // 使用线性布局，单列列表
+        viewBind.recyclerView.layoutManager = LinearLayoutManager(this)
         viewBind.recyclerView.adapter = userAdapter
         
         // 添加间距
@@ -169,27 +125,100 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
                     parent: androidx.recyclerview.widget.RecyclerView,
                     state: androidx.recyclerview.widget.RecyclerView.State
                 ) {
-                    outRect.left = spacing / 2
-                    outRect.right = spacing / 2
-                    outRect.top = spacing / 2
-                    outRect.bottom = spacing / 2
+                    outRect.top = spacing
+                    outRect.bottom = spacing
                 }
             }
         )
+    }
+    
+    private fun setupRefreshLayout() {
+        // 设置刷新头部和加载更多底部
+        viewBind.refreshLayout.setRefreshHeader(
+            com.scwang.smart.refresh.header.MaterialHeader(this)
+        )
+        viewBind.refreshLayout.setRefreshFooter(
+            com.scwang.smart.refresh.footer.ClassicsFooter(this)
+        )
+        
+        // 确保刷新功能启用
+        viewBind.refreshLayout.setEnableRefresh(true)
+        viewBind.refreshLayout.setEnableLoadMore(true)
+        
+        // 下拉刷新
+        viewBind.refreshLayout.setOnRefreshListener { refreshLayout ->
+            currentPage = 1
+            hasMoreData = true
+            loadUserResources(isRefresh = true) {
+                refreshLayout.finishRefresh()
+            }
+        }
+        
+        // 加载更多
+        viewBind.refreshLayout.setOnLoadMoreListener { refreshLayout ->
+            if (!isLoadingMore && hasMoreData) {
+                currentPage++
+                loadUserResources(isRefresh = false) {
+                    refreshLayout.finishLoadMore(hasMoreData)
+                }
+            } else {
+                refreshLayout.finishLoadMore(!hasMoreData)
+            }
+        }
     }
     
     private fun Int.dpToPx(): Int {
         return (this * resources.displayMetrics.density).toInt()
     }
 
-    private fun loadUserResources() {
-        // TODO: 从ViewModel或API加载该红娘的用户资源
-        // 这里先用Mock数据
-        val mockUsers = generateMockUserResources(matchmaker.id)
-        userAdapter.submitList(mockUsers)
+    private fun loadUserResources(isRefresh: Boolean, onComplete: (() -> Unit)? = null) {
+        if (isLoadingMore) {
+            onComplete?.invoke()
+            return
+        }
         
-        // 更新总数
-        viewBind.tvTotalCount.text = "共${mockUsers.size}位"
+        isLoadingMore = true
+        
+        // TODO: 从ViewModel或API加载该红娘的用户资源
+        // 这里先用Mock数据模拟分页
+        val allMockUsers = generateMockUserResources(matchmaker.id)
+        val totalCount = allMockUsers.size
+        
+        // 模拟分页数据
+        val startIndex = (currentPage - 1) * pageSize
+        val endIndex = minOf(startIndex + pageSize, totalCount)
+        val pageUsers = if (startIndex < totalCount) {
+            allMockUsers.subList(startIndex, endIndex)
+        } else {
+            emptyList()
+        }
+        
+        // 模拟网络延迟
+        viewBind.recyclerView.postDelayed({
+            if (isRefresh) {
+                // 刷新：构建新列表，红娘信息 + 用户列表
+                val listItems = mutableListOf<MatchmakerListItem>()
+                listItems.add(MatchmakerListItem.MatchmakerInfo(matchmaker))
+                listItems.addAll(pageUsers.map { MatchmakerListItem.UserInfo(it) })
+                userAdapter.submitList(listItems)
+            } else {
+                // 加载更多：追加数据
+                val currentList = userAdapter.currentList.toMutableList()
+                // 如果当前列表为空或第一个不是红娘信息，先添加红娘信息
+                if (currentList.isEmpty() || currentList[0] !is MatchmakerListItem.MatchmakerInfo) {
+                    currentList.add(0, MatchmakerListItem.MatchmakerInfo(matchmaker))
+                }
+                // 追加用户数据
+                currentList.addAll(pageUsers.map { MatchmakerListItem.UserInfo(it) })
+                userAdapter.submitList(currentList)
+            }
+            
+            // 判断是否还有更多数据
+            hasMoreData = endIndex < totalCount
+            
+            isLoadingMore = false
+            onComplete?.invoke()
+        }, 500) // 模拟500ms延迟
     }
 
     /**
@@ -269,3 +298,4 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
         )
     }
 }
+
