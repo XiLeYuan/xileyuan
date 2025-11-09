@@ -1,5 +1,6 @@
 package com.xly.business.square.view
 
+import android.content.Intent
 import com.xly.base.LYBaseFragment
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.xly.business.square.model.TodaySelectionUser
 import com.xly.business.square.view.adapter.CherryPickAdapter
 import com.xly.business.square.viewmodel.CherryPickViewModel
+import com.xly.business.user.LYUserDetailInfoActivity
 import com.xly.databinding.FragmentTodaySelectionBinding
 
 class CherryPickFragment : LYBaseFragment<FragmentTodaySelectionBinding, CherryPickViewModel>() {
@@ -69,12 +71,11 @@ class CherryPickFragment : LYBaseFragment<FragmentTodaySelectionBinding, CherryP
 
 
     private fun navigateToUserDetail(user: TodaySelectionUser) {
-        // 转换为 UserCard 并跳转
-        /*val userCard = convertToUserCard(user)
-        val intent = Intent(requireContext(), UserDetailActivity::class.java).apply {
-            putExtra("user_card", userCard)
+        // 点击用户卡片，跳转到用户详情页
+        val intent = Intent(requireActivity(), LYUserDetailInfoActivity::class.java).apply {
+            putExtra("user_id", "userCard.id")
         }
-        startActivity(intent)*/
+        startActivity(intent)
     }
 
     private fun handleLike(user: TodaySelectionUser) {
