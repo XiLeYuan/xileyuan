@@ -10,6 +10,7 @@ import com.xly.databinding.ItemTodaySelectionUserBinding
 import com.xly.R
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.xly.business.square.model.TodaySelectionUser
 
 class CherryPickAdapter(
@@ -41,12 +42,22 @@ class CherryPickAdapter(
             onItemClick: (TodaySelectionUser) -> Unit,
             onLikeClick: (TodaySelectionUser) -> Unit
         ) {
-            // 头像
-            /*Glide.with(binding.root.context)
-                .load(user.avatar)
-                .placeholder(R.drawable.default_avatar)
-                .centerCrop()
-                .into(binding.ivAvatar)*/
+            // 头像 - 加载本地 mipmap 资源
+            val context = binding.root.context
+            val resourceId = context.resources.getIdentifier(
+                user.avatar,
+                "mipmap",
+                context.packageName
+            )
+            if (resourceId != 0) {
+                Glide.with(context)
+                    .load(resourceId)
+                    .centerCrop()
+                    .into(binding.ivAvatar)
+            } else {
+                // 如果资源不存在，使用默认头像
+                binding.ivAvatar.setImageResource(R.mipmap.head_img)
+            }
 
             // 姓名
             binding.tvUserName.text = user.name

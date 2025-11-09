@@ -10,13 +10,25 @@ object TodaySelectionMockData {
      * 生成今日精选用户数据
      */
     fun generateTodaySelection(): List<TodaySelectionUser> {
+        // 8张头像图片资源
+        val avatarResources = listOf(
+            "head_one",
+            "head_two",
+            "head_three",
+            "head_four",
+            "head_five",
+            "head_six",
+            "head_seven",
+            "head_eight"
+        )
+        
         return listOf(
             TodaySelectionUser(
                 id = "sel_001",
                 name = "小美",
                 age = 25,
                 location = "北京 · 朝阳区",
-                avatar = "https://example.com/user/u001.jpg",
+                avatar = avatarResources[0], // head_one
                 tags = listOf("163cm", "本科", "5k-8k", "喜欢旅行"),
                 selectionReason = "高匹配度",
                 selectionDescription = "根据您的偏好，为您精准匹配。相似的教育背景和兴趣爱好，匹配度高达92%。",
@@ -28,7 +40,7 @@ object TodaySelectionMockData {
                 name = "小雨",
                 age = 23,
                 location = "上海 · 浦东新区",
-                avatar = "https://example.com/user/u002.jpg",
+                avatar = avatarResources[1], // head_two
                 tags = listOf("160cm", "硕士", "8k-12k", "文艺青年"),
                 selectionReason = "官方推荐",
                 selectionDescription = "官方精选优质用户，认证信息完整，活跃度高，值得信赖。",
@@ -40,7 +52,7 @@ object TodaySelectionMockData {
                 name = "小芳",
                 age = 26,
                 location = "深圳 · 南山区",
-                avatar = "https://example.com/user/u003.jpg",
+                avatar = avatarResources[2], // head_three
                 tags = listOf("165cm", "本科", "10k-15k", "工作稳定"),
                 selectionReason = "高匹配度",
                 selectionDescription = "智能算法推荐，年龄、地域、收入水平高度匹配，建议优先关注。",
@@ -52,7 +64,7 @@ object TodaySelectionMockData {
                 name = "小丽",
                 age = 24,
                 location = "广州 · 天河区",
-                avatar = "https://example.com/user/u004.jpg",
+                avatar = avatarResources[3], // head_four
                 tags = listOf("162cm", "本科", "6k-10k", "性格开朗"),
                 selectionReason = "活跃用户",
                 selectionDescription = "官方推荐活跃用户，近期登录频繁，回复及时，互动意愿强。",
@@ -64,7 +76,7 @@ object TodaySelectionMockData {
                 name = "小雅",
                 age = 27,
                 location = "杭州 · 西湖区",
-                avatar = "https://example.com/user/u005.jpg",
+                avatar = avatarResources[4], // head_five
                 tags = listOf("168cm", "硕士", "15k-20k", "文艺青年"),
                 selectionReason = "高匹配度",
                 selectionDescription = "智能匹配系统推荐，匹配度达90%。职业背景相似，价值观相符。",
@@ -76,7 +88,7 @@ object TodaySelectionMockData {
                 name = "小婷",
                 age = 25,
                 location = "成都 · 锦江区",
-                avatar = "https://example.com/user/u006.jpg",
+                avatar = avatarResources[5], // head_six
                 tags = listOf("164cm", "本科", "7k-12k", "热爱生活"),
                 selectionReason = "官方推荐",
                 selectionDescription = "官方精选用户，资料真实完整，照片认证通过，信誉度高。",
@@ -88,7 +100,7 @@ object TodaySelectionMockData {
                 name = "小静",
                 age = 28,
                 location = "武汉 · 江汉区",
-                avatar = "https://example.com/user/u007.jpg",
+                avatar = avatarResources[6], // head_seven
                 tags = listOf("166cm", "硕士", "12k-18k", "事业有成"),
                 selectionReason = "高匹配度",
                 selectionDescription = "根据您的个人资料和择偶标准，智能推荐。教育水平、收入范围高度匹配。",
@@ -100,7 +112,7 @@ object TodaySelectionMockData {
                 name = "小雯",
                 age = 23,
                 location = "南京 · 鼓楼区",
-                avatar = "https://example.com/user/u008.jpg",
+                avatar = avatarResources[7], // head_eight
                 tags = listOf("161cm", "本科", "5k-9k", "温柔体贴"),
                 selectionReason = "新用户推荐",
                 selectionDescription = "官方推荐新用户，刚注册不久，资料新鲜，值得关注。",
