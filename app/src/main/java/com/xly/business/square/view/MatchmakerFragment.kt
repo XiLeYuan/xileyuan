@@ -44,10 +44,6 @@ class MatchmakerFragment : LYBaseFragment<FragmentMatchmakerBinding, RecommendVi
 
     private fun initViews() {
         // 初始化搜索框（可选）
-        viewBind.etSearch.setOnEditorActionListener { _, _, _ ->
-            searchMatchmakers(viewBind.etSearch.text.toString())
-            true
-        }
     }
 
     private fun setupRecyclerView() {
@@ -117,7 +113,7 @@ class MatchmakerFragment : LYBaseFragment<FragmentMatchmakerBinding, RecommendVi
 
     private fun navigateToUserList(matchmaker: Matchmaker) {
         // 跳转到用户资源列表页面
-
+        MatchmakerUserResourcesActivity.start(requireContext(), matchmaker)
     }
 
     override fun initObservers() {

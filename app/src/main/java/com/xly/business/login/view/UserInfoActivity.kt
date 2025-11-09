@@ -9,6 +9,7 @@ import com.xly.business.login.view.adapter.UserInfoPagerAdapter
 import com.xly.business.login.viewmodel.LoginViewModel
 import com.xly.databinding.ActivityUserInfoBinding
 import com.xly.index.LYMainActivity
+import com.xly.middlelibrary.utils.visible
 
 class UserInfoActivity : LYBaseActivity<ActivityUserInfoBinding, LoginViewModel>(), UserInfoStepFragment.OnInputValidListener {
     private val totalSteps = 16
@@ -102,7 +103,8 @@ class UserInfoActivity : LYBaseActivity<ActivityUserInfoBinding, LoginViewModel>
     }
 
     private fun updateSkipButtonVisibility(step: Int) {
-        viewBind.btnSkip.visibility = if (step >= 10) android.view.View.VISIBLE else android.view.View.GONE
+        viewBind.btnSkip.visible()
+//        viewBind.btnSkip.visibility = if (step >= 10) android.view.View.VISIBLE else android.view.View.GONE
     }
 
     // Fragment回调，输入有效性变化时调用

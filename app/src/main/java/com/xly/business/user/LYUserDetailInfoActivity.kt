@@ -1,369 +1,283 @@
 package com.xly.business.user
 
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
-import android.view.MenuItem
+import android.view.Menu
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.gyf.immersionbar.ImmersionBar
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.xly.R
-import com.xly.business.user.adapter.UserImageAdapter
-import com.xly.databinding.ActivityUserDetailInfoBinding
+import com.xly.business.user.adapter.ImagePagerAdapter
+import com.xly.business.user.adapter.ThumbnailAdapter
 
-/**
- * 用户详情页 - 微信朋友圈风格（性能优化版）
- * 优化点：
- * 1. 避免频繁调用 ImmersionBar.init()，使用系统 API 直接更新
- * 2. 添加节流机制，限制更新频率
- * 3. 缓存颜色值，避免重复设置
- * 4. 确保导航栏与状态栏渐变同步
- */
 class LYUserDetailInfoActivity : AppCompatActivity() {
+    private val primaryColor = Color.parseColor("#FF6B6B") // 主题色珊瑚红
+    private var collapsingToolbar: CollapsingToolbarLayout? = null
+    private var toolbar: Toolbar? = null
+    private var statusToolbarBackground: View? = null
+    private var lastAppliedColor: Int = Color.TRANSPARENT // 缓存上次应用的颜色，避免不必要的更新
+    private var thumbnailAdapter: ThumbnailAdapter? = null
+    private var thumbnailRecycler: RecyclerView? = null
 
-    private lateinit var binding: ActivityUserDetailInfoBinding
-    private lateinit var imageAdapter: UserImageAdapter
-    private var imageUrls = mutableListOf<String>()
-
-    // 状态栏相关
-    private var isStatusBarDark = false
-    private var isAppBarExpanded = true
-
-    // 阻尼效果相关
-    private var scale = 1f
-    private val maxScale = 1.2f
-
-    // 性能优化：缓存上一次的颜色值，避免重复设置
-    private var lastStatusBarColor = Color.TRANSPARENT
-    private var lastNavigationBarColor = Color.TRANSPARENT
-    private var lastStatusBarDarkFont = false
-    private var lastNavigationBarDarkIcon = false
-    private var lastToolbarAlpha = 0f
-
-    // 性能优化：节流机制
-    private var lastUpdateTime = 0L
-    private val updateInterval = 16L // 约60fps，16ms更新一次
-
-    // 性能优化：WindowInsetsController 缓存
-    private val windowInsetsController by lazy {
-        ViewCompat.getWindowInsetsController(window.decorView)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
+    public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityUserDetailInfoBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        
+        // 在 setContentView 之前设置窗口标志，确保状态栏颜色可以绘制
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.addFlags(android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            // 设置状态栏为透明，让 statusBarScrim 来控制状态栏颜色
+            window.statusBarColor = Color.TRANSPARENT
+        }
+        
+        setContentView(R.layout.activity_detail)
 
-        setupImmersionBar()
-        setupViewPager()
-        setupToolbar()
-        setupScrollListeners()
-        loadUserData()
+        val intent = intent
+        val cheeseName = intent.getStringExtra(EXTRA_NAME)
+        toolbar = findViewById(R.id.toolbar)
+
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        collapsingToolbar = findViewById(R.id.collapsing_toolbar)
+        // 禁用CollapsingToolbarLayout的默认title，使用自定义TextView
+        collapsingToolbar?.title = ""
+        
+        // 设置自定义title的位置和内容
+
+        
+        // 获取占位View，作为状态栏和Toolbar的整体背景
+        statusToolbarBackground = findViewById(R.id.status_toolbar_background)
+        
+        // 设置占位View的高度：状态栏高度 + Toolbar高度
+        setupStatusToolbarBackground()
+
+        val appBarLayout: AppBarLayout = findViewById(R.id.appbar)
+        
+        // 监听 AppBarLayout 的滚动偏移，实现状态栏和 Toolbar 红色渐变
+        appBarLayout.addOnOffsetChangedListener { appBar, verticalOffset ->
+            val totalScrollRange = appBar.totalScrollRange
+            val scrollRatio = if (totalScrollRange != 0) {
+                (-verticalOffset).toFloat() / totalScrollRange
+            } else {
+                0f
+            }
+            // 限制在 0-1 之间
+            val clampedRatio = scrollRatio.coerceIn(0f, 1f)
+            // 检查是否完全折叠：verticalOffset 的绝对值等于 totalScrollRange
+            val isFullyCollapsed = totalScrollRange != 0 && kotlin.math.abs(verticalOffset) >= totalScrollRange
+            updateStatusBarColor(clampedRatio, isFullyCollapsed)
+            updateThumbnailAlpha(clampedRatio)
+        }
+
+        setupImagePager()
     }
 
-    /**
-     * 设置沉浸式状态栏 - 只初始化一次
-     */
-    private fun setupImmersionBar() {
-        ImmersionBar.with(this)
-            .transparentBar() // 透明状态栏和导航栏
-            .statusBarDarkFont(false) // 初始状态栏文字浅色（图片背景时）
-            .fitsSystemWindows(false)
-            .keyboardEnable(true)
-            .init()
-    }
-
-    /**
-     * 设置滚动监听 - 优化版
-     */
-    private fun setupScrollListeners() {
-        // AppBarLayout 折叠状态监听
-        binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-            val totalScrollRange = appBarLayout.totalScrollRange
-            val percentage = Math.abs(verticalOffset).toFloat() / totalScrollRange
-
-            // 使用节流机制更新系统栏
-            updateSystemBarsWithThrottle(percentage)
-
-            // 检查是否完全展开
-            if (verticalOffset == 0) {
-                setupOverScrollListener()
-                isAppBarExpanded = true
-            } else if (Math.abs(verticalOffset) >= totalScrollRange) {
-                isAppBarExpanded = false
+    private fun setupStatusToolbarBackground() {
+        statusToolbarBackground?.let { background ->
+            // 等待布局完成后再设置高度和位置
+            background.post {
+                val statusBarHeight = getStatusBarHeight()
+                
+                // 获取Toolbar的实际高度
+                // Toolbar使用?attr/actionBarSize，通常是56dp，但为了确保完全覆盖，使用实际测量的高度
+                val toolbarHeightPx = toolbar?.height ?: run {
+                    // 如果Toolbar还没有测量完成，使用actionBarSize的标准值（56dp）
+                    val actionBarSizeAttr = intArrayOf(android.R.attr.actionBarSize)
+                    val typedArray = obtainStyledAttributes(actionBarSizeAttr)
+                    val actionBarSize = typedArray.getDimensionPixelSize(0, 0)
+                    typedArray.recycle()
+                    actionBarSize
+                }
+                
+                // 为了确保完全覆盖，稍微增加一点高度（增加2dp作为安全边距）
+                val extraHeight = (2 * resources.displayMetrics.density).toInt()
+                val totalHeight = statusBarHeight + toolbarHeightPx + extraHeight
+                
+                val layoutParams = background.layoutParams
+                layoutParams.height = totalHeight
+                
+                // 由于占位View在CollapsingToolbarLayout内部，并且CollapsingToolbarLayout有fitsSystemWindows="true"
+                // CollapsingToolbarLayout的内容区域从状态栏下方开始
+                // 占位View需要向上偏移状态栏高度，才能覆盖状态栏区域
+                // 使用负的marginTop让View向上延伸到状态栏区域
+                if (layoutParams is android.view.ViewGroup.MarginLayoutParams) {
+                    // 确保负的marginTop能够完全覆盖状态栏
+                    layoutParams.topMargin = -statusBarHeight
+                }
+                background.layoutParams = layoutParams
+                
+                // 确保占位View在Toolbar下方，作为背景层
+                // 由于占位View在布局中位于Toolbar之前，它会在Toolbar下方绘制
+                // Toolbar的背景是透明的，所以占位View的颜色会显示出来
             }
         }
+    }
 
-        // NestedScrollView 滚动监听
-        binding.nestedScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-            // 处理下拉阻尼效果
-            handleOverScroll(scrollY)
+    private fun getStatusBarHeight(): Int {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val windowInsets = window.decorView.rootWindowInsets
+            windowInsets?.getInsets(WindowInsetsCompat.Type.statusBars())?.top ?: 0
+        } else {
+            var result = 0
+            val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+            if (resourceId > 0) {
+                result = resources.getDimensionPixelSize(resourceId)
+            }
+            result
         }
     }
 
-    /**
-     * 使用节流机制更新系统栏 - 性能优化
-     */
-    private fun updateSystemBarsWithThrottle(percentage: Float) {
-        val currentTime = System.currentTimeMillis()
-
-        // 节流：限制更新频率
-        if (currentTime - lastUpdateTime < updateInterval) {
+    private fun updateStatusBarColor(scrollRatio: Float, isFullyCollapsed: Boolean) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             return
         }
-        lastUpdateTime = currentTime
-
-        // 计算统一的透明度
-        val alpha = calculateUnifiedAlpha(percentage)
-
-        // 同步更新所有组件
-        updateSystemBars(alpha)
+        
+        val background = this.statusToolbarBackground ?: return
+        
+        // 调整渐变时机，让状态栏和 Toolbar 的渐变完全同步
+        // 当滚动比例达到这个阈值时，开始从透明渐变到红色
+        val threshold = 0.7f
+        
+        // 获取红色的 RGB 分量（不包含 alpha）
+        val red = Color.red(primaryColor)
+        val green = Color.green(primaryColor)
+        val blue = Color.blue(primaryColor)
+        
+        val finalColor: Int
+        val currentAlpha: Int
+        
+        if (isFullyCollapsed || scrollRatio >= 1.0f) {
+            // 完全折叠时，使用完全不透明的红色
+            finalColor = primaryColor
+            currentAlpha = 255
+        } else if (scrollRatio < threshold) {
+            // 在阈值之前，保持完全透明
+            finalColor = Color.TRANSPARENT
+            currentAlpha = 0
+        } else {
+            // 在阈值之后，计算渐变（在 threshold 到 1.0 之间）
+            val gradientRatio = ((scrollRatio - threshold) / (1.0f - threshold)).coerceIn(0f, 1f)
+            // 使用平滑插值函数，减少颜色突变，使渐变更平滑
+            val smoothRatio = gradientRatio * gradientRatio * (3f - 2f * gradientRatio) // smoothstep
+            currentAlpha = (smoothRatio * 255).toInt().coerceIn(0, 255)
+            
+            // 计算最终颜色（带透明度）
+            finalColor = Color.argb(currentAlpha, red, green, blue)
+        }
+        
+        // 防抖机制：只在颜色变化超过阈值时才更新，减少频繁更新导致的闪烁
+        // 在关键状态（完全透明或完全不透明）时总是更新
+        // 在渐变过程中，只在 alpha 值变化超过 8 时才更新（减少更新频率）
+        val lastAlpha = Color.alpha(lastAppliedColor)
+        val shouldUpdate = when {
+            currentAlpha == 0 || currentAlpha == 255 -> {
+                // 关键状态：总是更新
+                finalColor != lastAppliedColor
+            }
+            kotlin.math.abs(currentAlpha - lastAlpha) >= 8 -> {
+                // 渐变状态：只在变化超过阈值时更新
+                true
+            }
+            else -> {
+                // 变化太小，跳过更新
+                false
+            }
+        }
+        
+        if (!shouldUpdate) {
+            return
+        }
+        
+        // 更新缓存
+        lastAppliedColor = finalColor
+        
+        // 直接设置占位View的背景色，作为状态栏和Toolbar的整体背景
+        // 占位View已经覆盖了状态栏和Toolbar区域，所以只需要设置占位View的颜色
+        // 状态栏保持透明，让占位View的颜色显示出来，确保状态栏和Toolbar颜色完全一致
+        background.setBackgroundColor(finalColor)
+        
+        // 保持状态栏透明，让占位View的颜色显示出来
+        // 如果同时设置window.statusBarColor，会导致颜色叠加，造成状态栏颜色更深
+        window.statusBarColor = Color.TRANSPARENT
     }
 
     /**
-     * 计算统一的透明度值
+     * 根据滚动比例更新缩略图的透明度
+     * @param scrollRatio 滚动比例，0表示完全展开，1表示完全折叠
      */
-    private fun calculateUnifiedAlpha(percentage: Float): Float {
-        // 从 10% 开始渐变，到 30% 完成
-        return ((percentage - 0.1f).coerceIn(0f, 0.2f) / 0.2f).coerceIn(0f, 1f)
+    private fun updateThumbnailAlpha(scrollRatio: Float) {
+        thumbnailRecycler?.let { recycler ->
+            // 当滚动比例增加时，alpha从1.0逐渐减少到0.0
+            // 可以设置一个阈值，在滚动到一定比例时开始渐变
+            val fadeStartThreshold = 0.3f // 从30%滚动比例开始渐变
+            val fadeEndThreshold = 0.7f // 到70%滚动比例时完全消失
+            
+            val alpha = when {
+                scrollRatio < fadeStartThreshold -> 1.0f // 完全展开时，完全不透明
+                scrollRatio > fadeEndThreshold -> 0.0f // 超过阈值时，完全透明
+                else -> {
+                    // 在阈值之间进行线性插值
+                    val fadeProgress = (scrollRatio - fadeStartThreshold) / (fadeEndThreshold - fadeStartThreshold)
+                    1.0f - fadeProgress // 从1.0渐变到0.0
+                }
+            }
+            
+            recycler.alpha = alpha
+            // 当完全透明时，可以设置为不可见以优化性能
+            recycler.visibility = if (alpha <= 0f) View.INVISIBLE else View.VISIBLE
+        }
     }
 
-    /**
-     * 更新系统栏（状态栏和导航栏）- 使用系统 API，避免 ImmersionBar.init()
-     */
-    private fun updateSystemBars(alpha: Float) {
-        val color = calculateColor(alpha)
-        val isDark = alpha > 0.5f
-
-        // 性能优化：只在颜色或状态变化时更新
-        if (lastStatusBarColor != color) {
-            window.statusBarColor = color
-            lastStatusBarColor = color
-        }
-
-        if (lastNavigationBarColor != color) {
-            window.navigationBarColor = color
-            lastNavigationBarColor = color
-        }
-
-        // 性能优化：只在状态变化时更新文字颜色
-        if (lastStatusBarDarkFont != isDark) {
-            windowInsetsController?.isAppearanceLightStatusBars = isDark
-            lastStatusBarDarkFont = isDark
-        }
-
-        if (lastNavigationBarDarkIcon != isDark) {
-            windowInsetsController?.isAppearanceLightNavigationBars = isDark
-            lastNavigationBarDarkIcon = isDark
-        }
-
-        // 更新 Toolbar 背景和图标
-        updateToolbar(alpha, isDark)
-    }
-
-    /**
-     * 计算颜色值
-     */
-    private fun calculateColor(alpha: Float): Int {
-        return Color.argb(
-            (alpha * 255).toInt(),
-            255, 255, 255  // 白色
+    private fun setupImagePager() {
+        val viewPager: ViewPager2 = findViewById(R.id.viewpager_backdrop)
+        thumbnailRecycler = findViewById(R.id.thumbnail_recycler)
+        
+        // 准备多张图片资源（使用所有可用的cheese图片）
+        val imageResources = listOf(
+            R.drawable.cheese_1,
+            R.drawable.cheese_2,
+            R.drawable.cheese_3,
+            R.drawable.cheese_4,
+            R.drawable.cheese_5
         )
-    }
-
-    /**
-     * 更新 Toolbar - 优化版
-     */
-    private fun updateToolbar(alpha: Float, isDark: Boolean) {
-        val color = calculateColor(alpha)
-
-        // 性能优化：只在颜色变化时更新背景
-        if (binding.toolbar.background == null ||
-            (binding.toolbar.background as? android.graphics.drawable.ColorDrawable)?.color != color) {
-            binding.toolbar.setBackgroundColor(color)
+        
+        // 设置ViewPager2适配器
+        val adapter = ImagePagerAdapter(imageResources)
+        viewPager.adapter = adapter
+        
+        // 禁用ViewPager2的嵌套滚动，避免与CollapsingToolbarLayout冲突
+        viewPager.isNestedScrollingEnabled = false
+        
+        // 设置缩略图RecyclerView
+        thumbnailRecycler?.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        thumbnailAdapter = ThumbnailAdapter(imageResources) { position ->
+            // 点击缩略图时，切换到大图
+            viewPager.setCurrentItem(position, true)
         }
-
-        // 性能优化：只在透明度变化时更新
-        if (Math.abs(binding.toolbar.alpha - alpha) > 0.01f) {
-            binding.toolbar.alpha = alpha
-            lastToolbarAlpha = alpha
-        }
-
-        // 更新返回按钮图标
-        val iconRes = if (isDark) {
-            R.mipmap.main_back_icon_press
-        } else {
-            R.mipmap.main_back_icon
-        }
-
-        // 性能优化：只在图标需要变化时更新
-        val currentIcon = binding.toolbar.navigationIcon
-        val expectedIconResId = if (isDark) R.mipmap.main_back_icon_press else R.mipmap.main_back_icon
-
-        // 检查是否需要更新图标（简化检查，避免频繁创建 Drawable）
-        if (currentIcon == null ||
-            (currentIcon as? androidx.appcompat.graphics.drawable.DrawableWrapper)?.wrappedDrawable == null) {
-            binding.toolbar.navigationIcon = ContextCompat.getDrawable(this, iconRes)
-        }
-
-        // 更新工具栏标题显示
-        updateToolbarTitle(alpha)
-    }
-
-    /**
-     * 更新工具栏标题显示
-     */
-    private fun updateToolbarTitle(alpha: Float) {
-        val toolbarTitle = binding.toolbar.findViewById<TextView>(R.id.toolbar_title) ?: return
-
-        if (alpha > 0.5f) {
-            // 显示标题
-            if (toolbarTitle.visibility != View.VISIBLE) {
-                toolbarTitle.visibility = View.VISIBLE
-                toolbarTitle.alpha = 0f
-                toolbarTitle.animate()
-                    .alpha(1f)
-                    .setDuration(200)
-                    .start()
-            }
-            toolbarTitle.setTextColor(if (alpha > 0.5f) Color.BLACK else Color.WHITE)
-        } else {
-            // 隐藏标题
-            if (toolbarTitle.visibility == View.VISIBLE) {
-                toolbarTitle.animate()
-                    .alpha(0f)
-                    .setDuration(200)
-                    .withEndAction { toolbarTitle.visibility = View.INVISIBLE }
-                    .start()
-            }
-        }
-    }
-
-    /**
-     * 处理下拉阻尼效果
-     */
-    private fun handleOverScroll(scrollY: Int) {
-        if (isAppBarExpanded && scrollY < 0) {
-            // 下拉状态，计算阻尼放大效果
-            val overscroll = Math.abs(scrollY)
-            val newScale = 1 + (overscroll * 0.002f).coerceAtMost(maxScale - 1)
-
-            // 性能优化：只在缩放值变化时更新
-            if (Math.abs(scale - newScale) > 0.01f) {
-                scale = newScale
-                binding.viewPager.scaleX = scale
-                binding.viewPager.scaleY = scale
-                binding.viewPager.pivotX = binding.viewPager.width / 2f
-                binding.viewPager.pivotY = 0f
-            }
-        } else if (scale > 1f) {
-            // 恢复原大小
-            scale = 1f
-            binding.viewPager.scaleX = scale
-            binding.viewPager.scaleY = scale
-        }
-    }
-
-    /**
-     * 设置图片轮播
-     */
-    private fun setupViewPager() {
-        imageAdapter = UserImageAdapter()
-        binding.viewPager.adapter = imageAdapter
-
-        // 设置指示器
-        setupIndicators()
-
-        // 页面变化监听
-        binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        thumbnailRecycler?.adapter = thumbnailAdapter
+        
+        // 监听ViewPager2的页面切换，更新缩略图选中状态
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                updateIndicators(position)
+                super.onPageSelected(position)
+                thumbnailAdapter?.selectedPosition = position
             }
         })
     }
 
-    /**
-     * 设置指示器
-     */
-    private fun setupIndicators() {
-        binding.indicatorLayout.removeAllViews()
-
-        for (i in imageUrls.indices) {
-            val imageView = ImageView(this).apply {
-                val params = LinearLayout.LayoutParams(15, 15).apply {
-                    setMargins(8, 0, 8, 0)
-                }
-                layoutParams = params
-                setImageResource(if (i == 0) R.drawable.indicator_dot else R.drawable.indicator_dot_inactive)
-            }
-            binding.indicatorLayout.addView(imageView)
-        }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        menuInflater.inflate(R.menu.sample_actions, menu)
+        return false
     }
 
-    /**
-     * 更新指示器
-     */
-    private fun updateIndicators(position: Int) {
-        for (i in 0 until binding.indicatorLayout.childCount) {
-            val imageView = binding.indicatorLayout.getChildAt(i) as ImageView
-            imageView.setImageResource(
-                if (i == position) R.drawable.indicator_dot
-                else R.drawable.indicator_dot_inactive
-            )
-        }
-    }
-
-    /**
-     * 设置工具栏
-     */
-    private fun setupToolbar() {
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-
-        // 设置返回按钮图标
-        binding.toolbar.setNavigationIcon(R.mipmap.main_back_icon)
-    }
-
-    /**
-     * 设置过度滚动监听
-     */
-    private fun setupOverScrollListener() {
-        // 已经在 setupScrollListeners 中设置，这里不需要重复设置
-    }
-
-    /**
-     * 加载用户数据
-     */
-    private fun loadUserData() {
-        // 模拟数据
-        imageUrls = mutableListOf(
-            "https://example.com/image1.jpg",
-            "https://example.com/image2.jpg",
-            "https://example.com/image3.jpg"
-        )
-
-        imageAdapter.submitList(imageUrls)
-        setupIndicators()
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
+    companion object {
+        const val EXTRA_NAME = "cheese_name"
     }
 }
