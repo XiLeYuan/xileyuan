@@ -84,7 +84,7 @@ class SquareFragment : LYBaseFragment<FragmentSquareBinding, RecommendViewModel>
             override fun getIndicator(context: Context): IPagerIndicator? {
                 val indicator = CustomLineIndicator(context)
                 indicator.roundRadius = indicatorRadius
-                indicator.setBottomOffset(0f)  // 1dp，让指示器紧贴文本
+                indicator.setBottomOffset(1f)  // 1dp，让指示器更靠近文本
                 return indicator
             }
         }

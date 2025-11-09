@@ -19,7 +19,7 @@ class CustomTitleView(context: Context) : ColorTransitionPagerTitleView(context)
     private val mTextBounds = Rect()
 
     // 固定的底部位置（距离底部边缘的距离）
-    private val mBottomMargin = 8f
+    private val mBottomMargin = 2f  // 减小底部边距，让文字更靠近底部，指示器更靠近文字
 
     init {
         // 设置初始状态
