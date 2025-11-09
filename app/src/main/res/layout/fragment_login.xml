@@ -11,8 +11,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello,欢迎来到结婚吧"
-        android:textSize="24sp"
-        android:textColor="#FF5A5F"
+        android:textSize="28sp"
+        android:textColor="@color/text_primary_dark"
+        android:textStyle="bold"
         android:alpha="0"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,37 +24,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="在这里"
-        android:textSize="22sp"
-        android:textColor="#FF5A5F"
+        android:textSize="18sp"
+        android:textColor="@color/text_primary_dark"
         android:alpha="0"
         app:layout_constraintTop_toBottomOf="@id/tvLine1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="20dp"/>
     <TextView
         android:id="@+id/tvLine3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="已经有100000人"
-        android:textSize="22sp"
-        android:textColor="#FF5A5F"
+        android:textSize="18sp"
+        android:textColor="@color/text_primary_dark"
         android:alpha="0"
         app:layout_constraintTop_toBottomOf="@id/tvLine2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="20dp"/>
     <TextView
         android:id="@+id/tvLine4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="成功脱单..."
-        android:textSize="22sp"
-        android:textColor="#FF5A5F"
+        android:textSize="18sp"
+        android:textColor="@color/text_primary_dark"
         android:alpha="0"
         app:layout_constraintTop_toBottomOf="@id/tvLine3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="20dp"/>
 
     <!-- 登录弹窗（初始隐藏） -->
     <include

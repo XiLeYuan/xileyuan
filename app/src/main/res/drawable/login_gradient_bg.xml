@@ -1,11 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <gradient
-        android:type="linear"
-        android:angle="135"
-        android:startColor="@color/login_bg_pink"
-        android:centerColor="@color/login_bg_yellow"
-        android:endColor="@color/login_bg_red"
-        android:centerY="0.5"/>
-</shape> 
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 主渐变背景 - 从温暖的浅粉到浅橙，营造温馨浪漫的氛围 -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="linear"
+                android:angle="135"
+                android:startColor="#FFF5F0"
+                android:centerColor="#FFE8E0"
+                android:endColor="#FFD9D0"
+                android:centerY="0.5"/>
+        </shape>
+    </item>
+    
+    <!-- 顶部装饰圆形 - 营造轻盈感 -->
+    <item
+        android:width="200dp"
+        android:height="200dp"
+        android:gravity="top|end"
+        android:top="-80dp"
+        android:end="-60dp">
+        <shape android:shape="oval">
+            <solid android:color="#40FF6B6B"/>
+        </shape>
+    </item>
+    
+    <!-- 中间左侧装饰圆形 -->
+    <item
+        android:width="150dp"
+        android:height="150dp"
+        android:gravity="center_vertical|start"
+        android:start="-50dp">
+        <shape android:shape="oval">
+            <solid android:color="#304ECDC4"/>
+        </shape>
+    </item>
+    
+    <!-- 底部右侧装饰圆形 -->
+    <item
+        android:width="180dp"
+        android:height="180dp"
+        android:gravity="bottom|end"
+        android:bottom="-60dp"
+        android:end="-40dp">
+        <shape android:shape="oval">
+            <solid android:color="#35FF6B6B"/>
+        </shape>
+    </item>
+    
+    <!-- 中心装饰圆形 - 更淡，作为文字背景的柔和衬托 -->
+    <item
+        android:width="300dp"
+        android:height="300dp"
+        android:gravity="center"
+        android:top="100dp">
+        <shape android:shape="oval">
+            <solid android:color="#20FFFFFF"/>
+        </shape>
+    </item>
+</layer-list>
