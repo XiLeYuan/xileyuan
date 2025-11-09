@@ -7,137 +7,26 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import android.graphics.Bitmap
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jspp.model.UserCard
 import com.xly.R
-import com.xly.business.square.model.Matchmaker
-import com.xly.business.square.view.adapter.BlurTransformation
-import com.xly.databinding.ItemMatchmakerInfoBinding
 import com.xly.databinding.ItemMatchmakerUserBinding
 import com.xly.middlelibrary.utils.LYUtils
 
-/**
- * 列表项类型
- */
-sealed class MatchmakerListItem {
-    data class MatchmakerInfo(val matchmaker: Matchmaker) : MatchmakerListItem()
-    data class UserInfo(val userCard: UserCard) : MatchmakerListItem()
-}
-
 class MatchmakerUserAdapter(
     private val onUserItemClick: (UserCard) -> Unit
-) : ListAdapter<MatchmakerListItem, RecyclerView.ViewHolder>(MatchmakerListItemDiffCallback()) {
+) : ListAdapter<UserCard, MatchmakerUserAdapter.MatchmakerUserViewHolder>(UserCardDiffCallback()) {
 
-    companion object {
-        private const val TYPE_MATCHMAKER_INFO = 0
-        private const val TYPE_USER_INFO = 1
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchmakerUserViewHolder {
+        val binding = ItemMatchmakerUserBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return MatchmakerUserViewHolder(binding)
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return when (getItem(position)) {
-            is MatchmakerListItem.MatchmakerInfo -> TYPE_MATCHMAKER_INFO
-            is MatchmakerListItem.UserInfo -> TYPE_USER_INFO
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            TYPE_MATCHMAKER_INFO -> {
-                val binding = ItemMatchmakerInfoBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
-                MatchmakerInfoViewHolder(binding)
-            }
-            TYPE_USER_INFO -> {
-                val binding = ItemMatchmakerUserBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
-                MatchmakerUserViewHolder(binding)
-            }
-            else -> throw IllegalArgumentException("Unknown view type: $viewType")
-        }
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (val item = getItem(position)) {
-            is MatchmakerListItem.MatchmakerInfo -> {
-                (holder as MatchmakerInfoViewHolder).bind(item.matchmaker)
-            }
-            is MatchmakerListItem.UserInfo -> {
-                (holder as MatchmakerUserViewHolder).bind(item.userCard, onUserItemClick)
-            }
-        }
-    }
-
-    /**
-     * 红娘信息 ViewHolder
-     */
-    class MatchmakerInfoViewHolder(
-        private val binding: ItemMatchmakerInfoBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(matchmaker: Matchmaker) {
-            // 头像
-            Glide.with(binding.root.context)
-                .load(matchmaker.avatar)
-                .placeholder(R.mipmap.head_img)
-                .circleCrop()
-                .into(binding.ivMatchmakerAvatar)
-
-            // 姓名
-            binding.tvMatchmakerName.text = matchmaker.name
-
-            // 认证标识
-            binding.ivVerified.visibility = if (matchmaker.isVerified) View.VISIBLE else View.GONE
-
-            // VIP标识
-            binding.tvVIP.visibility = if (matchmaker.isVIP) View.VISIBLE else View.GONE
-
-            // 评分
-            binding.tvRating.text = String.format("%.1f", matchmaker.rating)
-
-            // 用户数量
-            binding.tvUserCount.text = "${matchmaker.userCount}位用户"
-
-            // 位置
-            binding.tvLocation.text = "📍 ${matchmaker.location}"
-
-            // 简介
-            binding.tvDescription.text = matchmaker.description
-
-            // 成功率
-            binding.tvSuccessRate.text = "成功率：${matchmaker.successRate.toInt()}%"
-
-            // 从业经验
-            if (matchmaker.yearsOfExperience > 0) {
-                binding.tvExperience.text = "${matchmaker.yearsOfExperience}年从业经验"
-                binding.tvExperience.visibility = View.VISIBLE
-            } else {
-                binding.tvExperience.visibility = View.GONE
-            }
-
-            // 标签
-            setupTags(matchmaker.tags)
-        }
-
-        private fun setupTags(tags: List<String>) {
-            binding.llTags.removeAllViews()
-            if (tags.isNotEmpty()) {
-                tags.take(3).forEach { tag ->
-                    val tagView = LayoutInflater.from(binding.root.context)
-                        .inflate(R.layout.item_tag, binding.llTags, false)
-                    val tvTag = tagView.findViewById<TextView>(R.id.tvTag)
-                    tvTag.text = tag
-                    binding.llTags.addView(tagView)
-                }
-            }
-        }
+    override fun onBindViewHolder(holder: MatchmakerUserViewHolder, position: Int) {
+        holder.bind(getItem(position), onUserItemClick)
     }
 
     /**
@@ -251,24 +140,12 @@ class MatchmakerUserAdapter(
         }
     }
 
-    class MatchmakerListItemDiffCallback : DiffUtil.ItemCallback<MatchmakerListItem>() {
-        override fun areItemsTheSame(
-            oldItem: MatchmakerListItem,
-            newItem: MatchmakerListItem
-        ): Boolean {
-            return when {
-                oldItem is MatchmakerListItem.MatchmakerInfo && newItem is MatchmakerListItem.MatchmakerInfo ->
-                    oldItem.matchmaker.id == newItem.matchmaker.id
-                oldItem is MatchmakerListItem.UserInfo && newItem is MatchmakerListItem.UserInfo ->
-                    oldItem.userCard.id == newItem.userCard.id
-                else -> false
-            }
+    class UserCardDiffCallback : DiffUtil.ItemCallback<UserCard>() {
+        override fun areItemsTheSame(oldItem: UserCard, newItem: UserCard): Boolean {
+            return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(
-            oldItem: MatchmakerListItem,
-            newItem: MatchmakerListItem
-        ): Boolean {
+        override fun areContentsTheSame(oldItem: UserCard, newItem: UserCard): Boolean {
             return oldItem == newItem
         }
     }

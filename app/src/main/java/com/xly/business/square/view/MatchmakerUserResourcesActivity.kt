@@ -12,7 +12,6 @@ import com.xly.base.LYBaseActivity
 import com.xly.business.recommend.viewmodel.RecommendViewModel
 import com.xly.business.square.model.Matchmaker
 import com.xly.business.square.view.adapter.MatchmakerUserAdapter
-import com.xly.business.square.view.adapter.MatchmakerListItem
 import com.xly.business.user.LYUserDetailInfoActivity
 import com.xly.databinding.ActivityMatchmakerUserResourcesBinding
 import com.xly.middlelibrary.utils.MatchmakerMockData
@@ -83,12 +82,12 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
             // 但不要设置padding，让刷新头部可以正常显示
             val toolbarHeight = viewBind.toolbarContainer.height
             // 只给RecyclerView设置paddingTop，而不是整个SmartRefreshLayout
-            viewBind.recyclerView.setPadding(
+            /*viewBind.recyclerView.setPadding(
                 viewBind.recyclerView.paddingLeft,
-                toolbarHeight + 8.dpToPx(), // 导航栏高度 + 原有padding
+                toolbarHeight + 4.dpToPx(),
                 viewBind.recyclerView.paddingRight,
                 viewBind.recyclerView.paddingBottom
-            )
+            )*/
         }
     }
     
@@ -196,20 +195,12 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
         // 模拟网络延迟
         viewBind.recyclerView.postDelayed({
             if (isRefresh) {
-                // 刷新：构建新列表，红娘信息 + 用户列表
-                val listItems = mutableListOf<MatchmakerListItem>()
-                listItems.add(MatchmakerListItem.MatchmakerInfo(matchmaker))
-                listItems.addAll(pageUsers.map { MatchmakerListItem.UserInfo(it) })
-                userAdapter.submitList(listItems)
+                // 刷新：直接提交用户列表
+                userAdapter.submitList(pageUsers)
             } else {
                 // 加载更多：追加数据
                 val currentList = userAdapter.currentList.toMutableList()
-                // 如果当前列表为空或第一个不是红娘信息，先添加红娘信息
-                if (currentList.isEmpty() || currentList[0] !is MatchmakerListItem.MatchmakerInfo) {
-                    currentList.add(0, MatchmakerListItem.MatchmakerInfo(matchmaker))
-                }
-                // 追加用户数据
-                currentList.addAll(pageUsers.map { MatchmakerListItem.UserInfo(it) })
+                currentList.addAll(pageUsers)
                 userAdapter.submitList(currentList)
             }
             
