@@ -58,52 +58,170 @@ class LYMainActivity: LYBaseActivity<ActivityMainBinding,MainViewModel>() {
 
     override fun initOnClick() {
         viewBind.recommendRl.click {
-            switchFragment(homeFragment)
-            viewBind.recommendBtn.setImageResource(R.mipmap.recommend_selecte_icon)
-            viewBind.tabBtn2.setImageResource(R.mipmap.square_normal_icon)
-            viewBind.tabBtn3.setImageResource(R.mipmap.message)
-            viewBind.tabBtn4.setImageResource(R.mipmap.me)
-            viewBind.recommendTv.setTextColor(Color.parseColor("#FF6B6B"))
-            viewBind.tabTv2.setTextColor(Color.parseColor("#2C3E50"))
-            viewBind.tabTv3.setTextColor(Color.parseColor("#2C3E50"))
-            viewBind.tabTv4.setTextColor(Color.parseColor("#2C3E50"))
+            switchTab(
+                fragment = homeFragment,
+                selectedIcon = viewBind.recommendBtn,
+                selectedText = viewBind.recommendTv,
+                selectedIconRes = R.mipmap.recommend_selecte_icon,
+                unselectedIcons = listOf(
+                    viewBind.tabBtn2 to R.mipmap.square_normal_icon,
+                    viewBind.tabBtn3 to R.mipmap.message,
+                    viewBind.tabBtn4 to R.mipmap.me
+                ),
+                unselectedTexts = listOf(
+                    viewBind.tabTv2,
+                    viewBind.tabTv3,
+                    viewBind.tabTv4
+                )
+            )
         }
         viewBind.findRl.click {
-            switchFragment(squareFragment)
-            viewBind.recommendBtn.setImageResource(R.mipmap.recommend_normal_icon)
-            viewBind.tabBtn2.setImageResource(R.mipmap.square_selecte_icon)
-            viewBind.tabBtn3.setImageResource(R.mipmap.message)
-            viewBind.tabBtn4.setImageResource(R.mipmap.me)
-            viewBind.recommendTv.setTextColor(Color.parseColor("#2C3E50"))
-            viewBind.tabTv2.setTextColor(Color.parseColor("#FF6B6B"))
-            viewBind.tabTv3.setTextColor(Color.parseColor("#2C3E50"))
-            viewBind.tabTv4.setTextColor(Color.parseColor("#2C3E50"))
+            switchTab(
+                fragment = squareFragment,
+                selectedIcon = viewBind.tabBtn2,
+                selectedText = viewBind.tabTv2,
+                selectedIconRes = R.mipmap.square_selecte_icon,
+                unselectedIcons = listOf(
+                    viewBind.recommendBtn to R.mipmap.recommend_normal_icon,
+                    viewBind.tabBtn3 to R.mipmap.message,
+                    viewBind.tabBtn4 to R.mipmap.me
+                ),
+                unselectedTexts = listOf(
+                    viewBind.recommendTv,
+                    viewBind.tabTv3,
+                    viewBind.tabTv4
+                )
+            )
         }
 
         viewBind.messageRl.click {
-            switchFragment(messageFragment)
-            viewBind.tabBtn3.setImageResource(R.mipmap.message_in)
-            viewBind.recommendBtn.setImageResource(R.mipmap.recommend_normal_icon)
-            viewBind.tabBtn2.setImageResource(R.mipmap.square_normal_icon)
-            viewBind.tabBtn4.setImageResource(R.mipmap.me)
-            viewBind.recommendTv.setTextColor(Color.parseColor("#2C3E50"))
-            viewBind.tabTv2.setTextColor(Color.parseColor("#2C3E50"))
-            viewBind.tabTv3.setTextColor(Color.parseColor("#FF6B6B"))
-            viewBind.tabTv4.setTextColor(Color.parseColor("#2C3E50"))
+            switchTab(
+                fragment = messageFragment,
+                selectedIcon = viewBind.tabBtn3,
+                selectedText = viewBind.tabTv3,
+                selectedIconRes = R.mipmap.message_in,
+                unselectedIcons = listOf(
+                    viewBind.recommendBtn to R.mipmap.recommend_normal_icon,
+                    viewBind.tabBtn2 to R.mipmap.square_normal_icon,
+                    viewBind.tabBtn4 to R.mipmap.me
+                ),
+                unselectedTexts = listOf(
+                    viewBind.recommendTv,
+                    viewBind.tabTv2,
+                    viewBind.tabTv4
+                )
+            )
         }
 
         viewBind.mineRl.click {
-            switchFragment(profileFragment)
-            viewBind.tabBtn4.setImageResource(R.mipmap.me_in)
-            viewBind.tabBtn3.setImageResource(R.mipmap.message)
-            viewBind.recommendBtn.setImageResource(R.mipmap.recommend_normal_icon)
-            viewBind.tabBtn2.setImageResource(R.mipmap.square_normal_icon)
-            viewBind.recommendTv.setTextColor(Color.parseColor("#2C3E50"))
-            viewBind.tabTv2.setTextColor(Color.parseColor("#2C3E50"))
-            viewBind.tabTv3.setTextColor(Color.parseColor("#2C3E50"))
-            viewBind.tabTv4.setTextColor(Color.parseColor("#FF6B6B"))
+            switchTab(
+                fragment = profileFragment,
+                selectedIcon = viewBind.tabBtn4,
+                selectedText = viewBind.tabTv4,
+                selectedIconRes = R.mipmap.me_in,
+                unselectedIcons = listOf(
+                    viewBind.recommendBtn to R.mipmap.recommend_normal_icon,
+                    viewBind.tabBtn2 to R.mipmap.square_normal_icon,
+                    viewBind.tabBtn3 to R.mipmap.message
+                ),
+                unselectedTexts = listOf(
+                    viewBind.recommendTv,
+                    viewBind.tabTv2,
+                    viewBind.tabTv3
+                )
+            )
         }
 
+    }
+    
+    private fun switchTab(
+        fragment: Fragment,
+        selectedIcon: android.widget.ImageView,
+        selectedText: android.widget.TextView,
+        selectedIconRes: Int,
+        unselectedIcons: List<Pair<android.widget.ImageView, Int>>,
+        unselectedTexts: List<android.widget.TextView>
+    ) {
+        // 如果点击的是当前已选中的tab，不执行动画
+        val isAlreadySelected = activeFragment == fragment
+        
+        // 切换Fragment
+        switchFragment(fragment)
+        
+        // 更新图标
+        selectedIcon.setImageResource(selectedIconRes)
+        unselectedIcons.forEach { (icon, res) ->
+            icon.setImageResource(res)
+        }
+        
+        // 更新文字颜色（无动画，立即切换）
+        selectedText.setTextColor(Color.parseColor("#FF6B6B"))
+        unselectedTexts.forEach { textView ->
+            textView.setTextColor(Color.parseColor("#2C3E50"))
+        }
+        
+        // 为选中的tab添加动画效果（只有切换到新tab时才执行）
+        if (!isAlreadySelected) {
+            animateTabSelection(selectedIcon, selectedText)
+        }
+    }
+    
+    private fun animateTabSelection(icon: android.widget.ImageView, textView: android.widget.TextView) {
+        // 图标缩放动画：放大再恢复，带弹跳效果
+        val iconAnimator = android.animation.AnimatorSet()
+        
+        val scaleUp = android.animation.ObjectAnimator.ofFloat(icon, "scaleX", 1f, 1.3f).apply {
+            duration = 200
+            interpolator = android.view.animation.DecelerateInterpolator()
+        }
+        val scaleUpY = android.animation.ObjectAnimator.ofFloat(icon, "scaleY", 1f, 1.3f).apply {
+            duration = 200
+            interpolator = android.view.animation.DecelerateInterpolator()
+        }
+        
+        val scaleDown = android.animation.ObjectAnimator.ofFloat(icon, "scaleX", 1.3f, 0.9f).apply {
+            duration = 150
+            interpolator = android.view.animation.AccelerateInterpolator()
+        }
+        val scaleDownY = android.animation.ObjectAnimator.ofFloat(icon, "scaleY", 1.3f, 0.9f).apply {
+            duration = 150
+            interpolator = android.view.animation.AccelerateInterpolator()
+        }
+        
+        val scaleBack = android.animation.ObjectAnimator.ofFloat(icon, "scaleX", 0.9f, 1f).apply {
+            duration = 150
+            interpolator = android.view.animation.OvershootInterpolator(2f)
+        }
+        val scaleBackY = android.animation.ObjectAnimator.ofFloat(icon, "scaleY", 0.9f, 1f).apply {
+            duration = 150
+            interpolator = android.view.animation.OvershootInterpolator(2f)
+        }
+        
+        iconAnimator.playTogether(scaleUp, scaleUpY)
+        iconAnimator.play(scaleDown).after(scaleUp)
+        iconAnimator.play(scaleDownY).after(scaleUpY)
+        iconAnimator.play(scaleBack).after(scaleDown)
+        iconAnimator.play(scaleBackY).after(scaleDownY)
+        
+        // 文字向上移动并恢复的动画
+        val textAnimator = android.animation.AnimatorSet()
+        
+        val translateUp = android.animation.ObjectAnimator.ofFloat(textView, "translationY", 0f, -8f).apply {
+            duration = 200
+            interpolator = android.view.animation.DecelerateInterpolator()
+        }
+        
+        val translateDown = android.animation.ObjectAnimator.ofFloat(textView, "translationY", -8f, 0f).apply {
+            duration = 200
+            interpolator = android.view.animation.OvershootInterpolator(1.5f)
+        }
+        
+        textAnimator.play(translateUp).before(translateDown)
+        
+        // 同时执行图标和文字动画
+        val animatorSet = android.animation.AnimatorSet()
+        animatorSet.playTogether(iconAnimator, textAnimator)
+        animatorSet.start()
     }
 
 

@@ -42,21 +42,28 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/main_bottom_tab_bg">
+        android:background="@drawable/main_bottom_tab_bg"
+        android:clipChildren="false"
+        android:clipToPadding="false">
 
         <RelativeLayout
             android:id="@+id/recommendRl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/recommendBtn"
                 android:layout_width="23dp"
                 android:layout_height="23dp"
                 android:src="@mipmap/recommend_normal_icon"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp" />
             <TextView
                 android:id="@+id/recommendTv"
                 android:layout_width="wrap_content"
@@ -73,13 +80,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/tabBtn2"
                 android:layout_width="23dp"
                 android:layout_height="23dp"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
                 android:src="@mipmap/square_normal_icon" />
             <TextView
                 android:id="@+id/tabTv2"
@@ -97,14 +109,19 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/tabBtn3"
                 android:layout_width="23dp"
                 android:layout_height="23dp"
                 android:src="@mipmap/message"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"/>
             <TextView
                 android:id="@+id/tabTv3"
                 android:layout_width="wrap_content"
@@ -121,13 +138,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/tabBtn4"
                 android:layout_width="23dp"
                 android:layout_height="23dp"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
                 android:src="@mipmap/me" />
             <TextView
                 android:id="@+id/tabTv4"
