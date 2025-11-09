@@ -7,13 +7,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import android.graphics.Bitmap
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jspp.model.UserCard
 import com.xly.R
 import com.xly.business.square.model.Matchmaker
 import com.xly.business.square.view.adapter.BlurTransformation
 import com.xly.databinding.ItemMatchmakerInfoBinding
 import com.xly.databinding.ItemMatchmakerUserBinding
+import com.xly.middlelibrary.utils.LYUtils
 
 /**
  * 列表项类型
@@ -145,13 +148,8 @@ class MatchmakerUserAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(userCard: UserCard, onItemClickListener: (UserCard) -> Unit) {
-            // 加载模糊背景（使用头像进行模糊处理）
-            Glide.with(binding.root.context)
-                .asBitmap()
-                .load(userCard.avatarUrl)
-                .placeholder(R.mipmap.head_img)
-                .transform(BlurTransformation(binding.root.context, 25f))
-                .into(binding.ivBlurBackground)
+            // 生成随机颜色并模糊处理作为背景
+            setupBlurBackground(userCard)
 
             // 姓名
             binding.tvName.text = userCard.name
@@ -209,6 +207,31 @@ class MatchmakerUserAdapter(
             // 如果有专门的推荐评语字段，使用该字段
             // 这里暂时使用bio字段，后续可以扩展UserCard添加recommendationComment字段
             return userCard.bio.takeIf { it.isNotEmpty() } ?: ""
+        }
+
+        private fun setupBlurBackground(userCard: UserCard) {
+            // 根据用户ID生成稳定的随机颜色（相同用户总是相同颜色）
+            val random = java.util.Random(userCard.id.hashCode().toLong())
+            val color = android.graphics.Color.rgb(
+                random.nextInt(180) + 50,  // 50-230，避免太暗或太亮
+                random.nextInt(180) + 50,
+                random.nextInt(180) + 50
+            )
+            
+            // 获取屏幕宽度和合适的背景高度
+            val displayMetrics = binding.root.context.resources.displayMetrics
+            val width = displayMetrics.widthPixels
+            val height = (200 * displayMetrics.density).toInt() // 200dp转px，足够覆盖item
+            
+            // 创建颜色Bitmap
+            val bitmap = LYUtils.createColorBitmap(color, width, height)
+            
+            // 对颜色Bitmap进行模糊处理（blurBitmap会修改原始bitmap并返回）
+            // RenderScript 的模糊半径必须在 0-25 之间
+            val blurredBitmap = LYUtils.blurBitmap(binding.root.context, bitmap, 25f)
+            
+            // 显示模糊后的颜色背景
+            binding.ivBlurBackground.setImageBitmap(blurredBitmap)
         }
 
         private fun setupTags(tags: List<String>) {

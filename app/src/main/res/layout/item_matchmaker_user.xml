@@ -32,16 +32,6 @@
 
     </androidx.cardview.widget.CardView>
 
-    <!-- 半透明遮罩层，确保文字可读性 -->
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/bg_card_overlay"
-        android:alpha="0.85"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contentLayout"
