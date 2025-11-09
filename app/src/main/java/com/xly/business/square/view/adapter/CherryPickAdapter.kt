@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide
 import com.xly.business.square.model.TodaySelectionUser
 
 class CherryPickAdapter(
-    private val onItemClick: (TodaySelectionUser) -> Unit,
+    private val onItemClick: (TodaySelectionUser, android.view.View) -> Unit,
     private val onLikeClick: (TodaySelectionUser) -> Unit
 ) : ListAdapter<TodaySelectionUser, CherryPickAdapter.SelectionViewHolder>(
     SelectionDiffCallback()
@@ -39,7 +39,7 @@ class CherryPickAdapter(
 
         fun bind(
             user: TodaySelectionUser,
-            onItemClick: (TodaySelectionUser) -> Unit,
+            onItemClick: (TodaySelectionUser, android.view.View) -> Unit,
             onLikeClick: (TodaySelectionUser) -> Unit
         ) {
             // 头像 - 加载本地 mipmap 资源
@@ -58,6 +58,9 @@ class CherryPickAdapter(
                 // 如果资源不存在，使用默认头像
                 binding.ivAvatar.setImageResource(R.mipmap.head_img)
             }
+
+            // 设置转场动画名称
+            binding.ivAvatar.transitionName = "user_avatar_${user.id}"
 
             // 姓名
             binding.tvUserName.text = user.name
@@ -83,9 +86,9 @@ class CherryPickAdapter(
                     "${user.selectionDescription}（匹配度：${score.toInt()}%）"
             }
 
-            // 点击事件
+            // 点击事件 - 传递头像 View 用于转场动画
             binding.root.setOnClickListener {
-                onItemClick(user)
+                onItemClick(user, binding.ivAvatar)
             }
 
 

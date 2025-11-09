@@ -36,9 +36,15 @@ class LYUserDetailInfoActivity : AppCompatActivity() {
             window.statusBarColor = Color.TRANSPARENT
         }
         
+        // 如果有转场动画，延迟转场直到 View 准备好
+        val intent = intent
+        val userId = intent.getStringExtra("user_id")
+        if (userId != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            postponeEnterTransition()
+        }
+        
         setContentView(R.layout.activity_detail)
 
-        val intent = intent
         val cheeseName = intent.getStringExtra(EXTRA_NAME)
         toolbar = findViewById(R.id.toolbar)
 
@@ -239,17 +245,39 @@ class LYUserDetailInfoActivity : AppCompatActivity() {
         val viewPager: ViewPager2 = findViewById(R.id.viewpager_backdrop)
         thumbnailRecycler = findViewById(R.id.thumbnail_recycler)
         
-        // 准备多张图片资源（使用所有可用的cheese图片）
-        val imageResources = listOf(
-            R.drawable.cheese_1,
-            R.drawable.cheese_2,
-            R.drawable.cheese_3,
-            R.drawable.cheese_4,
-            R.drawable.cheese_5
-        )
+        // 从 Intent 获取用户ID和头像资源名称，用于转场动画
+        val userId = intent.getStringExtra("user_id")
+        val userAvatarName = intent.getStringExtra("user_avatar")
+        val transitionName = if (userId != null) "user_avatar_$userId" else null
+        
+        // 准备图片资源：如果有用户头像，使用用户头像；否则使用默认的cheese图片
+        val imageResources = if (userAvatarName != null) {
+            // 将资源名称转换为资源ID
+            val avatarResourceId = resources.getIdentifier(
+                userAvatarName,
+                "mipmap",
+                packageName
+            )
+            if (avatarResourceId != 0) {
+                // 使用用户头像作为主要图片，可以添加更多相关图片
+                listOf(avatarResourceId)
+            } else {
+                // 如果找不到资源，使用默认图片
+                listOf(R.drawable.cheese_1)
+            }
+        } else {
+            // 没有用户头像时，使用默认的cheese图片
+            listOf(
+                R.drawable.cheese_1,
+                R.drawable.cheese_2,
+                R.drawable.cheese_3,
+                R.drawable.cheese_4,
+                R.drawable.cheese_5
+            )
+        }
         
         // 设置ViewPager2适配器
-        val adapter = ImagePagerAdapter(imageResources)
+        val adapter = ImagePagerAdapter(imageResources, transitionName)
         viewPager.adapter = adapter
         
         // 禁用ViewPager2的嵌套滚动，避免与CollapsingToolbarLayout冲突
@@ -270,6 +298,38 @@ class LYUserDetailInfoActivity : AppCompatActivity() {
                 thumbnailAdapter?.selectedPosition = position
             }
         })
+        
+        // 如果有转场动画，等待 ViewPager2 的第一个 View 准备好后再启动转场
+        if (transitionName != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            viewPager.post {
+                // 等待 ViewPager2 的 RecyclerView 准备好
+                val recyclerView = viewPager.getChildAt(0) as? androidx.recyclerview.widget.RecyclerView
+                recyclerView?.let { rv ->
+                    // 等待第一个 ViewHolder 创建完成
+                    rv.post {
+                        val firstViewHolder = rv.findViewHolderForAdapterPosition(0)
+                        firstViewHolder?.itemView?.findViewById<android.widget.ImageView>(R.id.image_item)?.let { imageView ->
+                            // 确保 transitionName 已设置
+                            imageView.transitionName = transitionName
+                            // 启动延迟的转场动画
+                            startPostponedEnterTransition()
+                        } ?: run {
+                            // 如果找不到 View，延迟一点再试
+                            rv.postDelayed({
+                                val holder = rv.findViewHolderForAdapterPosition(0)
+                                holder?.itemView?.findViewById<android.widget.ImageView>(R.id.image_item)?.let { imageView ->
+                                    imageView.transitionName = transitionName
+                                    startPostponedEnterTransition()
+                                } ?: startPostponedEnterTransition()
+                            }, 50)
+                        }
+                    }
+                } ?: run {
+                    // 如果找不到 RecyclerView，直接启动转场
+                    startPostponedEnterTransition()
+                }
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

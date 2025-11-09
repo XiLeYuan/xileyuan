@@ -9,7 +9,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.xly.R
 
-class ImagePagerAdapter(private val imageResources: List<Int>) : RecyclerView.Adapter<ImagePagerAdapter.ImageViewHolder>() {
+class ImagePagerAdapter(
+    private val imageResources: List<Int>,
+    private val transitionName: String? = null
+) : RecyclerView.Adapter<ImagePagerAdapter.ImageViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -18,15 +21,22 @@ class ImagePagerAdapter(private val imageResources: List<Int>) : RecyclerView.Ad
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        holder.bind(imageResources[position])
+        holder.bind(
+            imageResources[position],
+            position == 0 && transitionName != null,
+            transitionName
+        )
     }
 
     override fun getItemCount(): Int = imageResources.size
 
     class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val imageView: ImageView = itemView.findViewById(R.id.image_item)
+        val imageView: ImageView = itemView.findViewById(R.id.image_item)
 
-        fun bind(imageResource: Int) {
+        fun bind(imageResource: Int, setTransitionName: Boolean, transitionName: String?) {
+            if (setTransitionName && transitionName != null) {
+                imageView.transitionName = transitionName
+            }
             Glide.with(itemView)
                 .load(imageResource)
                 .apply(RequestOptions.fitCenterTransform())

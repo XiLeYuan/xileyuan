@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,9 +39,9 @@ class CherryPickFragment : LYBaseFragment<FragmentTodaySelectionBinding, CherryP
         viewBind.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         selectionAdapter = CherryPickAdapter(
-            onItemClick = { user ->
-                // 点击卡片，跳转到用户详情
-                navigateToUserDetail(user)
+            onItemClick = { user, avatarView ->
+                // 点击卡片，跳转到用户详情（带转场动画）
+                navigateToUserDetail(user, avatarView)
             },
             onLikeClick = { user ->
                 // 点击喜欢按钮
@@ -70,12 +72,20 @@ class CherryPickFragment : LYBaseFragment<FragmentTodaySelectionBinding, CherryP
 
 
 
-    private fun navigateToUserDetail(user: TodaySelectionUser) {
-        // 点击用户卡片，跳转到用户详情页
+    private fun navigateToUserDetail(user: TodaySelectionUser, avatarView: View) {
+        // 点击用户卡片，跳转到用户详情页（带转场动画）
         val intent = Intent(requireActivity(), LYUserDetailInfoActivity::class.java).apply {
-            putExtra("user_id", "userCard.id")
+            putExtra("user_id", user.id)
+            putExtra("user_name", user.name)
+            putExtra("user_avatar", user.avatar)
         }
-        startActivity(intent)
+
+        // 创建共享元素转场动画
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+            requireActivity(),
+            Pair.create(avatarView, "user_avatar_${user.id}")
+        )
+        startActivity(intent, options.toBundle())
     }
 
     private fun handleLike(user: TodaySelectionUser) {
