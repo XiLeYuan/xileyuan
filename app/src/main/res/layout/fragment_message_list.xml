@@ -9,7 +9,8 @@
     <RelativeLayout
         android:id="@+id/navRl"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:layout_marginTop="34dp">
 
         <TextView
             android:id="@+id/titleName"
@@ -19,8 +20,7 @@
             android:layout_marginStart="16dp"
             android:text="消息"
             android:textSize="@dimen/text_size_h2"
-            android:textColor="@color/text_primary_dark"
-            android:textStyle="bold"/>
+            android:textColor="@color/text_primary_dark"/>
 
     </RelativeLayout>
 

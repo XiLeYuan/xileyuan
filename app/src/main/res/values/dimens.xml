@@ -5,7 +5,7 @@
 
 <!-- 标题字体 -->
 <dimen name="text_size_h1">28sp</dimen>
-<dimen name="text_size_h2">22sp</dimen>
+<dimen name="text_size_h2">20sp</dimen>
 <dimen name="text_size_h3">18sp</dimen>
 <dimen name="text_size_h4">16sp</dimen>
 
