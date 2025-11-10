@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_dialog_rounded">
+
+    <!-- 标题 -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="隐私协议与用户协议"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_primary_dark"
+        android:gravity="center" />
+
+    <!-- 可滑动内容区域容器 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="16dp">
+        
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingBottom="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="欢迎使用结婚吧！"
+                android:textSize="16sp"
+                android:textColor="@color/text_primary_dark"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="我们非常重视您的隐私保护和个人信息保护。在使用我们的服务前，请您仔细阅读并充分理解《用户协议》和《隐私政策》的全部内容，特别是涉及免除或限制责任的条款、法律适用和争议解决条款。"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="一、信息收集"
+                android:textSize="15sp"
+                android:textColor="@color/text_primary_dark"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="我们会收集您在使用服务过程中主动提供的信息，包括但不限于：\n• 注册信息：手机号码、昵称、头像等\n• 个人资料：年龄、性别、职业、教育背景等\n• 位置信息：用于匹配附近用户\n• 设备信息：设备型号、操作系统版本等"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="二、信息使用"
+                android:textSize="15sp"
+                android:textColor="@color/text_primary_dark"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="我们使用收集的信息用于：\n• 提供、维护和改进我们的服务\n• 为您推荐合适的匹配对象\n• 发送服务通知和重要信息\n• 保障账户和服务安全"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="三、信息保护"
+                android:textSize="15sp"
+                android:textColor="@color/text_primary_dark"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="我们采用行业标准的安全措施保护您的个人信息，包括数据加密、访问控制等。未经您同意，我们不会向第三方共享、转让或披露您的个人信息，法律法规另有规定的除外。"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="四、您的权利"
+                android:textSize="15sp"
+                android:textColor="@color/text_primary_dark"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="您有权访问、更正、删除您的个人信息，也可以撤回同意或注销账户。如需行使上述权利，请通过应用内设置或联系客服。"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="五、协议更新"
+                android:textSize="15sp"
+                android:textColor="@color/text_primary_dark"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="我们可能会适时更新本协议。更新后的协议将在应用内公布，并通过适当方式通知您。如您不同意更新后的协议，请停止使用我们的服务。"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="六、用户行为规范"
+                android:textSize="15sp"
+                android:textColor="@color/text_primary_dark"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="在使用本服务时，您应当遵守以下行为规范：\n• 不得发布虚假、误导性信息\n• 不得骚扰、威胁或伤害其他用户\n• 不得使用本服务从事任何违法活动\n• 不得恶意注册多个账户或使用他人身份信息\n• 尊重其他用户的隐私和权利\n\n违反上述规范的用户，我们有权采取警告、限制功能、暂停或终止账户等措施。"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="七、服务内容与变更"
+                android:textSize="15sp"
+                android:textColor="@color/text_primary_dark"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="我们提供的服务包括但不限于：\n• 用户匹配推荐服务\n• 在线聊天和沟通功能\n• 个人资料展示和管理\n• 活动信息发布和参与\n• 其他相关增值服务\n\n我们保留随时修改、中断或终止部分或全部服务的权利，无需事先通知。我们不对因服务中断、终止或变更而导致的任何损失承担责任。"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="八、知识产权"
+                android:textSize="15sp"
+                android:textColor="@color/text_primary_dark"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="本服务中的所有内容，包括但不限于文字、图片、音频、视频、软件、程序、版面设计等，均受知识产权法保护。未经我们书面许可，您不得以任何形式复制、传播、展示、镜像、上传、下载或使用上述内容。\n\n您上传到本服务的任何内容，您应保证拥有相应的知识产权或已获得合法授权，并授予我们在全球范围内免费、非独占、可转授权的使用许可。"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="九、免责声明"
+                android:textSize="15sp"
+                android:textColor="@color/text_primary_dark"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="在法律允许的范围内，我们对以下情况不承担责任：\n• 因不可抗力导致的服务中断或数据丢失\n• 因用户违反本协议导致的任何损失\n• 因第三方服务或网站导致的任何问题\n• 用户之间的纠纷或争议\n• 因用户设备、网络环境等原因导致的服务异常\n\n我们不对用户通过本服务获得的信息、建议或推荐结果的准确性、完整性或适用性作任何保证。"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="十、法律适用与争议解决"
+                android:textSize="15sp"
+                android:textColor="@color/text_primary_dark"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="本协议的订立、生效、解释、履行和争议解决均适用中华人民共和国大陆地区法律法规。如双方就本协议内容或其执行发生任何争议，双方应尽量友好协商解决；协商不成时，任何一方均可向我们所在地有管辖权的人民法院提起诉讼。"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="十一、联系方式"
+                android:textSize="15sp"
+                android:textColor="@color/text_primary_dark"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="如您对本协议有任何疑问、意见或建议，或需要行使您的权利，您可以通过以下方式联系我们：\n• 应用内客服功能\n• 官方邮箱：support@jiehunba.com\n• 客服电话：400-XXX-XXXX\n• 公司地址：北京市朝阳区XXX街道XXX号\n\n我们将在收到您的反馈后，在合理期限内予以回复。"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="十二、其他条款"
+                android:textSize="15sp"
+                android:textColor="@color/text_primary_dark"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="如本协议中的任何条款被认定为无效或不可执行，该条款的无效或不可执行不影响其他条款的效力。本协议构成您与我们之间关于使用本服务的完整协议，取代您与我们之间此前就本服务达成的任何口头或书面协议。\n\n我们保留随时修改本协议的权利。修改后的协议将在应用内公布，并通过适当方式通知您。如您不同意修改后的协议，请停止使用我们的服务。继续使用服务即视为您接受修改后的协议。"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginBottom="24dp" />
+
+        </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+        
+        <!-- 底部渐变阴影，提示还有内容可滑动 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bg_scroll_fade_bottom" />
+            
+    </FrameLayout>
+
+    <!-- 按钮容器 -->
+    <LinearLayout
+        android:id="@+id/llButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="24dp">
+
+        <!-- 同意按钮 -->
+        <TextView
+            android:id="@+id/btnAgree"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="同意并继续"
+            android:textColor="@android:color/white"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:background="@drawable/bg_primary_button_selector"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <!-- 不同意按钮 -->
+        <TextView
+            android:id="@+id/btnDisagree"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="不同意"
+            android:textColor="@color/text_hint"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginTop="8dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
