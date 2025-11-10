@@ -15,6 +15,7 @@ object MMKVManager {
 
     const val KEY_LOGIN_SUCCESS = "key_login_success"
     const val KEY_AUTH_SUCCESS = "key_auth_success"
+    const val KEY_PRIVACY_AGREED = "key_privacy_agreed"
 
     // 默认MMKV实例
     private val defaultMMKV = MMKV.defaultMMKV()
