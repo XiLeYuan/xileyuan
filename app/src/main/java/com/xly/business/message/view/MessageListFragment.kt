@@ -11,6 +11,7 @@ import com.xly.business.message.model.Message
 import com.xly.business.message.view.adapter.MessageAdapter
 import com.xly.business.recommend.viewmodel.RecommendViewModel
 import com.xly.databinding.FragmentMessageListBinding
+import com.xly.middlelibrary.utils.LYFontUtil
 import kotlin.jvm.java
 
 class MessageListFragment  : LYBaseFragment<FragmentMessageListBinding,RecommendViewModel>() {
@@ -44,6 +45,10 @@ class MessageListFragment  : LYBaseFragment<FragmentMessageListBinding,Recommend
         )
         viewBind.messageRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewBind.messageRecyclerView.adapter = MessageAdapter(mockList)
+    }
+
+    override fun initView() {
+        viewBind.titleName.typeface = LYFontUtil.getMediumFont(requireContext())
     }
 
 
