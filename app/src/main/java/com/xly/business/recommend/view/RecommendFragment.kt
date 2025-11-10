@@ -18,6 +18,7 @@ import com.xly.business.recommend.viewmodel.RecommendViewModel
 import com.xly.databinding.FragmentRecommendBinding
 import com.xly.R
 import com.xly.business.user.LYUserDetailInfoActivity
+import com.xly.middlelibrary.utils.LYFontUtil
 import com.xly.middlelibrary.utils.click
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
@@ -37,34 +38,12 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupStatusBarPlaceholder()
         setupCardStackView()
         loadCardData()
     }
+
     
-    /**
-     * 设置状态栏占位View的高度
-     */
-    private fun setupStatusBarPlaceholder() {
-        viewBind.root.post {
-            val statusBarHeight = getStatusBarHeight()
-            val layoutParams = viewBind.statusBarPlaceholder.layoutParams
-            layoutParams.height = statusBarHeight
-            viewBind.statusBarPlaceholder.layoutParams = layoutParams
-        }
-    }
-    
-    /**
-     * 获取状态栏高度
-     */
-    private fun getStatusBarHeight(): Int {
-        var result = 0
-        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-        if (resourceId > 0) {
-            result = resources.getDimensionPixelSize(resourceId)
-        }
-        return result
-    }
+
 
 
     private fun setupCardStackView() {
@@ -151,7 +130,7 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
 
 
     override fun initView() {
-
+        viewBind.titleName.typeface = LYFontUtil.getMediumFont(requireContext())
     }
 
     override fun initOnClick() {
