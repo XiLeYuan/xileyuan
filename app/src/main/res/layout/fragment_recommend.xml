@@ -70,19 +70,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:src="@mipmap/collect_icon"
-                android:padding="8dp"
-                android:background="@drawable/black_circle_bg"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/unLikeIv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
