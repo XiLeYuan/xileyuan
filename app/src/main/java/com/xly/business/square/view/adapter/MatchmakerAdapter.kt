@@ -36,12 +36,22 @@ class MatchmakerAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(matchmaker: Matchmaker, onItemClick: (Matchmaker) -> Unit) {
-            // 头像
-            /*Glide.with(binding.root.context)
-                .load(matchmaker.avatar)
-                .placeholder(R.drawable.default_avatar)
-                .circleCrop()
-                .into(binding.ivAvatar)*/
+            // 头像 - 加载本地 mipmap 资源
+            val context = binding.root.context
+            val resourceId = context.resources.getIdentifier(
+                matchmaker.avatar,
+                "mipmap",
+                context.packageName
+            )
+            if (resourceId != 0) {
+                Glide.with(context)
+                    .load(resourceId)
+                    .circleCrop()
+                    .into(binding.ivAvatar)
+            } else {
+                // 如果资源不存在，使用默认头像
+                binding.ivAvatar.setImageResource(R.mipmap.head_img)
+            }
 
             // 姓名
             binding.tvName.text = matchmaker.name

@@ -9,11 +9,23 @@ object MatchmakerMockData {
      * 生成Mock红娘数据
      */
     fun generateMatchmakers(): List<Matchmaker> {
+        // 8张头像图片资源，循环使用
+        val avatarResources = listOf(
+            "head_one",
+            "head_two",
+            "head_three",
+            "head_four",
+            "head_five",
+            "head_six",
+            "head_seven",
+            "head_eight"
+        )
+        
         return listOf(
             Matchmaker(
                 id = "mm_001",
                 name = "张红娘",
-                avatar = "https://example.com/avatar/mm001.jpg",
+                avatar = avatarResources[0], // head_one
                 rating = 4.9f,
                 userCount = 256,
                 location = "北京 · 朝阳区",
@@ -27,7 +39,7 @@ object MatchmakerMockData {
             Matchmaker(
                 id = "mm_002",
                 name = "李月老",
-                avatar = "https://example.com/avatar/mm002.jpg",
+                avatar = avatarResources[1], // head_two
                 rating = 4.8f,
                 userCount = 189,
                 location = "上海 · 浦东新区",
@@ -41,7 +53,7 @@ object MatchmakerMockData {
             Matchmaker(
                 id = "mm_003",
                 name = "王媒婆",
-                avatar = "https://example.com/avatar/mm003.jpg",
+                avatar = avatarResources[2], // head_three
                 rating = 4.7f,
                 userCount = 142,
                 location = "深圳 · 南山区",
@@ -55,7 +67,7 @@ object MatchmakerMockData {
             Matchmaker(
                 id = "mm_004",
                 name = "刘牵线",
-                avatar = "https://example.com/avatar/mm004.jpg",
+                avatar = avatarResources[3], // head_four
                 rating = 4.6f,
                 userCount = 98,
                 location = "广州 · 天河区",
@@ -69,7 +81,7 @@ object MatchmakerMockData {
             Matchmaker(
                 id = "mm_005",
                 name = "陈月老",
-                avatar = "https://example.com/avatar/mm005.jpg",
+                avatar = avatarResources[4], // head_five
                 rating = 4.9f,
                 userCount = 312,
                 location = "杭州 · 西湖区",
@@ -83,7 +95,7 @@ object MatchmakerMockData {
             Matchmaker(
                 id = "mm_006",
                 name = "赵红娘",
-                avatar = "https://example.com/avatar/mm006.jpg",
+                avatar = avatarResources[5], // head_six
                 rating = 4.5f,
                 userCount = 76,
                 location = "成都 · 锦江区",
@@ -97,7 +109,7 @@ object MatchmakerMockData {
             Matchmaker(
                 id = "mm_007",
                 name = "周媒人",
-                avatar = "https://example.com/avatar/mm007.jpg",
+                avatar = avatarResources[6], // head_seven
                 rating = 4.8f,
                 userCount = 203,
                 location = "武汉 · 江汉区",
@@ -111,7 +123,7 @@ object MatchmakerMockData {
             Matchmaker(
                 id = "mm_008",
                 name = "吴牵线",
-                avatar = "https://example.com/avatar/mm008.jpg",
+                avatar = avatarResources[7], // head_eight
                 rating = 4.4f,
                 userCount = 54,
                 location = "南京 · 鼓楼区",
@@ -125,7 +137,7 @@ object MatchmakerMockData {
             Matchmaker(
                 id = "mm_009",
                 name = "郑月老",
-                avatar = "https://example.com/avatar/mm009.jpg",
+                avatar = avatarResources[0], // head_one (循环)
                 rating = 4.7f,
                 userCount = 167,
                 location = "西安 · 雁塔区",
@@ -139,7 +151,7 @@ object MatchmakerMockData {
             Matchmaker(
                 id = "mm_010",
                 name = "孙红娘",
-                avatar = "https://example.com/avatar/mm010.jpg",
+                avatar = avatarResources[1], // head_two (循环)
                 rating = 4.6f,
                 userCount = 118,
                 location = "重庆 · 渝中区",
@@ -153,7 +165,7 @@ object MatchmakerMockData {
             Matchmaker(
                 id = "mm_011",
                 name = "钱媒婆",
-                avatar = "https://example.com/avatar/mm011.jpg",
+                avatar = avatarResources[2], // head_three (循环)
                 rating = 4.3f,
                 userCount = 89,
                 location = "天津 · 和平区",
@@ -167,7 +179,7 @@ object MatchmakerMockData {
             Matchmaker(
                 id = "mm_012",
                 name = "周月老",
-                avatar = "https://example.com/avatar/mm012.jpg",
+                avatar = avatarResources[3], // head_four (循环)
                 rating = 4.9f,
                 userCount = 278,
                 location = "苏州 · 工业园区",
