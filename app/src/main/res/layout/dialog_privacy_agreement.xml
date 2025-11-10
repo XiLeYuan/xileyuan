@@ -22,7 +22,7 @@
     <!-- 可滑动内容区域容器 -->
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="230dp"
         android:layout_marginTop="16dp">
         
         <androidx.core.widget.NestedScrollView
@@ -294,7 +294,7 @@
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
         android:paddingTop="16dp"
-        android:paddingBottom="24dp">
+        android:paddingBottom="16dp">
 
         <!-- 同意按钮 -->
         <TextView
@@ -319,8 +319,8 @@
             android:textColor="@color/text_hint"
             android:textSize="14sp"
             android:gravity="center"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="6dp"
             android:clickable="true"
             android:focusable="true"
             android:layout_marginTop="8dp" />
