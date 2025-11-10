@@ -36,11 +36,11 @@ class MessageListFragment  : LYBaseFragment<FragmentMessageListBinding,Recommend
             Message("3", "系统通知", "欢迎加入新群聊", "13:00", avatarResources[2]), // head_three
             Message("4", "小刚", "图片[1]", "14:20", avatarResources[3]), // head_four
             Message("5", "小美", "哈哈哈", "15:10", avatarResources[4]) ,// head_five
-            Message("6", "小美", "哈哈哈", "15:10", avatarResources[5]) ,// head_five
+            Message("6", "系统通知", "哈哈哈", "15:10", avatarResources[5]) ,// head_five
             Message("7", "小美", "哈哈哈", "15:10", avatarResources[6]) ,// head_five
             Message("8", "小美", "哈哈哈", "15:10", avatarResources[7]), // head_five
-            Message("9", "小美", "哈哈哈", "15:10", avatarResources[8]) ,// head_five
-            Message("10", "小美", "哈哈哈", "15:10", avatarResources[9]) ,// head_five
+            Message("9", "小美", "哈哈哈", "15:10", avatarResources[3]) ,// head_five
+            Message("10", "小美", "哈哈哈", "15:10", avatarResources[6]) ,// head_five
         )
         viewBind.messageRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewBind.messageRecyclerView.adapter = MessageAdapter(mockList)
