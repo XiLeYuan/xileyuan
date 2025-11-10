@@ -25,6 +25,21 @@
             android:textSize="@dimen/text_size_h2"
             android:textColor="@color/text_primary_dark"/>
 
+        <!-- 筛选入口 -->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivFilter"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_filter"
+            android:contentDescription="筛选"
+            android:padding="8dp"
+            android:background="@drawable/bg_filter_circle_selector"
+            android:clickable="true"
+            android:focusable="true"/>
+
     </RelativeLayout>
 
     <!-- 卡片堆叠视图 -->

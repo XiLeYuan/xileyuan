@@ -134,6 +134,11 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
     }
 
     override fun initOnClick() {
+        // 筛选入口点击事件
+        viewBind.ivFilter.click {
+            // TODO: 打开筛选页面或弹窗
+        }
+        
         viewBind.chatImg.click {
         }
         viewBind.likeIv.click {
