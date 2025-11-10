@@ -17,13 +17,25 @@ class MessageListFragment  : LYBaseFragment<FragmentMessageListBinding,Recommend
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // 8张头像图片资源，循环使用
+        val avatarResources = listOf(
+            "head_one",
+            "head_two",
+            "head_three",
+            "head_four",
+            "head_five",
+            "head_six",
+            "head_seven",
+            "head_eight"
+        )
+        
         // mock 数据
         val mockList = listOf(
-            Message("1", "小明", "你好，这是一条消息", "12:00"),
-            Message("2", "小红", "明天有空吗？", "12:05"),
-            Message("3", "系统通知", "欢迎加入新群聊", "13:00"),
-            Message("4", "小刚", "图片[1]", "14:20"),
-            Message("5", "小美", "哈哈哈", "15:10")
+            Message("1", "小明", "你好，这是一条消息", "12:00", avatarResources[0]), // head_one
+            Message("2", "小红", "明天有空吗？", "12:05", avatarResources[1]), // head_two
+            Message("3", "系统通知", "欢迎加入新群聊", "13:00", avatarResources[2]), // head_three
+            Message("4", "小刚", "图片[1]", "14:20", avatarResources[3]), // head_four
+            Message("5", "小美", "哈哈哈", "15:10", avatarResources[4]) // head_five
         )
         viewBind.messageRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewBind.messageRecyclerView.adapter = MessageAdapter(mockList)

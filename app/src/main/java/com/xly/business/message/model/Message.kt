@@ -4,5 +4,6 @@ data class Message(
     val id: String,
     val sender: String,
     val content: String,
-    val time: String
+    val time: String,
+    val avatar: String? = null  // 头像资源名称
 )
