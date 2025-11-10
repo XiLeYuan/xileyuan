@@ -42,81 +42,73 @@
 
     </RelativeLayout>
 
-    <!-- 卡片堆叠视图 -->
-    <com.yuyakaido.android.cardstackview.CardStackView
-        android:id="@+id/cardStackView"
+    <!-- 卡片容器（包含卡片和悬浮按钮） -->
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@id/navBar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:baselineAligned="false"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="80dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        <!-- 卡片堆叠视图 -->
+        <com.yuyakaido.android.cardstackview.CardStackView
+            android:id="@+id/cardStackView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- 右侧操作按钮（悬浮在卡片上） -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="200dp"
+            android:baselineAligned="false"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:elevation="8dp">
 
         <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/black_circle_bg">
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/unLikeIv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:paddingLeft="18dp"
-                android:paddingRight="18dp"
-                android:background="@drawable/black_radius_bg"
-                android:src="@mipmap/cancel_icon"/>
+                android:layout_centerVertical="true"
+                android:src="@mipmap/cancel_icon" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/black_circle_bg"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp">
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/likeIv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:src="@mipmap/like_icon"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:paddingLeft="18dp"
-                android:paddingRight="18dp"
-                android:background="@drawable/black_radius_bg"/>
+                android:layout_centerVertical="true"
+                android:src="@mipmap/like_icon"/>
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/black_circle_bg">
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/chatImg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:src="@mipmap/chat_hi"
-                android:background="@drawable/black_circle_bg"
-                android:padding="8dp"/>
+                android:layout_centerVertical="true"
+                android:src="@mipmap/chat_hi" />
         </RelativeLayout>
 
+        </LinearLayout>
 
-    </LinearLayout>
-
-
-
+    </FrameLayout>
 
 </LinearLayout>
