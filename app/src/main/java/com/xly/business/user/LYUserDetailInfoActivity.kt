@@ -61,11 +61,34 @@ class LYUserDetailInfoActivity : AppCompatActivity() {
         // 获取占位View，作为状态栏和Toolbar的整体背景
         statusToolbarBackground = findViewById(R.id.status_toolbar_background)
         
+        // 确保初始状态是透明（白色背景），避免转场动画期间显示红色
+        statusToolbarBackground?.setBackgroundColor(Color.TRANSPARENT)
+        
         // 设置占位View的高度：状态栏高度 + Toolbar高度
         setupStatusToolbarBackground()
 
         val appBarLayout: AppBarLayout = findViewById(R.id.appbar)
         
+        // 延迟注册滚动监听器，等待转场动画完成后再开始监听
+        // 这样可以避免转场动画期间触发颜色更新，导致显示红色背景
+        val hasTransition = userId != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+        if (hasTransition) {
+            // 转场动画完成后才注册监听器
+            window.decorView.post {
+                // 等待转场动画完成（通常需要几百毫秒）
+                window.decorView.postDelayed({
+                    setupScrollListener(appBarLayout)
+                }, 300)
+            }
+        } else {
+            // 没有转场动画，直接注册监听器
+            setupScrollListener(appBarLayout)
+        }
+
+        setupImagePager()
+    }
+    
+    private fun setupScrollListener(appBarLayout: AppBarLayout) {
         // 监听 AppBarLayout 的滚动偏移，实现状态栏和 Toolbar 红色渐变
         appBarLayout.addOnOffsetChangedListener { appBar, verticalOffset ->
             val totalScrollRange = appBar.totalScrollRange
@@ -81,8 +104,6 @@ class LYUserDetailInfoActivity : AppCompatActivity() {
             updateStatusBarColor(clampedRatio, isFullyCollapsed)
             updateThumbnailAlpha(clampedRatio)
         }
-
-        setupImagePager()
     }
 
     private fun setupStatusToolbarBackground() {
