@@ -13,8 +13,8 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="16dp"
         android:text="消息"
-        android:textSize="20sp"
-        android:textColor="#000000"
+        android:textSize="@dimen/text_size_h2"
+        android:textColor="@color/text_primary_dark"
         android:textStyle="bold"/>
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/topImgOne"
