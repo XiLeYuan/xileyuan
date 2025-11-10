@@ -182,6 +182,18 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
 
 
     private fun loadCardData() {
+        // 8张头像图片资源，循环使用
+        val avatarResources = listOf(
+            "head_one",
+            "head_two",
+            "head_three",
+            "head_four",
+            "head_five",
+            "head_six",
+            "head_seven",
+            "head_eight"
+        )
+        
         // 模拟加载卡片数据
         val cards = listOf(
             UserCard(
@@ -189,7 +201,7 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
                 name = "小美",
                 age = 25,
                 location = "北京",
-                avatarUrl = "https://example.com/avatar1.jpg",
+                avatarUrl = avatarResources[0], // head_one
                 bio = "喜欢旅行、摄影、音乐，希望找到一个志同道合的伴侣。",
                 tags = listOf("163cm", "本科", "5k-8k")
             ),
@@ -198,7 +210,7 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
                 name = "小雨",
                 age = 23,
                 location = "上海",
-                avatarUrl = "https://example.com/avatar2.jpg",
+                avatarUrl = avatarResources[1], // head_two
                 bio = "热爱生活，喜欢尝试新事物，希望能遇到有趣的人。",
                 tags = listOf("178cm", "本科", "2w-3w")
             ),
@@ -207,7 +219,7 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
                 name = "小芳",
                 age = 26,
                 location = "深圳",
-                avatarUrl = "https://example.com/avatar3.jpg",
+                avatarUrl = avatarResources[2], // head_three
                 bio = "工作认真，生活简单，希望能找到一个温暖的人。",
                 tags = listOf("工作", "电影", "咖啡")
             ),
@@ -216,7 +228,7 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
                 name = "小丽",
                 age = 24,
                 location = "广州",
-                avatarUrl = "https://example.com/avatar4.jpg",
+                avatarUrl = avatarResources[3], // head_four
                 bio = "活泼开朗，喜欢交朋友，希望能遇到对的人。",
                 tags = listOf("交友", "游戏", "美食")
             ),
@@ -225,7 +237,7 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
                 name = "小雅",
                 age = 27,
                 location = "杭州",
-                avatarUrl = "https://example.com/avatar5.jpg",
+                avatarUrl = avatarResources[4], // head_five
                 bio = "文艺青年，喜欢看书、听音乐，希望能遇到懂我的人。",
                 tags = listOf("阅读", "音乐", "文艺")
             )

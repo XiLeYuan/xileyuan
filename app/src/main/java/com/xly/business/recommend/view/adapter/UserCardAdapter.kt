@@ -40,17 +40,24 @@ class UserCardAdapter(
         val userCard = cards[position]
         holder.bind(userCard)
 
-        if (position == 0) {
-            holder.ivBackground.setImageResource(R.mipmap.find_img_3)
-        } else if (position == 1) {
-            holder.ivBackground.setImageResource(R.mipmap.find_img_2)
-        } else if (position == 2) {
-            holder.ivBackground.setImageResource(R.mipmap.find_img_4)
-        } else if (position == 3) {
-            holder.ivBackground.setImageResource(R.mipmap.find_img_1)
+        // 加载背景图片 - 使用本地资源名称
+        val context = holder.itemView.context
+        val resourceId = context.resources.getIdentifier(
+            userCard.avatarUrl, // 使用avatarUrl字段存储背景图片资源名称
+            "mipmap",
+            context.packageName
+        )
+        if (resourceId != 0) {
+            // 本地资源
+            Glide.with(context)
+                .load(resourceId)
+                .centerCrop()
+                .into(holder.ivBackground)
         } else {
-            holder.ivBackground.setImageResource(R.mipmap.find_img_4)
+            // 如果资源不存在，使用默认背景
+            holder.ivBackground.setImageResource(R.mipmap.find_img_3)
         }
+        
         // 设置点击事件
         holder.ivBackground.click { view ->
             onCardClickListener(userCard, view)
@@ -75,11 +82,8 @@ class UserCardAdapter(
 
 
         fun bind(userCard: UserCard) {
-            // 加载头像
-            Glide.with(itemView.context)
-                .load(userCard.avatarUrl)
-                .circleCrop()
-                .into(ivAvatar)
+            // 头像暂时弃用，不加载
+            // ivAvatar.visibility = View.GONE
 
             // 设置用户信息
             tvName.text = userCard.name
