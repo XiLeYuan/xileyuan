@@ -149,6 +149,22 @@ class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() 
                 val videoThumbnailIndex = i % imageResIds.size
                 val videoDuration = 30L + (i % 120) // 30-150秒随机时长
                 
+                // 本地视频文件列表（放在 assets/videos/ 文件夹下）
+                val localVideos = listOf(
+                    "videos/sample1.mp4",
+                    "videos/sample2.mp4",
+                    "videos/sample3.mp4"
+                )
+                // 循环使用本地视频，如果没有则使用网络视频作为fallback
+                val videoIndex = i % localVideos.size
+                val videoUrl = if (videoIndex < localVideos.size) {
+                    // 使用本地视频（assets路径，不需要 file:///android_asset/ 前缀，代码会自动添加）
+                    localVideos[videoIndex]
+                } else {
+                    // 如果没有本地视频，使用网络视频作为fallback
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                }
+                
                 moments.add(
                     Moment(
                         id = "moment_${i + 1}",
@@ -158,7 +174,7 @@ class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() 
                         images = listOf(imageResIds[videoThumbnailIndex]), // 视频封面
                         time = timeList[timeIndex],
                         isVertical = false,
-                        videoUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", // 示例视频URL
+                        videoUrl = videoUrl,
                         videoThumbnail = imageResIds[videoThumbnailIndex],
                         videoDuration = videoDuration
                     )

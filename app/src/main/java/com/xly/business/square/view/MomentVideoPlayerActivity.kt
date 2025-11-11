@@ -59,7 +59,18 @@ class MomentVideoPlayerActivity : AppCompatActivity() {
             binding.playerView.player = exoPlayer
             
             // 创建媒体项
-            val mediaItem = MediaItem.fromUri(Uri.parse(videoUrl))
+            // 支持本地assets视频和网络视频
+            val uri = if (videoUrl.startsWith("http://") || videoUrl.startsWith("https://")) {
+                // 网络视频
+                Uri.parse(videoUrl)
+            } else if (videoUrl.startsWith("file:///android_asset/")) {
+                // assets视频（已包含前缀）
+                Uri.parse(videoUrl)
+            } else {
+                // assets视频（添加前缀）
+                Uri.parse("file:///android_asset/$videoUrl")
+            }
+            val mediaItem = MediaItem.fromUri(uri)
             exoPlayer.setMediaItem(mediaItem)
             
             // 恢复播放位置
