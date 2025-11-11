@@ -4,15 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <!-- ExoPlayer 播放器 -->
-    <com.google.android.exoplayer2.ui.PlayerView
-        android:id="@+id/playerView"
+    <!-- CardView包裹视频，添加圆角 -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        app:use_controller="false"
-        app:show_buffering="when_playing"
-        app:resize_mode="zoom" />
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp">
+
+        <!-- ExoPlayer 播放器 -->
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/playerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            app:use_controller="false"
+            app:show_buffering="when_playing"
+            app:resize_mode="zoom" />
+
+    </androidx.cardview.widget.CardView>
 
     <!-- 视频时长（覆盖层） -->
     <TextView

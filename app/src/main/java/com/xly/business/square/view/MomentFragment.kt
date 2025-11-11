@@ -319,10 +319,24 @@ class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() 
                 if (itemView != null) {
                     // 找到PlayerView（视频实际显示的位置）
                     val playerView = findPlayerView(itemView)
-                    if (playerView != null && isViewInCenterArea(playerView, centerAreaTop, centerAreaBottom)) {
-                        centerVideoItem = item
-                        break // 找到第一个在中间区域的视频就停止
+                    if (playerView != null) {
+                        // 检查PlayerView是否在屏幕中间区域
+                        if (isViewInCenterArea(playerView, centerAreaTop, centerAreaBottom)) {
+                            centerVideoItem = item
+                            break // 找到第一个在中间区域的视频就停止
+                        }
                     }
+                }
+            }
+        }
+        
+        // 如果没有找到在中间区域的视频，尝试播放第一个可见的视频（fallback）
+        if (centerVideoItem == null) {
+            for (i in firstVisible..lastVisible) {
+                val item = adapter?.getDataList()?.getOrNull(i)
+                if (item != null && !item.videoUrl.isNullOrEmpty()) {
+                    centerVideoItem = item
+                    break
                 }
             }
         }
@@ -351,10 +365,30 @@ class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() 
                 val child = imageContainer.getChildAt(i)
                 // PlayerView在item_moment_video布局的根FrameLayout中
                 if (child is android.widget.FrameLayout) {
-                    val playerView = child.findViewById<com.google.android.exoplayer2.ui.PlayerView>(R.id.playerView)
+                    // 递归查找PlayerView（可能被CardView包裹）
+                    val playerView = findPlayerViewRecursive(child)
                     if (playerView != null) {
                         return playerView
                     }
+                }
+            }
+        }
+        return null
+    }
+    
+    /**
+     * 递归查找PlayerView
+     */
+    private fun findPlayerViewRecursive(view: android.view.View): com.google.android.exoplayer2.ui.PlayerView? {
+        if (view is com.google.android.exoplayer2.ui.PlayerView) {
+            return view
+        }
+        if (view is android.view.ViewGroup) {
+            for (i in 0 until view.childCount) {
+                val child = view.getChildAt(i)
+                val result = findPlayerViewRecursive(child)
+                if (result != null) {
+                    return result
                 }
             }
         }
