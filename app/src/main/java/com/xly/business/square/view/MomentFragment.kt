@@ -304,19 +304,23 @@ class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() 
         val firstVisible = layoutManager.findFirstVisibleItemPosition()
         val lastVisible = layoutManager.findLastVisibleItemPosition()
         
+        // 获取屏幕中间区域（使用屏幕高度，而不是RecyclerView高度）
+        val screenHeight = resources.displayMetrics.heightPixels
+        val centerAreaTop = screenHeight * 0.3f  // 屏幕上方30%以下
+        val centerAreaBottom = screenHeight * 0.7f  // 屏幕下方70%以上
+        
         // 遍历所有可见的item，找到在屏幕中间区域的视频
         var centerVideoItem: Moment? = null
-        var centerVideoView: View? = null
         
         for (i in firstVisible..lastVisible) {
             val item = adapter?.getDataList()?.getOrNull(i)
             if (item != null && !item.videoUrl.isNullOrEmpty()) {
                 val itemView = layoutManager.findViewByPosition(i)
                 if (itemView != null) {
-                    // 检查视频View是否在屏幕中间区域
-                    if (isViewInCenterArea(recyclerView, itemView)) {
+                    // 找到PlayerView（视频实际显示的位置）
+                    val playerView = findPlayerView(itemView)
+                    if (playerView != null && isViewInCenterArea(playerView, centerAreaTop, centerAreaBottom)) {
                         centerVideoItem = item
-                        centerVideoView = itemView
                         break // 找到第一个在中间区域的视频就停止
                     }
                 }
@@ -336,25 +340,36 @@ class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() 
     }
     
     /**
-     * 检查View是否在屏幕中间区域（上下各25%的区域）
+     * 在itemView中查找PlayerView
      */
-    private fun isViewInCenterArea(recyclerView: androidx.recyclerview.widget.RecyclerView, view: View): Boolean {
-        // 获取RecyclerView在屏幕中的位置
-        val recyclerLocation = IntArray(2)
-        recyclerView.getLocationOnScreen(recyclerLocation)
-        val recyclerTopOnScreen = recyclerLocation[1]
-        val recyclerBottomOnScreen = recyclerTopOnScreen + recyclerView.height
-        
+    private fun findPlayerView(itemView: View): android.view.View? {
+        // PlayerView在imageContainer中
+        val imageContainer = itemView.findViewById<com.google.android.flexbox.FlexboxLayout>(R.id.imageContainer)
+        if (imageContainer != null) {
+            // 遍历imageContainer的子View，找到PlayerView
+            for (i in 0 until imageContainer.childCount) {
+                val child = imageContainer.getChildAt(i)
+                // PlayerView在item_moment_video布局的根FrameLayout中
+                if (child is android.widget.FrameLayout) {
+                    val playerView = child.findViewById<com.google.android.exoplayer2.ui.PlayerView>(R.id.playerView)
+                    if (playerView != null) {
+                        return playerView
+                    }
+                }
+            }
+        }
+        return null
+    }
+    
+    /**
+     * 检查View是否在屏幕中间区域
+     */
+    private fun isViewInCenterArea(view: android.view.View, centerAreaTop: Float, centerAreaBottom: Float): Boolean {
         // 获取View在屏幕中的位置
         val viewLocation = IntArray(2)
         view.getLocationOnScreen(viewLocation)
         val viewTopOnScreen = viewLocation[1]
         val viewBottomOnScreen = viewTopOnScreen + view.height
-        
-        // 计算屏幕中间区域（上下各25%）
-        val recyclerHeight = recyclerBottomOnScreen - recyclerTopOnScreen
-        val centerAreaTop = recyclerTopOnScreen + recyclerHeight * 0.25f
-        val centerAreaBottom = recyclerBottomOnScreen - recyclerHeight * 0.25f
         
         // 检查视频View的中心点是否在中间区域
         val viewCenter = (viewTopOnScreen + viewBottomOnScreen) / 2f

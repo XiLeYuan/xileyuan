@@ -29,7 +29,7 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
             result.onSuccess { userInfo ->
                 updateUserProfile(userInfo)
             }.onFailure { error ->
-                showToast("加载用户资料失败: ${error.message}")
+
             }
         })
 
