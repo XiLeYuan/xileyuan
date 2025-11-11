@@ -54,10 +54,20 @@ class MatchmakerFragment : LYBaseFragment<FragmentMatchmakerBinding, RecommendVi
         }
 
         // 设置适配器
-        matchmakerAdapter = MatchmakerAdapter { matchmaker ->
-            // 点击红娘卡片，跳转到用户资源列表
-            navigateToUserList(matchmaker)
-        }
+        matchmakerAdapter = MatchmakerAdapter(
+            onItemClick = { matchmaker ->
+                // 点击红娘卡片，跳转到用户资源列表
+                navigateToUserList(matchmaker)
+            },
+            onViewDetailsClick = { matchmaker ->
+                // 点击查看用户资源按钮
+                navigateToUserList(matchmaker)
+            },
+            onContactClick = { matchmaker ->
+                // 点击联系红娘按钮
+                contactMatchmaker(matchmaker)
+            }
+        )
 
         viewBind.recyclerView.adapter = matchmakerAdapter
 
@@ -114,6 +124,12 @@ class MatchmakerFragment : LYBaseFragment<FragmentMatchmakerBinding, RecommendVi
     private fun navigateToUserList(matchmaker: Matchmaker) {
         // 跳转到用户资源列表页面
         MatchmakerUserResourcesActivity.start(requireContext(), matchmaker)
+    }
+
+    private fun contactMatchmaker(matchmaker: Matchmaker) {
+        // TODO: 实现联系红娘功能，可以跳转到聊天页面或显示联系方式
+        // 例如：跳转到聊天页面
+        // ChatActivity.start(requireContext(), matchmaker.id)
     }
 
     override fun initObservers() {

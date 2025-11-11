@@ -57,6 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="12dp"
+                android:layout_marginTop="4dp"
                 android:orientation="vertical">
 
                 <!-- 姓名 -->
@@ -165,25 +166,15 @@
 
         </LinearLayout>
 
-        <!-- 底部：服务信息和按钮 -->
+        <!-- 底部：操作按钮 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="end|center_vertical">
 
-            <!-- 成功案例 -->
-            <TextView
-                android:id="@+id/tvSuccessRate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="成功率：95%"
-                android:textSize="@dimen/text_size_body_small"
-                android:textColor="@color/text_success" />
-
-            <!-- 查看详情按钮（箭头图标） -->
+            <!-- 查看用户资源按钮 -->
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivViewDetails"
                 android:layout_width="32dp"
@@ -191,8 +182,24 @@
                 android:src="@drawable/ic_arrow_right"
                 android:background="@drawable/bg_view_details_button"
                 android:padding="6dp"
+                android:clickable="true"
+                android:focusable="true"
                 android:contentDescription="查看用户资源"
-                app:tint="@color/text_accent" />
+                app:tint="@color/text_primary" />
+
+            <!-- 联系红娘按钮 -->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivContactMatchmaker"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="12dp"
+                android:src="@drawable/ic_message"
+                android:background="@drawable/bg_contact_matchmaker_button"
+                android:padding="6dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="联系红娘"
+                app:tint="@color/text_primary" />
 
         </LinearLayout>
 

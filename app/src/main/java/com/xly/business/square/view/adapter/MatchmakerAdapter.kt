@@ -20,7 +20,9 @@ import com.xly.R
 import com.xly.business.square.model.Matchmaker
 
 class MatchmakerAdapter(
-    private val onItemClick: (Matchmaker) -> Unit
+    private val onItemClick: (Matchmaker) -> Unit,
+    private val onViewDetailsClick: (Matchmaker) -> Unit,
+    private val onContactClick: (Matchmaker) -> Unit
 ) : ListAdapter<Matchmaker, MatchmakerAdapter.MatchmakerViewHolder>(MatchmakerDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchmakerViewHolder {
@@ -33,14 +35,19 @@ class MatchmakerAdapter(
     }
 
     override fun onBindViewHolder(holder: MatchmakerViewHolder, position: Int) {
-        holder.bind(getItem(position), onItemClick)
+        holder.bind(getItem(position), onItemClick, onViewDetailsClick, onContactClick)
     }
 
     class MatchmakerViewHolder(
         private val binding: ItemMatchmakerCardBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(matchmaker: Matchmaker, onItemClick: (Matchmaker) -> Unit) {
+        fun bind(
+            matchmaker: Matchmaker,
+            onItemClick: (Matchmaker) -> Unit,
+            onViewDetailsClick: (Matchmaker) -> Unit,
+            onContactClick: (Matchmaker) -> Unit
+        ) {
             // 头像 - 加载本地 mipmap 资源
             val context = binding.root.context
             val resourceId = context.resources.getIdentifier(
@@ -80,10 +87,17 @@ class MatchmakerAdapter(
             // 标签
             setupTags(binding.llTags, matchmaker.tags)
 
-            // 成功率
-            binding.tvSuccessRate.text = "成功率：${matchmaker.successRate.toInt()}%"
+            // 查看用户资源按钮点击事件
+            binding.ivViewDetails.setOnClickListener {
+                onViewDetailsClick(matchmaker)
+            }
 
-            // 点击事件
+            // 联系红娘按钮点击事件
+            binding.ivContactMatchmaker.setOnClickListener {
+                onContactClick(matchmaker)
+            }
+
+            // 点击事件（点击卡片其他区域）
             binding.root.setOnClickListener {
                 onItemClick(matchmaker)
             }
@@ -121,18 +135,18 @@ class MatchmakerAdapter(
             val numberStart = 0
             val numberEnd = userCount.toString().length
             
-            // 设置数字颜色为品牌主色
-            val primaryColor = ContextCompat.getColor(textView.context, R.color.brand_primary)
+            // 设置数字颜色为接近黑色
+            val darkColor = ContextCompat.getColor(textView.context, R.color.text_primary_dark)
             spannableString.setSpan(
-                ForegroundColorSpan(primaryColor),
+                ForegroundColorSpan(darkColor),
                 numberStart,
                 numberEnd,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             
-            // 设置数字字体大小（增大1.2倍）
+            // 设置数字字体大小（增大1.3倍）
             spannableString.setSpan(
-                RelativeSizeSpan(1.2f),
+                RelativeSizeSpan(1.3f),
                 numberStart,
                 numberEnd,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
