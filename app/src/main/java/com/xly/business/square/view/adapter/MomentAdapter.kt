@@ -3,6 +3,7 @@ package com.xly.business.square.view.adapter
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import com.bumptech.glide.Glide
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.imageview.ShapeableImageView
 import com.xly.business.square.model.Moment
@@ -33,6 +37,12 @@ class MomentAdapter(
         private const val VIEW_TYPE_BANNER = 0
         private const val VIEW_TYPE_MOMENT = 1
     }
+    
+    // 视频播放器管理：key为momentId，value为ExoPlayer
+    private val videoPlayers = mutableMapOf<String, ExoPlayer>()
+    
+    // 当前正在播放的视频ID
+    private var currentPlayingVideoId: String? = null
 
     class MomentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val avatar: ImageView = itemView.findViewById(R.id.avatar)
@@ -504,11 +514,10 @@ class MomentAdapter(
         val videoView = LayoutInflater.from(context)
             .inflate(R.layout.item_moment_video, holder.imageContainer, false)
         
-        val ivVideoThumbnail = videoView.findViewById<com.google.android.material.imageview.ShapeableImageView>(R.id.ivVideoThumbnail)
+        val playerView = videoView.findViewById<PlayerView>(R.id.playerView)
         val tvVideoDuration = videoView.findViewById<TextView>(R.id.tvVideoDuration)
-        val videoContainer = videoView.findViewById<android.widget.FrameLayout>(R.id.videoContainer)
         
-        // 设置视频缩略图尺寸（与单张横图相同）
+        // 设置视频尺寸（与单张横图相同）
         val videoWidth = availableWidth
         val videoHeight = (videoWidth * 0.75f).toInt() // 4:3 比例
         
@@ -516,28 +525,96 @@ class MomentAdapter(
         lp.setMargins(margin, margin, margin, margin)
         videoView.layoutParams = lp
         
-        // 加载视频缩略图
-        val thumbnailResId = moment.videoThumbnail ?: moment.images.firstOrNull() ?: R.mipmap.head_img
-        Glide.with(ivVideoThumbnail)
-            .load(thumbnailResId)
-            .centerCrop()
-            .into(ivVideoThumbnail)
-        
         // 设置视频时长
         val durationText = formatVideoDuration(moment.videoDuration)
         tvVideoDuration.text = durationText
         
-        // 设置播放按钮点击事件
-        videoContainer.setOnClickListener {
-            // 跳转到视频播放页面
-            val intent = Intent(context, MomentVideoPlayerActivity::class.java)
-            intent.putExtra("videoUrl", moment.videoUrl)
-            intent.putExtra("momentId", moment.id)
-            intent.putExtra("videoThumbnail", thumbnailResId)
-            activity.startActivity(intent)
-        }
+        // 创建或获取播放器
+        val player = getOrCreatePlayer(context, moment)
+        playerView.player = player
+        
+        // 存储播放器引用，用于后续管理
+        playerView.tag = moment.id
         
         holder.imageContainer.addView(videoView)
+    }
+    
+    /**
+     * 获取或创建视频播放器
+     */
+    private fun getOrCreatePlayer(context: Context, moment: Moment): ExoPlayer {
+        val momentId = moment.id
+        val videoUrl = moment.videoUrl ?: return ExoPlayer.Builder(context).build()
+        
+        return videoPlayers.getOrPut(momentId) {
+            ExoPlayer.Builder(context).build().apply {
+                // 创建媒体项
+                val uri = if (videoUrl.startsWith("http://") || videoUrl.startsWith("https://")) {
+                    Uri.parse(videoUrl)
+                } else if (videoUrl.startsWith("file:///android_asset/")) {
+                    Uri.parse(videoUrl)
+                } else {
+                    Uri.parse("file:///android_asset/$videoUrl")
+                }
+                val mediaItem = MediaItem.fromUri(uri)
+                setMediaItem(mediaItem)
+                prepare()
+                // 默认不自动播放，等待滚动到中间时再播放
+                playWhenReady = false
+            }
+        }
+    }
+    
+    /**
+     * 播放指定视频
+     */
+    fun playVideo(momentId: String) {
+        // 暂停当前播放的视频
+        currentPlayingVideoId?.let { currentId ->
+            if (currentId != momentId) {
+                videoPlayers[currentId]?.playWhenReady = false
+            }
+        }
+        
+        // 播放新视频
+        videoPlayers[momentId]?.let { player ->
+            player.playWhenReady = true
+            currentPlayingVideoId = momentId
+        }
+    }
+    
+    /**
+     * 暂停指定视频
+     */
+    fun pauseVideo(momentId: String) {
+        videoPlayers[momentId]?.playWhenReady = false
+        if (currentPlayingVideoId == momentId) {
+            currentPlayingVideoId = null
+        }
+    }
+    
+    /**
+     * 释放所有播放器
+     */
+    fun releaseAllPlayers() {
+        videoPlayers.values.forEach { player ->
+            player.release()
+        }
+        videoPlayers.clear()
+        currentPlayingVideoId = null
+    }
+    
+    /**
+     * 释放指定播放器
+     */
+    fun releasePlayer(momentId: String) {
+        videoPlayers[momentId]?.let { player ->
+            player.release()
+            videoPlayers.remove(momentId)
+            if (currentPlayingVideoId == momentId) {
+                currentPlayingVideoId = null
+            }
+        }
     }
     
     /**

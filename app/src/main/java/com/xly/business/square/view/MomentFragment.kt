@@ -151,19 +151,10 @@ class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() 
                 
                 // 本地视频文件列表（放在 assets/videos/ 文件夹下）
                 val localVideos = listOf(
-                    "videos/sample1.mp4",
-                    "videos/sample2.mp4",
-                    "videos/sample3.mp4"
+                    "videos/demo.mp4"
                 )
-                // 循环使用本地视频，如果没有则使用网络视频作为fallback
-                val videoIndex = i % localVideos.size
-                val videoUrl = if (videoIndex < localVideos.size) {
-                    // 使用本地视频（assets路径，不需要 file:///android_asset/ 前缀，代码会自动添加）
-                    localVideos[videoIndex]
-                } else {
-                    // 如果没有本地视频，使用网络视频作为fallback
-                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                }
+                // 使用本地视频
+                val videoUrl = localVideos[0] // 使用 demo.mp4
                 
                 moments.add(
                     Moment(
@@ -280,6 +271,83 @@ class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() 
 
         viewBind.momentRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewBind.momentRecyclerView.adapter = adapter
+        
+        // 添加滚动监听，实现视频自动播放
+        setupVideoAutoPlay()
+    }
+    
+    /**
+     * 设置视频自动播放
+     */
+    private fun setupVideoAutoPlay() {
+        viewBind.momentRecyclerView.addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                checkAndPlayVideo(recyclerView)
+            }
+            
+            override fun onScrollStateChanged(recyclerView: androidx.recyclerview.widget.RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE) {
+                    // 滚动停止时检查并播放视频
+                    checkAndPlayVideo(recyclerView)
+                }
+            }
+        })
+    }
+    
+    /**
+     * 检查并播放屏幕中间的视频
+     */
+    private fun checkAndPlayVideo(recyclerView: androidx.recyclerview.widget.RecyclerView) {
+        val layoutManager = recyclerView.layoutManager as? androidx.recyclerview.widget.LinearLayoutManager ?: return
+        val firstVisible = layoutManager.findFirstVisibleItemPosition()
+        val lastVisible = layoutManager.findLastVisibleItemPosition()
+        
+        // 计算屏幕中间位置
+        val centerPosition = (firstVisible + lastVisible) / 2
+        
+        // 检查中间位置是否有视频
+        val centerItem = adapter?.getDataList()?.getOrNull(centerPosition)
+        if (centerItem != null && !centerItem.videoUrl.isNullOrEmpty()) {
+            // 检查视频是否在屏幕中间区域（上下各25%的区域）
+            val centerView = layoutManager.findViewByPosition(centerPosition)
+            if (centerView != null && isViewInCenterArea(recyclerView, centerView)) {
+                adapter?.playVideo(centerItem.id)
+            } else {
+                adapter?.pauseVideo(centerItem.id)
+            }
+        }
+        
+        // 暂停不在中间区域的视频
+        for (i in firstVisible..lastVisible) {
+            if (i != centerPosition) {
+                val item = adapter?.getDataList()?.getOrNull(i)
+                if (item != null && !item.videoUrl.isNullOrEmpty()) {
+                    adapter?.pauseVideo(item.id)
+                }
+            }
+        }
+    }
+    
+    /**
+     * 检查View是否在屏幕中间区域（上下各25%的区域）
+     */
+    private fun isViewInCenterArea(recyclerView: androidx.recyclerview.widget.RecyclerView, view: View): Boolean {
+        val recyclerTop = recyclerView.top
+        val recyclerBottom = recyclerView.bottom
+        val recyclerHeight = recyclerBottom - recyclerTop
+        
+        val viewTop = view.top
+        val viewBottom = view.bottom
+        
+        // 计算屏幕中间区域（上下各25%）
+        val centerAreaTop = recyclerTop + recyclerHeight * 0.25f
+        val centerAreaBottom = recyclerBottom - recyclerHeight * 0.25f
+        
+        // 检查视频View的中心点是否在中间区域
+        val viewCenter = (viewTop + viewBottom) / 2f
+        return viewCenter >= centerAreaTop && viewCenter <= centerAreaBottom
     }
     
     /**
@@ -322,6 +390,11 @@ class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() 
                 adapter?.addData(newData)
             }
             
+            // 数据更新后，检查并播放屏幕中间的视频
+            viewBind.momentRecyclerView.post {
+                checkAndPlayVideo(viewBind.momentRecyclerView)
+            }
+            
             isLoading = false
             onComplete?.invoke()
         }, 1500) // 模拟1.5秒网络延迟
@@ -354,5 +427,23 @@ class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() 
 
     override fun initViewModel(): RecommendViewModel {
         return ViewModelProvider(requireActivity())[RecommendViewModel::class.java]
+    }
+    
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // 释放所有视频播放器
+        adapter?.releaseAllPlayers()
+    }
+    
+    override fun onPause() {
+        super.onPause()
+        // Fragment 暂停时暂停所有视频
+        adapter?.let { adapter ->
+            adapter.getDataList().forEach { moment ->
+                if (!moment.videoUrl.isNullOrEmpty()) {
+                    adapter.pauseVideo(moment.id)
+                }
+            }
+        }
     }
 }

@@ -4,51 +4,32 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <!-- 视频缩略图 -->
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/ivVideoThumbnail"
+    <!-- ExoPlayer 播放器 -->
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/playerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
         android:adjustViewBounds="true"
-        app:shapeAppearanceOverlay="@style/VideoThumbnailShape" />
+        app:use_controller="false"
+        app:show_buffering="when_playing"
+        app:resize_mode="zoom" />
 
-    <!-- 播放按钮覆盖层 -->
-    <android.widget.FrameLayout
-        android:id="@+id/videoContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#20000000"
-        android:clickable="true"
-        android:focusable="true">
-
-        <!-- 播放按钮 -->
-        <ImageView
-            android:id="@+id/ivPlayButton"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_play_circle"
-            android:background="@drawable/bg_play_button" />
-
-        <!-- 视频时长 -->
-        <TextView
-            android:id="@+id/tvVideoDuration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="12dp"
-            android:background="@drawable/bg_video_duration"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:text="00:30"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"
-            android:textStyle="bold" />
-
-    </android.widget.FrameLayout>
+    <!-- 视频时长（覆盖层） -->
+    <TextView
+        android:id="@+id/tvVideoDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="12dp"
+        android:background="@drawable/bg_video_duration"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:text="00:30"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:textStyle="bold" />
 
 </android.widget.FrameLayout>
 
