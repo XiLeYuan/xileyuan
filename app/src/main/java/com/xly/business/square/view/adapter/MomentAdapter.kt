@@ -191,11 +191,39 @@ class MomentAdapter(
         totalImageCount: Int
     ) {
         val context = holder.itemView.context
-        val margin = 2.dpToPx(context) // 减小间距
+        val horizontalMargin = 1.dpToPx(context) // 横向间距（减小）
+        val verticalMargin = 2.dpToPx(context) // 纵向间距（统一）
         
         // 第一张图片（左侧，最大）：右上和右下不要圆角
-        addImageWithCustomCorners(holder, moment, moment.images[0], 0, layoutConfigs[0], 
-            topLeft = true, topRight = false, bottomLeft = true, bottomRight = false)
+        // 只设置上下和左边的间距，右边间距为横向间距
+        val firstImg = ShapeableImageView(context)
+        val firstLp = FlexboxLayout.LayoutParams(layoutConfigs[0].width, layoutConfigs[0].height)
+        firstLp.setMargins(verticalMargin, verticalMargin, horizontalMargin, verticalMargin)
+        firstImg.layoutParams = firstLp
+        firstImg.scaleType = ImageView.ScaleType.CENTER_CROP
+        firstImg.transitionName = "moment_image_${moment.id}_0"
+        
+        val cornerSize = 8f.dpToPx(context)
+        firstImg.shapeAppearanceModel = firstImg.shapeAppearanceModel.toBuilder()
+            .setTopLeftCornerSize(cornerSize)
+            .setTopRightCornerSize(0f)
+            .setBottomLeftCornerSize(cornerSize)
+            .setBottomRightCornerSize(0f)
+            .build()
+        
+        Glide.with(firstImg).load(moment.images[0]).into(firstImg)
+        firstImg.setOnClickListener {
+            val intent = Intent(context, MomentImageDetailActivity::class.java)
+            intent.putExtra("imageResId", moment.images[0])
+            intent.putExtra("momentId", moment.id)
+            intent.putExtra("imageIndex", 0)
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                activity,
+                Pair.create(firstImg as View, firstImg.transitionName)
+            )
+            activity.startActivity(intent, options.toBundle())
+        }
+        holder.imageContainer.addView(firstImg)
         
         // 右侧容器：包含第二张和第三张图片
         val rightContainer = LinearLayout(context)
@@ -204,7 +232,7 @@ class MomentAdapter(
             layoutConfigs[1].width,
             layoutConfigs[0].height // 高度等于第一张图片的高度
         )
-        rightContainerLp.setMargins(margin, margin, margin, margin)
+        rightContainerLp.setMargins(horizontalMargin, verticalMargin, verticalMargin, verticalMargin)
         rightContainer.layoutParams = rightContainerLp
         
         // 第二张图片：左上、左下、右下不要圆角
@@ -214,7 +242,7 @@ class MomentAdapter(
             LinearLayout.LayoutParams.MATCH_PARENT,
             layoutConfigs[1].height
         )
-        secondLp.bottomMargin = margin / 2
+        secondLp.bottomMargin = verticalMargin // 使用统一的纵向间距
         secondImg.layoutParams = secondLp
         rightContainer.addView(secondImg)
         
@@ -334,8 +362,9 @@ class MomentAdapter(
     ) {
         val img = ShapeableImageView(holder.itemView.context)
         val lp = FlexboxLayout.LayoutParams(imageSize.width, imageSize.height)
-        val margin = 2.dpToPx(holder.itemView.context) // 减小间距
-        lp.setMargins(margin, margin, margin, margin)
+        val horizontalMargin = 1.dpToPx(holder.itemView.context) // 横向间距（减小）
+        val verticalMargin = 2.dpToPx(holder.itemView.context) // 纵向间距（统一）
+        lp.setMargins(horizontalMargin, verticalMargin, horizontalMargin, verticalMargin)
         img.layoutParams = lp
         img.scaleType = ImageView.ScaleType.CENTER_CROP
         img.transitionName = "moment_image_${moment.id}_$index"
@@ -382,8 +411,9 @@ class MomentAdapter(
     ) {
         val img = ShapeableImageView(holder.itemView.context)
         val lp = FlexboxLayout.LayoutParams(imageSize.width, imageSize.height)
-        val margin = 2.dpToPx(holder.itemView.context) // 减小间距
-        lp.setMargins(margin, margin, margin, margin)
+        val horizontalMargin = 1.dpToPx(holder.itemView.context) // 横向间距（减小）
+        val verticalMargin = 2.dpToPx(holder.itemView.context) // 纵向间距（统一）
+        lp.setMargins(horizontalMargin, verticalMargin, horizontalMargin, verticalMargin)
         img.layoutParams = lp
         img.scaleType = ImageView.ScaleType.CENTER_CROP
         img.transitionName = "moment_image_${moment.id}_$index"
