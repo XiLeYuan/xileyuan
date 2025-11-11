@@ -23,6 +23,16 @@
 
     </androidx.cardview.widget.CardView>
 
+    <!-- 播放按钮（视频未播放时显示） -->
+    <ImageView
+        android:id="@+id/ivPlayButton"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center"
+        android:src="@mipmap/video_start_play_icon"
+        android:background="@drawable/bg_play_button"
+        android:visibility="visible" />
+
     <!-- 视频时长（覆盖层） -->
     <TextView
         android:id="@+id/tvVideoDuration"

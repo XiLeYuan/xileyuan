@@ -516,6 +516,7 @@ class MomentAdapter(
         
         val playerView = videoView.findViewById<PlayerView>(R.id.playerView)
         val tvVideoDuration = videoView.findViewById<TextView>(R.id.tvVideoDuration)
+        val ivPlayButton = videoView.findViewById<ImageView>(R.id.ivPlayButton)
         
         // 设置视频尺寸（与单张横图相同）
         val videoWidth = availableWidth
@@ -536,7 +537,29 @@ class MomentAdapter(
         // 存储播放器引用，用于后续管理
         playerView.tag = moment.id
         
+        // 监听播放状态，控制播放按钮显示/隐藏
+        player.addListener(object : com.google.android.exoplayer2.Player.Listener {
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                updatePlayButtonVisibility(player, ivPlayButton)
+            }
+            
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                updatePlayButtonVisibility(player, ivPlayButton)
+            }
+        })
+        
+        // 初始状态：根据播放状态显示/隐藏按钮
+        updatePlayButtonVisibility(player, ivPlayButton)
+        
         holder.imageContainer.addView(videoView)
+    }
+    
+    /**
+     * 更新播放按钮的显示状态
+     */
+    private fun updatePlayButtonVisibility(player: ExoPlayer, playButton: ImageView) {
+        val isPlaying = player.isPlaying && player.playbackState == com.google.android.exoplayer2.Player.STATE_READY
+        playButton.visibility = if (isPlaying) View.GONE else View.VISIBLE
     }
     
     /**
