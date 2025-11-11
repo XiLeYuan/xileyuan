@@ -1,5 +1,6 @@
 package com.xly.business.user
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -26,6 +27,7 @@ class LYUserDetailInfoActivity : AppCompatActivity() {
     private var thumbnailAdapter: ThumbnailAdapter? = null
     private var thumbnailRecycler: RecyclerView? = null
 
+    @SuppressLint("ObsoleteSdkInt")
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
