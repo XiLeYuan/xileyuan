@@ -1,6 +1,7 @@
 package com.xly.business.square.view.adapter
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -121,39 +122,8 @@ class MomentAdapter(
                 holder.time.text = moment.time
                 Glide.with(holder.avatar).load(moment.userAvatar).into(holder.avatar)
 
-                // 动态添加图片
-                holder.imageContainer.removeAllViews()
-                // 在 MomentAdapter 的 onBindViewHolder 中
-                moment.images.forEachIndexed { idx, imageResId ->
-                    val img = ShapeableImageView(holder.itemView.context)
-                    val size = holder.itemView.resources.displayMetrics.widthPixels / 4
-                    val lp = FlexboxLayout.LayoutParams(size, size)
-                    lp.setMargins(4, 4, 4, 4)
-                    img.layoutParams = lp
-                    img.scaleType = ImageView.ScaleType.CENTER_CROP
-                    img.transitionName = "moment_image_${moment.id}_$idx"
-
-                    img.shapeAppearanceModel = img.shapeAppearanceModel
-                        .toBuilder()
-                        .setAllCornerSizes(18f) // 16f px, 也可以用 TypedValue.applyDimension
-                        .build()
-                    Glide.with(img).load(imageResId).into(img)
-                    img.setOnClickListener {
-                        // 只传递单张图片
-                        val intent = Intent(holder.itemView.context, MomentImageDetailActivity::class.java)
-                        intent.putExtra("imageResId", imageResId) // 只传一张图片的 res id
-                        intent.putExtra("momentId", moment.id)
-                        intent.putExtra("imageIndex", idx)
-
-                        // 创建共享元素动画
-                        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            activity,
-                            Pair.create(img as View, img.transitionName)
-                        )
-                        activity.startActivity(intent, options.toBundle())
-                    }
-                    holder.imageContainer.addView(img)
-                }
+                // 使用新的布局管理器动态添加图片
+                setupImages(holder, moment)
                 holder.btnLike.click {
                     holder.btnLike.setImageResource(R.mipmap.zan_select)
                 }
@@ -167,5 +137,143 @@ class MomentAdapter(
 
     private fun hasBanner(): Boolean {
         return bannerList != null && bannerList.isNotEmpty()
+    }
+
+    /**
+     * 设置图片布局
+     */
+    private fun setupImages(holder: MomentViewHolder, moment: Moment) {
+        holder.imageContainer.removeAllViews()
+        
+        val imageCount = moment.images.size
+        if (imageCount == 0) return
+        
+        val screenWidth = holder.itemView.resources.displayMetrics.widthPixels
+        val context = holder.itemView.context
+        val layoutConfigs = MomentImageLayoutManager.getLayoutConfig(context, imageCount, screenWidth)
+        val displayCount = MomentImageLayoutManager.getDisplayCount(imageCount)
+        val showMore = MomentImageLayoutManager.shouldShowMoreIndicator(imageCount)
+        
+        // 设置FlexboxLayout的方向和换行
+        holder.imageContainer.flexDirection = com.google.android.flexbox.FlexDirection.ROW
+        holder.imageContainer.flexWrap = com.google.android.flexbox.FlexWrap.WRAP
+        holder.imageContainer.justifyContent = com.google.android.flexbox.JustifyContent.FLEX_START
+        
+        // 添加图片
+        for (i in 0 until displayCount) {
+            val isLastImage = i == displayCount - 1
+            val shouldShowMoreOnLast = isLastImage && showMore
+            
+            if (shouldShowMoreOnLast) {
+                // 最后一张显示"更多"标识
+                addMoreIndicator(holder, moment, layoutConfigs[i], imageCount - displayCount + 1, displayCount)
+            } else {
+                // 正常显示图片
+                addImage(holder, moment, moment.images[i], i, layoutConfigs[i])
+            }
+        }
+    }
+
+    /**
+     * 添加单张图片
+     */
+    private fun addImage(
+        holder: MomentViewHolder,
+        moment: Moment,
+        imageResId: Int,
+        index: Int,
+        imageSize: MomentImageLayoutManager.ImageSize
+    ) {
+        val img = ShapeableImageView(holder.itemView.context)
+        val lp = FlexboxLayout.LayoutParams(imageSize.width, imageSize.height)
+        lp.setMargins(4.dpToPx(holder.itemView.context), 4.dpToPx(holder.itemView.context), 4.dpToPx(holder.itemView.context), 4.dpToPx(holder.itemView.context))
+        img.layoutParams = lp
+        img.scaleType = ImageView.ScaleType.CENTER_CROP
+        img.transitionName = "moment_image_${moment.id}_$index"
+
+        img.shapeAppearanceModel = img.shapeAppearanceModel
+            .toBuilder()
+            .setAllCornerSizes(12f.dpToPx(holder.itemView.context))
+            .build()
+        
+        Glide.with(img).load(imageResId).into(img)
+        
+        img.setOnClickListener {
+            val intent = Intent(holder.itemView.context, MomentImageDetailActivity::class.java)
+            intent.putExtra("imageResId", imageResId)
+            intent.putExtra("momentId", moment.id)
+            intent.putExtra("imageIndex", index)
+
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                activity,
+                Pair.create(img as View, img.transitionName)
+            )
+            activity.startActivity(intent, options.toBundle())
+        }
+        
+        holder.imageContainer.addView(img)
+    }
+
+    /**
+     * 添加"更多"标识
+     */
+    private fun addMoreIndicator(
+        holder: MomentViewHolder,
+        moment: Moment,
+        imageSize: MomentImageLayoutManager.ImageSize,
+        moreCount: Int,
+        displayCount: Int
+    ) {
+        // 创建容器View
+        val container = android.widget.FrameLayout(holder.itemView.context)
+        val lp = FlexboxLayout.LayoutParams(imageSize.width, imageSize.height)
+        lp.setMargins(4.dpToPx(holder.itemView.context), 4.dpToPx(holder.itemView.context), 4.dpToPx(holder.itemView.context), 4.dpToPx(holder.itemView.context))
+        container.layoutParams = lp
+        
+        // 添加第6张图片（索引5）作为背景
+        val backgroundImageIndex = displayCount - 1 // 第6张图片的索引
+        val backgroundImg = ShapeableImageView(holder.itemView.context)
+        backgroundImg.layoutParams = android.widget.FrameLayout.LayoutParams(
+            android.widget.FrameLayout.LayoutParams.MATCH_PARENT,
+            android.widget.FrameLayout.LayoutParams.MATCH_PARENT
+        )
+        backgroundImg.scaleType = ImageView.ScaleType.CENTER_CROP
+        backgroundImg.shapeAppearanceModel = backgroundImg.shapeAppearanceModel
+            .toBuilder()
+            .setAllCornerSizes(12f.dpToPx(holder.itemView.context))
+            .build()
+        
+        Glide.with(backgroundImg).load(moment.images[backgroundImageIndex]).into(backgroundImg)
+        container.addView(backgroundImg)
+        
+        // 添加"更多"遮罩层
+        val moreView = LayoutInflater.from(holder.itemView.context)
+            .inflate(R.layout.item_moment_image_more, container, false)
+        val moreLp = android.widget.FrameLayout.LayoutParams(
+            android.widget.FrameLayout.LayoutParams.MATCH_PARENT,
+            android.widget.FrameLayout.LayoutParams.MATCH_PARENT
+        )
+        moreView.layoutParams = moreLp
+        val tvMoreCount = moreView.findViewById<TextView>(R.id.tvMoreCount)
+        tvMoreCount.text = "+$moreCount"
+        container.addView(moreView)
+        
+        // 点击事件：跳转到图片详情页，显示所有图片
+        container.setOnClickListener {
+            val intent = Intent(holder.itemView.context, MomentImageDetailActivity::class.java)
+            intent.putExtra("momentId", moment.id)
+            intent.putExtra("imageIndex", backgroundImageIndex)
+            activity.startActivity(intent)
+        }
+        
+        holder.imageContainer.addView(container)
+    }
+
+    private fun Int.dpToPx(context: Context): Int {
+        return (this * context.resources.displayMetrics.density).toInt()
+    }
+
+    private fun Float.dpToPx(context: Context): Float {
+        return this * context.resources.displayMetrics.density
     }
 }

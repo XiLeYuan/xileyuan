@@ -47,44 +47,110 @@ class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() 
             )
         )
         
-        val url = "https://image.baidu.com/search/detail?ct=503316480&z=0&tn=baiduimagedetail&ipn=d&cl=2&cm=1&sc=0&sa=vs_ala_img_datu&lm=-1&ie=utf8&pn=0&rn=1&di=7518804108115968001&ln=0&word=%E5%9B%BE%E7%89%87&os=4074351579%2C2126130336&cs=2047808885%2C2267858098&objurl=http%3A%2F%2Fww2.sinaimg.cn%2Fmw690%2F007ut4Uhly1hx4v37mpxcj30u017cgrv.jpg&bdtype=0&simid=3335039407%2C285183104&pi=0&adpicid=0&timingneed=&spn=0&is=0%2C0&lid=cbbfc45100547e69"
+        // 获取图片资源ID的辅助函数
+        fun getImageResId(name: String): Int {
+            return resources.getIdentifier(name, "mipmap", requireContext().packageName)
+        }
+        
+        // 8张头像图片资源
+        val imageResources = listOf(
+            "head_one", "head_two", "head_three", "head_four",
+            "head_five", "head_six", "head_seven", "head_eight"
+        )
+        
+        // 生成图片资源ID列表
+        val imageResIds = imageResources.map { getImageResId(it) }
+        
+        // 创建不同数量的图片列表，展示不同的布局样式
         val mockList = listOf(
+            // 1张图片 - 展示单张大图布局
             Moment(
-                "1", R.mipmap.head_img, "结婚吧", "我们结婚啦！",
-                listOf(R.mipmap.find_img_2,R.mipmap.find_img_3,R.mipmap.find_img_4,R.mipmap.find_img_3),
-                "1分钟前"
+                "1", 
+                getImageResId("head_one"), 
+                "小美", 
+                "今天天气真好，出去走走～",
+                listOf(imageResIds[0]),
+                "刚刚"
             ),
+            // 2张图片 - 展示并排布局
             Moment(
-                "2", R.mipmap.head_img, "结婚吧", "我们结婚啦",
-                listOf(R.mipmap.find_img_3,R.mipmap.find_img_2,R.mipmap.find_img_4,R.mipmap.stylemax_8,R.mipmap.find_img_1,R.mipmap.stylemax_11),
+                "2", 
+                getImageResId("head_two"), 
+                "小红", 
+                "周末和朋友一起聚餐，很开心！",
+                listOf(imageResIds[0], imageResIds[1]),
+                "2分钟前"
+            ),
+            // 3张图片 - 展示2+1布局
+            Moment(
+                "3", 
+                getImageResId("head_three"), 
+                "小丽", 
+                "今天去公园拍照，风景很美",
+                listOf(imageResIds[0], imageResIds[1], imageResIds[2]),
                 "5分钟前"
             ),
+            // 4张图片 - 展示2x2网格布局
             Moment(
-                "1", R.mipmap.head_img, "结婚吧", "我们结婚啦！",
-                listOf(R.mipmap.find_img_2,R.mipmap.find_img_3,R.mipmap.find_img_1,R.mipmap.find_img_3),
-                "1分钟前"
+                "4", 
+                getImageResId("head_four"), 
+                "小芳", 
+                "和闺蜜一起逛街，买了好多东西",
+                listOf(imageResIds[0], imageResIds[1], imageResIds[2], imageResIds[3]),
+                "10分钟前"
+            ),
+            // 5张图片 - 展示2x2+1布局，最后一张显示"更多"
+            Moment(
+                "5", 
+                getImageResId("head_five"), 
+                "小雅", 
+                "今天做了好多好吃的，分享给大家",
+                listOf(imageResIds[0], imageResIds[1], imageResIds[2], imageResIds[3], imageResIds[4]),
+                "15分钟前"
+            ),
+            // 6张图片 - 展示3x2网格布局
+            Moment(
+                "6", 
+                getImageResId("head_six"), 
+                "小静", 
+                "周末旅行，拍了很多美照",
+                listOf(imageResIds[0], imageResIds[1], imageResIds[2], imageResIds[3], imageResIds[4], imageResIds[5]),
+                "20分钟前"
+            ),
+            // 8张图片 - 展示超过6张的"更多"标识
+            Moment(
+                "7", 
+                getImageResId("head_seven"), 
+                "小雯", 
+                "今天拍了好多照片，每一张都很喜欢",
+                listOf(imageResIds[0], imageResIds[1], imageResIds[2], imageResIds[3], imageResIds[4], imageResIds[5], imageResIds[6], imageResIds[7]),
+                "30分钟前"
+            ),
+            // 再次展示不同布局样式
+            Moment(
+                "8", 
+                getImageResId("head_eight"), 
+                "小月", 
+                "今天心情不错，分享一些日常",
+                listOf(imageResIds[0], imageResIds[1]),
+                "1小时前"
             ),
             Moment(
-                "1", R.mipmap.head_img, "小明", "今天心情不错！",
-                listOf(R.mipmap.find_img_3,R.mipmap.stylemax_6,R.mipmap.find_img_4,R.mipmap.find_img_1),
-                "1分钟前"
+                "9", 
+                getImageResId("head_one"), 
+                "小星", 
+                "和朋友们一起度过愉快的周末",
+                listOf(imageResIds[0], imageResIds[1], imageResIds[2], imageResIds[3], imageResIds[4]),
+                "2小时前"
             ),
             Moment(
-                "1", R.mipmap.head_img, "小明", "今天心情不错！",
-                listOf(R.mipmap.find_img_4,R.mipmap.find_img_3,R.mipmap.stylemax_7,R.mipmap.stylemax_8),
-                "1分钟前"
-            ),
-            Moment(
-                "1", R.mipmap.head_img, "小明", "今天心情不错！",
-                listOf(R.mipmap.find_img_4,R.mipmap.stylemax_6,R.mipmap.find_img_3,R.mipmap.stylemax_8),
-                "1分钟前"
-            ),
-            Moment(
-                "1", R.mipmap.head_img, "小明", "今天心情不错！",
-                listOf(R.mipmap.find_img_4,R.mipmap.find_img_3,R.mipmap.stylemax_7,R.mipmap.stylemax_8),
-                "1分钟前"
-            ),
-            // ...更多mock数据
+                "10", 
+                getImageResId("head_two"), 
+                "小晴", 
+                "今天去看了电影，非常精彩",
+                listOf(imageResIds[0]),
+                "3小时前"
+            )
         )
 
         viewBind.refreshLayout.setRefreshHeader(MaterialHeader(requireActivity()))
