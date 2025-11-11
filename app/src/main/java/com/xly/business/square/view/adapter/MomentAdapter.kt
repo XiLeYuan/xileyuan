@@ -22,7 +22,7 @@ import com.xly.business.square.view.MomentImageDetailActivity
 import com.xly.middlelibrary.utils.click
 
 class MomentAdapter(
-    private val list: List<Moment>,
+    private var list: MutableList<Moment>,
     private val activity: Activity,
     private val bannerList: List<BannerItem>? = null,
     private val onBannerClick: ((BannerItem) -> Unit)? = null
@@ -137,6 +137,31 @@ class MomentAdapter(
 
     private fun hasBanner(): Boolean {
         return bannerList != null && bannerList.isNotEmpty()
+    }
+    
+    /**
+     * 更新数据（用于下拉刷新）
+     */
+    fun updateData(newList: List<Moment>) {
+        list.clear()
+        list.addAll(newList)
+        notifyDataSetChanged()
+    }
+    
+    /**
+     * 追加数据（用于加载更多）
+     */
+    fun addData(newList: List<Moment>) {
+        val startPosition = list.size + if (hasBanner()) 1 else 0
+        list.addAll(newList)
+        notifyItemRangeInserted(startPosition, newList.size)
+    }
+    
+    /**
+     * 获取当前数据列表
+     */
+    fun getDataList(): List<Moment> {
+        return list.toList()
     }
 
     /**
@@ -409,13 +434,13 @@ class MomentAdapter(
         isFirstOfTwo: Boolean = false,
         isSecondOfTwo: Boolean = false
     ) {
-        val img = ShapeableImageView(holder.itemView.context)
+            val img = ShapeableImageView(holder.itemView.context)
         val lp = FlexboxLayout.LayoutParams(imageSize.width, imageSize.height)
         val horizontalMargin = 1.dpToPx(holder.itemView.context) // 横向间距（减小）
         val verticalMargin = 2.dpToPx(holder.itemView.context) // 纵向间距（统一）
         lp.setMargins(horizontalMargin, verticalMargin, horizontalMargin, verticalMargin)
-        img.layoutParams = lp
-        img.scaleType = ImageView.ScaleType.CENTER_CROP
+            img.layoutParams = lp
+            img.scaleType = ImageView.ScaleType.CENTER_CROP
         img.transitionName = "moment_image_${moment.id}_$index"
 
         val cornerSize = 8f.dpToPx(holder.itemView.context) // 减小圆角
