@@ -63,14 +63,25 @@ class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() 
         
         // 创建不同数量的图片列表，展示不同的布局样式
         val mockList = listOf(
-            // 1张图片 - 展示单张大图布局
+            // 1张图片 - 展示单张大图布局（横图）
             Moment(
                 "1", 
                 getImageResId("head_one"), 
                 "小美", 
                 "今天天气真好，出去走走～",
                 listOf(imageResIds[0]),
-                "刚刚"
+                "刚刚",
+                isVertical = false
+            ),
+            // 1张图片 - 展示单张大图布局（竖图，高大于宽）
+            Moment(
+                "12", 
+                getImageResId("head_three"), 
+                "小琳", 
+                "今天拍了一张竖图，感觉很不错",
+                listOf(imageResIds[0]),
+                "刚刚",
+                isVertical = true
             ),
             // 2张图片 - 展示并排布局
             Moment(
@@ -90,41 +101,50 @@ class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() 
                 listOf(imageResIds[0], imageResIds[1], imageResIds[2]),
                 "5分钟前"
             ),
-            // 4张图片 - 展示2x2网格布局
+            // 3张图片 - 再次展示特殊布局
             Moment(
                 "4", 
                 getImageResId("head_four"), 
                 "小芳", 
                 "和闺蜜一起逛街，买了好多东西",
-                listOf(imageResIds[0], imageResIds[1], imageResIds[2], imageResIds[3]),
+                listOf(imageResIds[0], imageResIds[1], imageResIds[2]),
                 "10分钟前"
             ),
-            // 5张图片 - 展示2x2+1布局，最后一张显示"更多"
+            // 4张图片 - 展示超过3张的"更多"标识（在第三张右下角显示+1）
             Moment(
                 "5", 
                 getImageResId("head_five"), 
                 "小雅", 
                 "今天做了好多好吃的，分享给大家",
-                listOf(imageResIds[0], imageResIds[1], imageResIds[2], imageResIds[3], imageResIds[4]),
+                listOf(imageResIds[0], imageResIds[1], imageResIds[2], imageResIds[3]),
                 "15分钟前"
             ),
-            // 6张图片 - 展示3x2网格布局
+            // 3张图片 - 展示特殊布局（第一张最大，第二三张在右侧上下排列）
             Moment(
                 "6", 
                 getImageResId("head_six"), 
                 "小静", 
                 "周末旅行，拍了很多美照",
-                listOf(imageResIds[0], imageResIds[1], imageResIds[2], imageResIds[3], imageResIds[4], imageResIds[5]),
+                listOf(imageResIds[0], imageResIds[1], imageResIds[2]),
                 "20分钟前"
             ),
-            // 8张图片 - 展示超过6张的"更多"标识
+            // 5张图片 - 展示超过3张的"更多"标识（在第三张右下角显示+2）
             Moment(
                 "7", 
                 getImageResId("head_seven"), 
                 "小雯", 
                 "今天拍了好多照片，每一张都很喜欢",
-                listOf(imageResIds[0], imageResIds[1], imageResIds[2], imageResIds[3], imageResIds[4], imageResIds[5], imageResIds[6], imageResIds[7]),
+                listOf(imageResIds[0], imageResIds[1], imageResIds[2], imageResIds[3], imageResIds[4]),
                 "30分钟前"
+            ),
+            // 8张图片 - 展示超过3张的"更多"标识（在第三张右下角显示+5）
+            Moment(
+                "11", 
+                getImageResId("head_eight"), 
+                "小云", 
+                "周末旅行，拍了很多美照，分享给大家",
+                listOf(imageResIds[0], imageResIds[1], imageResIds[2], imageResIds[3], imageResIds[4], imageResIds[5], imageResIds[6], imageResIds[7]),
+                "1小时前"
             ),
             // 再次展示不同布局样式
             Moment(
@@ -149,7 +169,18 @@ class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() 
                 "小晴", 
                 "今天去看了电影，非常精彩",
                 listOf(imageResIds[0]),
-                "3小时前"
+                "3小时前",
+                isVertical = false
+            ),
+            // 1张图片 - 再次展示竖图布局
+            Moment(
+                "13", 
+                getImageResId("head_four"), 
+                "小欣", 
+                "竖图的效果也很不错呢",
+                listOf(imageResIds[0]),
+                "4小时前",
+                isVertical = true
             )
         )
 

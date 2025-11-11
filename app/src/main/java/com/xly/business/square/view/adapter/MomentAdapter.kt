@@ -64,8 +64,8 @@ class MomentAdapter(
                 BannerViewHolder(view)
             }
             else -> {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_moment, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_moment, parent, false)
                 MomentViewHolder(view)
             }
         }
@@ -117,10 +117,10 @@ class MomentAdapter(
             is MomentViewHolder -> {
                 val momentPosition = if (hasBanner()) position - 1 else position
                 val moment = list[momentPosition]
-                holder.userName.text = moment.userName
-                holder.content.text = moment.content
-                holder.time.text = moment.time
-                Glide.with(holder.avatar).load(moment.userAvatar).into(holder.avatar)
+        holder.userName.text = moment.userName
+        holder.content.text = moment.content
+        holder.time.text = moment.time
+        Glide.with(holder.avatar).load(moment.userAvatar).into(holder.avatar)
 
                 // 使用新的布局管理器动态添加图片
                 setupImages(holder, moment)
@@ -150,7 +150,11 @@ class MomentAdapter(
         
         val screenWidth = holder.itemView.resources.displayMetrics.widthPixels
         val context = holder.itemView.context
-        val layoutConfigs = MomentImageLayoutManager.getLayoutConfig(context, imageCount, screenWidth)
+        
+        // 判断是否为竖图（单张图片时使用）
+        val isVertical = moment.isVertical
+        
+        val layoutConfigs = MomentImageLayoutManager.getLayoutConfig(context, imageCount, screenWidth, isVertical)
         val displayCount = MomentImageLayoutManager.getDisplayCount(imageCount)
         val showMore = MomentImageLayoutManager.shouldShowMoreIndicator(imageCount)
         
@@ -159,42 +163,192 @@ class MomentAdapter(
         holder.imageContainer.flexWrap = com.google.android.flexbox.FlexWrap.WRAP
         holder.imageContainer.justifyContent = com.google.android.flexbox.JustifyContent.FLEX_START
         
-        // 添加图片
-        for (i in 0 until displayCount) {
-            val isLastImage = i == displayCount - 1
-            val shouldShowMoreOnLast = isLastImage && showMore
-            
-            if (shouldShowMoreOnLast) {
-                // 最后一张显示"更多"标识
-                addMoreIndicator(holder, moment, layoutConfigs[i], imageCount - displayCount + 1, displayCount)
-            } else {
-                // 正常显示图片
-                addImage(holder, moment, moment.images[i], i, layoutConfigs[i])
+        when (displayCount) {
+            1 -> {
+                // 单张图片
+                addImage(holder, moment, moment.images[0], 0, layoutConfigs[0])
+            }
+            2 -> {
+                // 两张图片：第一张右上和右下无圆角，第二张左上和左下无圆角
+                addImage(holder, moment, moment.images[0], 0, layoutConfigs[0], isFirstOfTwo = true)
+                addImage(holder, moment, moment.images[1], 1, layoutConfigs[1], isSecondOfTwo = true)
+            }
+            3 -> {
+                // 三张图片：第一张最大，第二三张在右侧上下排列
+                setupThreeImagesLayout(holder, moment, layoutConfigs, showMore, imageCount)
             }
         }
     }
 
     /**
-     * 添加单张图片
+     * 设置三张图片的特殊布局
      */
-    private fun addImage(
+    private fun setupThreeImagesLayout(
+        holder: MomentViewHolder,
+        moment: Moment,
+        layoutConfigs: List<MomentImageLayoutManager.ImageSize>,
+        showMore: Boolean,
+        totalImageCount: Int
+    ) {
+        val context = holder.itemView.context
+        val margin = 2.dpToPx(context) // 减小间距
+        
+        // 第一张图片（左侧，最大）：右上和右下不要圆角
+        addImageWithCustomCorners(holder, moment, moment.images[0], 0, layoutConfigs[0], 
+            topLeft = true, topRight = false, bottomLeft = true, bottomRight = false)
+        
+        // 右侧容器：包含第二张和第三张图片
+        val rightContainer = LinearLayout(context)
+        rightContainer.orientation = LinearLayout.VERTICAL
+        val rightContainerLp = FlexboxLayout.LayoutParams(
+            layoutConfigs[1].width,
+            layoutConfigs[0].height // 高度等于第一张图片的高度
+        )
+        rightContainerLp.setMargins(margin, margin, margin, margin)
+        rightContainer.layoutParams = rightContainerLp
+        
+        // 第二张图片：左上、左下、右下不要圆角
+        val secondImg = createImageViewWithCustomCorners(holder, moment, moment.images[1], 1, layoutConfigs[1],
+            topLeft = false, topRight = true, bottomLeft = false, bottomRight = false)
+        val secondLp = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            layoutConfigs[1].height
+        )
+        secondLp.bottomMargin = margin / 2
+        secondImg.layoutParams = secondLp
+        rightContainer.addView(secondImg)
+        
+        // 第三张图片（可能带"更多"标识）：左上、左下、右上不要圆角
+        val thirdImgContainer = android.widget.FrameLayout(context)
+        val thirdImgContainerLp = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            layoutConfigs[2].height
+        )
+        thirdImgContainer.layoutParams = thirdImgContainerLp
+        
+        val thirdImg = createImageViewWithCustomCorners(holder, moment, moment.images[2], 2, layoutConfigs[2],
+            topLeft = false, topRight = false, bottomLeft = false, bottomRight = true)
+        val thirdImgLp = android.widget.FrameLayout.LayoutParams(
+            android.widget.FrameLayout.LayoutParams.MATCH_PARENT,
+            android.widget.FrameLayout.LayoutParams.MATCH_PARENT
+        )
+        thirdImg.layoutParams = thirdImgLp
+        thirdImgContainer.addView(thirdImg)
+        
+        // 如果超过3张，在第三张图片右下角显示剩余数量
+        if (showMore) {
+            val moreCount = totalImageCount - 3
+            val badgeView = LayoutInflater.from(context)
+                .inflate(R.layout.item_moment_image_count_badge, thirdImgContainer, false)
+            val badgeLp = android.widget.FrameLayout.LayoutParams(
+                android.widget.FrameLayout.LayoutParams.WRAP_CONTENT,
+                android.widget.FrameLayout.LayoutParams.WRAP_CONTENT
+            )
+            badgeLp.gravity = android.view.Gravity.BOTTOM or android.view.Gravity.END
+            badgeLp.setMargins(8.dpToPx(context), 8.dpToPx(context), 8.dpToPx(context), 8.dpToPx(context))
+            badgeView.layoutParams = badgeLp
+            
+            val tvImageCount = badgeView.findViewById<TextView>(R.id.tvImageCount)
+            tvImageCount.text = "+$moreCount"
+            
+            thirdImgContainer.addView(badgeView)
+        }
+        
+        rightContainer.addView(thirdImgContainer)
+        holder.imageContainer.addView(rightContainer)
+    }
+
+    /**
+     * 创建ImageView（不添加到容器）
+     */
+    private fun createImageView(
         holder: MomentViewHolder,
         moment: Moment,
         imageResId: Int,
         index: Int,
         imageSize: MomentImageLayoutManager.ImageSize
+    ): ShapeableImageView {
+        return createImageViewWithCustomCorners(holder, moment, imageResId, index, imageSize,
+            topLeft = true, topRight = true, bottomLeft = true, bottomRight = true)
+    }
+
+    /**
+     * 创建ImageView（不添加到容器），支持自定义圆角
+     */
+    private fun createImageViewWithCustomCorners(
+        holder: MomentViewHolder,
+        moment: Moment,
+        imageResId: Int,
+        index: Int,
+        imageSize: MomentImageLayoutManager.ImageSize,
+        topLeft: Boolean,
+        topRight: Boolean,
+        bottomLeft: Boolean,
+        bottomRight: Boolean
+    ): ShapeableImageView {
+        val img = ShapeableImageView(holder.itemView.context)
+        img.scaleType = ImageView.ScaleType.CENTER_CROP
+        img.transitionName = "moment_image_${moment.id}_$index"
+
+        val cornerSize = 8f.dpToPx(holder.itemView.context) // 减小圆角
+        val builder = img.shapeAppearanceModel.toBuilder()
+        
+        builder.setTopLeftCornerSize(if (topLeft) cornerSize else 0f)
+            .setTopRightCornerSize(if (topRight) cornerSize else 0f)
+            .setBottomLeftCornerSize(if (bottomLeft) cornerSize else 0f)
+            .setBottomRightCornerSize(if (bottomRight) cornerSize else 0f)
+        
+        img.shapeAppearanceModel = builder.build()
+        
+        Glide.with(img).load(imageResId).into(img)
+        
+        img.setOnClickListener {
+            val intent = Intent(holder.itemView.context, MomentImageDetailActivity::class.java)
+            intent.putExtra("imageResId", imageResId)
+            intent.putExtra("momentId", moment.id)
+            intent.putExtra("imageIndex", index)
+
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                activity,
+                Pair.create(img as View, img.transitionName)
+            )
+            activity.startActivity(intent, options.toBundle())
+        }
+        
+        return img
+    }
+
+    /**
+     * 添加图片，支持自定义圆角
+     */
+    private fun addImageWithCustomCorners(
+        holder: MomentViewHolder,
+        moment: Moment,
+        imageResId: Int,
+        index: Int,
+        imageSize: MomentImageLayoutManager.ImageSize,
+        topLeft: Boolean,
+        topRight: Boolean,
+        bottomLeft: Boolean,
+        bottomRight: Boolean
     ) {
         val img = ShapeableImageView(holder.itemView.context)
         val lp = FlexboxLayout.LayoutParams(imageSize.width, imageSize.height)
-        lp.setMargins(4.dpToPx(holder.itemView.context), 4.dpToPx(holder.itemView.context), 4.dpToPx(holder.itemView.context), 4.dpToPx(holder.itemView.context))
+        val margin = 2.dpToPx(holder.itemView.context) // 减小间距
+        lp.setMargins(margin, margin, margin, margin)
         img.layoutParams = lp
         img.scaleType = ImageView.ScaleType.CENTER_CROP
         img.transitionName = "moment_image_${moment.id}_$index"
 
-        img.shapeAppearanceModel = img.shapeAppearanceModel
-            .toBuilder()
-            .setAllCornerSizes(12f.dpToPx(holder.itemView.context))
-            .build()
+        val cornerSize = 8f.dpToPx(holder.itemView.context) // 减小圆角
+        val builder = img.shapeAppearanceModel.toBuilder()
+        
+        builder.setTopLeftCornerSize(if (topLeft) cornerSize else 0f)
+            .setTopRightCornerSize(if (topRight) cornerSize else 0f)
+            .setBottomLeftCornerSize(if (bottomLeft) cornerSize else 0f)
+            .setBottomRightCornerSize(if (bottomRight) cornerSize else 0f)
+        
+        img.shapeAppearanceModel = builder.build()
         
         Glide.with(img).load(imageResId).into(img)
         
@@ -215,59 +369,65 @@ class MomentAdapter(
     }
 
     /**
-     * 添加"更多"标识
+     * 添加单张图片
      */
-    private fun addMoreIndicator(
+    private fun addImage(
         holder: MomentViewHolder,
         moment: Moment,
+        imageResId: Int,
+        index: Int,
         imageSize: MomentImageLayoutManager.ImageSize,
-        moreCount: Int,
-        displayCount: Int
+        isFirstOfTwo: Boolean = false,
+        isSecondOfTwo: Boolean = false
     ) {
-        // 创建容器View
-        val container = android.widget.FrameLayout(holder.itemView.context)
+        val img = ShapeableImageView(holder.itemView.context)
         val lp = FlexboxLayout.LayoutParams(imageSize.width, imageSize.height)
-        lp.setMargins(4.dpToPx(holder.itemView.context), 4.dpToPx(holder.itemView.context), 4.dpToPx(holder.itemView.context), 4.dpToPx(holder.itemView.context))
-        container.layoutParams = lp
+        val margin = 2.dpToPx(holder.itemView.context) // 减小间距
+        lp.setMargins(margin, margin, margin, margin)
+        img.layoutParams = lp
+        img.scaleType = ImageView.ScaleType.CENTER_CROP
+        img.transitionName = "moment_image_${moment.id}_$index"
+
+        val cornerSize = 8f.dpToPx(holder.itemView.context) // 减小圆角
+        val builder = img.shapeAppearanceModel.toBuilder()
         
-        // 添加第6张图片（索引5）作为背景
-        val backgroundImageIndex = displayCount - 1 // 第6张图片的索引
-        val backgroundImg = ShapeableImageView(holder.itemView.context)
-        backgroundImg.layoutParams = android.widget.FrameLayout.LayoutParams(
-            android.widget.FrameLayout.LayoutParams.MATCH_PARENT,
-            android.widget.FrameLayout.LayoutParams.MATCH_PARENT
-        )
-        backgroundImg.scaleType = ImageView.ScaleType.CENTER_CROP
-        backgroundImg.shapeAppearanceModel = backgroundImg.shapeAppearanceModel
-            .toBuilder()
-            .setAllCornerSizes(12f.dpToPx(holder.itemView.context))
-            .build()
-        
-        Glide.with(backgroundImg).load(moment.images[backgroundImageIndex]).into(backgroundImg)
-        container.addView(backgroundImg)
-        
-        // 添加"更多"遮罩层
-        val moreView = LayoutInflater.from(holder.itemView.context)
-            .inflate(R.layout.item_moment_image_more, container, false)
-        val moreLp = android.widget.FrameLayout.LayoutParams(
-            android.widget.FrameLayout.LayoutParams.MATCH_PARENT,
-            android.widget.FrameLayout.LayoutParams.MATCH_PARENT
-        )
-        moreView.layoutParams = moreLp
-        val tvMoreCount = moreView.findViewById<TextView>(R.id.tvMoreCount)
-        tvMoreCount.text = "+$moreCount"
-        container.addView(moreView)
-        
-        // 点击事件：跳转到图片详情页，显示所有图片
-        container.setOnClickListener {
-            val intent = Intent(holder.itemView.context, MomentImageDetailActivity::class.java)
-            intent.putExtra("momentId", moment.id)
-            intent.putExtra("imageIndex", backgroundImageIndex)
-            activity.startActivity(intent)
+        if (isFirstOfTwo) {
+            // 第一张图片：左上和左下有圆角，右上和右下无圆角
+            builder.setTopLeftCornerSize(cornerSize)
+                .setTopRightCornerSize(0f)
+                .setBottomLeftCornerSize(cornerSize)
+                .setBottomRightCornerSize(0f)
+        } else if (isSecondOfTwo) {
+            // 第二张图片：右上和右下有圆角，左上和左下无圆角
+            builder.setTopLeftCornerSize(0f)
+                .setTopRightCornerSize(cornerSize)
+                .setBottomLeftCornerSize(0f)
+                .setBottomRightCornerSize(cornerSize)
+        } else {
+            // 其他情况：所有角都有圆角
+            builder.setAllCornerSizes(cornerSize)
         }
         
-        holder.imageContainer.addView(container)
-    }
+        img.shapeAppearanceModel = builder.build()
+        
+            Glide.with(img).load(imageResId).into(img)
+        
+            img.setOnClickListener {
+                val intent = Intent(holder.itemView.context, MomentImageDetailActivity::class.java)
+            intent.putExtra("imageResId", imageResId)
+                intent.putExtra("momentId", moment.id)
+            intent.putExtra("imageIndex", index)
+
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    activity,
+                    Pair.create(img as View, img.transitionName)
+                )
+                activity.startActivity(intent, options.toBundle())
+            }
+        
+            holder.imageContainer.addView(img)
+        }
+
 
     private fun Int.dpToPx(context: Context): Int {
         return (this * context.resources.displayMetrics.density).toInt()

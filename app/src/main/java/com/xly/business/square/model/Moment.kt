@@ -6,5 +6,6 @@ data class Moment(
     val userName: String,
     val content: String,
     val images: List<Int>, // 图片url或本地路径
-    val time: String
+    val time: String,
+    val isVertical: Boolean = false // 单张图片时，是否为竖图（高大于宽）
 )
