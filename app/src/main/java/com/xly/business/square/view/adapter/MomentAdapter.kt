@@ -10,7 +10,8 @@ import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
+import android.widget.HorizontalScrollView
+import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.imageview.ShapeableImageView
@@ -42,7 +43,8 @@ class MomentAdapter(
     }
 
     class BannerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val bannerViewPager: ViewPager2 = itemView.findViewById(R.id.bannerViewPager)
+        val bannerScrollView: HorizontalScrollView = itemView.findViewById(R.id.bannerScrollView)
+        val bannerContainer: LinearLayout = itemView.findViewById(R.id.bannerContainer)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -73,11 +75,42 @@ class MomentAdapter(
             is BannerViewHolder -> {
                 // 设置 Banner
                 if (bannerList != null && bannerList.isNotEmpty()) {
-                    val bannerAdapter = BannerAdapter(bannerList) { banner ->
-                        onBannerClick?.invoke(banner)
+                    // 清空容器
+                    holder.bannerContainer.removeAllViews()
+                    
+                    // 获取 banner 宽度和间距
+                    val bannerWidth = holder.itemView.resources.getDimensionPixelSize(R.dimen.banner_item_width)
+                    val pageMargin = holder.itemView.resources.getDimensionPixelSize(R.dimen.banner_page_margin)
+                    
+                    // 动态添加 banner items
+                    bannerList.forEachIndexed { index, banner ->
+                        val bannerView = LayoutInflater.from(holder.itemView.context)
+                            .inflate(R.layout.item_banner, holder.bannerContainer, false)
+                        
+                        // 设置宽度
+                        val layoutParams = LinearLayout.LayoutParams(
+                            bannerWidth,
+                            LinearLayout.LayoutParams.MATCH_PARENT
+                        )
+                        if (index < bannerList.size - 1) {
+                            layoutParams.marginEnd = pageMargin
+                        }
+                        bannerView.layoutParams = layoutParams
+                        
+                        // 绑定数据
+                        val ivBanner: ImageView = bannerView.findViewById(R.id.ivBanner)
+                        Glide.with(ivBanner)
+                            .load(banner.imageResId)
+                            .centerCrop()
+                            .into(ivBanner)
+                        
+                        // 设置点击事件
+                        bannerView.setOnClickListener {
+                            onBannerClick?.invoke(banner)
+                        }
+                        
+                        holder.bannerContainer.addView(bannerView)
                     }
-                    holder.bannerViewPager.adapter = bannerAdapter
-                    holder.bannerViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
                 }
             }
             is MomentViewHolder -> {

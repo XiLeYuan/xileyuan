@@ -27,5 +27,10 @@
     <dimen name="card_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="list_item_avatar_size">40dp</dimen>
+    
+    <!-- Banner 相关尺寸 -->
+    <dimen name="banner_item_width">300dp</dimen>
+    <dimen name="banner_item_height">200dp</dimen>
+    <dimen name="banner_page_margin">12dp</dimen>
 
 </resources>

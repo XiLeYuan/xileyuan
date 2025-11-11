@@ -16,15 +16,9 @@ import com.xly.business.recommend.viewmodel.RecommendViewModel
 import com.xly.databinding.FragmentFindBinding
 import com.xly.R
 import com.xly.business.square.view.adapter.MomentAdapter
-import com.xly.business.square.view.adapter.BannerAdapter
 import com.xly.business.square.view.adapter.BannerItem
-import android.os.Looper
-import androidx.viewpager2.widget.ViewPager2
 
 class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() {
-
-    private var autoScrollHandler: Handler? = null
-    private var autoScrollRunnable: Runnable? = null
 
 
 
@@ -127,66 +121,7 @@ class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() 
         
         viewBind.momentRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewBind.momentRecyclerView.adapter = adapter
-        
-        // 设置自动轮播（需要在 adapter 设置后获取 banner ViewPager2）
-        setupAutoScroll(adapter)
 
-    }
-
-    private fun setupAutoScroll(adapter: MomentAdapter) {
-        // 延迟获取 banner ViewPager2，确保它已经被创建
-        viewBind.momentRecyclerView.post {
-            val bannerViewHolder = viewBind.momentRecyclerView.findViewHolderForAdapterPosition(0)
-            if (bannerViewHolder is MomentAdapter.BannerViewHolder) {
-                val bannerViewPager = bannerViewHolder.bannerViewPager
-                startAutoScroll(bannerViewPager)
-            }
-        }
-    }
-
-    private fun startAutoScroll(bannerViewPager: ViewPager2) {
-        autoScrollHandler = Handler(Looper.getMainLooper())
-        autoScrollRunnable = object : Runnable {
-            override fun run() {
-                val currentItem = bannerViewPager.currentItem
-                val itemCount = bannerViewPager.adapter?.itemCount ?: 0
-                if (itemCount > 0) {
-                    val nextItem = (currentItem + 1) % itemCount
-                    bannerViewPager.setCurrentItem(nextItem, true)
-                }
-                autoScrollHandler?.postDelayed(this, 3000) // 3秒自动切换
-            }
-        }
-        autoScrollHandler?.postDelayed(autoScrollRunnable!!, 3000)
-    }
-
-    private fun stopAutoScroll() {
-        autoScrollRunnable?.let {
-            autoScrollHandler?.removeCallbacks(it)
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        // 重新获取 banner ViewPager2 并启动轮播
-        viewBind.momentRecyclerView.post {
-            val bannerViewHolder = viewBind.momentRecyclerView.findViewHolderForAdapterPosition(0)
-            if (bannerViewHolder is MomentAdapter.BannerViewHolder) {
-                startAutoScroll(bannerViewHolder.bannerViewPager)
-            }
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        stopAutoScroll()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        stopAutoScroll()
-        autoScrollHandler = null
-        autoScrollRunnable = null
     }
 
 
