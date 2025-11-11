@@ -1,7 +1,8 @@
 package com.xly.business.recommend.view
 
-import android.app.ActivityOptions
 import android.content.Intent
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -163,23 +164,22 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
         }
     }
 
-    private fun showUserDetail(userCard: UserCard, cardView: View? = null) {
-
+    private fun showUserDetail(userCard: UserCard, avatarView: View? = null) {
         val intent = Intent(requireActivity(), LYUserDetailInfoActivity::class.java).apply {
-            putExtra("user_card", userCard)
+            putExtra("user_id", userCard.id)
+            putExtra("user_name", userCard.name)
+            putExtra("user_avatar", userCard.avatarUrl) // 传递头像资源名称
         }
 
-        if (cardView != null) {
-            Log.i("cardView","NO-NULL")
-            // 使用共享元素转场动画
-            val options = ActivityOptions.makeSceneTransitionAnimation(
+        if (avatarView != null) {
+            // 使用共享元素转场动画（与精选列表保持一致）
+            val transitionName = "user_avatar_${userCard.id}"
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                 requireActivity(),
-                cardView,
-                "user_card"
+                Pair.create(avatarView, transitionName)
             )
             startActivity(intent, options.toBundle())
         } else {
-            Log.i("cardView","NULL")
             // 普通转场
             startActivity(intent)
         }

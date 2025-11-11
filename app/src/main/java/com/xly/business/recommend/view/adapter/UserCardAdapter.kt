@@ -58,9 +58,9 @@ class UserCardAdapter(
             holder.ivBackground.setImageResource(R.mipmap.find_img_3)
         }
         
-        // 设置点击事件
+        // 设置点击事件（传递背景图片View用于转场动画）
         holder.ivBackground.click { view ->
-            onCardClickListener(userCard, view)
+            onCardClickListener(userCard, holder.ivBackground)
         }
         holder.arrowRightIv.click {
             onCardClickListener(userCard, holder.ivBackground)
@@ -94,8 +94,8 @@ class UserCardAdapter(
             // 设置标签
             setupTags(userCard.tags)
 
-            // 设置共享元素转场名称
-            itemView.transitionName = "user_card"
+            // 设置共享元素转场名称（使用背景图片，与精选列表保持一致）
+            ivBackground.transitionName = "user_avatar_${userCard.id}"
         }
 
         private fun setupTags(tags: List<String>) {
