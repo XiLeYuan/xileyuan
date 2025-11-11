@@ -81,7 +81,7 @@
                     <ImageView
                         android:layout_width="14dp"
                         android:layout_height="14dp"
-                        android:src="@mipmap/zan_select"/>
+                        android:src="@mipmap/score_icon"/>
 
                     <TextView
                         android:id="@+id/tvRating"
@@ -112,19 +112,6 @@
 
             </LinearLayout>
 
-            <!-- VIP标识（如果有） -->
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/tvVIP"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="VIP"
-                android:textSize="@dimen/text_size_tiny"
-                android:textColor="@color/text_white"
-                android:background="@mipmap/main_vip_icon"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"/>
 
         </LinearLayout>
 

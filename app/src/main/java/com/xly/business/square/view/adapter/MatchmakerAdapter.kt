@@ -1,6 +1,11 @@
 package com.xly.business.square.view.adapter
 
 
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,12 +68,8 @@ class MatchmakerAdapter(
             // 评分
             binding.tvRating.text = String.format("%.1f", matchmaker.rating)
 
-            // 用户数量
-            binding.tvUserCount.text = "${matchmaker.userCount}位用户"
-
-            // VIP标识
-            binding.tvVIP.visibility =
-                if (matchmaker.isVIP) View.VISIBLE else View.GONE
+            // 用户数量 - 突出显示数字
+            setupUserCount(binding.tvUserCount, matchmaker.userCount)
 
             // 服务区域
             binding.tvLocation.text = matchmaker.location
@@ -110,6 +111,42 @@ class MatchmakerAdapter(
                 }
                 container.addView(tagView)
             }
+        }
+
+        private fun setupUserCount(textView: TextView, userCount: Int) {
+            val text = "${userCount}位用户"
+            val spannableString = SpannableString(text)
+            
+            // 找到数字的起始和结束位置
+            val numberStart = 0
+            val numberEnd = userCount.toString().length
+            
+            // 设置数字颜色为品牌主色
+            val primaryColor = ContextCompat.getColor(textView.context, R.color.brand_primary)
+            spannableString.setSpan(
+                ForegroundColorSpan(primaryColor),
+                numberStart,
+                numberEnd,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            
+            // 设置数字字体大小（增大1.2倍）
+            spannableString.setSpan(
+                RelativeSizeSpan(1.2f),
+                numberStart,
+                numberEnd,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            
+            // 设置数字字体加粗
+            spannableString.setSpan(
+                StyleSpan(android.graphics.Typeface.BOLD),
+                numberStart,
+                numberEnd,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            
+            textView.text = spannableString
         }
 
         private fun Int.dpToPx(): Int {
