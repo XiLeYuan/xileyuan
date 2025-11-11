@@ -22,25 +22,34 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <!-- 头像 -->
-            <!--<com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/ivAvatar"
+            <!-- 头像容器（包含头像和认证标识） -->
+            <FrameLayout
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:scaleType="centerCrop"
-                android:src="#666666"
-                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Circle" />-->
+                android:layout_marginStart="0dp">
 
-            <com.xly.middlelibrary.widget.LYRoundImageView
-                android:id="@+id/ivAvatar"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginStart="16dp"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/head_img"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <!-- 头像 -->
+                <com.xly.middlelibrary.widget.LYRoundImageView
+                    android:id="@+id/ivAvatar"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/head_img" />
+
+                <!-- 认证标识（头像右下角） -->
+                <ImageView
+                    android:id="@+id/ivVerified"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:src="@mipmap/verified_icon"
+                    android:visibility="visible"
+                    android:background="@drawable/black_circle_bg"
+                    android:padding="2dp" />
+
+            </FrameLayout>
 
             <!-- 红娘信息 -->
             <LinearLayout
@@ -50,35 +59,15 @@
                 android:layout_marginStart="12dp"
                 android:orientation="vertical">
 
-                <!-- 姓名和认证标识 -->
-                <LinearLayout
+                <!-- 姓名 -->
+                <TextView
+                    android:id="@+id/tvName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:id="@+id/tvName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="张红娘"
-                        android:textSize="@dimen/text_size_h4"
-                        android:textStyle="bold"
-                        android:textColor="@color/text_primary" />
-
-                    <!-- 认证标识 -->
-                    <ImageView
-                        android:id="@+id/ivVerified"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_marginStart="4dp"
-                        android:src="@mipmap/verified_icon"
-                        android:visibility="visible"
-                         />
-
-<!--                    app:tint="@color/text_accent"-->
-
-                </LinearLayout>
+                    android:text="张红娘"
+                    android:textSize="@dimen/text_size_h4"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary" />
 
                 <!-- 评分和用户数量 -->
                 <LinearLayout
@@ -190,19 +179,16 @@
                 android:textSize="@dimen/text_size_body_small"
                 android:textColor="@color/text_success" />
 
-            <!-- 查看详情按钮 -->
-            <TextView
-                android:id="@+id/tvViewDetails"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="查看用户资源"
-                android:textSize="@dimen/text_size_body_small"
-                android:textColor="@color/text_accent"
-
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:paddingTop="6dp"
-                android:paddingBottom="6dp" />
+            <!-- 查看详情按钮（箭头图标） -->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivViewDetails"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_arrow_right"
+                android:background="@drawable/bg_view_details_button"
+                android:padding="6dp"
+                android:contentDescription="查看用户资源"
+                app:tint="@color/text_accent" />
 
         </LinearLayout>
 
