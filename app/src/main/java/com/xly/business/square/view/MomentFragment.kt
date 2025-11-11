@@ -304,27 +304,32 @@ class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() 
         val firstVisible = layoutManager.findFirstVisibleItemPosition()
         val lastVisible = layoutManager.findLastVisibleItemPosition()
         
-        // 计算屏幕中间位置
-        val centerPosition = (firstVisible + lastVisible) / 2
+        // 遍历所有可见的item，找到在屏幕中间区域的视频
+        var centerVideoItem: Moment? = null
+        var centerVideoView: View? = null
         
-        // 检查中间位置是否有视频
-        val centerItem = adapter?.getDataList()?.getOrNull(centerPosition)
-        if (centerItem != null && !centerItem.videoUrl.isNullOrEmpty()) {
-            // 检查视频是否在屏幕中间区域（上下各25%的区域）
-            val centerView = layoutManager.findViewByPosition(centerPosition)
-            if (centerView != null && isViewInCenterArea(recyclerView, centerView)) {
-                adapter?.playVideo(centerItem.id)
-            } else {
-                adapter?.pauseVideo(centerItem.id)
+        for (i in firstVisible..lastVisible) {
+            val item = adapter?.getDataList()?.getOrNull(i)
+            if (item != null && !item.videoUrl.isNullOrEmpty()) {
+                val itemView = layoutManager.findViewByPosition(i)
+                if (itemView != null) {
+                    // 检查视频View是否在屏幕中间区域
+                    if (isViewInCenterArea(recyclerView, itemView)) {
+                        centerVideoItem = item
+                        centerVideoView = itemView
+                        break // 找到第一个在中间区域的视频就停止
+                    }
+                }
             }
         }
         
-        // 暂停不在中间区域的视频
-        for (i in firstVisible..lastVisible) {
-            if (i != centerPosition) {
-                val item = adapter?.getDataList()?.getOrNull(i)
-                if (item != null && !item.videoUrl.isNullOrEmpty()) {
-                    adapter?.pauseVideo(item.id)
+        // 播放中间区域的视频，暂停其他视频
+        adapter?.getDataList()?.forEach { moment ->
+            if (!moment.videoUrl.isNullOrEmpty()) {
+                if (moment.id == centerVideoItem?.id) {
+                    adapter?.playVideo(moment.id)
+                } else {
+                    adapter?.pauseVideo(moment.id)
                 }
             }
         }
@@ -334,19 +339,25 @@ class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() 
      * 检查View是否在屏幕中间区域（上下各25%的区域）
      */
     private fun isViewInCenterArea(recyclerView: androidx.recyclerview.widget.RecyclerView, view: View): Boolean {
-        val recyclerTop = recyclerView.top
-        val recyclerBottom = recyclerView.bottom
-        val recyclerHeight = recyclerBottom - recyclerTop
+        // 获取RecyclerView在屏幕中的位置
+        val recyclerLocation = IntArray(2)
+        recyclerView.getLocationOnScreen(recyclerLocation)
+        val recyclerTopOnScreen = recyclerLocation[1]
+        val recyclerBottomOnScreen = recyclerTopOnScreen + recyclerView.height
         
-        val viewTop = view.top
-        val viewBottom = view.bottom
+        // 获取View在屏幕中的位置
+        val viewLocation = IntArray(2)
+        view.getLocationOnScreen(viewLocation)
+        val viewTopOnScreen = viewLocation[1]
+        val viewBottomOnScreen = viewTopOnScreen + view.height
         
         // 计算屏幕中间区域（上下各25%）
-        val centerAreaTop = recyclerTop + recyclerHeight * 0.25f
-        val centerAreaBottom = recyclerBottom - recyclerHeight * 0.25f
+        val recyclerHeight = recyclerBottomOnScreen - recyclerTopOnScreen
+        val centerAreaTop = recyclerTopOnScreen + recyclerHeight * 0.25f
+        val centerAreaBottom = recyclerBottomOnScreen - recyclerHeight * 0.25f
         
         // 检查视频View的中心点是否在中间区域
-        val viewCenter = (viewTop + viewBottom) / 2f
+        val viewCenter = (viewTopOnScreen + viewBottomOnScreen) / 2f
         return viewCenter >= centerAreaTop && viewCenter <= centerAreaBottom
     }
     
