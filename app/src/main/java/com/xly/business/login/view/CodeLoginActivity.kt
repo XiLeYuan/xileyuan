@@ -60,16 +60,24 @@ class CodeLoginActivity : LYBaseActivity<ActivityCodeLoginBinding, LoginViewMode
                     if (allCodeFilled(codeInputs)) {
                         code = codeInputs.joinToString(separator = "") { it.text.toString() }
 
+                        // 模拟登录成功：保存登录和认证成功标识
                         MMKVManager.putBoolean(MMKVManager.KEY_LOGIN_SUCCESS, true)
+                        MMKVManager.putBoolean(MMKVManager.KEY_AUTH_SUCCESS, true)
 
-                        // 清除所有之前的Activity并跳转到UserInfoActivity
+                        // 清除所有之前的Activity并跳转到主页面（用于本地调试）
                         ActivityStackManager.startActivityAndClearStack(
                             this@CodeLoginActivity,
-                            UserInfoActivity::class.java
-                        ) {
-                            putExtra("phone", phone)
-                            putExtra("code", code)
-                        }
+                            LYMainActivity::class.java
+                        )
+                        
+                        // 如果需要跳转到用户信息页面，取消注释下面的代码
+                        // ActivityStackManager.startActivityAndClearStack(
+                        //     this@CodeLoginActivity,
+                        //     UserInfoActivity::class.java
+                        // ) {
+                        //     putExtra("phone", phone)
+                        //     putExtra("code", code)
+                        // }
 //                        requestLogin(phone,code)
                     }
                 }

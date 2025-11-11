@@ -1,11 +1,8 @@
 <resources>
     <string name="app_name">结婚吧</string>
 
-    <string name="cheese_ipsum">Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
-    cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
-    bergkase cream cheese fromage frais cheesy feet port-salut airedale. St. agur blue cheese rubber
-    cheese caerphilly cheddar cheesecake cream cheese manchego lancashire. Roquefort squirty cheese
-    the big cheese.</string>
+    <string name="cheese_ipsum">想找个年龄在26至30岁之间，身高172以上，三观正、人品好、正能量、有责任心，独立有主见的老家男生~</string>
+    <string name="self_introduction">97年，女，未婚，身高157cm，体重45kg，本科学历，固始人在上海发展，医疗系统检测部门工作，月薪1万元左右+。性格温和待人和善，自动能力比较强，做事爽朗不喜欢拖泥带水。日常喜欢看书、爱好文学</string>
     <string name="checkin">Checkin</string>
 
     <string name="menu_night_mode">Night mode</string>
