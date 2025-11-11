@@ -19,6 +19,7 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.xly.business.square.model.Moment
 import com.xly.R
 import com.xly.business.square.view.MomentImageDetailActivity
+import com.xly.business.square.view.MomentVideoPlayerActivity
 import com.xly.middlelibrary.utils.click
 
 class MomentAdapter(
@@ -169,6 +170,12 @@ class MomentAdapter(
      */
     private fun setupImages(holder: MomentViewHolder, moment: Moment) {
         holder.imageContainer.removeAllViews()
+        
+        // 如果有视频，显示视频
+        if (!moment.videoUrl.isNullOrEmpty()) {
+            setupVideo(holder, moment)
+            return
+        }
         
         val imageCount = moment.images.size
         if (imageCount == 0) return
@@ -483,6 +490,64 @@ class MomentAdapter(
             holder.imageContainer.addView(img)
         }
 
+    /**
+     * 设置视频显示
+     */
+    private fun setupVideo(holder: MomentViewHolder, moment: Moment) {
+        val context = holder.itemView.context
+        val screenWidth = holder.itemView.resources.displayMetrics.widthPixels
+        val padding = 68.dpToPx(context) // 左边距
+        val margin = 2.dpToPx(context) // 间距
+        val availableWidth = screenWidth - padding - 32.dpToPx(context) // 可用宽度
+        
+        // 创建视频容器
+        val videoView = LayoutInflater.from(context)
+            .inflate(R.layout.item_moment_video, holder.imageContainer, false)
+        
+        val ivVideoThumbnail = videoView.findViewById<com.google.android.material.imageview.ShapeableImageView>(R.id.ivVideoThumbnail)
+        val tvVideoDuration = videoView.findViewById<TextView>(R.id.tvVideoDuration)
+        val videoContainer = videoView.findViewById<android.widget.FrameLayout>(R.id.videoContainer)
+        
+        // 设置视频缩略图尺寸（与单张横图相同）
+        val videoWidth = availableWidth
+        val videoHeight = (videoWidth * 0.75f).toInt() // 4:3 比例
+        
+        val lp = FlexboxLayout.LayoutParams(videoWidth, videoHeight)
+        lp.setMargins(margin, margin, margin, margin)
+        videoView.layoutParams = lp
+        
+        // 加载视频缩略图
+        val thumbnailResId = moment.videoThumbnail ?: moment.images.firstOrNull() ?: R.mipmap.head_img
+        Glide.with(ivVideoThumbnail)
+            .load(thumbnailResId)
+            .centerCrop()
+            .into(ivVideoThumbnail)
+        
+        // 设置视频时长
+        val durationText = formatVideoDuration(moment.videoDuration)
+        tvVideoDuration.text = durationText
+        
+        // 设置播放按钮点击事件
+        videoContainer.setOnClickListener {
+            // 跳转到视频播放页面
+            val intent = Intent(context, MomentVideoPlayerActivity::class.java)
+            intent.putExtra("videoUrl", moment.videoUrl)
+            intent.putExtra("momentId", moment.id)
+            intent.putExtra("videoThumbnail", thumbnailResId)
+            activity.startActivity(intent)
+        }
+        
+        holder.imageContainer.addView(videoView)
+    }
+    
+    /**
+     * 格式化视频时长
+     */
+    private fun formatVideoDuration(seconds: Long): String {
+        val minutes = seconds / 60
+        val secs = seconds % 60
+        return String.format("%02d:%02d", minutes, secs)
+    }
 
     private fun Int.dpToPx(context: Context): Int {
         return (this * context.resources.displayMetrics.density).toInt()

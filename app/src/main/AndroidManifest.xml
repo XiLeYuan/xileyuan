@@ -80,6 +80,12 @@
             android:theme="@style/TransparentTheme"/>
 
         <activity
+            android:name="com.xly.business.square.view.MomentVideoPlayerActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+
+        <activity
             android:name="com.xly.business.login.view.LoginActivity"
             android:exported="true"
             android:theme="@style/AppTheme" />

@@ -141,51 +141,76 @@ class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() 
             
             val imageCount = imageCountConfigs[imageCountIndex]
             
-            // 优化图片选择：让图片选择更加随机和多样化
-            // 使用索引和图片数量的组合来生成不同的起始位置
-            val startImageIndex = (i * 3 + imageCount * 7) % imageResIds.size
-            val images = when {
-                imageCount == 1 -> {
-                    // 单张图片：使用不同的图片索引
-                    listOf(imageResIds[startImageIndex])
-                }
-                imageCount == 2 -> {
-                    // 两张图片：选择不相邻的图片，增加多样性
-                    val secondIndex = (startImageIndex + 3) % imageResIds.size
-                    listOf(imageResIds[startImageIndex], imageResIds[secondIndex])
-                }
-                imageCount == 3 -> {
-                    // 三张图片：选择分散的图片
-                    val secondIndex = (startImageIndex + 2) % imageResIds.size
-                    val thirdIndex = (startImageIndex + 5) % imageResIds.size
-                    listOf(imageResIds[startImageIndex], imageResIds[secondIndex], imageResIds[thirdIndex])
-                }
-                else -> {
-                    // 多张图片：从起始位置开始取，但跳过一些图片增加多样性
-                    val selectedImages = mutableListOf<Int>()
-                    var currentIndex = startImageIndex
-                    for (j in 0 until imageCount) {
-                        selectedImages.add(imageResIds[currentIndex])
-                        // 每次跳过1-2张图片，避免连续选择
-                        currentIndex = (currentIndex + (if (j % 2 == 0) 2 else 1)) % imageResIds.size
-                    }
-                    selectedImages
-                }
-            }
+            // 每10条数据中有1条是视频（约10%的视频比例）
+            val isVideo = i % 10 == 0
             
-            val isVertical = imageCount == 1 && i % 3 == 0 // 每3条单张图片中有一条是竖图
-            
-            moments.add(
-                Moment(
-                    id = "moment_${i + 1}",
-                    userAvatar = getImageResId(imageResources[avatarIndex]),
-                    userName = userNames[userNameIndex],
-                    content = contentTemplates[contentIndex],
-                    images = images,
-                    time = timeList[timeIndex],
-                    isVertical = isVertical
+            if (isVideo) {
+                // 视频动态
+                val videoThumbnailIndex = i % imageResIds.size
+                val videoDuration = 30L + (i % 120) // 30-150秒随机时长
+                
+                moments.add(
+                    Moment(
+                        id = "moment_${i + 1}",
+                        userAvatar = getImageResId(imageResources[avatarIndex]),
+                        userName = userNames[userNameIndex],
+                        content = contentTemplates[contentIndex],
+                        images = listOf(imageResIds[videoThumbnailIndex]), // 视频封面
+                        time = timeList[timeIndex],
+                        isVertical = false,
+                        videoUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", // 示例视频URL
+                        videoThumbnail = imageResIds[videoThumbnailIndex],
+                        videoDuration = videoDuration
+                    )
                 )
-            )
+            } else {
+                // 图片动态
+                // 优化图片选择：让图片选择更加随机和多样化
+                // 使用索引和图片数量的组合来生成不同的起始位置
+                val startImageIndex = (i * 3 + imageCount * 7) % imageResIds.size
+                val images = when {
+                    imageCount == 1 -> {
+                        // 单张图片：使用不同的图片索引
+                        listOf(imageResIds[startImageIndex])
+                    }
+                    imageCount == 2 -> {
+                        // 两张图片：选择不相邻的图片，增加多样性
+                        val secondIndex = (startImageIndex + 3) % imageResIds.size
+                        listOf(imageResIds[startImageIndex], imageResIds[secondIndex])
+                    }
+                    imageCount == 3 -> {
+                        // 三张图片：选择分散的图片
+                        val secondIndex = (startImageIndex + 2) % imageResIds.size
+                        val thirdIndex = (startImageIndex + 5) % imageResIds.size
+                        listOf(imageResIds[startImageIndex], imageResIds[secondIndex], imageResIds[thirdIndex])
+                    }
+                    else -> {
+                        // 多张图片：从起始位置开始取，但跳过一些图片增加多样性
+                        val selectedImages = mutableListOf<Int>()
+                        var currentIndex = startImageIndex
+                        for (j in 0 until imageCount) {
+                            selectedImages.add(imageResIds[currentIndex])
+                            // 每次跳过1-2张图片，避免连续选择
+                            currentIndex = (currentIndex + (if (j % 2 == 0) 2 else 1)) % imageResIds.size
+                        }
+                        selectedImages
+                    }
+                }
+                
+                val isVertical = imageCount == 1 && i % 3 == 0 // 每3条单张图片中有一条是竖图
+                
+                moments.add(
+                    Moment(
+                        id = "moment_${i + 1}",
+                        userAvatar = getImageResId(imageResources[avatarIndex]),
+                        userName = userNames[userNameIndex],
+                        content = contentTemplates[contentIndex],
+                        images = images,
+                        time = timeList[timeIndex],
+                        isVertical = isVertical
+                    )
+                )
+            }
         }
         
         return moments
