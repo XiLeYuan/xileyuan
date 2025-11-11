@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.imageview.ShapeableImageView
@@ -20,8 +21,15 @@ import com.xly.middlelibrary.utils.click
 
 class MomentAdapter(
     private val list: List<Moment>,
-    private val activity: Activity
-) : RecyclerView.Adapter<MomentAdapter.MomentViewHolder>() {
+    private val activity: Activity,
+    private val bannerList: List<BannerItem>? = null,
+    private val onBannerClick: ((BannerItem) -> Unit)? = null
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    companion object {
+        private const val VIEW_TYPE_BANNER = 0
+        private const val VIEW_TYPE_MOMENT = 1
+    }
 
     class MomentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val avatar: ImageView = itemView.findViewById(R.id.avatar)
@@ -33,56 +41,98 @@ class MomentAdapter(
         val btnComment: ImageView = itemView.findViewById(R.id.btnComment)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MomentViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_moment, parent, false)
-        return MomentViewHolder(view)
+    class BannerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val bannerViewPager: ViewPager2 = itemView.findViewById(R.id.bannerViewPager)
     }
 
-    override fun onBindViewHolder(holder: MomentViewHolder, position: Int) {
-        val moment = list[position]
-        holder.userName.text = moment.userName
-        holder.content.text = moment.content
-        holder.time.text = moment.time
-        Glide.with(holder.avatar).load(moment.userAvatar).into(holder.avatar)
+    override fun getItemViewType(position: Int): Int {
+        return if (hasBanner() && position == 0) {
+            VIEW_TYPE_BANNER
+        } else {
+            VIEW_TYPE_MOMENT
+        }
+    }
 
-        // 动态添加图片
-        holder.imageContainer.removeAllViews()
-        // 在 MomentAdapter 的 onBindViewHolder 中
-        moment.images.forEachIndexed { idx, imageResId ->
-            val img = ShapeableImageView(holder.itemView.context)
-            val size = holder.itemView.resources.displayMetrics.widthPixels / 4
-            val lp = FlexboxLayout.LayoutParams(size, size)
-            lp.setMargins(4, 4, 4, 4)
-            img.layoutParams = lp
-            img.scaleType = ImageView.ScaleType.CENTER_CROP
-            img.transitionName = "moment_image_${moment.id}_$idx"
-
-            img.shapeAppearanceModel = img.shapeAppearanceModel
-                .toBuilder()
-                .setAllCornerSizes(18f) // 16f px, 也可以用 TypedValue.applyDimension
-                .build()
-            Glide.with(img).load(imageResId).into(img)
-            img.setOnClickListener {
-                // 只传递单张图片
-                val intent = Intent(holder.itemView.context, MomentImageDetailActivity::class.java)
-                intent.putExtra("imageResId", imageResId) // 只传一张图片的 res id
-                intent.putExtra("momentId", moment.id)
-                intent.putExtra("imageIndex", idx)
-
-                // 创建共享元素动画
-                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                    activity,
-                    Pair.create(img as View, img.transitionName)
-                )
-                activity.startActivity(intent, options.toBundle())
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            VIEW_TYPE_BANNER -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_banner_header, parent, false)
+                BannerViewHolder(view)
             }
-            holder.imageContainer.addView(img)
-        }
-        holder.btnLike.click {
-            holder.btnLike.setImageResource(R.mipmap.zan_select)
+            else -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_moment, parent, false)
+                MomentViewHolder(view)
+            }
         }
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is BannerViewHolder -> {
+                // 设置 Banner
+                if (bannerList != null && bannerList.isNotEmpty()) {
+                    val bannerAdapter = BannerAdapter(bannerList) { banner ->
+                        onBannerClick?.invoke(banner)
+                    }
+                    holder.bannerViewPager.adapter = bannerAdapter
+                    holder.bannerViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+                }
+            }
+            is MomentViewHolder -> {
+                val momentPosition = if (hasBanner()) position - 1 else position
+                val moment = list[momentPosition]
+                holder.userName.text = moment.userName
+                holder.content.text = moment.content
+                holder.time.text = moment.time
+                Glide.with(holder.avatar).load(moment.userAvatar).into(holder.avatar)
+
+                // 动态添加图片
+                holder.imageContainer.removeAllViews()
+                // 在 MomentAdapter 的 onBindViewHolder 中
+                moment.images.forEachIndexed { idx, imageResId ->
+                    val img = ShapeableImageView(holder.itemView.context)
+                    val size = holder.itemView.resources.displayMetrics.widthPixels / 4
+                    val lp = FlexboxLayout.LayoutParams(size, size)
+                    lp.setMargins(4, 4, 4, 4)
+                    img.layoutParams = lp
+                    img.scaleType = ImageView.ScaleType.CENTER_CROP
+                    img.transitionName = "moment_image_${moment.id}_$idx"
+
+                    img.shapeAppearanceModel = img.shapeAppearanceModel
+                        .toBuilder()
+                        .setAllCornerSizes(18f) // 16f px, 也可以用 TypedValue.applyDimension
+                        .build()
+                    Glide.with(img).load(imageResId).into(img)
+                    img.setOnClickListener {
+                        // 只传递单张图片
+                        val intent = Intent(holder.itemView.context, MomentImageDetailActivity::class.java)
+                        intent.putExtra("imageResId", imageResId) // 只传一张图片的 res id
+                        intent.putExtra("momentId", moment.id)
+                        intent.putExtra("imageIndex", idx)
+
+                        // 创建共享元素动画
+                        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            activity,
+                            Pair.create(img as View, img.transitionName)
+                        )
+                        activity.startActivity(intent, options.toBundle())
+                    }
+                    holder.imageContainer.addView(img)
+                }
+                holder.btnLike.click {
+                    holder.btnLike.setImageResource(R.mipmap.zan_select)
+                }
+            }
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return list.size + if (hasBanner()) 1 else 0
+    }
+
+    private fun hasBanner(): Boolean {
+        return bannerList != null && bannerList.isNotEmpty()
+    }
 }

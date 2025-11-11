@@ -69,7 +69,7 @@ class CherryPickAdapter(
             binding.tvAge.text = "${user.age}岁"
 
             // 位置
-            binding.tvLocation.text = "📍 ${user.location}"
+            binding.tvLocation.text = user.location
 
             // 精选理由（如果有）
 

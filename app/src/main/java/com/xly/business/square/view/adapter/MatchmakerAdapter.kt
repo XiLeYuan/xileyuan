@@ -71,7 +71,7 @@ class MatchmakerAdapter(
                 if (matchmaker.isVIP) View.VISIBLE else View.GONE
 
             // 服务区域
-            binding.tvLocation.text = "📍 ${matchmaker.location}"
+            binding.tvLocation.text = matchmaker.location
 
             // 简介
             binding.tvDescription.text = matchmaker.description
