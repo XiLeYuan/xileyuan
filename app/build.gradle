@@ -24,7 +24,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         applicationId "com.xly"
         minSdkVersion 24
-        targetSdkVersion 34
+        targetSdkVersion 36
         multiDexEnabled false
         versionCode 100
         versionName "1.0.0"
