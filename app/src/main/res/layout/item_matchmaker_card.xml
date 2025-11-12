@@ -93,22 +93,6 @@
                         android:textSize="@dimen/text_size_body_small"
                         android:textColor="@color/text_secondary" />
 
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="12dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:background="@color/divider" />
-
-                    <!-- 用户数量 -->
-                    <TextView
-                        android:id="@+id/tvUserCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="128位用户"
-                        android:textSize="@dimen/text_size_body_small"
-                        android:textColor="@color/text_secondary" />
-
                 </LinearLayout>
 
             </LinearLayout>
@@ -174,18 +158,38 @@
             android:orientation="horizontal"
             android:gravity="end|center_vertical">
 
-            <!-- 查看用户资源按钮 -->
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivViewDetails"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/ic_arrow_right"
-                android:background="@drawable/bg_view_details_button"
-                android:padding="6dp"
+            <!-- 用户数量（替代查看用户资源入口） -->
+            <LinearLayout
+                android:id="@+id/llUserCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_user_count_button"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:contentDescription="查看用户资源"
-                app:tint="@color/text_primary" />
+                android:contentDescription="查看用户资源">
+
+                <TextView
+                    android:id="@+id/tvUserCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="128位用户"
+                    android:textSize="@dimen/text_size_body_small"
+                    android:textColor="@color/text_primary" />
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="4dp"
+                    android:src="@drawable/ic_arrow_right"
+                    app:tint="@color/text_primary" />
+
+            </LinearLayout>
 
             <!-- 联系红娘按钮 -->
             <androidx.appcompat.widget.AppCompatImageView

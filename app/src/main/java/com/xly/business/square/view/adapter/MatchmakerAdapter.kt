@@ -87,8 +87,8 @@ class MatchmakerAdapter(
             // 标签
             setupTags(binding.llTags, matchmaker.tags)
 
-            // 查看用户资源按钮点击事件
-            binding.ivViewDetails.setOnClickListener {
+            // 用户数量按钮点击事件（替代查看用户资源入口）
+            binding.llUserCount.setOnClickListener {
                 onViewDetailsClick(matchmaker)
             }
 
