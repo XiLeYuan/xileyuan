@@ -37,7 +37,7 @@ object MomentImageLayoutManager {
         val availableWidth = screenWidth - padding - 32.dpToPx(context) // 可用宽度（减去右边距）
         
         return when (displayCount) {
-            1 -> getSingleImageLayout(availableWidth, isVertical, margin)
+            1 -> getSingleImageLayout(screenWidth, availableWidth, isVertical, margin)
             2 -> getTwoImagesLayout(availableWidth, margin)
             3 -> getThreeImagesLayout(availableWidth, margin)
             else -> emptyList()
@@ -47,10 +47,10 @@ object MomentImageLayoutManager {
     /**
      * 单张图片：大图显示，可以是横图或竖图
      * 支持两种类型：
-     * - 横图：4:3 比例（width * 0.75），宽度占满可用宽度
+     * - 横图：4:3 比例（width * 0.75），最大宽度占屏幕的3/5（60%）
      * - 竖图：3:4 比例（width * 1.33），宽度为屏幕的一半，高度同比例缩放
      */
-    fun getSingleImageLayout(availableWidth: Int, isVertical: Boolean = false, margin: Int = 0): List<ImageSize> {
+    fun getSingleImageLayout(screenWidth: Int, availableWidth: Int, isVertical: Boolean = false, margin: Int = 0): List<ImageSize> {
         val width: Int
         val height: Int
         
@@ -60,8 +60,9 @@ object MomentImageLayoutManager {
             // 高度按3:4比例缩放（高大于宽）
             height = (width * 1.33f).toInt() // 3:4 比例，竖图
         } else {
-            // 横图：宽度占满可用宽度
-            width = availableWidth
+            // 横图：最大宽度占屏幕的3/5（60%）
+            val maxWidth = (screenWidth * 0.6f).toInt()
+            width = maxWidth.coerceAtMost(availableWidth) // 取较小值，确保不超过可用宽度
             height = (width * 0.75f).toInt() // 4:3 比例，横图
         }
         return listOf(ImageSize(width, height))
