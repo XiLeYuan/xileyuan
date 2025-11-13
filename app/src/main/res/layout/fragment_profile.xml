@@ -117,8 +117,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:paddingTop="20dp"
-                        android:paddingBottom="20dp"
+                        android:paddingTop="5dp"
                         android:weightSum="3">
 
                         <!-- 喜欢的人 -->
@@ -232,16 +231,20 @@
 
                     </LinearLayout>
 
-                    <!-- VIP充值入口 - 外层卡片容器 -->
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="15dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp">
 
 
+                        <RelativeLayout
+                            android:id="@+id/outVipRl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_vip_card_gradient">
 
                         <!-- 外层卡片 - 点击进入VIP页面 -->
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -249,6 +252,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="80dp"
                             android:background="@drawable/bg_vip_card_gradient"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
                             android:padding="10dp">
 
                             <!-- 右上角优惠信息tips -->
@@ -313,6 +320,8 @@
                                 app:layout_constraintTop_toBottomOf="@id/tvVipSubtitle" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </RelativeLayout>
 
                     </FrameLayout>
 
