@@ -90,7 +90,146 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!-- 主要板块容器 - 左上和右上圆角 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/mainSectionCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_profile_section"
+                app:layout_constraintTop_toBottomOf="@id/profileHeader"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- 第一部分：三个入口 - 横向布局 -->
+                    <LinearLayout
+                        android:id="@+id/llStatsEntry"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="20dp"
+                        android:weightSum="3">
+
+                        <!-- 喜欢的人 -->
+                        <LinearLayout
+                            android:id="@+id/llLikedPeople"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?android:attr/selectableItemBackground">
+
+                            <TextView
+                                android:id="@+id/tvLikedPeopleCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="128"
+                                android:textSize="20sp"
+                                android:textColor="@color/text_primary_dark"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="喜欢的人"
+                                android:textSize="12sp"
+                                android:textColor="@color/text_hint" />
+
+                        </LinearLayout>
+
+                        <!-- 竖线分割 -->
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/divider"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp" />
+
+                        <!-- 访客 -->
+                        <LinearLayout
+                            android:id="@+id/llVisitors"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?android:attr/selectableItemBackground">
+
+                            <TextView
+                                android:id="@+id/tvVisitorsCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="56"
+                                android:textSize="20sp"
+                                android:textColor="@color/text_primary_dark"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="访客"
+                                android:textSize="12sp"
+                                android:textColor="@color/text_hint" />
+
+                        </LinearLayout>
+
+                        <!-- 竖线分割 -->
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/divider"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp" />
+
+                        <!-- 谁喜欢我 -->
+                        <LinearLayout
+                            android:id="@+id/llWhoLikedMe"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?android:attr/selectableItemBackground">
+
+                            <TextView
+                                android:id="@+id/tvWhoLikedMeCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="89"
+                                android:textSize="20sp"
+                                android:textColor="@color/text_primary_dark"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="谁喜欢我"
+                                android:textSize="12sp"
+                                android:textColor="@color/text_hint" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
