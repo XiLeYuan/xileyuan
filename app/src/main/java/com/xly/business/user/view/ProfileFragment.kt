@@ -140,6 +140,24 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
             // TODO: 跳转到我的资料页面
             showToast("我的资料")
         }
+
+        // 我的钱包点击
+        viewBind.llMyWallet.setOnClickListener {
+            // TODO: 跳转到我的钱包页面
+            showToast("我的钱包")
+        }
+
+        // 我的认证点击
+        viewBind.llMyVerification.setOnClickListener {
+            // TODO: 跳转到我的认证页面
+            showToast("我的认证")
+        }
+
+        // 我的缘份点击
+        viewBind.llMyFate.setOnClickListener {
+            // TODO: 跳转到我的缘份页面
+            showToast("我的缘份")
+        }
     }
 
     /**
