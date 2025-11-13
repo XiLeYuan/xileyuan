@@ -359,7 +359,7 @@
                 <LinearLayout
                                 android:id="@+id/llMyProfile"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
+                    android:layout_height="50dp"
                                 android:clickable="true"
                                 android:focusable="true"
                                 android:foreground="?android:attr/selectableItemBackground"
@@ -402,7 +402,7 @@
                 <LinearLayout
                                 android:id="@+id/llMyPrivilege"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
+                    android:layout_height="50dp"
                                 android:clickable="true"
                                 android:focusable="true"
                                 android:foreground="?android:attr/selectableItemBackground"
@@ -458,7 +458,7 @@
                 <LinearLayout
                                 android:id="@+id/llMyWallet"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
+                    android:layout_height="50dp"
                                 android:clickable="true"
                                 android:focusable="true"
                                 android:foreground="?android:attr/selectableItemBackground"
@@ -501,7 +501,7 @@
                             <LinearLayout
                                 android:id="@+id/llMyVerification"
                                 android:layout_width="match_parent"
-                                android:layout_height="56dp"
+                                android:layout_height="50dp"
                                 android:clickable="true"
                                 android:focusable="true"
                                 android:foreground="?android:attr/selectableItemBackground"
@@ -544,7 +544,7 @@
                             <LinearLayout
                                 android:id="@+id/llMyFate"
                                 android:layout_width="match_parent"
-                                android:layout_height="56dp"
+                                android:layout_height="50dp"
                                 android:clickable="true"
                                 android:focusable="true"
                                 android:foreground="?android:attr/selectableItemBackground"
