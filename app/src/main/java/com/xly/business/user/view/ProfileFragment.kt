@@ -80,12 +80,12 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
 
     private fun setupClickListeners() {
         // VIP卡片外层点击 - 进入VIP页面
-        viewBind.cvVipCardOuter.setOnClickListener {
+        viewBind.outVipRl.setOnClickListener {
             LookStarMeActivity.start(requireContext())
         }
 
         // VIP卡片内层点击 - 直接开通VIP
-        viewBind.cvVipCardInner.setOnClickListener {
+        viewBind.llVipInner.setOnClickListener {
             // TODO: 直接开通VIP的逻辑
             showToast("开通VIP")
         }
