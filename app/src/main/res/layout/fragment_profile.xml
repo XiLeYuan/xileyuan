@@ -29,16 +29,16 @@
                 <!-- 随缘入口按钮（个人信息容器右上角） -->
                 <ImageView
                     android:id="@+id/fateButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:src="@mipmap/yuan_icon"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="36dp"
-                    android:layout_marginEnd="24dp" />
+                android:layout_marginTop="42dp"
+                    android:layout_marginEnd="35dp" />
                 
                 <!-- 圆形头像容器 -->
                 <FrameLayout
