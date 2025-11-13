@@ -163,6 +163,12 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
             // TODO: 跳转到我的缘份页面
             showToast("我的缘份")
         }
+
+        // 设置点击
+        viewBind.llSettings.setOnClickListener {
+            // TODO: 跳转到设置页面
+            showToast("设置")
+        }
     }
 
     /**
