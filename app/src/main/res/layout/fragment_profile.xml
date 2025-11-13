@@ -9,8 +9,9 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:overScrollMode="never">
+        android:fillViewport="false"
+        android:overScrollMode="never"
+        android:scrollbars="none">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -52,10 +53,10 @@
 
                     <!-- 圆形头像 -->
                     <com.xly.middlelibrary.widget.LYRoundImageView
-                        android:id="@+id/avatarImage"
+                    android:id="@+id/avatarImage"
                         android:layout_width="90dp"
                         android:layout_height="90dp"
-                        android:scaleType="centerCrop"
+                    android:scaleType="centerCrop"
                         android:src="@mipmap/head_two" />
 
                     <!-- 认证标识（头像右下角） -->
@@ -74,13 +75,13 @@
                 <!-- 姓名和VIP标识 -->
                 <LinearLayout
                     android:id="@+id/nameContainer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal"
+                android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/avatarContainer">
 
                     <!-- 姓名 -->
@@ -101,9 +102,9 @@
                         android:layout_marginStart="6dp"
                         android:src="@mipmap/main_vip_icon" />
 
-                </LinearLayout>
+            </LinearLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- 主要板块容器 - 左上和右上圆角，带阴影和渐变增强层次感 -->
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -136,35 +137,35 @@
                         android:weightSum="3">
 
                         <!-- 喜欢的人 -->
-                        <LinearLayout
+                <LinearLayout
                             android:id="@+id/llLikedPeople"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                             android:background="?android:attr/selectableItemBackground"
                             android:clickable="true"
                             android:focusable="true"
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <TextView
+                    <TextView
                                 android:id="@+id/tvLikedPeopleCount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                                 android:text="128"
                                 android:textColor="@color/text_primary_dark"
                                 android:textSize="20sp"
-                                android:textStyle="bold" />
+                        android:textStyle="bold" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                                 android:text="喜欢的人"
                                 android:textColor="@color/text_hint"
                                 android:textSize="12sp" />
 
-                        </LinearLayout>
+                </LinearLayout>
 
                         <!-- 竖线分割 -->
                         <View
@@ -175,35 +176,35 @@
                             android:background="@color/divider" />
 
                         <!-- 访客 -->
-                        <LinearLayout
+                <LinearLayout
                             android:id="@+id/llVisitors"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                             android:background="?android:attr/selectableItemBackground"
                             android:clickable="true"
                             android:focusable="true"
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <TextView
+                    <TextView
                                 android:id="@+id/tvVisitorsCount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                                 android:text="56"
                                 android:textColor="@color/text_primary_dark"
                                 android:textSize="20sp"
-                                android:textStyle="bold" />
+                        android:textStyle="bold" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                                 android:text="访客"
                                 android:textColor="@color/text_hint"
                                 android:textSize="12sp" />
 
-                        </LinearLayout>
+                </LinearLayout>
 
                         <!-- 竖线分割 -->
                         <View
@@ -214,44 +215,44 @@
                             android:background="@color/divider" />
 
                         <!-- 谁喜欢我 -->
-                        <LinearLayout
+                <LinearLayout
                             android:id="@+id/llWhoLikedMe"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                             android:background="?android:attr/selectableItemBackground"
                             android:clickable="true"
                             android:focusable="true"
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <TextView
+                    <TextView
                                 android:id="@+id/tvWhoLikedMeCount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                                 android:text="89"
                                 android:textColor="@color/text_primary_dark"
                                 android:textSize="20sp"
-                                android:textStyle="bold" />
+                        android:textStyle="bold" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                                 android:text="谁喜欢我"
                                 android:textColor="@color/text_hint"
                                 android:textSize="12sp" />
 
-                        </LinearLayout>
+                </LinearLayout>
 
-                    </LinearLayout>
+            </LinearLayout>
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
                         android:layout_marginTop="15dp"
-                        android:layout_marginEnd="16dp"
+            android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp">
 
 
@@ -294,7 +295,7 @@
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:id="@+id/llVipInner"
                                 android:layout_width="match_parent"
-                                android:layout_height="80dp"
+                android:layout_height="80dp"
                                 android:layout_below="@id/titleRl"
                                 android:background="@drawable/bg_vip_card_inner"
                                 android:clickable="true"
@@ -318,38 +319,38 @@
                                     app:layout_constraintTop_toTopOf="parent" />
 
 
-                                <LinearLayout
+                <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:orientation="vertical"
+                    android:orientation="vertical"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent">
                                     <!-- 主标题 -->
-                                    <TextView
+                    <TextView
                                         android:id="@+id/tvVipTitle"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                                         android:text="开通VIP会员"
                                         android:textColor="#4A3A1A"
                                         android:textSize="18sp"
-                                        android:textStyle="bold" />
+                        android:textStyle="bold" />
                                     <!-- 副标题 -->
-                                    <TextView
+                    <TextView
                                         android:id="@+id/tvVipSubtitle"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                                         android:layout_marginTop="2dp"
                                         android:text="解锁更多特权，享受专属服务"
                                         android:textColor="#6B5B2D"
                                         android:textSize="12sp" />
 
-                                </LinearLayout>
+                </LinearLayout>
 
                                 <!-- 开通入口按钮 - 右边竖直居中 -->
-                                <TextView
+                    <TextView
                                     android:id="@+id/tvVipButton"
-                                    android:layout_width="wrap_content"
+                        android:layout_width="wrap_content"
                                     android:layout_height="25dp"
                                     android:layout_marginEnd="16dp"
                                     android:layout_marginBottom="20dp"
@@ -368,49 +369,93 @@
 
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        </RelativeLayout>
+                </RelativeLayout>
 
                     </FrameLayout>
 
                     <!-- 我的资料入口 -->
-                    <androidx.cardview.widget.CardView
+        <androidx.cardview.widget.CardView
                         android:id="@+id/cvMyProfile"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
                         android:layout_marginTop="12dp"
-                        android:layout_marginEnd="16dp"
+            android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
-                        app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="12dp"
                         app:cardElevation="2dp">
 
-                        <LinearLayout
-                            android:id="@+id/llMyProfile"
-                            android:layout_width="match_parent"
-                            android:layout_height="56dp"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:foreground="?android:attr/selectableItemBackground"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:paddingStart="16dp"
-                            android:paddingEnd="16dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                            android:orientation="vertical">
 
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="我的资料"
-                                android:textColor="@color/text_primary_dark"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
+                            <!-- 我的资料 -->
+                <LinearLayout
+                                android:id="@+id/llMyProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:foreground="?android:attr/selectableItemBackground"
+                                android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                                android:paddingStart="16dp"
+                                android:paddingEnd="16dp">
 
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:src="@mipmap/arrow_right_icon"
-                                android:tint="@color/text_hint" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                                    android:text="我的资料"
+                                    android:textColor="@color/text_primary_dark"
+                                    android:textSize="16sp" />
+
+                    <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@mipmap/arrow_right_icon"
+                                    android:tint="@color/text_hint" />
+
+                </LinearLayout>
+
+                            <!-- 分割线 -->
+                <View
+                    android:layout_width="match_parent"
+                                android:layout_height="1px"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginEnd="16dp"
+                                android:background="@drawable/divider_horizontal" />
+
+                            <!-- 我的特权 -->
+                <LinearLayout
+                                android:id="@+id/llMyPrivilege"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:foreground="?android:attr/selectableItemBackground"
+                                android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                                android:paddingStart="16dp"
+                                android:paddingEnd="16dp">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="我的特权"
+                                    android:textColor="@color/text_primary_dark"
+                                    android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                                    android:src="@mipmap/arrow_right_icon"
+                                    android:tint="@color/text_hint" />
+
+                            </LinearLayout>
 
                         </LinearLayout>
 
@@ -430,120 +475,121 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                        android:layout_height="wrap_content"
                             android:orientation="vertical">
 
-                            <!-- 我的钱包 -->
-                            <LinearLayout
+                <!-- 我的钱包 -->
+                <LinearLayout
                                 android:id="@+id/llMyWallet"
-                                android:layout_width="match_parent"
-                                android:layout_height="56dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
                                 android:clickable="true"
                                 android:focusable="true"
                                 android:foreground="?android:attr/selectableItemBackground"
                                 android:gravity="center_vertical"
-                                android:orientation="horizontal"
+                    android:orientation="horizontal"
                                 android:paddingStart="16dp"
                                 android:paddingEnd="16dp">
 
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="我的钱包"
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="我的钱包"
                                     android:textColor="@color/text_primary_dark"
                                     android:textSize="16sp" />
 
-                                <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                                     android:src="@mipmap/arrow_right_icon"
                                     android:tint="@color/text_hint" />
 
-                            </LinearLayout>
+                    </LinearLayout>
 
                             <!-- 分割线 -->
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
                                 android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                                 android:background="@drawable/divider_horizontal" />
 
                             <!-- 我的认证 -->
-                            <LinearLayout
+                <LinearLayout
                                 android:id="@+id/llMyVerification"
-                                android:layout_width="match_parent"
-                                android:layout_height="56dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
                                 android:clickable="true"
                                 android:focusable="true"
                                 android:foreground="?android:attr/selectableItemBackground"
                                 android:gravity="center_vertical"
-                                android:orientation="horizontal"
+                    android:orientation="horizontal"
                                 android:paddingStart="16dp"
                                 android:paddingEnd="16dp">
 
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                                     android:text="我的认证"
                                     android:textColor="@color/text_primary_dark"
                                     android:textSize="16sp" />
 
-                                <ImageView
+                    <ImageView
                                     android:layout_width="24dp"
                                     android:layout_height="24dp"
                                     android:src="@mipmap/arrow_right_icon"
                                     android:tint="@color/text_hint" />
 
-                            </LinearLayout>
+                </LinearLayout>
 
                             <!-- 分割线 -->
-                            <View
-                                android:layout_width="match_parent"
+                <View
+                    android:layout_width="match_parent"
                                 android:layout_height="1px"
                                 android:layout_marginStart="16dp"
                                 android:layout_marginEnd="16dp"
                                 android:background="@drawable/divider_horizontal" />
 
                             <!-- 我的缘份 -->
-                            <LinearLayout
+                <LinearLayout
                                 android:id="@+id/llMyFate"
-                                android:layout_width="match_parent"
-                                android:layout_height="56dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
                                 android:clickable="true"
                                 android:focusable="true"
                                 android:foreground="?android:attr/selectableItemBackground"
                                 android:gravity="center_vertical"
-                                android:orientation="horizontal"
+                    android:orientation="horizontal"
                                 android:paddingStart="16dp"
                                 android:paddingEnd="16dp">
 
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                                     android:text="我的缘份"
                                     android:textColor="@color/text_primary_dark"
                                     android:textSize="16sp" />
 
-                                <ImageView
+                    <ImageView
                                     android:layout_width="24dp"
                                     android:layout_height="24dp"
                                     android:src="@mipmap/arrow_right_icon"
                                     android:tint="@color/text_hint" />
 
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
                 </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 

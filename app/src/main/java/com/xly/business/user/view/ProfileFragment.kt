@@ -141,6 +141,12 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
             showToast("我的资料")
         }
 
+        // 我的特权点击
+        viewBind.llMyPrivilege.setOnClickListener {
+            // TODO: 跳转到我的特权页面
+            showToast("我的特权")
+        }
+
         // 我的钱包点击
         viewBind.llMyWallet.setOnClickListener {
             // TODO: 跳转到我的钱包页面
