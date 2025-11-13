@@ -52,6 +52,7 @@ class MomentAdapter(
         val time: TextView = itemView.findViewById(R.id.time)
         val btnLike: ImageView = itemView.findViewById(R.id.btnLike)
         val btnComment: ImageView = itemView.findViewById(R.id.btnComment)
+        val btnGreet: ImageView = itemView.findViewById(R.id.btnGreet)
     }
 
     class BannerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -137,6 +138,10 @@ class MomentAdapter(
                 setupImages(holder, moment)
                 holder.btnLike.click {
                     holder.btnLike.setImageResource(R.mipmap.zan_select)
+                }
+                holder.btnGreet.click {
+                    // TODO: 处理打招呼点击事件
+                    // 可以跳转到聊天页面或显示打招呼对话框
                 }
             }
         }

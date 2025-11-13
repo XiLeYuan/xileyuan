@@ -6,6 +6,7 @@
 
 
     <LinearLayout
+        android:id="@+id/llContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -149,4 +150,22 @@
             android:layout_marginStart="16dp"/>
 
     </LinearLayout>
+
+    <!-- 打招呼按钮（右上角，绝对定位） -->
+    <ImageView
+        android:id="@+id/btnGreet"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_message"
+        android:background="@drawable/bg_greet_button"
+        android:padding="6dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:contentDescription="打招呼"
+        app:tint="@color/brand_primary" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
