@@ -41,7 +41,6 @@
                     android:layout_marginEnd="31dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:foreground="?android:attr/selectableItemBackground"
                     android:clipChildren="false"
                     android:clipToPadding="false"
                     android:gravity="center"

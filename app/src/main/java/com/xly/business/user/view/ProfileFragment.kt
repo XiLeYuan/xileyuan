@@ -13,6 +13,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.jspp.model.UserCard
@@ -344,6 +345,8 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
                     .inflate(R.layout.item_tag, tagContainer, false)
                 val tvTag = tagView.findViewById<TextView>(R.id.tvTag)
                 tvTag.text = tag
+                // 设置橘色背景（用于随缘卡片）
+                tvTag.background = ContextCompat.getDrawable(requireContext(), R.drawable.tag_background_orange)
                 tagContainer.addView(tagView)
             }
         } else {
