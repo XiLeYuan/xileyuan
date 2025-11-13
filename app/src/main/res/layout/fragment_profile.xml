@@ -384,10 +384,10 @@
                                     android:textSize="16sp" />
 
                     <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
                                     android:src="@mipmap/arrow_right_icon"
-                                    android:tint="@color/text_hint" />
+                                    android:tint="@color/text_hint_light" />
 
                 </LinearLayout>
 
@@ -427,10 +427,10 @@
                                     android:textSize="16sp" />
 
                                 <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
                                     android:src="@mipmap/arrow_right_icon"
-                                    android:tint="@color/text_hint" />
+                                    android:tint="@color/text_hint_light" />
 
                             </LinearLayout>
 
@@ -483,12 +483,12 @@
                                     android:textSize="16sp" />
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
                                     android:src="@mipmap/arrow_right_icon"
-                                    android:tint="@color/text_hint" />
+                                    android:tint="@color/text_hint_light" />
 
-                    </LinearLayout>
+                </LinearLayout>
 
                             <!-- 分割线 -->
                 <View
@@ -526,10 +526,10 @@
                                     android:textSize="16sp" />
 
                                 <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
                                     android:src="@mipmap/arrow_right_icon"
-                                    android:tint="@color/text_hint" />
+                                    android:tint="@color/text_hint_light" />
 
                             </LinearLayout>
 
@@ -569,10 +569,10 @@
                                     android:textSize="16sp" />
 
                                 <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
                                     android:src="@mipmap/arrow_right_icon"
-                                    android:tint="@color/text_hint" />
+                                    android:tint="@color/text_hint_light" />
 
                             </LinearLayout>
 
@@ -612,10 +612,10 @@
                                     android:textSize="16sp" />
 
                                 <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
                                     android:src="@mipmap/arrow_right_icon"
-                                    android:tint="@color/text_hint" />
+                                    android:tint="@color/text_hint_light" />
 
                             </LinearLayout>
 
