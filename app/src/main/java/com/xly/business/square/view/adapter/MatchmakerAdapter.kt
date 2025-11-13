@@ -9,8 +9,10 @@ import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -72,7 +74,10 @@ class MatchmakerAdapter(
             binding.ivVerified.visibility =
                 if (matchmaker.isVerified) View.VISIBLE else View.GONE
 
-            // 评分
+            // 评分 - 使用5个icon显示，根据评分绘制颜色
+            setupRatingStars(binding.llRatingStars, matchmaker.rating)
+            
+            // 评分文本
             binding.tvRating.text = String.format("%.1f", matchmaker.rating)
 
             // 用户数量 - 突出显示数字
@@ -92,10 +97,6 @@ class MatchmakerAdapter(
                 onViewDetailsClick(matchmaker)
             }
 
-            // 联系红娘按钮点击事件
-            binding.ivContactMatchmaker.setOnClickListener {
-                onContactClick(matchmaker)
-            }
 
             // 点击事件（点击卡片其他区域）
             binding.root.setOnClickListener {
@@ -124,6 +125,35 @@ class MatchmakerAdapter(
                     }
                 }
                 container.addView(tagView)
+            }
+        }
+
+        private fun setupRatingStars(container: ViewGroup, rating: Float) {
+            val orangeColor = ContextCompat.getColor(container.context, R.color.brand_orange)
+            val grayColor = ContextCompat.getColor(container.context, R.color.text_hint)
+            
+            // 计算应该填充的星星数量（0-5）
+            val filledStars = (rating / 1.0f).toInt().coerceIn(0, 5)
+            val hasHalfStar = (rating - filledStars) >= 0.5f
+            
+            container.children.forEachIndexed { index, view ->
+                if (view is ImageView) {
+                    when {
+                        index < filledStars -> {
+                            // 完全填充的星星 - 橘色
+                            view.setColorFilter(orangeColor)
+                        }
+                        index == filledStars && hasHalfStar -> {
+                            // 半颗星星 - 可以考虑用半透明橘色或者保持灰色
+                            // 这里简化处理，如果有半颗星，也显示为橘色
+                            view.setColorFilter(orangeColor)
+                        }
+                        else -> {
+                            // 未填充的星星 - 灰色
+                            view.setColorFilter(grayColor)
+                        }
+                    }
+                }
             }
         }
 
