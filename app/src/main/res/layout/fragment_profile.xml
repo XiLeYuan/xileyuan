@@ -248,7 +248,32 @@
                             android:clickable="true"
                             android:focusable="true"
                             android:foreground="?android:attr/selectableItemBackground"
-                            android:padding="10dp">
+                            android:paddingLeft="6dp"
+                            android:paddingEnd="6dp"
+                            android:paddingBottom="6dp">
+
+                            <RelativeLayout
+                                android:id="@+id/titleRl"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:paddingLeft="6dp">
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:id="@+id/teQuanIv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:src="@mipmap/my_tequan"/>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:text="我的特权"
+                                    android:layout_toRightOf="@id/teQuanIv"
+                                    android:layout_marginStart="5dp"/>
+
+                            </RelativeLayout>
 
                             <!-- 内层卡片 - 点击直接开通VIP -->
                             <androidx.constraintlayout.widget.ConstraintLayout
@@ -258,6 +283,7 @@
                                 android:background="@drawable/bg_vip_card_inner"
                                 android:clickable="true"
                                 android:focusable="true"
+                                android:layout_below="@id/titleRl"
                                 android:paddingLeft="16dp">
 
                                 <!-- 右上角优惠信息tips - 紧贴右上边框 -->
