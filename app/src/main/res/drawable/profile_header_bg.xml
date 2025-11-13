@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 主渐变背景 - 从上往下，颜色逐渐变浅，整体颜色更深 -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="linear"
+                android:angle="270"
+                android:startColor="#FFD9CC"
+                android:centerColor="#FFE5D9"
+                android:endColor="#FFF0EB"
+                android:centerY="0.5"/>
+        </shape>
+    </item>
+    
+    <!-- 顶部主题色渐变点缀 - 从上往下 -->
+    <item
+        android:top="0dp"
+        android:bottom="140dp">
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="linear"
+                android:angle="270"
+                android:startColor="#25FF6B6B"
+                android:endColor="#00FF6B6B"/>
+        </shape>
+    </item>
+    
+    <!-- 底部渐变遮罩 - 让背景与下方内容自然过渡 -->
+    <item
+        android:top="200dp"
+        android:bottom="0dp">
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="linear"
+                android:angle="270"
+                android:startColor="#00FFFFFF"
+                android:endColor="#FFFFFFFF"/>
+        </shape>
+    </item>
+</layer-list>
+
