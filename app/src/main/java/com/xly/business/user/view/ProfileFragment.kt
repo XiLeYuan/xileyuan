@@ -134,6 +134,12 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
         viewBind.fateButton.setOnClickListener {
             showFateUserCard()
         }
+
+        // 我的资料入口点击
+        viewBind.llMyProfile.setOnClickListener {
+            // TODO: 跳转到我的资料页面
+            showToast("我的资料")
+        }
     }
 
     /**
