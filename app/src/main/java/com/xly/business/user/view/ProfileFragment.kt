@@ -137,38 +137,27 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
     }
 
     /**
-     * 设置随缘按钮动画
+     * 设置随缘按钮动画：放大缩小循环
      */
     private fun setupFateButtonAnimation() {
-        val pulseAnim = ObjectAnimator.ofFloat(viewBind.fateButton, "scaleX", 1.0f, 1.15f).apply {
-            duration = 1500
+        // 放大动画
+        val scaleUpX = ObjectAnimator.ofFloat(viewBind.fateButton, "scaleX", 1.0f, 1.2f).apply {
+            duration = 600
             repeatCount = ObjectAnimator.INFINITE
             repeatMode = ObjectAnimator.REVERSE
             interpolator = AccelerateDecelerateInterpolator()
         }
         
-        val pulseAnimY = ObjectAnimator.ofFloat(viewBind.fateButton, "scaleY", 1.0f, 1.15f).apply {
-            duration = 1500
+        val scaleUpY = ObjectAnimator.ofFloat(viewBind.fateButton, "scaleY", 1.0f, 1.2f).apply {
+            duration = 600
             repeatCount = ObjectAnimator.INFINITE
             repeatMode = ObjectAnimator.REVERSE
             interpolator = AccelerateDecelerateInterpolator()
         }
-
-        val alphaAnim = ObjectAnimator.ofFloat(viewBind.fateButton, "alpha", 1.0f, 0.8f).apply {
-            duration = 1500
-            repeatCount = ObjectAnimator.INFINITE
-            repeatMode = ObjectAnimator.REVERSE
-            interpolator = AccelerateDecelerateInterpolator()
-        }
-
-        val rotateAnim = ObjectAnimator.ofFloat(viewBind.fateButton, "rotation", 0f, 360f).apply {
-            duration = 3000
-            repeatCount = ObjectAnimator.INFINITE
-            interpolator = LinearInterpolator()
-        }
-
+        
+        // 组合动画：同时放大缩小X和Y
         fateButtonAnimation = AnimatorSet().apply {
-            playTogether(pulseAnim, pulseAnimY, alphaAnim, rotateAnim)
+            playTogether(scaleUpX, scaleUpY)
         }
         
         startFateButtonAnimation()

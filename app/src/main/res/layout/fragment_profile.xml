@@ -25,6 +25,21 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
+
+                <!-- 随缘入口按钮（个人信息容器右上角） -->
+                <ImageView
+                    android:id="@+id/fateButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:src="@mipmap/yuan_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="36dp"
+                    android:layout_marginEnd="24dp" />
+                
                 <!-- 圆形头像容器 -->
                 <FrameLayout
                     android:id="@+id/avatarContainer"
@@ -32,19 +47,19 @@
                     android:layout_height="100dp"
                     android:layout_marginTop="80dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <!-- 圆形头像 -->
                     <com.xly.middlelibrary.widget.LYRoundImageView
-                    android:id="@+id/avatarImage"
+                        android:id="@+id/avatarImage"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
-                    android:scaleType="centerCrop"
+                        android:scaleType="centerCrop"
                         android:src="@mipmap/head_two" />
 
                     <!-- 认证标识（头像右下角） -->
-                    <ImageView
+                        <ImageView
                         android:id="@+id/ivVerified"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
@@ -53,30 +68,6 @@
                         android:layout_marginBottom="2dp"
                         android:padding="4dp"
                         android:src="@mipmap/verified_icon" />
-
-                </FrameLayout>
-
-                <!-- 随缘入口按钮（头像容器右上角） -->
-                <FrameLayout
-                    android:id="@+id/fateButtonContainer"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    app:layout_constraintEnd_toEndOf="@id/avatarContainer"
-                    app:layout_constraintTop_toTopOf="@id/avatarContainer"
-                    android:layout_marginTop="-8dp"
-                    android:layout_marginEnd="-8dp">
-
-                        <ImageView
-                        android:id="@+id/fateButton"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:background="@drawable/bg_fate_button_orange"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:padding="12dp"
-                        android:src="@android:drawable/ic_menu_compass"
-                        android:tint="#FFFFFF" />
 
                 </FrameLayout>
 
