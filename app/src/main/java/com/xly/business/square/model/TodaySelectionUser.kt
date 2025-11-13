@@ -11,7 +11,9 @@ data class TodaySelectionUser(
     val selectionReason: String,        // 精选理由
     val selectionDescription: String,   // 精选描述
     val selectionType: SelectionType,   // 精选类型：官方推荐、智能匹配
-    val matchScore: Float? = null        // 匹配度（0-100）
+    val matchScore: Float? = null,      // 匹配度（0-100）
+    val hometown: String = "",         // 家乡
+    val residence: String = ""          // 居住地
 )
 
 enum class SelectionType {

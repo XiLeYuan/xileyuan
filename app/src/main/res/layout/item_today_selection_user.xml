@@ -26,6 +26,26 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- 精选标签 - 显示在图片右下角 -->
+        <TextView
+            android:id="@+id/tvSelectionTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/ivAvatar"
+            app:layout_constraintBottom_toBottomOf="@id/ivAvatar"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/tag_background_orange"
+            android:alpha="0.7"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:text="官方推荐"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
         <!-- 用户信息区域 -->
         <LinearLayout
             android:layout_width="0dp"
@@ -44,39 +64,43 @@
                 android:gravity="center_vertical">
 
                 <TextView
-                    android:id="@+id/tvUserName"
+                    android:id="@+id/tvNameAge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:text="小美"
+                    android:text="小美，25岁"
                     android:textSize="@dimen/text_size_h4"
                     android:textStyle="bold"
                     android:textColor="@color/text_primary" />
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivVerified"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/tvUserName"
+                    app:layout_constraintStart_toEndOf="@id/tvNameAge"
                     android:src="@mipmap/verified_icon"
-                    android:layout_marginStart="8dp"/>
+                    android:layout_marginStart="5dp"
+                    android:visibility="gone"/>
 
-                <TextView
-                    android:id="@+id/tvAge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <!-- 送花/送爱心入口 -->
+                <ImageView
+                    android:id="@+id/ivFlowIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="25岁"
-                    android:textSize="@dimen/text_size_body"
-                    android:textColor="@color/text_secondary" />
+                    android:src="@mipmap/flow_icon"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackgroundBorderless" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- 位置 -->
+            <!-- 家乡和居住地 -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -97,7 +121,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text="北京 · 朝阳区"
+                    android:text="家乡：河北 居住地：北京"
                     android:textSize="@dimen/text_size_body_small"
                     android:textColor="@color/text_secondary" />
 
@@ -114,7 +138,7 @@
 
             </LinearLayout>
 
-            <!-- 精选理由 -->
+            <!-- 精选特色话术 -->
             <TextView
                 android:id="@+id/tvSelectionDescription"
                 android:layout_width="match_parent"
@@ -122,7 +146,7 @@
                 android:layout_marginTop="12dp"
                 android:text="根据您的偏好，为您精准匹配"
                 android:textSize="@dimen/text_size_body_small"
-                android:textColor="@color/text_hint"
+                android:textColor="@color/text_secondary"
                 android:maxLines="2"
                 android:ellipsize="end"
                 android:lineSpacingExtra="4dp" />

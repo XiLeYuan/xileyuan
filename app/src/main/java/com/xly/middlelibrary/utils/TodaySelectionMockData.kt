@@ -2,6 +2,7 @@ package com.xly.middlelibrary.utils
 
 import com.xly.business.square.model.SelectionType
 import com.xly.business.square.model.TodaySelectionUser
+import kotlin.random.Random
 
 
 object TodaySelectionMockData {
@@ -33,7 +34,9 @@ object TodaySelectionMockData {
                 selectionReason = "高匹配度",
                 selectionDescription = "根据您的偏好，为您精准匹配。相似的教育背景和兴趣爱好，匹配度高达92%。",
                 selectionType = SelectionType.AI_MATCHED,
-                matchScore = 92f
+                matchScore = 92f,
+                hometown = "河北",
+                residence = "北京"
             ),
             TodaySelectionUser(
                 id = "sel_002",
@@ -45,7 +48,9 @@ object TodaySelectionMockData {
                 selectionReason = "官方推荐",
                 selectionDescription = "官方精选优质用户，认证信息完整，活跃度高，值得信赖。",
                 selectionType = SelectionType.OFFICIAL,
-                matchScore = null
+                matchScore = null,
+                hometown = "江苏",
+                residence = "上海"
             ),
             TodaySelectionUser(
                 id = "sel_003",
@@ -57,7 +62,9 @@ object TodaySelectionMockData {
                 selectionReason = "高匹配度",
                 selectionDescription = "智能算法推荐，年龄、地域、收入水平高度匹配，建议优先关注。",
                 selectionType = SelectionType.AI_MATCHED,
-                matchScore = 88f
+                matchScore = 88f,
+                hometown = "湖南",
+                residence = "深圳"
             ),
             TodaySelectionUser(
                 id = "sel_004",
@@ -69,7 +76,9 @@ object TodaySelectionMockData {
                 selectionReason = "活跃用户",
                 selectionDescription = "官方推荐活跃用户，近期登录频繁，回复及时，互动意愿强。",
                 selectionType = SelectionType.OFFICIAL,
-                matchScore = null
+                matchScore = null,
+                hometown = "广东",
+                residence = "广州"
             ),
             TodaySelectionUser(
                 id = "sel_005",
@@ -81,7 +90,9 @@ object TodaySelectionMockData {
                 selectionReason = "高匹配度",
                 selectionDescription = "智能匹配系统推荐，匹配度达90%。职业背景相似，价值观相符。",
                 selectionType = SelectionType.AI_MATCHED,
-                matchScore = 90f
+                matchScore = 90f,
+                hometown = "浙江",
+                residence = "杭州"
             ),
             TodaySelectionUser(
                 id = "sel_006",
@@ -93,7 +104,9 @@ object TodaySelectionMockData {
                 selectionReason = "官方推荐",
                 selectionDescription = "官方精选用户，资料真实完整，照片认证通过，信誉度高。",
                 selectionType = SelectionType.OFFICIAL,
-                matchScore = null
+                matchScore = null,
+                hometown = "四川",
+                residence = "成都"
             ),
             TodaySelectionUser(
                 id = "sel_007",
@@ -105,7 +118,9 @@ object TodaySelectionMockData {
                 selectionReason = "高匹配度",
                 selectionDescription = "根据您的个人资料和择偶标准，智能推荐。教育水平、收入范围高度匹配。",
                 selectionType = SelectionType.AI_MATCHED,
-                matchScore = 85f
+                matchScore = 85f,
+                hometown = "湖北",
+                residence = "武汉"
             ),
             TodaySelectionUser(
                 id = "sel_008",
@@ -117,7 +132,9 @@ object TodaySelectionMockData {
                 selectionReason = "新用户推荐",
                 selectionDescription = "官方推荐新用户，刚注册不久，资料新鲜，值得关注。",
                 selectionType = SelectionType.OFFICIAL,
-                matchScore = null
+                matchScore = null,
+                hometown = "江苏",
+                residence = "南京"
             )
         )
     }
@@ -139,6 +156,9 @@ object TodaySelectionMockData {
             "官方推荐活跃用户，互动意愿强"
         )
 
+        val hometowns = listOf("河北", "江苏", "湖南", "广东", "浙江", "四川", "湖北", "山东", "河南", "安徽")
+        val residences = listOf("北京", "上海", "深圳", "广州", "杭州", "成都", "武汉", "南京", "西安", "重庆")
+        
         return (1..count).map { index ->
             val isOfficial = index % 3 == 0
             TodaySelectionUser(
@@ -155,7 +175,9 @@ object TodaySelectionMockData {
                 selectionReason = reasons.random(),
                 selectionDescription = descriptions.random(),
                 selectionType = if (isOfficial) SelectionType.OFFICIAL else SelectionType.AI_MATCHED,
-//                matchScore = if (!isOfficial) (80f..95f).random() else null
+                matchScore = if (!isOfficial) Random.nextFloat() * 15f + 80f else null,
+                hometown = hometowns.random(),
+                residence = residences.random()
             )
         }
     }

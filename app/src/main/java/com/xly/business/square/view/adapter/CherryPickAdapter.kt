@@ -2,6 +2,7 @@ package com.xly.business.square.view.adapter
 
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -12,6 +13,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.xly.business.square.model.TodaySelectionUser
+import com.xly.middlelibrary.utils.LYFontUtil
 
 class CherryPickAdapter(
     private val onItemClick: (TodaySelectionUser, android.view.View) -> Unit,
@@ -62,28 +64,60 @@ class CherryPickAdapter(
             // 设置转场动画名称
             binding.ivAvatar.transitionName = "user_avatar_${user.id}"
 
-            // 姓名
-            binding.tvUserName.text = user.name
+            // 姓名和年龄合并显示，用逗号隔开
+            binding.tvNameAge.text = "${user.name}，${user.age}岁"
+            // 设置字体
+            binding.tvNameAge.typeface = LYFontUtil.getMediumFont(binding.root.context)
 
-            // 年龄
-            binding.tvAge.text = "${user.age}岁"
+            // 认证标识显示（暂时默认显示，后续可以从user添加isVerified字段控制）
+            binding.ivVerified.visibility = View.VISIBLE
 
-            // 位置
-            binding.tvLocation.text = user.location
+            // 家乡和居住地（替换原有的位置信息）
+            val locationText = buildString {
+                if (user.hometown.isNotEmpty()) {
+                    append("家乡：${user.hometown}")
+                }
+                if (user.hometown.isNotEmpty() && user.residence.isNotEmpty()) {
+                    append(" ")
+                }
+                if (user.residence.isNotEmpty()) {
+                    append("居住地：${user.residence}")
+                }
+                // 如果家乡和居住地都为空，则显示原来的位置信息
+                if (user.hometown.isEmpty() && user.residence.isEmpty()) {
+                    append(user.location)
+                }
+            }
+            binding.tvLocation.text = locationText
 
-            // 精选理由（如果有）
-
+            // 精选标签（使用selectionReason）
+            if (user.selectionReason.isNotEmpty()) {
+                binding.tvSelectionTag.text = user.selectionReason
+                binding.tvSelectionTag.visibility = View.VISIBLE
+            } else {
+                binding.tvSelectionTag.visibility = View.GONE
+            }
 
             // 精选描述
             binding.tvSelectionDescription.text = user.selectionDescription
 
-            // 标签
-//            setupTags(binding.llTags, user.tags)
+            // 标签（显示学历、收入、颜值、身高等关键信息）
+            if (user.tags.isNotEmpty()) {
+                binding.llTags.visibility = View.VISIBLE
+                setupTags(binding.llTags, user.tags)
+            } else {
+                binding.llTags.visibility = View.GONE
+            }
 
             // 匹配度（如果有）
             user.matchScore?.let { score ->
                 binding.tvSelectionDescription.text =
                     "${user.selectionDescription}（匹配度：${score.toInt()}%）"
+            }
+
+            // 送花/送爱心入口点击事件
+            binding.ivFlowIcon.setOnClickListener {
+                onLikeClick(user)
             }
 
             // 点击事件 - 传递头像 View 用于转场动画
