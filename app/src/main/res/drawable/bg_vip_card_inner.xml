@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 主渐变背景 - 内层暖金黄色渐变（较亮） -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="linear"
+                android:angle="135"
+                android:startColor="#FFE8C5"
+                android:centerColor="#FFD9A3"
+                android:endColor="#FFD4A5"
+                android:centerX="0.5"
+                android:centerY="0.5"/>
+            <corners android:radius="12dp" />
+        </shape>
+    </item>
+    
+    <!-- 光泽效果 - 更明显 -->
+    <item
+        android:top="0dp"
+        android:bottom="60dp">
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="linear"
+                android:angle="270"
+                android:startColor="#60FFFFFF"
+                android:endColor="#00FFFFFF"/>
+            <corners
+                android:topLeftRadius="16dp"
+                android:topRightRadius="16dp" />
+        </shape>
+    </item>
+</layer-list>
+

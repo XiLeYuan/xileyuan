@@ -1,24 +1,58 @@
 package com.xly.business.user.view
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.LinearInterpolator
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.flexbox.FlexboxLayout
+import com.jspp.model.UserCard
 import com.scwang.smart.refresh.header.MaterialHeader
+import com.xly.R
 import com.xly.base.LYBaseFragment
 import com.xly.business.user.viewmodel.ProfileViewModel
 import com.xly.business.vip.view.LookStarMeActivity
+import com.xly.databinding.DialogFateUserCardBinding
 import com.xly.databinding.FragmentProfileBinding
+import kotlin.random.Random
 
 class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>() {
+
+    private var fateButtonAnimation: AnimatorSet? = null
+    private var fateDialog: Dialog? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRefreshLayout()
         loadUserProfile()
         loadProfileStats()
+        setupFateButtonAnimation()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // 恢复动画
+        startFateButtonAnimation()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        // 暂停动画
+        stopFateButtonAnimation()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        stopFateButtonAnimation()
+        fateDialog?.dismiss()
+        fateDialog = null
     }
     
     /**
@@ -95,6 +129,243 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
             // TODO: 直接开通VIP的逻辑
             showToast("开通VIP")
         }
+
+        // 随缘入口按钮点击
+        viewBind.fateButton.setOnClickListener {
+            showFateUserCard()
+        }
+    }
+
+    /**
+     * 设置随缘按钮动画
+     */
+    private fun setupFateButtonAnimation() {
+        val pulseAnim = ObjectAnimator.ofFloat(viewBind.fateButton, "scaleX", 1.0f, 1.15f).apply {
+            duration = 1500
+            repeatCount = ObjectAnimator.INFINITE
+            repeatMode = ObjectAnimator.REVERSE
+            interpolator = AccelerateDecelerateInterpolator()
+        }
+        
+        val pulseAnimY = ObjectAnimator.ofFloat(viewBind.fateButton, "scaleY", 1.0f, 1.15f).apply {
+            duration = 1500
+            repeatCount = ObjectAnimator.INFINITE
+            repeatMode = ObjectAnimator.REVERSE
+            interpolator = AccelerateDecelerateInterpolator()
+        }
+
+        val alphaAnim = ObjectAnimator.ofFloat(viewBind.fateButton, "alpha", 1.0f, 0.8f).apply {
+            duration = 1500
+            repeatCount = ObjectAnimator.INFINITE
+            repeatMode = ObjectAnimator.REVERSE
+            interpolator = AccelerateDecelerateInterpolator()
+        }
+
+        val rotateAnim = ObjectAnimator.ofFloat(viewBind.fateButton, "rotation", 0f, 360f).apply {
+            duration = 3000
+            repeatCount = ObjectAnimator.INFINITE
+            interpolator = LinearInterpolator()
+        }
+
+        fateButtonAnimation = AnimatorSet().apply {
+            playTogether(pulseAnim, pulseAnimY, alphaAnim, rotateAnim)
+        }
+        
+        startFateButtonAnimation()
+    }
+
+    /**
+     * 启动随缘按钮动画
+     */
+    private fun startFateButtonAnimation() {
+        fateButtonAnimation?.start()
+    }
+
+    /**
+     * 停止随缘按钮动画
+     */
+    private fun stopFateButtonAnimation() {
+        fateButtonAnimation?.cancel()
+    }
+
+    /**
+     * 显示缘分用户卡片
+     */
+    private fun showFateUserCard() {
+        // 生成随机缘分用户
+        val fateUser = generateRandomFateUser()
+        
+        // 创建Dialog
+        val dialogBinding = DialogFateUserCardBinding.inflate(layoutInflater)
+        fateDialog = Dialog(requireContext(), R.style.FateCardDialogStyle).apply {
+            setContentView(dialogBinding.root)
+            setCancelable(true)
+            setCanceledOnTouchOutside(true)
+            window?.setBackgroundDrawableResource(android.R.color.transparent)
+        }
+
+        // 绑定用户数据
+        bindFateUserData(dialogBinding, fateUser)
+
+        // 设置点击事件
+        dialogBinding.ivClose.setOnClickListener {
+            dismissFateDialog()
+        }
+
+        dialogBinding.tvLike.setOnClickListener {
+            // TODO: 处理喜欢逻辑
+            showToast("喜欢了 ${fateUser.name}")
+            dismissFateDialog()
+        }
+
+        dialogBinding.tvDislike.setOnClickListener {
+            // TODO: 处理不喜欢逻辑
+            dismissFateDialog()
+        }
+
+        // 显示Dialog并添加弹出动画
+        fateDialog?.show()
+        animateDialogShow(dialogBinding.root)
+    }
+
+    /**
+     * 绑定缘分用户数据
+     */
+    private fun bindFateUserData(binding: DialogFateUserCardBinding, user: UserCard) {
+        binding.tvName.text = user.name
+        binding.tvAge.text = "${user.age}岁"
+        binding.tvBio.text = user.bio.ifEmpty { "这是一个缘分用户，期待与你相遇" }
+        
+        // 设置头像
+        val avatarResId = resources.getIdentifier(
+            "head_${Random.nextInt(1, 9)}",
+            "mipmap",
+            requireContext().packageName
+        )
+        if (avatarResId != 0) {
+            binding.ivAvatar.setImageResource(avatarResId)
+        }
+
+        // 设置背景
+        val bgResId = resources.getIdentifier(
+            "find_img_${Random.nextInt(1, 4)}",
+            "mipmap",
+            requireContext().packageName
+        )
+        if (bgResId != 0) {
+            binding.ivBackground.setImageResource(bgResId)
+        }
+
+        // 设置标签
+        setupTags(binding.tagContainer, user.tags)
+
+        // 设置认证标识
+        binding.verifyIv.visibility = if (Random.nextBoolean()) View.VISIBLE else View.GONE
+    }
+
+    /**
+     * 设置标签
+     */
+    private fun setupTags(tagContainer: FlexboxLayout, tags: List<String>) {
+        tagContainer.removeAllViews()
+        
+        val displayTags = if (tags.isNotEmpty()) {
+            tags.take(3)
+        } else {
+            listOf("旅行", "摄影", "音乐").shuffled().take(2)
+        }
+
+        displayTags.forEach { tag ->
+            val tagView = LayoutInflater.from(requireContext())
+                .inflate(R.layout.item_tag, tagContainer, false)
+            val tvTag = tagView.findViewById<TextView>(R.id.tvTag)
+            tvTag.text = tag
+            tagContainer.addView(tagView)
+        }
+    }
+
+    /**
+     * 生成随机缘分用户
+     */
+    private fun generateRandomFateUser(): UserCard {
+        val names = listOf("小雨", "小晴", "小月", "小星", "小云", "小风", "小阳", "小梦")
+        val locations = listOf("北京", "上海", "广州", "深圳", "杭州", "成都", "武汉", "西安")
+        val bios = listOf(
+            "喜欢旅行和摄影，寻找志同道合的人",
+            "热爱生活，享受每一个美好瞬间",
+            "期待遇见有趣的灵魂",
+            "相信缘分，珍惜每一次相遇",
+            "热爱音乐和阅读，寻找心灵的共鸣"
+        )
+        val allTags = listOf("旅行", "摄影", "音乐", "阅读", "运动", "美食", "电影", "艺术")
+
+        return UserCard(
+            id = "fate_${System.currentTimeMillis()}",
+            name = names.random(),
+            age = Random.nextInt(22, 35),
+            location = locations.random(),
+            avatarUrl = "",
+            bio = bios.random(),
+            tags = allTags.shuffled().take(Random.nextInt(2, 5)),
+            photos = emptyList(),
+            occupation = "",
+            education = "",
+            height = Random.nextInt(160, 175),
+            weight = Random.nextInt(45, 65),
+            isOnline = Random.nextBoolean(),
+            distance = "${Random.nextInt(1, 50)}km",
+            lastActiveTime = System.currentTimeMillis()
+        )
+    }
+
+    /**
+     * 关闭缘分卡片Dialog
+     */
+    private fun dismissFateDialog() {
+        fateDialog?.let { dialog ->
+            animateDialogDismiss(dialog.window?.decorView?.findViewById(android.R.id.content)) {
+                dialog.dismiss()
+                fateDialog = null
+            }
+        }
+    }
+
+    /**
+     * Dialog显示动画
+     */
+    private fun animateDialogShow(view: View?) {
+        view?.apply {
+            alpha = 0f
+            scaleX = 0.8f
+            scaleY = 0.8f
+            translationY = 100f
+
+            animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .translationY(0f)
+                .setDuration(300)
+                .setInterpolator(AccelerateDecelerateInterpolator())
+                .start()
+        }
+    }
+
+    /**
+     * Dialog关闭动画
+     */
+    private fun animateDialogDismiss(view: View?, onEnd: () -> Unit) {
+        view?.apply {
+            animate()
+                .alpha(0f)
+                .scaleX(0.8f)
+                .scaleY(0.8f)
+                .translationY(100f)
+                .setDuration(200)
+                .setInterpolator(AccelerateDecelerateInterpolator())
+                .withEndAction(onEnd)
+                .start()
+        } ?: onEnd()
     }
 
     private fun loadUserProfile() {
