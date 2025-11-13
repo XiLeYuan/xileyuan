@@ -62,6 +62,9 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
         // 设置刷新头部
         viewBind.refreshLayout.setRefreshHeader(MaterialHeader(requireActivity()))
         viewBind.refreshLayout.setEnableRefresh(true)
+        // 禁用过度滚动，避免与NestedScrollView冲突
+        viewBind.refreshLayout.setEnableOverScrollDrag(false)
+        viewBind.refreshLayout.setEnableOverScrollBounce(false)
         
         // 下拉刷新监听
         viewBind.refreshLayout.setOnRefreshListener { refreshLayout ->
