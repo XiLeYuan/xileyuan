@@ -45,7 +45,7 @@
                     android:id="@+id/avatarContainer"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:layout_marginTop="80dp"
+                    android:layout_marginTop="72dp"
                     app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -53,8 +53,8 @@
                     <!-- 圆形头像 -->
                     <com.xly.middlelibrary.widget.LYRoundImageView
                         android:id="@+id/avatarImage"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
                         android:scaleType="centerCrop"
                         android:src="@mipmap/head_two" />
 
@@ -110,7 +110,7 @@
                 android:id="@+id/mainSectionCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-16dp"
+                android:layout_marginTop="-30dp"
                 android:background="@drawable/bg_profile_section_with_gradient"
                 android:elevation="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
