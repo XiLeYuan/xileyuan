@@ -4,16 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.DecelerateInterpolator
-import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
-import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.scwang.smart.refresh.header.MaterialHeader
-import com.scwang.smart.refresh.layout.api.RefreshFooter
-import com.scwang.smart.refresh.layout.api.RefreshLayout
-import com.scwang.smart.refresh.layout.constant.RefreshState
 import com.xly.base.LYBaseFragment
 import com.xly.business.login.view.LoginActivity
 import com.xly.business.user.viewmodel.ProfileViewModel
@@ -24,10 +18,6 @@ import com.xly.middlelibrary.utils.MMKVManager
 
 class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>() {
 
-    private var headerBackground: View? = null
-    private var initialHeaderHeight = 0
-    private var maxScale = 1.5f // 最大放大倍数
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRefreshLayout()
@@ -36,12 +26,9 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
     }
     
     /**
-     * 设置刷新布局和背景放大效果
+     * 设置刷新布局
      */
     private fun setupRefreshLayout() {
-        headerBackground = viewBind.headerBackground
-        initialHeaderHeight = headerBackground?.height ?: 280
-        
         // 设置刷新头部
         viewBind.refreshLayout.setRefreshHeader(MaterialHeader(requireActivity()))
         viewBind.refreshLayout.setEnableRefresh(true)
@@ -53,119 +40,6 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
             loadProfileStats()
             refreshLayout.finishRefresh(1000) // 1秒后完成刷新
         }
-        
-        // 监听下拉进度，实现背景放大效果
-        viewBind.refreshLayout.setOnMultiListener(object : com.scwang.smart.refresh.layout.listener.OnMultiListener {
-            override fun onRefresh(refreshLayout: com.scwang.smart.refresh.layout.api.RefreshLayout) {
-                // 刷新回调，已在setOnRefreshListener中处理
-            }
-            
-            override fun onLoadMore(refreshLayout: com.scwang.smart.refresh.layout.api.RefreshLayout) {
-                // 加载更多回调，此页面不需要加载更多功能
-            }
-
-            override fun onStateChanged(
-                refreshLayout: RefreshLayout,
-                oldState: RefreshState,
-                newState: RefreshState
-            ) {
-
-            }
-
-            override fun onHeaderMoving(
-                header: com.scwang.smart.refresh.layout.api.RefreshHeader?,
-                isDragging: Boolean,
-                percent: Float,
-                offset: Int,
-                headerHeight: Int,
-                maxDragHeight: Int
-            ) {
-                // percent: 0-1，表示下拉进度
-                // 实现阻尼弹性效果：当percent超过1时，缩放速度减慢
-                val scale = if (percent <= 1f) {
-                    1f + (percent * 0.3f) // 正常下拉时，最多放大30%
-                } else {
-                    // 超过正常范围时，使用阻尼效果
-                    val excess = percent - 1f
-                    1.3f + (excess * 0.2f).coerceAtMost(0.2f) // 最多再放大20%
-                }
-                
-                headerBackground?.apply {
-                    scaleX = scale
-                    scaleY = scale
-                    // 向下移动，营造弹性效果
-                    translationY = offset * 0.3f
-                }
-            }
-            
-            override fun onHeaderReleased(
-                header: com.scwang.smart.refresh.layout.api.RefreshHeader?,
-                headerHeight: Int,
-                maxDragHeight: Int
-            ) {
-                // 释放时，恢复背景大小
-                headerBackground?.animate()
-                    ?.scaleX(1f)
-                    ?.scaleY(1f)
-                    ?.translationY(0f)
-                    ?.setDuration(300)
-                    ?.setInterpolator(DecelerateInterpolator())
-                    ?.start()
-            }
-            
-            override fun onHeaderStartAnimator(
-                header: com.scwang.smart.refresh.layout.api.RefreshHeader?,
-                headerHeight: Int,
-                maxDragHeight: Int
-            ) {
-                // 刷新动画开始
-            }
-            
-            override fun onHeaderFinish(
-                header: com.scwang.smart.refresh.layout.api.RefreshHeader?,
-                success: Boolean
-            ) {
-                // 刷新完成，恢复背景
-                headerBackground?.animate()
-                    ?.scaleX(1f)
-                    ?.scaleY(1f)
-                    ?.translationY(0f)
-                    ?.setDuration(300)
-                    ?.setInterpolator(DecelerateInterpolator())
-                    ?.start()
-            }
-
-            override fun onFooterMoving(
-                footer: RefreshFooter?,
-                isDragging: Boolean,
-                percent: Float,
-                offset: Int,
-                footerHeight: Int,
-                maxDragHeight: Int
-            ) {
-
-            }
-
-            override fun onFooterReleased(
-                footer: RefreshFooter?,
-                footerHeight: Int,
-                maxDragHeight: Int
-            ) {
-
-            }
-
-            override fun onFooterStartAnimator(
-                footer: RefreshFooter?,
-                footerHeight: Int,
-                maxDragHeight: Int
-            ) {
-
-            }
-
-            override fun onFooterFinish(footer: RefreshFooter?, success: Boolean) {
-
-            }
-        })
     }
 
     override fun initObservers() {
