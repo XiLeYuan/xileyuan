@@ -67,10 +67,10 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/tvName"
+                        android:id="@+id/tvNameAge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="用户名"
+                        android:text="用户名，25岁"
                         android:textColor="@android:color/white"
                         android:textSize="22sp"
                         android:textStyle="bold"
@@ -82,21 +82,8 @@
                         android:layout_height="wrap_content"
                         android:src="@mipmap/verified_icon"
                         android:layout_marginStart="5dp"
-                        android:layout_toRightOf="@id/tvName"
+                        android:layout_toRightOf="@id/tvNameAge"
                         android:layout_centerVertical="true"/>
-
-                    <TextView
-                        android:id="@+id/tvAge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="25岁"
-                        android:textColor="#ffffff"
-                        android:textSize="16sp"
-                        android:layout_marginStart="8dp"
-                        android:textStyle="bold"
-                        android:layout_toRightOf="@id/verifyIv"
-                        android:layout_alignParentBottom="true"/>
 
                     <TextView
                         android:id="@+id/tvLocation"
@@ -107,7 +94,7 @@
                         android:text="*固始"
                         android:textColor="#E0E0E0"
                         android:textSize="18sp"
-                        android:layout_toRightOf="@id/tvAge"
+                        android:layout_toRightOf="@id/verifyIv"
                         android:visibility="gone"/>
 
                 </RelativeLayout>
@@ -127,6 +114,49 @@
                 android:textSize="14sp"
                 android:visibility="gone"/>
 
+            <!-- 家乡和居住地标签 -->
+            <LinearLayout
+                android:id="@+id/llLocationTags"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <!-- 家乡标签 -->
+                <TextView
+                    android:id="@+id/tvHometown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/tag_background"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:text="家乡：北京"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
+                <!-- 居住地标签 -->
+                <TextView
+                    android:id="@+id/tvResidence"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/tag_background"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:text="居住：上海"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"

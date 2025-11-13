@@ -384,7 +384,9 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
             weight = Random.nextInt(45, 65),
             isOnline = Random.nextBoolean(),
             distance = "${Random.nextInt(1, 50)}km",
-            lastActiveTime = System.currentTimeMillis()
+            lastActiveTime = System.currentTimeMillis(),
+            hometown = locations.random(),
+            residence = locations.random()
         )
     }
 

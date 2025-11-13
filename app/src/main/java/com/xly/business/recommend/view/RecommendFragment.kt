@@ -208,7 +208,9 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
                 location = "北京",
                 avatarUrl = avatarResources[0], // head_one
                 bio = "喜欢旅行、摄影、音乐，希望找到一个志同道合的伴侣。",
-                tags = listOf("163cm", "本科", "5k-8k")
+                tags = listOf("163cm", "本科", "5k-8k"),
+                hometown = "河南",
+                residence = "北京"
             ),
             UserCard(
                 id = "2",
@@ -217,7 +219,9 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
                 location = "上海",
                 avatarUrl = avatarResources[1], // head_two
                 bio = "热爱生活，喜欢尝试新事物，希望能遇到有趣的人。",
-                tags = listOf("178cm", "本科", "2w-3w")
+                tags = listOf("178cm", "本科", "2w-3w"),
+                hometown = "江苏",
+                residence = "上海"
             ),
             UserCard(
                 id = "3",
@@ -226,7 +230,9 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
                 location = "深圳",
                 avatarUrl = avatarResources[2], // head_three
                 bio = "工作认真，生活简单，希望能找到一个温暖的人。",
-                tags = listOf("工作", "电影", "咖啡")
+                tags = listOf("工作", "电影", "咖啡"),
+                hometown = "湖南",
+                residence = "深圳"
             ),
             UserCard(
                 id = "4",
@@ -235,7 +241,9 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
                 location = "广州",
                 avatarUrl = avatarResources[3], // head_four
                 bio = "活泼开朗，喜欢交朋友，希望能遇到对的人。",
-                tags = listOf("交友", "游戏", "美食")
+                tags = listOf("交友", "游戏", "美食"),
+                hometown = "广东",
+                residence = "广州"
             ),
             UserCard(
                 id = "5",
@@ -244,7 +252,9 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
                 location = "杭州",
                 avatarUrl = avatarResources[4], // head_five
                 bio = "文艺青年，喜欢看书、听音乐，希望能遇到懂我的人。",
-                tags = listOf("阅读", "音乐", "文艺")
+                tags = listOf("阅读", "音乐", "文艺"),
+                hometown = "浙江",
+                residence = "杭州"
             )
         )
 

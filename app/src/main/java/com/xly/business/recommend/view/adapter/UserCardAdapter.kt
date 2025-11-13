@@ -73,29 +73,63 @@ class UserCardAdapter(
 
         val ivBackground: ImageView = itemView.findViewById(R.id.ivBackground)
         val ivAvatar: ImageView = itemView.findViewById(R.id.ivAvatar)
-        val tvName: TextView = itemView.findViewById(R.id.tvName)
-        val tvAge: TextView = itemView.findViewById(R.id.tvAge)
+        val tvNameAge: TextView = itemView.findViewById(R.id.tvNameAge)
+        val verifyIv: ImageView = itemView.findViewById(R.id.verifyIv)
         val tvLocation: TextView = itemView.findViewById(R.id.tvLocation)
         val tvBio: TextView = itemView.findViewById(R.id.tvBio)
         val tagContainer: FlexboxLayout = itemView.findViewById(R.id.tagContainer)
         val arrowRightIv: ImageView = itemView.findViewById(R.id.arrowRightIv)
+        val llLocationTags: android.widget.LinearLayout = itemView.findViewById(R.id.llLocationTags)
+        val tvHometown: TextView = itemView.findViewById(R.id.tvHometown)
+        val tvResidence: TextView = itemView.findViewById(R.id.tvResidence)
 
 
         fun bind(userCard: UserCard) {
             // 头像暂时弃用，不加载
             // ivAvatar.visibility = View.GONE
 
-            // 设置用户信息
-            tvName.text = userCard.name
-            tvAge.text = "${userCard.age}岁" + " * " + userCard.location
+            // 设置用户信息：姓名和年龄用逗号连接
+            tvNameAge.text = "${userCard.name}，${userCard.age}岁"
+            
+            // 设置认证标识显示（暂时默认显示，后续可以从userCard添加isVerified字段）
+            verifyIv.visibility = View.VISIBLE
+            
             tvLocation.text = userCard.location
             tvBio.text = userCard.bio
+
+            // 设置家乡和居住地标签
+            setupLocationTags(userCard.hometown, userCard.residence)
 
             // 设置标签
             setupTags(userCard.tags)
 
             // 设置共享元素转场名称（使用背景图片，与精选列表保持一致）
             ivBackground.transitionName = "user_avatar_${userCard.id}"
+        }
+
+        private fun setupLocationTags(hometown: String, residence: String) {
+            var hasLocationTag = false
+            
+            // 设置家乡标签
+            if (hometown.isNotEmpty()) {
+                tvHometown.text = "家乡：$hometown"
+                tvHometown.visibility = View.VISIBLE
+                hasLocationTag = true
+            } else {
+                tvHometown.visibility = View.GONE
+            }
+            
+            // 设置居住地标签
+            if (residence.isNotEmpty()) {
+                tvResidence.text = "居住：$residence"
+                tvResidence.visibility = View.VISIBLE
+                hasLocationTag = true
+            } else {
+                tvResidence.visibility = View.GONE
+            }
+            
+            // 如果至少有一个标签，显示容器
+            llLocationTags.visibility = if (hasLocationTag) View.VISIBLE else View.GONE
         }
 
         private fun setupTags(tags: List<String>) {

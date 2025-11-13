@@ -18,7 +18,9 @@ data class UserCard(
     val weight: Int = 0,
     val isOnline: Boolean = false,
     val distance: String = "",
-    val lastActiveTime: Long = 0L
+    val lastActiveTime: Long = 0L,
+    val hometown: String = "",
+    val residence: String = ""
 ) : Parcelable {
     
     constructor(parcel: Parcel) : this(
@@ -36,7 +38,9 @@ data class UserCard(
         parcel.readInt(),
         parcel.readByte() != 0.toByte(),
         parcel.readString() ?: "",
-        parcel.readLong()
+        parcel.readLong(),
+        parcel.readString() ?: "",
+        parcel.readString() ?: ""
     )
     
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -55,6 +59,8 @@ data class UserCard(
         parcel.writeByte(if (isOnline) 1 else 0)
         parcel.writeString(distance)
         parcel.writeLong(lastActiveTime)
+        parcel.writeString(hometown)
+        parcel.writeString(residence)
     }
     
     override fun describeContents(): Int {
