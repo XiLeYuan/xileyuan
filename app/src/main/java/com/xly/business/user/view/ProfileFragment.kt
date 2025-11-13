@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.LinearInterpolator
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,6 +20,7 @@ import com.xly.business.user.viewmodel.ProfileViewModel
 import com.xly.business.vip.view.LookStarMeActivity
 import com.xly.databinding.DialogFateUserCardBinding
 import com.xly.databinding.FragmentProfileBinding
+import com.xly.middlelibrary.utils.LYFontUtil
 import kotlin.random.Random
 
 class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>() {
@@ -107,25 +107,30 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
         
         // 设置昵称（这里使用默认昵称，实际项目中应该从用户资料中获取）
         viewBind.nicknameText.text = "Ella"
+        // 设置用户名字体
+        viewBind.nicknameText.typeface = LYFontUtil.getMediumFont(requireContext())
         
         // 设置VIP标识显示（根据用户VIP状态）
-        viewBind.ivVip.visibility = View.VISIBLE // TODO: 根据用户VIP状态显示/隐藏
+        viewBind.ivVip.visibility = View.VISIBLE
         
         // 设置认证标识显示（根据用户认证状态）
-        viewBind.ivVerified.visibility = View.VISIBLE // TODO: 根据用户认证状态显示/隐藏
+        viewBind.ivVerified.visibility = View.VISIBLE
+        
+        // 设置统计数字字体
+        viewBind.tvLikedPeopleCount.typeface = LYFontUtil.getMediumFont(requireContext())
+        viewBind.tvVisitorsCount.typeface = LYFontUtil.getMediumFont(requireContext())
+        viewBind.tvWhoLikedMeCount.typeface = LYFontUtil.getMediumFont(requireContext())
     }
 
     private fun setupClickListeners() {
 
         // VIP卡片内层点击 - 直接开通VIP
         viewBind.llVipInner.setOnClickListener {
-            // TODO: 直接开通VIP的逻辑
             showToast("开通VIP")
         }
 
         // VIP开通按钮点击
         viewBind.tvVipButton.setOnClickListener {
-            // TODO: 直接开通VIP的逻辑
             showToast("开通VIP")
         }
 
@@ -136,37 +141,31 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
 
         // 我的资料入口点击
         viewBind.llMyProfile.setOnClickListener {
-            // TODO: 跳转到我的资料页面
             showToast("我的资料")
         }
 
         // 我的特权点击
         viewBind.llMyPrivilege.setOnClickListener {
-            // TODO: 跳转到我的特权页面
             showToast("我的特权")
         }
 
         // 我的钱包点击
         viewBind.llMyWallet.setOnClickListener {
-            // TODO: 跳转到我的钱包页面
             showToast("我的钱包")
         }
 
         // 我的认证点击
         viewBind.llMyVerification.setOnClickListener {
-            // TODO: 跳转到我的认证页面
             showToast("我的认证")
         }
 
         // 我的缘份点击
         viewBind.llMyFate.setOnClickListener {
-            // TODO: 跳转到我的缘份页面
             showToast("我的缘份")
         }
 
         // 设置点击
         viewBind.llSettings.setOnClickListener {
-            // TODO: 跳转到设置页面
             showToast("设置")
         }
     }
@@ -237,13 +236,11 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
         }
 
         dialogBinding.tvLike.setOnClickListener {
-            // TODO: 处理喜欢逻辑
             showToast("喜欢了 ${fateUser.name}")
             dismissFateDialog()
         }
 
         dialogBinding.tvDislike.setOnClickListener {
-            // TODO: 处理不喜欢逻辑
             dismissFateDialog()
         }
 
@@ -405,9 +402,7 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
     private fun updateUserProfile(userInfo: com.xly.business.user.UserInfo) {
         // 更新用户资料显示
         viewBind.nicknameText.text = userInfo.name
-        // TODO: 更新头像等其他用户信息
-        // TODO: 根据userInfo.isVip显示/隐藏VIP标识
-        // TODO: 根据userInfo.isVerified显示/隐藏认证标识
+
     }
 
     private fun updateProfileStats(stats: ProfileViewModel.ProfileStats) {
