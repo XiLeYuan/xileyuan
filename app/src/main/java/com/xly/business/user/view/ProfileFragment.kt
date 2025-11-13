@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.scwang.smart.refresh.header.MaterialHeader
 import com.xly.base.LYBaseFragment
 import com.xly.business.user.viewmodel.ProfileViewModel
+import com.xly.business.vip.view.LookStarMeActivity
 import com.xly.databinding.FragmentProfileBinding
 
 class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>() {
@@ -78,7 +79,22 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
     }
 
     private fun setupClickListeners() {
+        // VIP卡片外层点击 - 进入VIP页面
+        viewBind.cvVipCardOuter.setOnClickListener {
+            LookStarMeActivity.start(requireContext())
+        }
 
+        // VIP卡片内层点击 - 直接开通VIP
+        viewBind.cvVipCardInner.setOnClickListener {
+            // TODO: 直接开通VIP的逻辑
+            showToast("开通VIP")
+        }
+
+        // VIP开通按钮点击
+        viewBind.tvVipButton.setOnClickListener {
+            // TODO: 直接开通VIP的逻辑
+            showToast("开通VIP")
+        }
     }
 
     private fun loadUserProfile() {
