@@ -6,12 +6,15 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.os.Handler
+import android.os.Looper
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.OvershootInterpolator
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.flexbox.FlexboxLayout
 import com.jspp.model.UserCard
 import com.scwang.smart.refresh.header.MaterialHeader
 import com.xly.R
@@ -27,6 +30,7 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
 
     private var fateButtonAnimation: AnimatorSet? = null
     private var fateDialog: Dialog? = null
+    private val handler = Handler(Looper.getMainLooper())
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,6 +56,8 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
         super.onDestroyView()
         stopFateButtonAnimation()
         fateDialog?.dismiss()
+        // 取消所有待执行的Handler任务
+        handler.removeCallbacksAndMessages(null)
         fateDialog = null
     }
     
@@ -135,8 +141,8 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
         }
 
         // 随缘入口按钮点击
-        viewBind.fateButton.setOnClickListener {
-            showFateUserCard()
+        viewBind.fateButtonContainer.setOnClickListener {
+            startFateLoading()
         }
 
         // 我的资料入口点击
@@ -212,6 +218,41 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
     }
 
     /**
+     * 开始加载状态（模拟网络请求）
+     */
+    private fun startFateLoading() {
+        // 停止按钮动画
+        stopFateButtonAnimation()
+        
+        // 显示进度条，隐藏按钮图标
+        viewBind.fateProgressBar.visibility = View.VISIBLE
+        viewBind.fateButton.visibility = View.GONE
+        
+        // 禁用点击
+        viewBind.fateButtonContainer.isClickable = false
+        
+        // 模拟网络请求延迟（1-2秒随机）
+        val delay = (1000..2000).random().toLong()
+        handler.postDelayed({
+            // 加载完成，显示卡片
+            showFateUserCard()
+            // 隐藏进度条，恢复按钮图标
+            hideFateLoading()
+        }, delay)
+    }
+    
+    /**
+     * 隐藏加载状态
+     */
+    private fun hideFateLoading() {
+        viewBind.fateProgressBar.visibility = View.GONE
+        viewBind.fateButton.visibility = View.VISIBLE
+        viewBind.fateButtonContainer.isClickable = true
+        // 恢复按钮动画
+        startFateButtonAnimation()
+    }
+
+    /**
      * 显示缘分用户卡片
      */
     private fun showFateUserCard() {
@@ -225,6 +266,15 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
             setCancelable(true)
             setCanceledOnTouchOutside(true)
             window?.setBackgroundDrawableResource(android.R.color.transparent)
+            
+            // 设置Dialog宽度为屏幕的80%（5分之4）
+            val displayMetrics = resources.displayMetrics
+            val screenWidth = displayMetrics.widthPixels
+            val dialogWidth = (screenWidth * 0.8).toInt()
+            window?.setLayout(
+                dialogWidth,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
         }
 
         // 绑定用户数据
@@ -255,7 +305,8 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
     private fun bindFateUserData(binding: DialogFateUserCardBinding, user: UserCard) {
         binding.tvName.text = user.name
         binding.tvAge.text = "${user.age}岁"
-        binding.tvBio.text = user.bio.ifEmpty { "这是一个缘分用户，期待与你相遇" }
+        binding.tvLocation.text = user.location
+        binding.tvBio.text = user.bio.ifEmpty { "根据您的偏好，为您精准匹配" }
         
         // 设置头像
         val avatarResId = resources.getIdentifier(
@@ -267,18 +318,8 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
             binding.ivAvatar.setImageResource(avatarResId)
         }
 
-        // 设置背景
-        val bgResId = resources.getIdentifier(
-            "find_img_${Random.nextInt(1, 4)}",
-            "mipmap",
-            requireContext().packageName
-        )
-        if (bgResId != 0) {
-            binding.ivBackground.setImageResource(bgResId)
-        }
-
         // 设置标签
-        setupTags(binding.tagContainer, user.tags)
+        setupTags(binding.llTags, user.tags)
 
         // 设置认证标识
         binding.verifyIv.visibility = if (Random.nextBoolean()) View.VISIBLE else View.GONE
@@ -287,7 +328,7 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
     /**
      * 设置标签
      */
-    private fun setupTags(tagContainer: FlexboxLayout, tags: List<String>) {
+    private fun setupTags(tagContainer: LinearLayout, tags: List<String>) {
         tagContainer.removeAllViews()
         
         val displayTags = if (tags.isNotEmpty()) {
@@ -296,12 +337,17 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
             listOf("旅行", "摄影", "音乐").shuffled().take(2)
         }
 
-        displayTags.forEach { tag ->
-            val tagView = LayoutInflater.from(requireContext())
-                .inflate(R.layout.item_tag, tagContainer, false)
-            val tvTag = tagView.findViewById<TextView>(R.id.tvTag)
-            tvTag.text = tag
-            tagContainer.addView(tagView)
+        if (displayTags.isNotEmpty()) {
+            tagContainer.visibility = View.VISIBLE
+            displayTags.forEach { tag ->
+                val tagView = LayoutInflater.from(requireContext())
+                    .inflate(R.layout.item_tag, tagContainer, false)
+                val tvTag = tagView.findViewById<TextView>(R.id.tvTag)
+                tvTag.text = tag
+                tagContainer.addView(tagView)
+            }
+        } else {
+            tagContainer.visibility = View.GONE
         }
     }
 
@@ -352,22 +398,29 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
     }
 
     /**
-     * Dialog显示动画
+     * Dialog显示动画 - 弹性弹出效果（先放大再回归正常大小）
      */
     private fun animateDialogShow(view: View?) {
         view?.apply {
             alpha = 0f
-            scaleX = 0.8f
-            scaleY = 0.8f
-            translationY = 100f
+            scaleX = 0.3f
+            scaleY = 0.3f
 
+            // 使用弹性动画：先放大到1.15倍，再回到正常大小
             animate()
                 .alpha(1f)
-                .scaleX(1f)
-                .scaleY(1f)
-                .translationY(0f)
-                .setDuration(300)
-                .setInterpolator(AccelerateDecelerateInterpolator())
+                .scaleX(1.15f)
+                .scaleY(1.15f)
+                .setDuration(200)
+                .withEndAction {
+                    // 回归正常大小，使用弹性插值器
+                    animate()
+                        .scaleX(1f)
+                        .scaleY(1f)
+                        .setDuration(300)
+                        .setInterpolator(OvershootInterpolator(1.5f))
+                        .start()
+                }
                 .start()
         }
     }

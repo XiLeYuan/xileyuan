@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.scwang.smart.refresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/refreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,26 +23,53 @@
             <!-- 个人信息容器 -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/profileHeader"
-                android:layout_width="match_parent"
+                    android:layout_width="match_parent"
                 android:layout_height="280dp"
                 android:background="@drawable/profile_header_bg"
+                android:clipChildren="false"
+                android:clipToPadding="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <!-- 随缘入口按钮（个人信息容器右上角） -->
-                <ImageView
-                    android:id="@+id/fateButton"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_marginTop="42dp"
-                    android:layout_marginEnd="35dp"
+                <!-- 随缘入口按钮容器（个人信息容器右上角） -->
+                <FrameLayout
+                    android:id="@+id/fateButtonContainer"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="38dp"
+                    android:layout_marginEnd="31dp"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
-                    android:src="@mipmap/yuan_icon"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:gravity="center"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <!-- 随缘入口按钮图标 -->
+                    <ImageView
+                        android:id="@+id/fateButton"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/yuan_icon" />
+
+                    <!-- 圆形进度条 -->
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/fateProgressBar"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_gravity="center"
+                        android:indeterminate="true"
+                        android:visibility="gone"
+                        app:indicatorColor="@color/brand_orange"
+                        app:trackColor="#33FF6B6B"
+                        app:indicatorSize="28dp"
+                        app:trackThickness="2dp" />
+
+                </FrameLayout>
 
                 <!-- 圆形头像容器 -->
                 <FrameLayout
@@ -55,14 +83,14 @@
 
                     <!-- 圆形头像 -->
                     <com.xly.middlelibrary.widget.LYRoundImageView
-                    android:id="@+id/avatarImage"
+                        android:id="@+id/avatarImage"
                         android:layout_width="90dp"
                         android:layout_height="90dp"
-                    android:scaleType="centerCrop"
+                        android:scaleType="centerCrop"
                         android:src="@mipmap/head_two" />
 
                     <!-- 认证标识（头像右下角） -->
-                    <ImageView
+                        <ImageView
                         android:id="@+id/ivVerified"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
@@ -77,13 +105,13 @@
                 <!-- 姓名和VIP标识 -->
                 <LinearLayout
                     android:id="@+id/nameContainer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:gravity="center_vertical"
-                android:orientation="horizontal"
+                    android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/avatarContainer">
 
                     <!-- 姓名 -->
@@ -93,15 +121,15 @@
                         android:layout_height="wrap_content"
                         android:text="Ella"
                         android:textColor="@color/text_primary_dark"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp" />
 
                     <!-- VIP标识 -->
                     <ImageView
                         android:id="@+id/ivVip"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="30dp"
+                        android:layout_height="40dp"
                         android:layout_marginStart="6dp"
-                        android:src="@mipmap/main_vip_icon" />
+                        android:src="@mipmap/main_vip_icon2" />
 
             </LinearLayout>
 
@@ -155,8 +183,7 @@
                         android:layout_height="wrap_content"
                                 android:text="128"
                                 android:textColor="@color/text_primary_dark"
-                                android:textSize="20sp"
-                        />
+                                android:textSize="20sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -194,8 +221,7 @@
                         android:layout_height="wrap_content"
                                 android:text="56"
                                 android:textColor="@color/text_primary_dark"
-                                android:textSize="20sp"
-                         />
+                                android:textSize="20sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -233,8 +259,7 @@
                         android:layout_height="wrap_content"
                                 android:text="89"
                                 android:textColor="@color/text_primary_dark"
-                                android:textSize="20sp"
-                         />
+                                android:textSize="20sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -348,7 +373,7 @@
                         android:layout_marginBottom="16dp"
             app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="12dp"
-                        app:cardElevation="2dp">
+                        app:cardElevation="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -359,7 +384,7 @@
                 <LinearLayout
                                 android:id="@+id/llMyProfile"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                                android:layout_height="50dp"
                                 android:clickable="true"
                                 android:focusable="true"
                                 android:foreground="?android:attr/selectableItemBackground"
@@ -368,9 +393,9 @@
                                 android:paddingStart="16dp"
                                 android:paddingEnd="16dp">
 
-                                <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                                     android:layout_marginEnd="12dp"
                                     android:src="@mipmap/my_profile_icon" />
 
@@ -402,7 +427,7 @@
                 <LinearLayout
                                 android:id="@+id/llMyPrivilege"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                                android:layout_height="50dp"
                                 android:clickable="true"
                                 android:focusable="true"
                                 android:foreground="?android:attr/selectableItemBackground"
@@ -411,9 +436,9 @@
                                 android:paddingStart="16dp"
                                 android:paddingEnd="16dp">
 
-                                <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                                     android:layout_marginEnd="12dp"
                                     android:src="@mipmap/my_privilege_icon" />
 
@@ -447,18 +472,18 @@
                         android:layout_marginBottom="16dp"
                         app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="12dp"
-                        app:cardElevation="2dp">
+                        app:cardElevation="1dp">
 
                         <LinearLayout
-                            android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:orientation="vertical">
 
                 <!-- 我的钱包 -->
                 <LinearLayout
                                 android:id="@+id/llMyWallet"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                                android:layout_height="50dp"
                                 android:clickable="true"
                                 android:focusable="true"
                                 android:foreground="?android:attr/selectableItemBackground"
@@ -467,9 +492,9 @@
                                 android:paddingStart="16dp"
                                 android:paddingEnd="16dp">
 
-                                <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                                     android:layout_marginEnd="12dp"
                                     android:src="@mipmap/my_wallet_icon" />
 
@@ -498,39 +523,39 @@
                                 android:background="@drawable/divider_horizontal" />
 
                             <!-- 我的认证 -->
-                            <LinearLayout
+                <LinearLayout
                                 android:id="@+id/llMyVerification"
-                                android:layout_width="match_parent"
+                    android:layout_width="match_parent"
                                 android:layout_height="50dp"
                                 android:clickable="true"
                                 android:focusable="true"
                                 android:foreground="?android:attr/selectableItemBackground"
                                 android:gravity="center_vertical"
-                                android:orientation="horizontal"
+                    android:orientation="horizontal"
                                 android:paddingStart="16dp"
                                 android:paddingEnd="16dp">
 
-                                <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                                     android:layout_marginEnd="12dp"
                                     android:src="@mipmap/my_certification_icon" />
 
                                 <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                                     android:text="我的认证"
                                     android:textColor="@color/text_primary_dark"
                                     android:textSize="16sp" />
 
-                                <ImageView
+                    <ImageView
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:src="@mipmap/arrow_right_icon"
                                     android:tint="@color/text_hint_light" />
 
-                            </LinearLayout>
+                </LinearLayout>
 
                             <!-- 分割线 -->
                 <View
@@ -541,84 +566,85 @@
                                 android:background="@drawable/divider_horizontal" />
 
                             <!-- 我的缘份 -->
-                            <LinearLayout
+                <LinearLayout
                                 android:id="@+id/llMyFate"
-                                android:layout_width="match_parent"
+                    android:layout_width="match_parent"
                                 android:layout_height="50dp"
                                 android:clickable="true"
                                 android:focusable="true"
                                 android:foreground="?android:attr/selectableItemBackground"
                                 android:gravity="center_vertical"
-                                android:orientation="horizontal"
+                    android:orientation="horizontal"
                                 android:paddingStart="16dp"
                                 android:paddingEnd="16dp">
 
-                                <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                                     android:layout_marginEnd="12dp"
-                                    android:src="@mipmap/my_yuan_icon"/>
+                                    android:src="@mipmap/my_yuan_icon" />
 
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                                     android:text="我的缘份"
                                     android:textColor="@color/text_primary_dark"
                                     android:textSize="16sp" />
 
-                                <ImageView
+                    <ImageView
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:src="@mipmap/arrow_right_icon"
                                     android:tint="@color/text_hint_light" />
 
-                            </LinearLayout>
+                </LinearLayout>
 
                             <!-- 分割线 -->
-                            <View
-                                android:layout_width="match_parent"
+                <View
+                    android:layout_width="match_parent"
                                 android:layout_height="1px"
                                 android:layout_marginStart="16dp"
                                 android:layout_marginEnd="16dp"
                                 android:background="@drawable/divider_horizontal" />
 
-                            <!-- 设置 -->
-                            <LinearLayout
+                <!-- 设置 -->
+                <LinearLayout
                                 android:id="@+id/llSettings"
-                                android:layout_width="match_parent"
-                                android:layout_height="56dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
                                 android:clickable="true"
                                 android:focusable="true"
                                 android:foreground="?android:attr/selectableItemBackground"
                                 android:gravity="center_vertical"
-                                android:orientation="horizontal"
+                    android:orientation="horizontal"
                                 android:paddingStart="16dp"
                                 android:paddingEnd="16dp">
 
-                                <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                                     android:layout_marginEnd="12dp"
                                     android:src="@mipmap/my_setting_icon" />
 
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="设置"
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="设置"
                                     android:textColor="@color/text_primary_dark"
                                     android:textSize="16sp" />
 
-                                <ImageView
+                    <ImageView
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:src="@mipmap/arrow_right_icon"
-                                    android:tint="@color/text_hint_light" />
+                                    android:tint="@color/text_hint_light"
+                                    tools:ignore="UseAppTint" />
 
-                            </LinearLayout>
+                </LinearLayout>
 
-                        </LinearLayout>
+            </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
