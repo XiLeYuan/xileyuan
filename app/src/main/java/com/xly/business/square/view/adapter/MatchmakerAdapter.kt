@@ -74,8 +74,13 @@ class MatchmakerAdapter(
             binding.ivVerified.visibility =
                 if (matchmaker.isVerified) View.VISIBLE else View.GONE
 
-            // 评分 - 使用5个icon显示，根据评分绘制颜色
-            setupRatingStars(binding.llRatingStars, matchmaker.rating)
+            // 评分 - 使用1个icon显示，根据评分绘制颜色
+            val orangeColor = ContextCompat.getColor(binding.root.context, R.color.brand_orange)
+            val grayColor = ContextCompat.getColor(binding.root.context, R.color.text_hint)
+            // 根据评分设置icon颜色（评分>=4.0显示橘色，否则显示灰色）
+            binding.ivRatingIcon.setColorFilter(
+                if (matchmaker.rating >= 4.0f) orangeColor else grayColor
+            )
             
             // 评分文本
             binding.tvRating.text = String.format("%.1f", matchmaker.rating)
@@ -92,8 +97,8 @@ class MatchmakerAdapter(
             // 标签
             setupTags(binding.llTags, matchmaker.tags)
 
-            // 用户数量按钮点击事件（替代查看用户资源入口）
-            binding.llUserCount.setOnClickListener {
+            // 查看详情按钮点击事件
+            binding.llViewDetails.setOnClickListener {
                 onViewDetailsClick(matchmaker)
             }
 
@@ -158,17 +163,18 @@ class MatchmakerAdapter(
         }
 
         private fun setupUserCount(textView: TextView, userCount: Int) {
-            val text = "${userCount}位用户"
+            // 数字和文案之间保持一个空格
+            val text = "${userCount} 位用户"
             val spannableString = SpannableString(text)
             
             // 找到数字的起始和结束位置
             val numberStart = 0
             val numberEnd = userCount.toString().length
             
-            // 设置数字颜色为接近黑色
-            val darkColor = ContextCompat.getColor(textView.context, R.color.text_primary_dark)
+            // 设置数字颜色为橘色
+            val orangeColor = ContextCompat.getColor(textView.context, R.color.brand_orange)
             spannableString.setSpan(
-                ForegroundColorSpan(darkColor),
+                ForegroundColorSpan(orangeColor),
                 numberStart,
                 numberEnd,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -182,9 +188,9 @@ class MatchmakerAdapter(
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             
-            // 设置数字字体加粗
+            // 设置数字字体为斜体加粗
             spannableString.setSpan(
-                StyleSpan(android.graphics.Typeface.BOLD),
+                StyleSpan(android.graphics.Typeface.BOLD_ITALIC),
                 numberStart,
                 numberEnd,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE

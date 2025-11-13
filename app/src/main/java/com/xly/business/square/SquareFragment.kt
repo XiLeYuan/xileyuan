@@ -48,7 +48,7 @@ class SquareFragment : LYBaseFragment<FragmentSquareBinding, RecommendViewModel>
         LikeFragment()
     )
 
-    private val tabTitles = listOf("今日精选", "红娘","动态","婚庆")
+    private val tabTitles = listOf("今日精选", "红娘","动态","发现")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewBind.viewPager.adapter = object : FragmentStateAdapter(this) {
