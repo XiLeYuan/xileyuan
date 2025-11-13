@@ -558,8 +558,7 @@
                                     android:layout_width="24dp"
                                     android:layout_height="24dp"
                                     android:layout_marginEnd="12dp"
-                                    android:src="@mipmap/yuan_icon"
-                                    android:tint="@color/brand_primary" />
+                                    android:src="@mipmap/my_yuan_icon"/>
 
                                 <TextView
                                     android:layout_width="0dp"
