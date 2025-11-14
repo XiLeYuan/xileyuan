@@ -163,7 +163,7 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
 
         // 我的认证点击
         viewBind.llMyVerification.setOnClickListener {
-            showToast("我的认证")
+            VerificationActivity.start(requireContext())
         }
 
         // 我的缘份点击

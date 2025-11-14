@@ -140,6 +140,11 @@
             android:exported="false"
             android:theme="@style/AppTheme" />
 
+        <activity
+            android:name="com.xly.business.user.view.VerificationActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+
 
     </application>
 
