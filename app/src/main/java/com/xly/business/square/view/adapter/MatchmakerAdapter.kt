@@ -74,17 +74,6 @@ class MatchmakerAdapter(
             binding.ivVerified.visibility =
                 if (matchmaker.isVerified) View.VISIBLE else View.GONE
 
-            // 评分 - 使用1个icon显示，根据评分绘制颜色
-            val orangeColor = ContextCompat.getColor(binding.root.context, R.color.brand_orange)
-            val grayColor = ContextCompat.getColor(binding.root.context, R.color.text_hint)
-            // 根据评分设置icon颜色（评分>=4.0显示橘色，否则显示灰色）
-            binding.ivRatingIcon.setColorFilter(
-                if (matchmaker.rating >= 4.0f) orangeColor else grayColor
-            )
-            
-            // 评分文本
-            binding.tvRating.text = String.format("%.1f", matchmaker.rating)
-
             // 用户数量 - 突出显示数字
             setupUserCount(binding.tvUserCount, matchmaker.userCount)
 

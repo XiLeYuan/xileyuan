@@ -29,7 +29,6 @@ class VerificationActivity : LYBaseActivity<ActivityVerificationBinding, LoginVi
 
     override fun initView() {
         super.initView()
-        setupToolbarPadding()
     }
 
     override fun inflateBinding(layoutInflater: LayoutInflater): ActivityVerificationBinding {
@@ -46,27 +45,8 @@ class VerificationActivity : LYBaseActivity<ActivityVerificationBinding, LoginVi
         }
     }
 
-    private fun setupToolbarPadding() {
-        // 获取状态栏高度并设置导航栏的paddingTop
-        viewBind.navigationBar.post {
-            val statusBarHeight = getStatusBarHeight()
-            viewBind.navigationBar.setPadding(
-                viewBind.navigationBar.paddingLeft,
-                statusBarHeight,
-                viewBind.navigationBar.paddingRight,
-                viewBind.navigationBar.paddingBottom
-            )
-        }
-    }
 
-    private fun getStatusBarHeight(): Int {
-        var result = 0
-        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-        if (resourceId > 0) {
-            result = resources.getDimensionPixelSize(resourceId)
-        }
-        return result
-    }
+
 
     private fun setupRecyclerView() {
         val verificationTypes = listOf(

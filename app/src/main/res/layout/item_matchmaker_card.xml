@@ -109,38 +109,6 @@
 
         </LinearLayout>
 
-        <!-- 评分 - 放在右上角（1个icon），与名字底部对齐 -->
-        <LinearLayout
-            android:id="@+id/llRatingContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="10dp"
-            tools:ignore="MissingConstraints">
-
-            <!-- 评分icon -->
-            <ImageView
-                android:id="@+id/ivRatingIcon"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:src="@mipmap/score_icon"
-                android:tint="@color/text_hint"
-                tools:ignore="UseAppTint" />
-
-            <!-- 分数文本 -->
-            <TextView
-                android:id="@+id/tvRating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="4.8"
-                android:textSize="@dimen/text_size_body_small"
-                android:textColor="@color/text_secondary" />
-
-        </LinearLayout>
-
         <!-- 简介 -->
         <TextView
             android:id="@+id/tvDescription"
