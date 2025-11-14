@@ -6,8 +6,6 @@
     android:background="@color/bg_primary"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-
     <!-- 导航栏 -->
     <RelativeLayout
         android:id="@+id/navBar"
@@ -15,15 +13,68 @@
         android:layout_height="50dp"
         android:layout_marginTop="34dp">
 
-        <TextView
-            android:id="@+id/titleName"
+        <!-- 自定义Tab容器 - 居中显示 -->
+        <FrameLayout
+            android:id="@+id/tabContainer"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
-            android:text="推荐"
-            android:textSize="@dimen/text_size_h2"
-            android:textColor="@color/text_primary_dark"/>
+            android:layout_height="35dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_tab_container"
+            android:padding="4dp"
+            android:clipToPadding="false"
+            android:clipChildren="false">
+
+            <!-- 滑动背景 -->
+            <View
+                android:id="@+id/tabSelectedBackground"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/bg_tab_selected"
+                android:visibility="invisible" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <!-- 推荐Tab -->
+                <TextView
+                    android:id="@+id/tabRecommend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="推荐"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_secondary"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:minWidth="60dp" />
+
+                <!-- 同乡Tab -->
+                <TextView
+                    android:id="@+id/tabHometown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="同乡"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_secondary"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:minWidth="60dp" />
+
+            </LinearLayout>
+
+        </FrameLayout>
 
         <!-- 筛选入口 -->
         <androidx.appcompat.widget.AppCompatImageView
@@ -42,73 +93,11 @@
 
     </RelativeLayout>
 
-    <!-- 卡片容器（包含卡片和悬浮按钮） -->
-    <FrameLayout
+    <!-- ViewPager2 -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <!-- 卡片堆叠视图 -->
-        <com.yuyakaido.android.cardstackview.CardStackView
-            android:id="@+id/cardStackView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <!-- 右侧操作按钮（悬浮在卡片上） -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|bottom"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="200dp"
-            android:baselineAligned="false"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:elevation="8dp">
-
-        <RelativeLayout
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:background="@drawable/black_circle_bg">
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/unLikeIv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/cancel_icon" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:background="@drawable/black_circle_bg"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp">
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/likeIv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/like_icon"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:background="@drawable/black_circle_bg">
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/chatImg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/chat_hi" />
-        </RelativeLayout>
-
-        </LinearLayout>
-
-    </FrameLayout>
+        android:layout_weight="1" />
 
 </LinearLayout>
