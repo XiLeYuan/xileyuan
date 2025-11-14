@@ -36,6 +36,8 @@
     <color name="brand_accent">#4ECDC4</color>
     <color name="brand_secondary">#FFD93D</color>
     <color name="brand_orange">#FF8C42</color>
+    <color name="tag_text_coral">#FF6B6B</color>
+    <color name="tag_text_brown">#8B4513</color>
 
     <!-- 禁用色 -->
     <color name="text_disabled">#CCCCCC</color>

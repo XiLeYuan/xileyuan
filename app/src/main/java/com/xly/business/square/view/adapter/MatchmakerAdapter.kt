@@ -116,6 +116,10 @@ class MatchmakerAdapter(
                 val tagView = TextView(container.context).apply {
                     text = tag
                     textSize = 11f
+                    setTextColor(ContextCompat.getColor(
+                        context,
+                        R.color.text_secondary
+                    ))
                     background = ContextCompat.getDrawable(
                         context,
                         R.drawable.tag_background

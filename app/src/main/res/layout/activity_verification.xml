@@ -73,17 +73,15 @@
     </androidx.core.widget.NestedScrollView>
 
     <!-- 导航栏 -->
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/navigationBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@android:color/transparent"
         android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="0dp"
-        android:paddingBottom="12dp">
+        android:paddingEnd="16dp">
 
         <ImageView
             android:id="@+id/ivBack"
@@ -93,9 +91,21 @@
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_centerVertical="true"
             android:contentDescription="返回" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/titleNameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的认证"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@id/ivBack"
+            android:textColor="@color/white"
+            android:textSize="18sp"/>
+
+    </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
