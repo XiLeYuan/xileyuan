@@ -137,7 +137,7 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
     override fun initOnClick() {
         // 筛选入口点击事件
         viewBind.ivFilter.click {
-            // TODO: 打开筛选页面或弹窗
+            showFilterDialog()
         }
         
         viewBind.chatImg.click {
@@ -319,6 +319,19 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding,RecommendViewM
     private fun resetButtonState() {
         viewBind.likeIv.alpha = defaultAlpha
         viewBind.unLikeIv.alpha = defaultAlpha
+    }
+
+    /**
+     * 显示筛选对话框
+     */
+    private fun showFilterDialog() {
+        val filterDialog = FilterBottomSheetDialogFragment.newInstance()
+        filterDialog.onConfirmClick = { options ->
+            // TODO: 根据筛选条件过滤数据
+            Log.d("RecommendFragment", "筛选条件: $options")
+            // 这里可以根据筛选条件重新加载数据
+        }
+        filterDialog.show(parentFragmentManager, "FilterBottomSheetDialogFragment")
     }
 
 }

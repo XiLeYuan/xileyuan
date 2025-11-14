@@ -157,4 +157,15 @@
         <item name="android:backgroundDimAmount">0.6</item>
     </style>
 
+    <!-- 底部弹窗出现动画 -->
+    <style name="BottomSheetAnimation" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/slide_up_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/slide_down_fade_out</item>
+    </style>
+
+    <!-- 底部弹窗消失动画 -->
+    <style name="BottomSheetDismissAnimation" parent="@android:style/Animation">
+        <item name="android:windowExitAnimation">@anim/slide_down_fade_out</item>
+    </style>
+
 </resources>
