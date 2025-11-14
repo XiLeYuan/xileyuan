@@ -72,34 +72,27 @@ class CherryPickAdapter(
             // 认证标识显示（暂时默认显示，后续可以从user添加isVerified字段控制）
             binding.ivVerified.visibility = View.VISIBLE
 
-            // 家乡和居住地（替换原有的位置信息）
-            val locationText = buildString {
-                if (user.hometown.isNotEmpty()) {
-                    append("家乡：${user.hometown}")
-                }
-                if (user.hometown.isNotEmpty() && user.residence.isNotEmpty()) {
-                    append(" ")
-                }
-                if (user.residence.isNotEmpty()) {
-                    append("居住地：${user.residence}")
-                }
-                // 如果家乡和居住地都为空，则显示原来的位置信息
-                if (user.hometown.isEmpty() && user.residence.isEmpty()) {
-                    append(user.location)
-                }
-            }
-            binding.tvLocation.text = locationText
-
-            // 精选标签（使用selectionReason）
-            if (user.selectionReason.isNotEmpty()) {
-                binding.tvSelectionTag.text = user.selectionReason
-                binding.tvSelectionTag.visibility = View.VISIBLE
+            // 家乡和居住地
+            if (user.hometown.isNotEmpty()) {
+                binding.llHometown.visibility = View.VISIBLE
+                binding.tvHometown.text = "家乡${user.hometown}"
             } else {
-                binding.tvSelectionTag.visibility = View.GONE
+                binding.llHometown.visibility = View.GONE
             }
 
-            // 精选描述
-            binding.tvSelectionDescription.text = user.selectionDescription
+            if (user.residence.isNotEmpty()) {
+                binding.llResidence.visibility = View.VISIBLE
+                binding.tvResidence.text = "居住地${user.residence}"
+            } else {
+                binding.llResidence.visibility = View.GONE
+            }
+
+            // 如果家乡和居住地都为空，隐藏整个容器
+            if (user.hometown.isEmpty() && user.residence.isEmpty()) {
+                binding.llLocationContainer.visibility = View.GONE
+            } else {
+                binding.llLocationContainer.visibility = View.VISIBLE
+            }
 
             // 标签（显示学历、收入、颜值、身高等关键信息）
             if (user.tags.isNotEmpty()) {
@@ -107,12 +100,6 @@ class CherryPickAdapter(
                 setupTags(binding.llTags, user.tags)
             } else {
                 binding.llTags.visibility = View.GONE
-            }
-
-            // 匹配度（如果有）
-            user.matchScore?.let { score ->
-                binding.tvSelectionDescription.text =
-                    "${user.selectionDescription}（匹配度：${score.toInt()}%）"
             }
 
             // 送花/送爱心入口点击事件
@@ -137,11 +124,11 @@ class CherryPickAdapter(
                     textSize = 11f
                     setTextColor(ContextCompat.getColor(
                         context,
-                        R.color.text_secondary
+                        android.R.color.white
                     ))
                     background = ContextCompat.getDrawable(
                         context,
-                        R.drawable.tag_background
+                        R.drawable.tag_background_black_transparent
                     )
                     setPadding(8.dpToPx(), 4.dpToPx(), 8.dpToPx(), 4.dpToPx())
 

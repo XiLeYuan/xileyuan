@@ -14,47 +14,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- 用户头像区域 -->
+        <!-- 用户头像区域 - 占满整个卡片，宽高比4:5 -->
         <ImageView
             android:id="@+id/ivAvatar"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
             android:src="@mipmap/head_img"
-            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintDimensionRatio="4:5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- 精选标签 - 显示在图片右下角 -->
-        <TextView
-            android:id="@+id/tvSelectionTag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <!-- 底部渐变阴影层 -->
+        <View
+            android:id="@+id/vGradientShadow"
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:background="@drawable/bg_gradient_shadow_bottom"
+            app:layout_constraintStart_toStartOf="@id/ivAvatar"
             app:layout_constraintEnd_toEndOf="@id/ivAvatar"
-            app:layout_constraintBottom_toBottomOf="@id/ivAvatar"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/tag_background_orange"
-            android:alpha="0.7"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:text="官方推荐"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"
-            android:visibility="gone" />
+            app:layout_constraintBottom_toBottomOf="@id/ivAvatar" />
 
-        <!-- 用户信息区域 -->
+        <!-- 基本信息容器 - 显示在图片左下角的阴影层上 -->
         <LinearLayout
+            android:id="@+id/llInfoContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="12dp"
-            app:layout_constraintTop_toBottomOf="@id/ivAvatar"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="20dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/ivAvatar"
+            android:layout_marginBottom="8dp">
 
             <!-- 姓名和年龄 -->
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -70,9 +65,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:text="小美，25岁"
-                    android:textSize="@dimen/text_size_h4"
+                    android:textSize="22sp"
                     android:textStyle="bold"
-                    android:textColor="@color/text_primary" />
+                    android:textColor="@android:color/white" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivVerified"
@@ -102,28 +97,67 @@
 
             <!-- 家乡和居住地 -->
             <LinearLayout
+                android:id="@+id/llLocationContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="6dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
 
-                <ImageView
-                    android:id="@+id/ivLocation"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@mipmap/location_icon"
-                    android:scaleType="fitCenter"
-                    android:contentDescription="位置" />
-
-                <TextView
-                    android:id="@+id/tvLocation"
+                <!-- 家乡 -->
+                <LinearLayout
+                    android:id="@+id/llHometown"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="家乡：河北 居住地：北京"
-                    android:textSize="@dimen/text_size_body_small"
-                    android:textColor="@color/text_secondary" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/ivHometown"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:src="@mipmap/home_town_icon"
+                        android:scaleType="fitCenter"
+                        android:contentDescription="家乡" />
+
+                    <TextView
+                        android:id="@+id/tvHometown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="家乡河北"
+                        android:textSize="14sp"
+                        android:textColor="@android:color/white" />
+                </LinearLayout>
+
+                <!-- 居住地 -->
+                <LinearLayout
+                    android:id="@+id/llResidence"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/ivResidence"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:src="@mipmap/residence_icon"
+                        android:scaleType="fitCenter"
+                        android:contentDescription="居住地" />
+
+                    <TextView
+                        android:id="@+id/tvResidence"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="居住地北京"
+                        android:textSize="14sp"
+                        android:textColor="@android:color/white" />
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -132,30 +166,13 @@
                 android:id="@+id/llTags"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
                 android:orientation="horizontal"
                 android:visibility="gone">
 
             </LinearLayout>
 
-            <!-- 精选特色话术 -->
-            <TextView
-                android:id="@+id/tvSelectionDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="根据您的偏好，为您精准匹配"
-                android:textSize="@dimen/text_size_body_small"
-                android:textColor="@color/text_secondary"
-                android:maxLines="2"
-                android:ellipsize="end"
-                android:lineSpacingExtra="4dp" />
-
         </LinearLayout>
-
-
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
