@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_bottom_sheet_rounded"
-    android:paddingTop="24dp"
+    android:paddingTop="48dp"
     android:paddingBottom="24dp">
 
     <!-- 关闭按钮（左边） -->
@@ -19,7 +19,8 @@
         android:focusable="true"
         android:padding="4dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="24dp"/>
 
     <!-- 标题 -->
     <TextView
@@ -32,7 +33,8 @@
         android:textColor="@color/text_primary_dark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="24dp"/>
 
     <!-- 内容区域（可滚动） -->
     <androidx.core.widget.NestedScrollView
