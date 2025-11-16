@@ -22,7 +22,12 @@ class ProfileRepository {
             likesCount = 128,
             visitorsCount = 56,
             popularityScore = 89,
-            interactionsCount = 234
+            interactionsCount = 234,
+            likedPeopleCount = 128,
+            likedPeopleNewCount = 0, // 由Fragment中的mock数据提供
+            whoLikedMeCount = 89,
+            whoLikedMeNewCount = 0, // 由Fragment中的mock数据提供
+            visitorsNewCount = 0 // 由Fragment中的mock数据提供
         )
     }
 }

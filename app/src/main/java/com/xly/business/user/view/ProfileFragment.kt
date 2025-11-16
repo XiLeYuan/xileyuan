@@ -39,6 +39,8 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
         loadUserProfile()
         loadProfileStats()
         setupFateButtonAnimation()
+        // Mock并显示角标
+        mockAndShowBadges()
     }
 
     override fun onResume() {
@@ -95,6 +97,8 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
         // 观察统计数据
         viewModel.profileStatsLiveData.observe(viewLifecycleOwner, Observer { stats ->
             updateProfileStats(stats)
+            // 数据加载完成后，确保显示mock的角标
+            mockAndShowBadges()
         })
     }
 
@@ -127,9 +131,6 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
         viewBind.tvLikedPeopleCount.typeface = LYFontUtil.getMediumFont(requireContext())
         viewBind.tvVisitorsCount.typeface = LYFontUtil.getMediumFont(requireContext())
         viewBind.tvWhoLikedMeCount.typeface = LYFontUtil.getMediumFont(requireContext())
-        
-        // 设置角标（示例数据，实际应该从服务器获取）
-        updateBadges(5, 3, 8) // 喜欢的人新增5，访客新增3，谁喜欢我新增8
     }
     
     /**
@@ -157,8 +158,11 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
             badgeView.visibility = View.VISIBLE
             // 如果数量大于99，显示"99+"
             badgeView.text = if (newCount > 99) "99+" else newCount.toString()
+            // 调试日志
+            android.util.Log.d("ProfileFragment", "角标显示: view=${badgeView.id}, count=$newCount, visibility=${badgeView.visibility}, text=${badgeView.text}")
         } else {
             badgeView.visibility = View.GONE
+            android.util.Log.d("ProfileFragment", "角标隐藏: view=${badgeView.id}")
         }
     }
 
@@ -549,12 +553,24 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
         viewBind.tvVisitorsCount.text = stats.visitorsCount.toString()
         viewBind.tvWhoLikedMeCount.text = stats.whoLikedMeCount.toString()
         
-        // 更新角标（从统计数据中获取新增数量）
-        updateBadges(
-            stats.likedPeopleNewCount,
-            stats.visitorsNewCount,
-            stats.whoLikedMeNewCount
-        )
+        // 角标由mockAndShowBadges()单独处理，这里不更新角标
+        // 这样可以确保mock数据不会被覆盖
+    }
+    
+    /**
+     * Mock增量数据并显示角标
+     */
+    private fun mockAndShowBadges() {
+        // Mock一些增量数字
+        val likedPeopleNewCount = Random.nextInt(1, 10) // 1-9之间的随机数
+        val visitorsNewCount = Random.nextInt(1, 15) // 1-14之间的随机数
+        val whoLikedMeNewCount = Random.nextInt(1, 20) // 1-19之间的随机数
+        
+        // 显示角标
+        updateBadges(likedPeopleNewCount, visitorsNewCount, whoLikedMeNewCount)
+        
+        // 调试日志
+        android.util.Log.d("ProfileFragment", "角标更新: 喜欢的人=$likedPeopleNewCount, 访客=$visitorsNewCount, 谁喜欢我=$whoLikedMeNewCount")
     }
 
     override fun inflateBinding(

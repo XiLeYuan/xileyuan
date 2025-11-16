@@ -174,11 +174,17 @@
                             android:clickable="true"
                             android:focusable="true"
                             android:gravity="center"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:clipChildren="false"
+                            android:clipToPadding="false"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="8dp">
 
                             <FrameLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:clipChildren="false"
+                                android:clipToPadding="false">
 
                                 <TextView
                                     android:id="@+id/tvLikedPeopleCount"
@@ -193,18 +199,21 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="top|end"
-                                    android:layout_marginStart="4dp"
-                                    android:layout_marginTop="-4dp"
+                                    android:layout_marginEnd="-8dp"
+                                    android:layout_marginTop="-8dp"
                                     android:background="@drawable/bg_badge_red"
-                                    android:minWidth="18dp"
-                                    android:minHeight="18dp"
+                                    android:minWidth="16dp"
+                                    android:minHeight="10dp"
                                     android:gravity="center"
-                                    android:paddingStart="4dp"
-                                    android:paddingEnd="4dp"
+                                    android:paddingStart="3dp"
+                                    android:paddingEnd="3dp"
+                                    android:paddingTop="1dp"
+                                    android:paddingBottom="1dp"
                                     android:text=""
                                     android:textColor="@android:color/white"
-                                    android:textSize="10sp"
+                                    android:textSize="8sp"
                                     android:textStyle="bold"
+                                    android:elevation="2dp"
                                     android:visibility="gone" />
 
                             </FrameLayout>
@@ -237,11 +246,17 @@
                             android:clickable="true"
                             android:focusable="true"
                             android:gravity="center"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:clipChildren="false"
+                            android:clipToPadding="false"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="8dp">
 
                             <FrameLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:clipChildren="false"
+                                android:clipToPadding="false">
 
                                 <TextView
                                     android:id="@+id/tvVisitorsCount"
@@ -256,18 +271,21 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="top|end"
-                                    android:layout_marginStart="4dp"
-                                    android:layout_marginTop="-4dp"
+                                    android:layout_marginEnd="-8dp"
+                                    android:layout_marginTop="-8dp"
                                     android:background="@drawable/bg_badge_red"
-                                    android:minWidth="18dp"
-                                    android:minHeight="18dp"
+                                    android:minWidth="16dp"
+                                    android:minHeight="10dp"
                                     android:gravity="center"
-                                    android:paddingStart="4dp"
-                                    android:paddingEnd="4dp"
+                                    android:paddingStart="3dp"
+                                    android:paddingEnd="3dp"
+                                    android:paddingTop="1dp"
+                                    android:paddingBottom="1dp"
                                     android:text=""
                                     android:textColor="@android:color/white"
-                                    android:textSize="10sp"
+                                    android:textSize="8sp"
                                     android:textStyle="bold"
+                                    android:elevation="2dp"
                                     android:visibility="gone" />
 
                             </FrameLayout>
@@ -300,11 +318,17 @@
                             android:clickable="true"
                             android:focusable="true"
                             android:gravity="center"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:clipChildren="false"
+                            android:clipToPadding="false"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="8dp">
 
                             <FrameLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:clipChildren="false"
+                                android:clipToPadding="false">
 
                                 <TextView
                                     android:id="@+id/tvWhoLikedMeCount"
@@ -319,18 +343,21 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="top|end"
-                                    android:layout_marginStart="4dp"
-                                    android:layout_marginTop="-4dp"
+                                    android:layout_marginEnd="-8dp"
+                                    android:layout_marginTop="-8dp"
                                     android:background="@drawable/bg_badge_red"
-                                    android:minWidth="18dp"
-                                    android:minHeight="18dp"
+                                    android:minWidth="16dp"
+                                    android:minHeight="10dp"
                                     android:gravity="center"
-                                    android:paddingStart="4dp"
-                                    android:paddingEnd="4dp"
+                                    android:paddingStart="3dp"
+                                    android:paddingEnd="3dp"
+                                    android:paddingTop="1dp"
+                                    android:paddingBottom="1dp"
                                     android:text=""
                                     android:textColor="@android:color/white"
-                                    android:textSize="10sp"
+                                    android:textSize="8sp"
                                     android:textStyle="bold"
+                                    android:elevation="2dp"
                                     android:visibility="gone" />
 
                             </FrameLayout>
