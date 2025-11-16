@@ -298,7 +298,7 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
         fateDialog = Dialog(requireContext(), R.style.FateCardDialogStyle).apply {
             setContentView(dialogBinding.root)
             setCancelable(true)
-            setCanceledOnTouchOutside(true)
+            setCanceledOnTouchOutside(false) // 点击外部不关闭
             window?.setBackgroundDrawableResource(android.R.color.transparent)
             
             // 设置Dialog宽度为屏幕的80%（5分之4）
@@ -337,10 +337,16 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
      * 绑定缘分用户数据
      */
     private fun bindFateUserData(binding: DialogFateUserCardBinding, user: UserCard) {
-        binding.tvName.text = user.name
-        binding.tvAge.text = "${user.age}岁"
-        binding.tvLocation.text = user.location
-        binding.tvBio.text = user.bio.ifEmpty { "根据您的偏好，为您精准匹配" }
+        // 姓名和年龄合并显示，用逗号隔开
+        binding.tvNameAge.text = "${user.name}，${user.age}岁"
+        // 设置字体样式
+        binding.tvNameAge.typeface = LYFontUtil.getMediumFont(requireContext())
+        
+        // 设置认证标识（在年龄后面）- 默认显示
+        binding.verifyIv.visibility = View.VISIBLE
+        
+        // 设置家乡和现居地
+        setupLocationTags(binding, user.hometown, user.residence)
         
         // 设置头像
         val avatarResId = resources.getIdentifier(
@@ -354,9 +360,38 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
 
         // 设置标签
         setupTags(binding.llTags, user.tags)
-
-        // 设置认证标识
-        binding.verifyIv.visibility = if (Random.nextBoolean()) View.VISIBLE else View.GONE
+    }
+    
+    /**
+     * 设置家乡和现居地标签
+     */
+    private fun setupLocationTags(binding: DialogFateUserCardBinding, hometown: String, residence: String) {
+        // 设置家乡
+        if (hometown.isNotEmpty()) {
+            binding.llHometown.visibility = View.VISIBLE
+            binding.tvHometown.text = hometown
+            binding.tvHometownDot.visibility = View.VISIBLE
+        } else {
+            binding.llHometown.visibility = View.GONE
+            binding.tvHometownDot.visibility = View.GONE
+        }
+        
+        // 设置现居地
+        if (residence.isNotEmpty()) {
+            binding.llResidence.visibility = View.VISIBLE
+            binding.tvResidence.text = residence
+            binding.tvResidenceDot.visibility = View.VISIBLE
+        } else {
+            binding.llResidence.visibility = View.GONE
+            binding.tvResidenceDot.visibility = View.GONE
+        }
+        
+        // 如果家乡和现居地都为空，隐藏整个容器
+        if (hometown.isEmpty() && residence.isEmpty()) {
+            binding.llLocationContainer.visibility = View.GONE
+        } else {
+            binding.llLocationContainer.visibility = View.VISIBLE
+        }
     }
 
     /**
@@ -380,6 +415,18 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
                 tvTag.text = tag
                 // 设置橘色背景（用于随缘卡片）
                 tvTag.background = ContextCompat.getDrawable(requireContext(), R.drawable.tag_background_orange)
+                // 缩小标签：减小字体大小和padding
+                tvTag.textSize = 10f
+                tvTag.setPadding(
+                    (8 * resources.displayMetrics.density).toInt(),
+                    (3 * resources.displayMetrics.density).toInt(),
+                    (8 * resources.displayMetrics.density).toInt(),
+                    (3 * resources.displayMetrics.density).toInt()
+                )
+                // 减小标签之间的间距
+                val layoutParams = tagView.layoutParams as? android.view.ViewGroup.MarginLayoutParams
+                layoutParams?.marginEnd = (4 * resources.displayMetrics.density).toInt()
+                layoutParams?.bottomMargin = (4 * resources.displayMetrics.density).toInt()
                 tagContainer.addView(tagView)
             }
         } else {
