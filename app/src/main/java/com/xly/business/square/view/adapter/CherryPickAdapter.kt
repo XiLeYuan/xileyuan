@@ -72,22 +72,26 @@ class CherryPickAdapter(
             // 认证标识显示（暂时默认显示，后续可以从user添加isVerified字段控制）
             binding.ivVerified.visibility = View.VISIBLE
 
-            // 家乡和居住地
+            // 家乡和现居地
             if (user.hometown.isNotEmpty()) {
                 binding.llHometown.visibility = View.VISIBLE
-                binding.tvHometown.text = "家乡${user.hometown}"
+                binding.tvHometown.text = user.hometown
+                binding.tvHometownDot.visibility = View.VISIBLE
             } else {
                 binding.llHometown.visibility = View.GONE
+                binding.tvHometownDot.visibility = View.GONE
             }
 
             if (user.residence.isNotEmpty()) {
                 binding.llResidence.visibility = View.VISIBLE
-                binding.tvResidence.text = "居住地${user.residence}"
+                binding.tvResidence.text = user.residence
+                binding.tvResidenceDot.visibility = View.VISIBLE
             } else {
                 binding.llResidence.visibility = View.GONE
+                binding.tvResidenceDot.visibility = View.GONE
             }
 
-            // 如果家乡和居住地都为空，隐藏整个容器
+            // 如果家乡和现居地都为空，隐藏整个容器
             if (user.hometown.isEmpty() && user.residence.isEmpty()) {
                 binding.llLocationContainer.visibility = View.GONE
             } else {

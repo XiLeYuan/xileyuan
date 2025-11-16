@@ -81,6 +81,8 @@ class UserCardAdapter(
         val llResidence: android.widget.LinearLayout = itemView.findViewById(R.id.llResidence)
         val tvHometown: TextView = itemView.findViewById(R.id.tvHometown)
         val tvResidence: TextView = itemView.findViewById(R.id.tvResidence)
+        val tvHometownDot: TextView = itemView.findViewById(R.id.tvHometownDot)
+        val tvResidenceDot: TextView = itemView.findViewById(R.id.tvResidenceDot)
 
 
         fun bind(userCard: UserCard) {
@@ -110,20 +112,24 @@ class UserCardAdapter(
             // 设置家乡
             if (hometown.isNotEmpty()) {
                 llHometown.visibility = View.VISIBLE
-                tvHometown.text = "家乡$hometown"
+                tvHometown.text = hometown
+                tvHometownDot.visibility = View.VISIBLE
             } else {
                 llHometown.visibility = View.GONE
+                tvHometownDot.visibility = View.GONE
             }
             
-            // 设置居住地
+            // 设置现居地
             if (residence.isNotEmpty()) {
                 llResidence.visibility = View.VISIBLE
-                tvResidence.text = "居住地$residence"
+                tvResidence.text = residence
+                tvResidenceDot.visibility = View.VISIBLE
             } else {
                 llResidence.visibility = View.GONE
+                tvResidenceDot.visibility = View.GONE
             }
             
-            // 如果家乡和居住地都为空，隐藏整个容器
+            // 如果家乡和现居地都为空，隐藏整个容器
             if (hometown.isEmpty() && residence.isEmpty()) {
                 llLocationContainer.visibility = View.GONE
             } else {

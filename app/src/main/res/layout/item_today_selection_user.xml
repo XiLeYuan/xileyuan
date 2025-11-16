@@ -122,16 +122,36 @@
                         android:contentDescription="家乡" />
 
                     <TextView
-                        android:id="@+id/tvHometown"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:text="家乡河北"
+                        android:text="家乡"
+                        android:textSize="14sp"
+                        android:textColor="@android:color/white" />
+
+                    <!-- 圆点分隔符（家乡和地点之间） -->
+                    <TextView
+                        android:id="@+id/tvHometownDot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="2dp"
+                        android:text="·"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/white"
+                        android:gravity="center"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tvHometown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="河北"
                         android:textSize="14sp"
                         android:textColor="@android:color/white" />
                 </LinearLayout>
 
-                <!-- 居住地 -->
+                <!-- 现居地 -->
                 <LinearLayout
                     android:id="@+id/llResidence"
                     android:layout_width="wrap_content"
@@ -147,14 +167,34 @@
                         android:layout_height="14dp"
                         android:src="@mipmap/residence_icon"
                         android:scaleType="fitCenter"
-                        android:contentDescription="居住地" />
+                        android:contentDescription="现居地" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="现居地"
+                        android:textSize="14sp"
+                        android:textColor="@android:color/white" />
+
+                    <!-- 圆点分隔符（现居地和地点之间） -->
+                    <TextView
+                        android:id="@+id/tvResidenceDot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="2dp"
+                        android:text="·"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/white"
+                        android:gravity="center"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/tvResidence"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:text="居住地北京"
+                        android:text="北京"
                         android:textSize="14sp"
                         android:textColor="@android:color/white" />
                 </LinearLayout>
