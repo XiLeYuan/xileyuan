@@ -66,7 +66,8 @@ class CherryPickAdapter(
 
             // 姓名和年龄合并显示，用逗号隔开
             binding.tvNameAge.text = "${user.name}，${user.age}岁"
-            // 设置字体
+            // 设置字体大小和样式
+            binding.tvNameAge.textSize = 19f
             binding.tvNameAge.typeface = LYFontUtil.getMediumFont(binding.root.context)
 
             // 认证标识显示（暂时默认显示，后续可以从user添加isVerified字段控制）

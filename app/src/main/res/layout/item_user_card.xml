@@ -90,7 +90,7 @@
                         android:layout_height="wrap_content"
                         android:text="用户名，25岁"
                         android:textColor="@android:color/white"
-                        android:textSize="22sp"
+                        android:textSize="19sp"
                         android:textStyle="bold"
                         android:layout_centerVertical="true"/>
 

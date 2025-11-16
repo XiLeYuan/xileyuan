@@ -79,7 +79,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:text="小美，25岁"
-                    android:textSize="22sp"
+                    android:textSize="19sp"
                     android:textStyle="bold"
                     android:textColor="@android:color/white" />
 

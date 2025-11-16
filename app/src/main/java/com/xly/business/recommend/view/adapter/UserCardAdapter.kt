@@ -97,6 +97,9 @@ class UserCardAdapter(
 
             // 设置用户信息：姓名和年龄用逗号连接
             tvNameAge.text = "${userCard.name}，${userCard.age}岁"
+            // 设置字体大小和样式
+            tvNameAge.textSize = 19f
+            tvNameAge.typeface = com.xly.middlelibrary.utils.LYFontUtil.getMediumFont(itemView.context)
             
             // 设置认证标识显示（暂时默认显示，后续可以从userCard添加isVerified字段）
             verifyIv.visibility = View.VISIBLE
