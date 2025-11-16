@@ -75,34 +75,16 @@
 
 
                 <!-- 地址信息 - 放在名字下方 -->
-                <LinearLayout
-                    android:id="@+id/llLocation"
+                <TextView
+                    android:id="@+id/tvLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvName"
                     android:layout_marginTop="4dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:id="@+id/ivLocation"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@mipmap/location_icon"
-                        android:scaleType="fitCenter"
-                        android:contentDescription="位置" />
-
-                    <TextView
-                        android:id="@+id/tvLocation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:text="固始"
-                        android:textSize="@dimen/text_size_body_small"
-                        android:textColor="@color/text_secondary" />
-
-                </LinearLayout>
+                    android:text="固始"
+                    android:textSize="@dimen/text_size_body_small"
+                    android:textColor="@color/text_secondary" />
 
                 <!-- 关注按钮 - 右上角，与名字和地点整体竖直居中 -->
                 <LinearLayout
@@ -111,7 +93,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tvName"
-                    app:layout_constraintBottom_toBottomOf="@id/llLocation"
+                    app:layout_constraintBottom_toBottomOf="@id/tvLocation"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:background="@drawable/bg_follow_button"
@@ -134,7 +116,7 @@
                         android:id="@+id/tvFollowText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
+                        android:layout_marginStart="2dp"
                         android:text="关注"
                         android:textSize="12sp"
                         android:textColor="@color/brand_primary" />

@@ -70,10 +70,7 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="0dp"
-                android:paddingBottom="16dp"
+                android:padding="8dp"
                 android:clipToPadding="false" />
 
         </com.scwang.smart.refresh.layout.SmartRefreshLayout>

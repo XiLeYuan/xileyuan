@@ -138,7 +138,7 @@ class CherryPickAdapter(
                     textSize = 11f
                     setTextColor(ContextCompat.getColor(
                         context,
-                        android.R.color.white
+                        R.color.brand_primary
                     ))
                     background = ContextCompat.getDrawable(
                         context,

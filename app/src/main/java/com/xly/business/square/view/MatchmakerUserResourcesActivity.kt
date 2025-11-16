@@ -4,14 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.jspp.model.UserCard
 import com.xly.R
 import com.xly.base.LYBaseActivity
 import com.xly.business.recommend.viewmodel.RecommendViewModel
 import com.xly.business.square.model.Matchmaker
-import com.xly.business.square.view.adapter.MatchmakerUserAdapter
+import com.xly.business.recommend.view.HometownFragment
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import com.xly.business.user.LYUserDetailInfoActivity
 import com.xly.databinding.ActivityMatchmakerUserResourcesBinding
 import com.xly.middlelibrary.utils.MatchmakerMockData
@@ -19,12 +21,6 @@ import com.xly.middlelibrary.utils.MatchmakerMockData
 class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserResourcesBinding, RecommendViewModel>() {
 
     private lateinit var matchmaker: Matchmaker
-    private lateinit var userAdapter: MatchmakerUserAdapter
-    
-    private var currentPage = 1
-    private val pageSize = 20
-    private var isLoadingMore = false
-    private var hasMoreData = true
     
     private var isScrolling = false
     private val scrollHandler = android.os.Handler(android.os.Looper.getMainLooper())
@@ -61,7 +57,6 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
         setupRecyclerView()
         setupRefreshLayout()
         setupFloatingButton()
-        loadUserResources(isRefresh = false)
     }
 
     private fun setupToolbar() {
@@ -107,36 +102,40 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
 
 
     private fun setupRecyclerView() {
-        userAdapter = MatchmakerUserAdapter { userCard ->
-            // 点击用户卡片，跳转到用户详情页
+        // 使用同乡页面的适配器样式
+        val hometownAdapter = HometownFragment.HometownAdapter { user, avatarView ->
+            // 点击用户卡片，跳转到用户详情页（带转场动画）
             val intent = Intent(this, LYUserDetailInfoActivity::class.java).apply {
-                putExtra("user_id", userCard.id)
+                putExtra("user_id", user.id)
+                putExtra("user_name", user.name)
+                putExtra("user_avatar", user.avatar)
             }
-            startActivity(intent)
+
+            if (avatarView != null) {
+                val transitionName = "user_avatar_${user.id}"
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    this,
+                    Pair.create(avatarView, transitionName)
+                )
+                startActivity(intent, options.toBundle())
+            } else {
+                startActivity(intent)
+            }
         }
 
-        // 使用线性布局，单列列表
-        viewBind.recyclerView.layoutManager = LinearLayoutManager(this)
-        viewBind.recyclerView.adapter = userAdapter
+        // 使用网格布局，两列（同乡页面样式）
+        viewBind.recyclerView.layoutManager = GridLayoutManager(this, 2)
+        viewBind.recyclerView.adapter = hometownAdapter
         
-        // 添加间距
-        val spacing = 8.dpToPx()
-        viewBind.recyclerView.addItemDecoration(
-            object : androidx.recyclerview.widget.RecyclerView.ItemDecoration() {
-                override fun getItemOffsets(
-                    outRect: android.graphics.Rect,
-                    view: android.view.View,
-                    parent: androidx.recyclerview.widget.RecyclerView,
-                    state: androidx.recyclerview.widget.RecyclerView.State
-                ) {
-                    outRect.top = spacing
-                    outRect.bottom = spacing
-                }
-            }
-        )
+        // 设置 padding（同乡页面样式）
+        viewBind.recyclerView.setPadding(8.dpToPx(), 8.dpToPx(), 8.dpToPx(), 8.dpToPx())
+        viewBind.recyclerView.clipToPadding = false
         
         // 监听滚动状态，控制悬浮按钮显示/隐藏
         setupScrollListener()
+        
+        // 加载数据并转换为同乡页面的数据格式
+        loadUserResourcesForHometown(hometownAdapter)
     }
     
     private fun setupScrollListener() {
@@ -327,75 +326,47 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
         
         // 确保刷新功能启用
         viewBind.refreshLayout.setEnableRefresh(true)
-        viewBind.refreshLayout.setEnableLoadMore(true)
         
         // 下拉刷新
         viewBind.refreshLayout.setOnRefreshListener { refreshLayout ->
-            currentPage = 1
-            hasMoreData = true
-            loadUserResources(isRefresh = true) {
-                refreshLayout.finishRefresh()
+            // 重新加载数据
+            val adapter = viewBind.recyclerView.adapter as? HometownFragment.HometownAdapter
+            adapter?.let {
+                loadUserResourcesForHometown(it)
             }
+            refreshLayout.finishRefresh()
         }
         
-        // 加载更多
-        viewBind.refreshLayout.setOnLoadMoreListener { refreshLayout ->
-            if (!isLoadingMore && hasMoreData) {
-                currentPage++
-                loadUserResources(isRefresh = false) {
-                    refreshLayout.finishLoadMore(hasMoreData)
-                }
-            } else {
-                refreshLayout.finishLoadMore(!hasMoreData)
-            }
-        }
+        // 加载更多（暂时禁用，同乡页面样式不需要分页）
+        viewBind.refreshLayout.setEnableLoadMore(false)
     }
     
     private fun Int.dpToPx(): Int {
         return (this * resources.displayMetrics.density).toInt()
     }
 
-    private fun loadUserResources(isRefresh: Boolean, onComplete: (() -> Unit)? = null) {
-        if (isLoadingMore) {
-            onComplete?.invoke()
-            return
-        }
-        
-        isLoadingMore = true
-        
-        // TODO: 从ViewModel或API加载该红娘的用户资源
-        // 这里先用Mock数据模拟分页
+    private fun loadUserResourcesForHometown(adapter: HometownFragment.HometownAdapter) {
+        // 生成Mock用户资源数据并转换为同乡页面的数据格式
         val allMockUsers = generateMockUserResources(matchmaker.id)
-        val totalCount = allMockUsers.size
         
-        // 模拟分页数据
-        val startIndex = (currentPage - 1) * pageSize
-        val endIndex = minOf(startIndex + pageSize, totalCount)
-        val pageUsers = if (startIndex < totalCount) {
-            allMockUsers.subList(startIndex, endIndex)
-        } else {
-            emptyList()
+        // 转换为同乡页面的数据格式
+        val avatarResources = listOf(
+            "head_one", "head_two", "head_three", "head_four",
+            "head_five", "head_six", "head_seven", "head_eight"
+        )
+        
+        val hometownUsers = allMockUsers.mapIndexed { index, userCard ->
+            HometownFragment.HometownUser(
+                id = userCard.id,
+                name = userCard.name,
+                age = userCard.age,
+                avatar = avatarResources[index % avatarResources.size]
+            )
         }
         
-        // 模拟网络延迟
-        viewBind.recyclerView.postDelayed({
-            if (isRefresh) {
-                // 刷新：直接提交用户列表
-                userAdapter.submitList(pageUsers)
-            } else {
-                // 加载更多：追加数据
-                val currentList = userAdapter.currentList.toMutableList()
-                currentList.addAll(pageUsers)
-                userAdapter.submitList(currentList)
-            }
-            
-            // 判断是否还有更多数据
-            hasMoreData = endIndex < totalCount
-            
-            isLoadingMore = false
-            onComplete?.invoke()
-        }, 500) // 模拟500ms延迟
+        adapter.submitList(hometownUsers)
     }
+    
 
     /**
      * 生成Mock用户资源数据
