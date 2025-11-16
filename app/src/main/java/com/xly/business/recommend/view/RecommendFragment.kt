@@ -8,15 +8,12 @@ import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.xly.R
 import com.xly.base.LYBaseFragment
 import com.xly.business.recommend.viewmodel.RecommendViewModel
 import com.xly.databinding.FragmentRecommendBinding
-import com.xly.middlelibrary.utils.LYFontUtil
 import com.xly.middlelibrary.utils.click
 
 class RecommendFragment : LYBaseFragment<FragmentRecommendBinding, RecommendViewModel>() {
@@ -25,8 +22,6 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding, RecommendView
         RecommendContentFragment(),
         HometownFragment()
     )
-
-    private val tabTitles = listOf("推荐", "同乡")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -82,13 +77,13 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding, RecommendView
         viewBind.tabRecommend.setTextColor(
             ContextCompat.getColor(
                 requireContext(),
-                if (position == 0) android.R.color.white else R.color.text_secondary
+                if (position == 0) android.R.color.white else R.color.text_primary
             )
         )
         viewBind.tabHometown.setTextColor(
             ContextCompat.getColor(
                 requireContext(),
-                if (position == 1) android.R.color.white else R.color.text_secondary
+                if (position == 1) android.R.color.white else R.color.text_primary
             )
         )
         
@@ -102,7 +97,14 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding, RecommendView
         
         // 获取目标Tab的位置和尺寸
         targetTab.post {
-            val targetLeft = targetTab.left.toFloat()
+            // 获取Tab相对于容器的位置（使用getLocationOnScreen计算绝对位置，然后转换为相对位置）
+            val tabLocation = IntArray(2)
+            val containerLocation = IntArray(2)
+            targetTab.getLocationOnScreen(tabLocation)
+            container.getLocationOnScreen(containerLocation)
+            
+            // 计算Tab相对于容器的位置
+            val targetLeft = (tabLocation[0] - containerLocation[0]).toFloat()
             val targetWidth = targetTab.width.toFloat()
             
             // 计算容器的高度和选中背景应该的高度（容器高度减去padding）
