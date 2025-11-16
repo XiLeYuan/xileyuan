@@ -62,6 +62,11 @@ class UserCardAdapter(
         holder.arrowRightIv.click {
             onCardClickListener(userCard, holder.ivBackground)
         }
+
+        // 设置分享按钮点击事件
+        holder.ivShare.click {
+            // TODO: 实现分享功能
+        }
     }
 
     override fun getItemCount(): Int = cards.size
@@ -76,6 +81,7 @@ class UserCardAdapter(
         val tvBio: TextView = itemView.findViewById(R.id.tvBio)
         val tagContainer: FlexboxLayout = itemView.findViewById(R.id.tagContainer)
         val arrowRightIv: ImageView = itemView.findViewById(R.id.arrowRightIv)
+        val ivShare: ImageView = itemView.findViewById(R.id.ivShare)
         val llLocationContainer: android.widget.LinearLayout = itemView.findViewById(R.id.llLocationContainer)
         val llHometown: android.widget.LinearLayout = itemView.findViewById(R.id.llHometown)
         val llResidence: android.widget.LinearLayout = itemView.findViewById(R.id.llResidence)

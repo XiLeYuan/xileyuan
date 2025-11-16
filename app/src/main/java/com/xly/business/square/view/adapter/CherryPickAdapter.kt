@@ -98,6 +98,14 @@ class CherryPickAdapter(
                 binding.llLocationContainer.visibility = View.VISIBLE
             }
 
+            // 精选特色标签（右上角）
+            if (user.featureTags.isNotEmpty()) {
+                binding.llFeatureTags.visibility = View.VISIBLE
+                setupFeatureTags(binding.llFeatureTags, user.featureTags)
+            } else {
+                binding.llFeatureTags.visibility = View.GONE
+            }
+
             // 标签（显示学历、收入、颜值、身高等关键信息）
             if (user.tags.isNotEmpty()) {
                 binding.llTags.visibility = View.VISIBLE
@@ -117,6 +125,35 @@ class CherryPickAdapter(
             }
 
 
+        }
+
+        private fun setupFeatureTags(container: ViewGroup, tags: List<String>) {
+            container.removeAllViews()
+
+            if (tags.isNotEmpty()) {
+                // 将多个标签合并成一个文本，用圆点分隔
+                val mergedText = tags.joinToString(" · ")
+                val tagView = TextView(container.context).apply {
+                    text = mergedText
+                    textSize = 11f
+                    setTextColor(ContextCompat.getColor(
+                        context,
+                        android.R.color.white
+                    ))
+                    background = ContextCompat.getDrawable(
+                        context,
+                        R.drawable.bg_selected_tag
+                    )
+                    setPadding(10.dpToPx(), 4.dpToPx(), 10.dpToPx(), 4.dpToPx())
+                    setTypeface(typeface, android.graphics.Typeface.BOLD)
+
+                    layoutParams = ViewGroup.MarginLayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
+                }
+                container.addView(tagView)
+            }
         }
 
         private fun setupTags(container: ViewGroup, tags: List<String>) {

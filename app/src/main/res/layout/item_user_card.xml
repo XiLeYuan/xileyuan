@@ -36,6 +36,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
+        <!-- 分享按钮（右上角） -->
+        <ImageView
+            android:id="@+id/ivShare"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/ic_more_vert"
+            android:background="@drawable/black_circle_bg"
+            android:padding="6dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="分享"
+            app:tint="@android:color/white" />
+
         <!-- 用户信息容器 -->
         <LinearLayout
             android:layout_width="match_parent"

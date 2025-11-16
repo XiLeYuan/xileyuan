@@ -67,7 +67,10 @@ class RecommendContentFragment : Fragment() {
                 resetButtonState()
             }
 
-            override fun onCardAppeared(view: View, position: Int) {}
+            override fun onCardAppeared(view: View, position: Int) {
+                // 卡片出现时，恢复按钮状态
+                resetButtonState()
+            }
 
             override fun onCardDisappeared(view: View, position: Int) {}
         }).apply {

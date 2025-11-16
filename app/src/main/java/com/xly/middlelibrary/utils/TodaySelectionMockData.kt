@@ -36,7 +36,8 @@ object TodaySelectionMockData {
                 selectionType = SelectionType.AI_MATCHED,
                 matchScore = 92f,
                 hometown = "河北",
-                residence = "北京"
+                residence = "北京",
+                featureTags = listOf("高颜值")
             ),
             TodaySelectionUser(
                 id = "sel_002",
@@ -50,7 +51,8 @@ object TodaySelectionMockData {
                 selectionType = SelectionType.OFFICIAL,
                 matchScore = null,
                 hometown = "江苏",
-                residence = "上海"
+                residence = "上海",
+                featureTags = listOf("官方推荐", "高颜值")
             ),
             TodaySelectionUser(
                 id = "sel_003",
@@ -64,7 +66,8 @@ object TodaySelectionMockData {
                 selectionType = SelectionType.AI_MATCHED,
                 matchScore = 88f,
                 hometown = "湖南",
-                residence = "深圳"
+                residence = "深圳",
+                featureTags = listOf("高收入")
             ),
             TodaySelectionUser(
                 id = "sel_004",
@@ -78,7 +81,8 @@ object TodaySelectionMockData {
                 selectionType = SelectionType.OFFICIAL,
                 matchScore = null,
                 hometown = "广东",
-                residence = "广州"
+                residence = "广州",
+                featureTags = listOf("官方推荐")
             ),
             TodaySelectionUser(
                 id = "sel_005",
@@ -92,7 +96,8 @@ object TodaySelectionMockData {
                 selectionType = SelectionType.AI_MATCHED,
                 matchScore = 90f,
                 hometown = "浙江",
-                residence = "杭州"
+                residence = "杭州",
+                featureTags = listOf("高收入", "高颜值")
             ),
             TodaySelectionUser(
                 id = "sel_006",
@@ -106,7 +111,8 @@ object TodaySelectionMockData {
                 selectionType = SelectionType.OFFICIAL,
                 matchScore = null,
                 hometown = "四川",
-                residence = "成都"
+                residence = "成都",
+                featureTags = listOf("官方推荐", "高颜值")
             ),
             TodaySelectionUser(
                 id = "sel_007",
@@ -120,7 +126,8 @@ object TodaySelectionMockData {
                 selectionType = SelectionType.AI_MATCHED,
                 matchScore = 85f,
                 hometown = "湖北",
-                residence = "武汉"
+                residence = "武汉",
+                featureTags = listOf("高收入")
             ),
             TodaySelectionUser(
                 id = "sel_008",
@@ -134,7 +141,8 @@ object TodaySelectionMockData {
                 selectionType = SelectionType.OFFICIAL,
                 matchScore = null,
                 hometown = "江苏",
-                residence = "南京"
+                residence = "南京",
+                featureTags = listOf("官方推荐")
             )
         )
     }
@@ -158,9 +166,12 @@ object TodaySelectionMockData {
 
         val hometowns = listOf("河北", "江苏", "湖南", "广东", "浙江", "四川", "湖北", "山东", "河南", "安徽")
         val residences = listOf("北京", "上海", "深圳", "广州", "杭州", "成都", "武汉", "南京", "西安", "重庆")
+        val featureTagOptions = listOf("官方推荐", "高颜值", "高收入")
         
         return (1..count).map { index ->
             val isOfficial = index % 3 == 0
+            // 随机选择1-2个特色标签
+            val selectedFeatureTags = featureTagOptions.shuffled().take((1..2).random())
             TodaySelectionUser(
                 id = "sel_$index",
                 name = names.random(),
@@ -177,7 +188,8 @@ object TodaySelectionMockData {
                 selectionType = if (isOfficial) SelectionType.OFFICIAL else SelectionType.AI_MATCHED,
                 matchScore = if (!isOfficial) Random.nextFloat() * 15f + 80f else null,
                 hometown = hometowns.random(),
-                residence = residences.random()
+                residence = residences.random(),
+                featureTags = selectedFeatureTags
             )
         }
     }
