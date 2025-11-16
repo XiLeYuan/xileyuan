@@ -47,9 +47,7 @@
                     android:layout_marginEnd="2dp"
                     android:layout_marginBottom="2dp"
                     android:src="@mipmap/verified_icon"
-                    android:visibility="visible"
-                    android:background="@drawable/black_circle_bg"
-                    android:padding="2dp" />
+                    android:visibility="visible" />
 
             </FrameLayout>
 

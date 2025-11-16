@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide
 import com.xly.databinding.ItemMatchmakerCardBinding
 import com.xly.R
 import com.xly.business.square.model.Matchmaker
+import com.xly.middlelibrary.utils.LYFontUtil
 
 class MatchmakerAdapter(
     private val onItemClick: (Matchmaker) -> Unit,
@@ -69,8 +70,9 @@ class MatchmakerAdapter(
                 binding.ivAvatar.setImageResource(R.mipmap.head_img)
             }
 
-            // 姓名
+            // 姓名 - 使用 Medium 字体
             binding.tvName.text = matchmaker.name
+            binding.tvName.typeface = LYFontUtil.getMediumFont(binding.root.context)
 
             // 认证标识
             binding.ivVerified.visibility =
@@ -82,8 +84,12 @@ class MatchmakerAdapter(
             // 服务区域
             binding.tvLocation.text = matchmaker.location
 
-            // 简介
+            // 简介 - 设置更书面的字体样式
             binding.tvDescription.text = matchmaker.description
+            binding.tvDescription.typeface = android.graphics.Typeface.create(
+                android.graphics.Typeface.SERIF,
+                android.graphics.Typeface.NORMAL
+            )
 
             // 标签
             setupTags(binding.llTags, matchmaker.tags)
