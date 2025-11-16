@@ -79,7 +79,9 @@ class UserCardAdapter(
         val tvBio: TextView = itemView.findViewById(R.id.tvBio)
         val tagContainer: FlexboxLayout = itemView.findViewById(R.id.tagContainer)
         val arrowRightIv: ImageView = itemView.findViewById(R.id.arrowRightIv)
-        val llLocationTags: android.widget.LinearLayout = itemView.findViewById(R.id.llLocationTags)
+        val llLocationContainer: android.widget.LinearLayout = itemView.findViewById(R.id.llLocationContainer)
+        val llHometown: android.widget.LinearLayout = itemView.findViewById(R.id.llHometown)
+        val llResidence: android.widget.LinearLayout = itemView.findViewById(R.id.llResidence)
         val tvHometown: TextView = itemView.findViewById(R.id.tvHometown)
         val tvResidence: TextView = itemView.findViewById(R.id.tvResidence)
 
@@ -108,28 +110,28 @@ class UserCardAdapter(
         }
 
         private fun setupLocationTags(hometown: String, residence: String) {
-            var hasLocationTag = false
-            
-            // 设置家乡标签
+            // 设置家乡
             if (hometown.isNotEmpty()) {
-                tvHometown.text = "家乡：$hometown"
-                tvHometown.visibility = View.VISIBLE
-                hasLocationTag = true
+                llHometown.visibility = View.VISIBLE
+                tvHometown.text = "家乡$hometown"
             } else {
-                tvHometown.visibility = View.GONE
+                llHometown.visibility = View.GONE
             }
             
-            // 设置居住地标签
+            // 设置居住地
             if (residence.isNotEmpty()) {
-                tvResidence.text = "居住：$residence"
-                tvResidence.visibility = View.VISIBLE
-                hasLocationTag = true
+                llResidence.visibility = View.VISIBLE
+                tvResidence.text = "居住地$residence"
             } else {
-                tvResidence.visibility = View.GONE
+                llResidence.visibility = View.GONE
             }
             
-            // 如果至少有一个标签，显示容器
-            llLocationTags.visibility = if (hasLocationTag) View.VISIBLE else View.GONE
+            // 如果家乡和居住地都为空，隐藏整个容器
+            if (hometown.isEmpty() && residence.isEmpty()) {
+                llLocationContainer.visibility = View.GONE
+            } else {
+                llLocationContainer.visibility = View.VISIBLE
+            }
         }
 
         private fun setupTags(tags: List<String>) {

@@ -105,20 +105,41 @@
                 </LinearLayout>
 
                 <!-- 关注按钮 - 右上角，与名字和地点整体竖直居中 -->
-                <ImageView
-                    android:id="@+id/ivFollow"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                <LinearLayout
+                    android:id="@+id/llFollow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tvName"
                     app:layout_constraintBottom_toBottomOf="@id/llLocation"
-                    android:src="@drawable/ic_follow"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
                     android:background="@drawable/bg_follow_button"
-                    android:padding="6dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:contentDescription="关注"
-                    app:tint="@color/brand_primary" />
+                    android:contentDescription="关注">
+
+                    <ImageView
+                        android:id="@+id/ivFollowIcon"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_follow"
+                        app:tint="@color/brand_primary" />
+
+                    <TextView
+                        android:id="@+id/tvFollowText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="关注"
+                        android:textSize="12sp"
+                        android:textColor="@color/brand_primary" />
+
+                </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

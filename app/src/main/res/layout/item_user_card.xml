@@ -39,7 +39,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="66dp"
+            android:layout_marginBottom="20dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent">
 
@@ -114,9 +114,9 @@
                 android:textSize="14sp"
                 android:visibility="gone"/>
 
-            <!-- 家乡和居住地标签 -->
+            <!-- 家乡和居住地 -->
             <LinearLayout
-                android:id="@+id/llLocationTags"
+                android:id="@+id/llLocationContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -125,36 +125,60 @@
                 android:gravity="center_vertical"
                 android:visibility="gone">
 
-                <!-- 家乡标签 -->
-                <TextView
-                    android:id="@+id/tvHometown"
+                <!-- 家乡 -->
+                <LinearLayout
+                    android:id="@+id/llHometown"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/tag_background"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"
-                    android:text="家乡：北京"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp"
-                    android:visibility="gone" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:visibility="gone">
 
-                <!-- 居住地标签 -->
-                <TextView
-                    android:id="@+id/tvResidence"
+                    <ImageView
+                        android:id="@+id/ivHometown"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:src="@mipmap/home_town_icon"
+                        android:scaleType="fitCenter"
+                        android:contentDescription="家乡" />
+
+                    <TextView
+                        android:id="@+id/tvHometown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="家乡河北"
+                        android:textSize="14sp"
+                        android:textColor="@android:color/white" />
+                </LinearLayout>
+
+                <!-- 居住地 -->
+                <LinearLayout
+                    android:id="@+id/llResidence"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/tag_background"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"
-                    android:text="居住：上海"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp"
-                    android:visibility="gone" />
+                    android:layout_marginStart="12dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/ivResidence"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:src="@mipmap/residence_icon"
+                        android:scaleType="fitCenter"
+                        android:contentDescription="居住地" />
+
+                    <TextView
+                        android:id="@+id/tvResidence"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="居住地北京"
+                        android:textSize="14sp"
+                        android:textColor="@android:color/white" />
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -177,7 +201,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
-                    android:background="@drawable/tag_background"
+                    android:background="@drawable/tag_background_black_transparent"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:paddingTop="6dp"
@@ -191,7 +215,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
-                    android:background="@drawable/tag_background"
+                    android:background="@drawable/tag_background_black_transparent"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:paddingTop="6dp"
@@ -205,7 +229,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
-                    android:background="@drawable/tag_background"
+                    android:background="@drawable/tag_background_black_transparent"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:paddingTop="6dp"
@@ -220,8 +244,8 @@
                     android:id="@+id/arrowRightIv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/arrow_right_icon"
-                    android:background="@drawable/black_circle_bg"
+                    android:src="@drawable/ic_arrow_down"
+                    android:background="@drawable/bg_white_circle_transparent"
                     android:padding="6dp"
                     android:layout_marginEnd="16dp"
                     android:layout_alignParentRight="true"

@@ -94,7 +94,7 @@ class MatchmakerAdapter(
             }
 
             // 关注按钮点击事件
-            binding.ivFollow.setOnClickListener {
+            binding.llFollow.setOnClickListener {
                 onFollowClick(matchmaker)
             }
 
