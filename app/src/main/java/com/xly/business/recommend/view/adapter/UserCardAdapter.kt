@@ -58,10 +58,7 @@ class UserCardAdapter(
             holder.ivBackground.setImageResource(R.mipmap.find_img_3)
         }
         
-        // 设置点击事件（传递背景图片View用于转场动画）
-        holder.ivBackground.click { view ->
-            onCardClickListener(userCard, holder.ivBackground)
-        }
+        // 设置箭头按钮点击事件（保留）
         holder.arrowRightIv.click {
             onCardClickListener(userCard, holder.ivBackground)
         }

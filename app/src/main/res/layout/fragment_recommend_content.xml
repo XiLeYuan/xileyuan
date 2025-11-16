@@ -2,7 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
     <!-- 卡片堆叠视图 -->
     <com.yuyakaido.android.cardstackview.CardStackView
@@ -16,11 +18,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="160dp"
+        android:layout_marginBottom="170dp"
         android:baselineAligned="false"
         android:gravity="center"
         android:orientation="vertical"
-        android:elevation="8dp">
+        android:elevation="8dp"
+        android:clipChildren="false"
+        android:clipToPadding="false">
 
         <RelativeLayout
             android:layout_width="45dp"

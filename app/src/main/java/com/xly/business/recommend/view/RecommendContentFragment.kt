@@ -29,9 +29,13 @@ class RecommendContentFragment : Fragment() {
     private lateinit var cardStackLayoutManager: CardStackLayoutManager
     private lateinit var userCardAdapter: UserCardAdapter
 
-    private val defaultAlpha = 0.5f
-    private val maxAlpha = 1.0f
-    private val minAlpha = 0.3f
+    private val defaultScale = 1.0f
+    private val maxScale = 1.2f
+    private val minScale = 0.8f
+    
+    private val defaultAlpha = 0.2f  // 默认背景透明度 20% (#33000000)
+    private val maxAlpha = 0.6f      // 最大背景透明度 60%
+    private val minAlpha = 0.1f      // 最小背景透明度 10%
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,7 +63,9 @@ class RecommendContentFragment : Fragment() {
 
             override fun onCardRewound() {}
 
-            override fun onCardCanceled() {}
+            override fun onCardCanceled() {
+                resetButtonState()
+            }
 
             override fun onCardAppeared(view: View, position: Int) {}
 
@@ -172,16 +178,34 @@ class RecommendContentFragment : Fragment() {
     private fun updateButtonScale(direction: Direction, ratio: Float) {
         when (direction) {
             Direction.Right -> {
+                // 右滑：喜欢按钮放大并加深背景，不喜欢按钮缩小并变浅背景
+                val likeScale = defaultScale + (maxScale - defaultScale) * ratio
+                val dislikeScale = defaultScale - (defaultScale - minScale) * ratio
                 val likeAlpha = defaultAlpha + (maxAlpha - defaultAlpha) * ratio
                 val dislikeAlpha = defaultAlpha - (defaultAlpha - minAlpha) * ratio
-                animateButton(binding.likeIv, likeAlpha)
-                animateButton(binding.unLikeIv, dislikeAlpha)
+                (binding.likeIv.parent as? View)?.let {
+                    animateButtonScale(it, likeScale)
+                    animateButtonBackground(it, likeAlpha)
+                }
+                (binding.unLikeIv.parent as? View)?.let {
+                    animateButtonScale(it, dislikeScale)
+                    animateButtonBackground(it, dislikeAlpha)
+                }
             }
             Direction.Left -> {
+                // 左滑：不喜欢按钮放大并加深背景，喜欢按钮缩小并变浅背景
+                val dislikeScale = defaultScale + (maxScale - defaultScale) * ratio
+                val likeScale = defaultScale - (defaultScale - minScale) * ratio
                 val dislikeAlpha = defaultAlpha + (maxAlpha - defaultAlpha) * ratio
                 val likeAlpha = defaultAlpha - (defaultAlpha - minAlpha) * ratio
-                animateButton(binding.unLikeIv, dislikeAlpha)
-                animateButton(binding.likeIv, likeAlpha)
+                (binding.unLikeIv.parent as? View)?.let {
+                    animateButtonScale(it, dislikeScale)
+                    animateButtonBackground(it, dislikeAlpha)
+                }
+                (binding.likeIv.parent as? View)?.let {
+                    animateButtonScale(it, likeScale)
+                    animateButtonBackground(it, likeAlpha)
+                }
             }
             else -> {
                 resetButtonState()
@@ -189,13 +213,40 @@ class RecommendContentFragment : Fragment() {
         }
     }
 
-    private fun animateButton(button: View, alpha: Float) {
-        button.alpha = alpha
+    private fun animateButtonScale(button: View, scale: Float) {
+        button.scaleX = scale
+        button.scaleY = scale
+    }
+
+    private fun animateButtonBackground(button: View, alpha: Float) {
+        val background = button.background
+        if (background is android.graphics.drawable.GradientDrawable) {
+            // 更新背景透明度，黑色背景 #000000，alpha范围0-255
+            val alphaValue = (alpha * 255).toInt().coerceIn(0, 255)
+            val color = (alphaValue shl 24) or 0x000000  // ARGB格式，黑色背景
+            background.setColor(color)
+            button.invalidate()  // 强制重绘
+        } else {
+            // 如果不是GradientDrawable，尝试创建新的背景
+            val alphaValue = (alpha * 255).toInt().coerceIn(0, 255)
+            val color = (alphaValue shl 24) or 0x000000
+            val newBackground = android.graphics.drawable.GradientDrawable().apply {
+                shape = android.graphics.drawable.GradientDrawable.OVAL
+                setColor(color)
+            }
+            button.background = newBackground
+        }
     }
 
     private fun resetButtonState() {
-        binding.likeIv.alpha = defaultAlpha
-        binding.unLikeIv.alpha = defaultAlpha
+        (binding.likeIv.parent as? View)?.let {
+            animateButtonScale(it, defaultScale)
+            animateButtonBackground(it, defaultAlpha)
+        }
+        (binding.unLikeIv.parent as? View)?.let {
+            animateButtonScale(it, defaultScale)
+            animateButtonBackground(it, defaultAlpha)
+        }
     }
 
     override fun onDestroyView() {
