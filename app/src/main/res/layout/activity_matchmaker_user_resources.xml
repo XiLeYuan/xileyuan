@@ -5,21 +5,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <!-- 返回按钮 - 浮动在 RecyclerView 上方 -->
-    <ImageView
-        android:id="@+id/btnBack"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:clickable="true"
-        android:contentDescription="返回"
-        android:focusable="true"
-        android:src="@drawable/ic_arrow_back_white"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="44dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:elevation="8dp" />
+
 
     <!-- 下拉刷新和列表 -->
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -80,5 +66,30 @@
             android:textColor="@color/brand_primary" />
 
     </LinearLayout>
+
+    <View
+        android:id="@+id/topNaviBg"
+        android:layout_width="match_parent"
+        android:layout_height="82dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@android:color/transparent"/>
+
+    <!-- 返回按钮 - 浮动在 RecyclerView 上方 -->
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:contentDescription="返回"
+        android:focusable="true"
+        android:src="@drawable/ic_arrow_back_white"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="44dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:elevation="8dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

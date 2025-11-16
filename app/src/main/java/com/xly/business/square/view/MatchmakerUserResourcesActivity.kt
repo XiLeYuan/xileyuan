@@ -3,15 +3,18 @@ package com.xly.business.square.view
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.xly.R
 import com.xly.base.LYBaseActivity
 import com.xly.business.recommend.view.HometownFragment
 import com.xly.business.recommend.viewmodel.RecommendViewModel
@@ -31,6 +34,8 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
     private var isScrolling = false
     private var scrollRunnable: Runnable? = null
     private var contactButton: View? = null
+    private var lastTopNaviBgColor: Int = Color.TRANSPARENT
+    private val headerHeight = 320 // header 的高度（dp转px后的值）
 
     companion object {
         const val EXTRA_MATCHMAKER_ID = "matchmaker_id"
@@ -121,6 +126,11 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
         
         // 设置滚动监听
         setupScrollListener()
+        
+        // 初始化 topNaviBg 颜色
+        viewBind.recyclerView.post {
+            updateTopNaviBgColor()
+        }
     }
     
     private fun setupHeaderButtons(binding: ItemMatchmakerHeaderBinding) {
@@ -163,7 +173,72 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
                     }
                 }
             }
+            
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                updateTopNaviBgColor()
+            }
         })
+    }
+    
+    private fun updateTopNaviBgColor() {
+        val recyclerView = viewBind.recyclerView
+        val scrollY = recyclerView.computeVerticalScrollOffset()
+        
+        // header 的高度（px）
+        val headerHeightPx = (headerHeight * resources.displayMetrics.density).toInt()
+        
+        // 计算滚动比例：0 表示在顶部（完全透明），1 表示滚动超过 header 高度（完全不透明）
+        val scrollRatio = (scrollY.toFloat() / headerHeightPx).coerceIn(0f, 1f)
+        
+        // 目标颜色（主题色珊瑚红）
+        val targetColor = ContextCompat.getColor(this, R.color.brand_primary)
+        val targetRed = Color.red(targetColor)
+        val targetGreen = Color.green(targetColor)
+        val targetBlue = Color.blue(targetColor)
+        
+        // 根据滚动方向计算颜色
+        val currentAlpha: Int
+        val finalColor: Int
+        
+        if (scrollY <= 0) {
+            // 向下滑动或在顶部，完全透明
+            currentAlpha = 0
+            finalColor = Color.TRANSPARENT
+        } else {
+            // 向上滑动，从透明渐变到白色
+            // 使用平滑插值函数，使渐变更平滑
+            val smoothRatio = scrollRatio * scrollRatio * (3f - 2f * scrollRatio) // smoothstep
+            currentAlpha = (smoothRatio * 255).toInt().coerceIn(0, 255)
+            finalColor = Color.argb(currentAlpha, targetRed, targetGreen, targetBlue)
+        }
+        
+        // 防抖机制：只在颜色变化超过阈值时才更新
+        val lastAlpha = Color.alpha(lastTopNaviBgColor)
+        val shouldUpdate = when {
+            currentAlpha == 0 || currentAlpha == 255 -> {
+                // 关键状态：总是更新
+                finalColor != lastTopNaviBgColor
+            }
+            kotlin.math.abs(currentAlpha - lastAlpha) >= 8 -> {
+                // 渐变状态：只在变化超过阈值时更新
+                true
+            }
+            else -> {
+                // 变化太小，跳过更新
+                false
+            }
+        }
+        
+        if (!shouldUpdate) {
+            return
+        }
+        
+        // 更新缓存
+        lastTopNaviBgColor = finalColor
+        
+        // 更新 topNaviBg 的背景颜色
+        viewBind.topNaviBg.setBackgroundColor(finalColor)
     }
     
     private fun hideButtons() {

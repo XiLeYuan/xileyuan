@@ -119,6 +119,11 @@ class CherryPickAdapter(
                 onLikeClick(user)
             }
 
+            // 向下箭头按钮点击事件 - 进入详情页
+            binding.ivArrowDown.setOnClickListener {
+                onItemClick(user, binding.ivAvatar)
+            }
+
             // 点击事件 - 传递头像 View 用于转场动画
             binding.root.setOnClickListener {
                 onItemClick(user, binding.ivAvatar)

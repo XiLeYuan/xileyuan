@@ -94,19 +94,6 @@
                     android:layout_marginStart="5dp"
                     android:visibility="gone"/>
 
-                <!-- 送花/送爱心入口 -->
-                <ImageView
-                    android:id="@+id/ivFlowIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:src="@mipmap/flow_icon"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackgroundBorderless" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- 家乡和居住地 -->
@@ -225,6 +212,45 @@
                 android:visibility="gone">
 
             </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- 右侧按钮容器 - 送花和详情入口，箭头按钮底部与标签底部对齐 -->
+        <LinearLayout
+            android:id="@+id/llRightButtons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="@id/ivAvatar"
+            app:layout_constraintBottom_toBottomOf="@id/llInfoContainer"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="20dp">
+
+            <!-- 送花/送爱心入口 -->
+            <ImageView
+                android:id="@+id/ivFlowIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="16dp"
+                android:src="@mipmap/flow_icon"
+                android:background="@drawable/bg_white_circle_transparent"
+                android:padding="3dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="送花" />
+
+            <!-- 进入详情页入口 - 底部与标签底部对齐 -->
+            <ImageView
+                android:id="@+id/ivArrowDown"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_arrow_down"
+                android:background="@drawable/bg_white_circle_transparent"
+                android:padding="3dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="查看详情" />
 
         </LinearLayout>
 
