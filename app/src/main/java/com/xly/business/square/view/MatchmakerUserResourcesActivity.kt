@@ -1,9 +1,16 @@
 package com.xly.business.square.view
 
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.appbar.AppBarLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.jspp.model.UserCard
@@ -15,15 +22,16 @@ import com.xly.business.recommend.view.HometownFragment
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import com.xly.business.user.LYUserDetailInfoActivity
+import com.xly.business.square.view.adapter.BlurTransformation
 import com.xly.databinding.ActivityMatchmakerUserResourcesBinding
 import com.xly.middlelibrary.utils.MatchmakerMockData
 
 class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserResourcesBinding, RecommendViewModel>() {
 
     private lateinit var matchmaker: Matchmaker
-    
-    private var isScrolling = false
-    private val scrollHandler = android.os.Handler(android.os.Looper.getMainLooper())
+    private val primaryColor = Color.parseColor("#FF6B6B") // 主题色温暖珊瑚红
+    private var statusToolbarBackground: View? = null
+    private var lastAppliedColor: Int = Color.TRANSPARENT // 缓存上次应用的颜色，避免不必要的更新
 
     companion object {
         const val EXTRA_MATCHMAKER_ID = "matchmaker_id"
@@ -52,11 +60,19 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
 
     override fun initView() {
         super.initView()
+        
+        // 设置状态栏透明
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.addFlags(android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.statusBarColor = Color.TRANSPARENT
+        }
+        
         setupToolbar()
-        setupStatusBarPlaceholder()
+        setupStatusToolbarBackground()
+        setupMatchmakerInfo()
+        setupBlurBackground()
         setupRecyclerView()
-        setupRefreshLayout()
-        setupFloatingButton()
+        setupScrollListener()
     }
 
     private fun setupToolbar() {
@@ -64,42 +80,233 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
             finish()
         }
         
-        // 设置导航栏标题为红娘名字
-        val toolbarTitle = viewBind.root.findViewById<android.widget.TextView>(R.id.toolbarTitle)
-        toolbarTitle?.text = matchmaker.name
+        // 设置工具栏
+        setSupportActionBar(viewBind.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(false) // 使用自定义返回按钮
+        
+        // 获取状态栏和工具栏背景View
+        statusToolbarBackground = viewBind.statusToolbarBackground
+        statusToolbarBackground?.setBackgroundColor(Color.TRANSPARENT)
     }
     
-    private fun setupStatusBarPlaceholder() {
-        // 获取状态栏高度并设置占位View的高度
-        viewBind.toolbarContainer.post {
-            val statusBarHeight = getStatusBarHeight()
-            val layoutParams = viewBind.statusBarPlaceholder.layoutParams
-            layoutParams.height = statusBarHeight
-            viewBind.statusBarPlaceholder.layoutParams = layoutParams
-            
-            // 设置RecyclerView的paddingTop，避免内容被导航栏遮挡
-            // 导航栏高度 = 状态栏高度 + 工具栏高度(56dp)
-            val toolbarHeight = viewBind.toolbarContainer.height
-            val paddingTop = toolbarHeight + 8.dpToPx() // 导航栏高度 + 间距
-            
-            viewBind.recyclerView.setPadding(
-                viewBind.recyclerView.paddingLeft,
-                paddingTop,
-                viewBind.recyclerView.paddingRight,
-                viewBind.recyclerView.paddingBottom
-            )
+    private fun setupStatusToolbarBackground() {
+        statusToolbarBackground?.let { background ->
+            // 等待布局完成后再设置高度和位置
+            background.post {
+                val statusBarHeight = getStatusBarHeight()
+                
+                // 获取Toolbar的实际高度
+                val toolbarHeightPx = viewBind.toolbar.height.takeIf { it > 0 } ?: run {
+                    // 如果Toolbar还没有测量完成，使用actionBarSize的标准值（56dp）
+                    val actionBarSizeAttr = intArrayOf(android.R.attr.actionBarSize)
+                    val typedArray = obtainStyledAttributes(actionBarSizeAttr)
+                    val actionBarSize = typedArray.getDimensionPixelSize(0, 0)
+                    typedArray.recycle()
+                    actionBarSize
+                }
+                
+                // 为了确保完全覆盖，稍微增加一点高度（增加2dp作为安全边距）
+                val extraHeight = (2 * resources.displayMetrics.density).toInt()
+                val totalHeight = statusBarHeight + toolbarHeightPx + extraHeight
+                
+                val layoutParams = background.layoutParams
+                layoutParams.height = totalHeight
+                
+                // 由于占位View在CollapsingToolbarLayout内部，并且CollapsingToolbarLayout有fitsSystemWindows="true"
+                // CollapsingToolbarLayout的内容区域从状态栏下方开始
+                // 占位View需要向上偏移状态栏高度，才能覆盖状态栏区域
+                // 使用负的marginTop让View向上延伸到状态栏区域
+                if (layoutParams is android.view.ViewGroup.MarginLayoutParams) {
+                    // 确保负的marginTop能够完全覆盖状态栏
+                    layoutParams.topMargin = -statusBarHeight
+                }
+                background.layoutParams = layoutParams
+                
+                // 确保占位View在Toolbar下方，作为背景层
+                // 由于占位View在布局中位于Toolbar之前，它会在Toolbar下方绘制
+                // Toolbar的背景是透明的，所以占位View的颜色会显示出来
+            }
         }
     }
     
     private fun getStatusBarHeight(): Int {
-        var result = 0
-        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-        if (resourceId > 0) {
-            result = resources.getDimensionPixelSize(resourceId)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val windowInsets = window.decorView.rootWindowInsets
+            windowInsets?.getInsets(WindowInsetsCompat.Type.statusBars())?.top ?: 0
+        } else {
+            var result = 0
+            val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+            if (resourceId > 0) {
+                result = resources.getDimensionPixelSize(resourceId)
+            }
+            result
         }
-        return result
     }
-
+    
+    private fun setupScrollListener() {
+        // 监听 AppBarLayout 的滚动偏移，实现状态栏和 Toolbar 红色渐变
+        viewBind.appBarLayout.addOnOffsetChangedListener { appBar, verticalOffset ->
+            val totalScrollRange = appBar.totalScrollRange
+            val scrollRatio = if (totalScrollRange != 0) {
+                (-verticalOffset).toFloat() / totalScrollRange
+            } else {
+                0f
+            }
+            // 限制在 0-1 之间
+            val clampedRatio = scrollRatio.coerceIn(0f, 1f)
+            // 检查是否完全折叠：verticalOffset 的绝对值等于 totalScrollRange
+            val isFullyCollapsed = totalScrollRange != 0 && kotlin.math.abs(verticalOffset) >= totalScrollRange
+            updateStatusBarColor(clampedRatio, isFullyCollapsed)
+        }
+    }
+    
+    private fun updateStatusBarColor(scrollRatio: Float, isFullyCollapsed: Boolean) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            return
+        }
+        
+        val background = this.statusToolbarBackground ?: return
+        
+        // 调整渐变时机，让状态栏和 Toolbar 的渐变完全同步
+        // 当滚动比例达到这个阈值时，开始从透明渐变到红色
+        val threshold = 0.7f
+        
+        // 获取红色的 RGB 分量（不包含 alpha）
+        val red = Color.red(primaryColor)
+        val green = Color.green(primaryColor)
+        val blue = Color.blue(primaryColor)
+        
+        val finalColor: Int
+        val currentAlpha: Int
+        
+        if (isFullyCollapsed || scrollRatio >= 1.0f) {
+            // 完全折叠时，使用完全不透明的红色
+            finalColor = primaryColor
+            currentAlpha = 255
+        } else if (scrollRatio < threshold) {
+            // 在阈值之前，保持完全透明
+            finalColor = Color.TRANSPARENT
+            currentAlpha = 0
+        } else {
+            // 在阈值之后，计算渐变（在 threshold 到 1.0 之间）
+            val gradientRatio = ((scrollRatio - threshold) / (1.0f - threshold)).coerceIn(0f, 1f)
+            // 使用平滑插值函数，减少颜色突变，使渐变更平滑
+            val smoothRatio = gradientRatio * gradientRatio * (3f - 2f * gradientRatio) // smoothstep
+            currentAlpha = (smoothRatio * 255).toInt().coerceIn(0, 255)
+            
+            // 计算最终颜色（带透明度）
+            finalColor = Color.argb(currentAlpha, red, green, blue)
+        }
+        
+        // 防抖机制：只在颜色变化超过阈值时才更新，减少频繁更新导致的闪烁
+        // 在关键状态（完全透明或完全不透明）时总是更新
+        // 在渐变过程中，只在 alpha 值变化超过 8 时才更新（减少更新频率）
+        val lastAlpha = Color.alpha(lastAppliedColor)
+        val shouldUpdate = when {
+            currentAlpha == 0 || currentAlpha == 255 -> {
+                // 关键状态：总是更新
+                finalColor != lastAppliedColor
+            }
+            kotlin.math.abs(currentAlpha - lastAlpha) >= 8 -> {
+                // 渐变状态：只在变化超过阈值时更新
+                true
+            }
+            else -> {
+                // 变化太小，跳过更新
+                false
+            }
+        }
+        
+        if (!shouldUpdate) {
+            return
+        }
+        
+        // 更新缓存
+        lastAppliedColor = finalColor
+        
+        // 直接设置占位View的背景色，作为状态栏和Toolbar的整体背景
+        // 占位View已经覆盖了状态栏和Toolbar区域，所以只需要设置占位View的颜色
+        // 状态栏保持透明，让占位View的颜色显示出来，确保状态栏和Toolbar颜色完全一致
+        background.setBackgroundColor(finalColor)
+        
+        // 保持状态栏透明，让占位View的颜色显示出来
+        // 如果同时设置window.statusBarColor，会导致颜色叠加，造成状态栏颜色更深
+        window.statusBarColor = Color.TRANSPARENT
+    }
+    
+    private fun setupMatchmakerInfo() {
+        // 设置红娘头像
+        val context = viewBind.root.context
+        val resourceId = context.resources.getIdentifier(
+            matchmaker.avatar,
+            "mipmap",
+            context.packageName
+        )
+        if (resourceId != 0) {
+            Glide.with(context)
+                .load(resourceId)
+                .circleCrop()
+                .into(viewBind.ivMatchmakerAvatar)
+        } else {
+            viewBind.ivMatchmakerAvatar.setImageResource(R.mipmap.head_img)
+        }
+        
+        // 设置红娘名字
+        viewBind.tvMatchmakerName.text = matchmaker.name
+        
+        // 设置红娘位置
+        viewBind.tvMatchmakerLocation.text = "📍 ${matchmaker.location}"
+        
+        // 设置红娘评分
+        viewBind.tvMatchmakerRating.text = "⭐ ${String.format("%.1f", matchmaker.rating)}分"
+        
+        // 设置红娘简介
+        viewBind.tvMatchmakerDescription.text = matchmaker.description
+        
+        // 设置用户数量
+        viewBind.tvUserCount.text = "${matchmaker.userCount}位用户"
+        
+        // 设置标签
+        setupMatchmakerTags()
+    }
+    
+    private fun setupMatchmakerTags() {
+        viewBind.llMatchmakerTags.removeAllViews()
+        if (matchmaker.tags.isNotEmpty()) {
+            viewBind.llMatchmakerTags.visibility = View.VISIBLE
+            matchmaker.tags.forEach { tag ->
+                val tagView = layoutInflater.inflate(R.layout.item_tag, viewBind.llMatchmakerTags, false)
+                val tvTag = tagView.findViewById<TextView>(R.id.tvTag)
+                tvTag.text = tag
+                viewBind.llMatchmakerTags.addView(tagView)
+            }
+        } else {
+            viewBind.llMatchmakerTags.visibility = View.GONE
+        }
+    }
+    
+    private fun setupBlurBackground() {
+        // 加载红娘头像并模糊处理作为背景
+        val context = viewBind.root.context
+        val resourceId = context.resources.getIdentifier(
+            matchmaker.avatar,
+            "mipmap",
+            context.packageName
+        )
+        
+        if (resourceId != 0) {
+            Glide.with(context)
+                .load(resourceId)
+                .transform(BlurTransformation(context, 25f))
+                .into(viewBind.ivBlurBackground)
+        } else {
+            // 使用默认头像
+            Glide.with(context)
+                .load(R.mipmap.head_img)
+                .transform(BlurTransformation(context, 25f))
+                .into(viewBind.ivBlurBackground)
+        }
+    }
 
     private fun setupRecyclerView() {
         // 使用同乡页面的适配器样式
@@ -131,214 +338,8 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
         viewBind.recyclerView.setPadding(8.dpToPx(), 8.dpToPx(), 8.dpToPx(), 8.dpToPx())
         viewBind.recyclerView.clipToPadding = false
         
-        // 监听滚动状态，控制悬浮按钮显示/隐藏
-        setupScrollListener()
-        
         // 加载数据并转换为同乡页面的数据格式
         loadUserResourcesForHometown(hometownAdapter)
-    }
-    
-    private fun setupScrollListener() {
-        viewBind.recyclerView.addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: androidx.recyclerview.widget.RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                
-                when (newState) {
-                    androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING,
-                    androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_SETTLING -> {
-                        // 开始滚动，隐藏按钮
-                        if (!isScrolling) {
-                            isScrolling = true
-                            hideFloatingButton()
-                        }
-                        // 移除之前的延迟任务
-                        scrollHandler.removeCallbacksAndMessages(null)
-                    }
-                    androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE -> {
-                        // 停止滚动，延迟显示按钮
-                        scrollHandler.removeCallbacksAndMessages(null)
-                        scrollHandler.postDelayed({
-                            isScrolling = false
-                            showFloatingButton()
-                        }, 300) // 停止滚动300ms后显示按钮
-                    }
-                }
-            }
-        })
-    }
-    
-    private fun setupFloatingButton() {
-        // 初始状态：按钮可见
-        viewBind.fabContactMatchmaker.visibility = android.view.View.VISIBLE
-        viewBind.fabContactMatchmaker.alpha = 1f
-        viewBind.fabContactMatchmaker.scaleX = 1f
-        viewBind.fabContactMatchmaker.scaleY = 1f
-        
-        viewBind.fabContactMatchmaker.setOnClickListener {
-            // TODO: 实现联系红娘功能
-            // 可以跳转到聊天页面或拨打电话
-            android.widget.Toast.makeText(this, "联系红娘：${matchmaker.name}", android.widget.Toast.LENGTH_SHORT).show()
-        }
-        
-        // 页面加载后延迟显示闪动动画
-        viewBind.fabContactMatchmaker.postDelayed({
-            animateButtonPulse()
-        }, 500) // 延迟500ms后执行闪动动画
-    }
-    
-    private fun showFloatingButton() {
-        if (viewBind.fabContactMatchmaker.visibility == android.view.View.VISIBLE && 
-            viewBind.fabContactMatchmaker.alpha == 1f) {
-            return // 已经显示，不需要动画
-        }
-        
-        viewBind.fabContactMatchmaker.visibility = android.view.View.VISIBLE
-        viewBind.fabContactMatchmaker.animate()
-            .alpha(1f)
-            .scaleX(1f)
-            .scaleY(1f)
-            .translationY(0f)
-            .setDuration(200)
-            .setInterpolator(android.view.animation.DecelerateInterpolator())
-            .withEndAction {
-                // 显示后添加闪动动画
-                animateButtonPulse()
-            }
-            .start()
-    }
-    
-    private fun animateButtonPulse() {
-        // 闪动动画：快速缩放两次
-        val animatorSet = android.animation.AnimatorSet()
-        
-        val scaleUp1 = android.animation.ObjectAnimator.ofFloat(
-            viewBind.fabContactMatchmaker,
-            "scaleX",
-            1f, 1.15f
-        ).apply {
-            duration = 150
-            interpolator = android.view.animation.AccelerateDecelerateInterpolator()
-        }
-        
-        val scaleUpY1 = android.animation.ObjectAnimator.ofFloat(
-            viewBind.fabContactMatchmaker,
-            "scaleY",
-            1f, 1.15f
-        ).apply {
-            duration = 150
-            interpolator = android.view.animation.AccelerateDecelerateInterpolator()
-        }
-        
-        val scaleDown1 = android.animation.ObjectAnimator.ofFloat(
-            viewBind.fabContactMatchmaker,
-            "scaleX",
-            1.15f, 1f
-        ).apply {
-            duration = 150
-            interpolator = android.view.animation.AccelerateDecelerateInterpolator()
-        }
-        
-        val scaleDownY1 = android.animation.ObjectAnimator.ofFloat(
-            viewBind.fabContactMatchmaker,
-            "scaleY",
-            1.15f, 1f
-        ).apply {
-            duration = 150
-            interpolator = android.view.animation.AccelerateDecelerateInterpolator()
-        }
-        
-        val scaleUp2 = android.animation.ObjectAnimator.ofFloat(
-            viewBind.fabContactMatchmaker,
-            "scaleX",
-            1f, 1.1f
-        ).apply {
-            duration = 100
-            interpolator = android.view.animation.AccelerateDecelerateInterpolator()
-        }
-        
-        val scaleUpY2 = android.animation.ObjectAnimator.ofFloat(
-            viewBind.fabContactMatchmaker,
-            "scaleY",
-            1f, 1.1f
-        ).apply {
-            duration = 100
-            interpolator = android.view.animation.AccelerateDecelerateInterpolator()
-        }
-        
-        val scaleDown2 = android.animation.ObjectAnimator.ofFloat(
-            viewBind.fabContactMatchmaker,
-            "scaleX",
-            1.1f, 1f
-        ).apply {
-            duration = 100
-            interpolator = android.view.animation.AccelerateDecelerateInterpolator()
-        }
-        
-        val scaleDownY2 = android.animation.ObjectAnimator.ofFloat(
-            viewBind.fabContactMatchmaker,
-            "scaleY",
-            1.1f, 1f
-        ).apply {
-            duration = 100
-            interpolator = android.view.animation.AccelerateDecelerateInterpolator()
-        }
-        
-        // 第一次闪动
-        animatorSet.playTogether(scaleUp1, scaleUpY1)
-        animatorSet.play(scaleDown1).after(scaleUp1)
-        animatorSet.play(scaleDownY1).after(scaleUpY1)
-        
-        // 第二次闪动（稍小）
-        animatorSet.play(scaleUp2).after(scaleDown1)
-        animatorSet.play(scaleUpY2).after(scaleDownY1)
-        animatorSet.play(scaleDown2).after(scaleUp2)
-        animatorSet.play(scaleDownY2).after(scaleUpY2)
-        
-        animatorSet.start()
-    }
-    
-    private fun hideFloatingButton() {
-        if (viewBind.fabContactMatchmaker.visibility == android.view.View.INVISIBLE) {
-            return // 已经隐藏，不需要动画
-        }
-        
-        viewBind.fabContactMatchmaker.animate()
-            .alpha(0f)
-            .scaleX(0.8f)
-            .scaleY(0.8f)
-            .translationY(viewBind.fabContactMatchmaker.height.toFloat())
-            .setDuration(200)
-            .setInterpolator(android.view.animation.AccelerateInterpolator())
-            .withEndAction {
-                viewBind.fabContactMatchmaker.visibility = android.view.View.INVISIBLE
-            }
-            .start()
-    }
-    
-    private fun setupRefreshLayout() {
-        // 设置刷新头部和加载更多底部
-        viewBind.refreshLayout.setRefreshHeader(
-            com.scwang.smart.refresh.header.MaterialHeader(this)
-        )
-        viewBind.refreshLayout.setRefreshFooter(
-            com.scwang.smart.refresh.footer.ClassicsFooter(this)
-        )
-        
-        // 确保刷新功能启用
-        viewBind.refreshLayout.setEnableRefresh(true)
-        
-        // 下拉刷新
-        viewBind.refreshLayout.setOnRefreshListener { refreshLayout ->
-            // 重新加载数据
-            val adapter = viewBind.recyclerView.adapter as? HometownFragment.HometownAdapter
-            adapter?.let {
-                loadUserResourcesForHometown(it)
-            }
-            refreshLayout.finishRefresh()
-        }
-        
-        // 加载更多（暂时禁用，同乡页面样式不需要分页）
-        viewBind.refreshLayout.setEnableLoadMore(false)
     }
     
     private fun Int.dpToPx(): Int {
@@ -444,11 +445,4 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
             )
         }
     }
-    
-    override fun onDestroy() {
-        super.onDestroy()
-        // 清理 Handler，避免内存泄漏
-        scrollHandler.removeCallbacksAndMessages(null)
-    }
 }
-
