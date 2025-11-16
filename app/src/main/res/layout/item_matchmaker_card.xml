@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    android:background="@drawable/bg_matchmaker_card"
     android:clickable="true"
     android:focusable="true"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="4dp"
-    android:foreground="?attr/selectableItemBackground">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
+    android:foreground="?attr/selectableItemBackground"
+    android:padding="16dp">
 
         <!-- 顶部：头像和信息 -->
         <LinearLayout
@@ -155,52 +150,62 @@
 
         </LinearLayout>
 
-        <!-- 用户数量 - 放在标签下面 -->
-        <TextView
-            android:id="@+id/tvUserCount"
-            android:layout_width="wrap_content"
+        <!-- 用户数量和查看详情按钮 - 横向布局 -->
+        <LinearLayout
+            android:id="@+id/llUserCountAndDetails"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/llTags"
             android:layout_marginTop="12dp"
-            android:text="128位用户"
-            android:textSize="@dimen/text_size_body_small"
-            android:textColor="@color/text_secondary" />
-
-        <!-- 查看详情按钮 - 更靠底部 -->
-        <LinearLayout
-            android:id="@+id/llViewDetails"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:background="@drawable/bg_user_count_button"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:contentDescription="查看用户资源">
+            android:gravity="center_vertical">
 
+            <!-- 用户数量 -->
             <TextView
+                android:id="@+id/tvUserCount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="128位用户"
+                android:textSize="@dimen/text_size_body_small"
+                android:textColor="@color/text_secondary"
+                android:gravity="center_vertical" />
+
+            <!-- 查看按钮 -->
+            <LinearLayout
+                android:id="@+id/llViewDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="查看详情"
-                android:textSize="@dimen/text_size_body_small"
-                android:textColor="@color/text_primary" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_like_button"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="查看用户资源">
 
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginStart="4dp"
-                android:src="@drawable/ic_arrow_right"
-                app:tint="@color/text_primary" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="查看"
+                    android:textSize="12sp"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginStart="2dp"
+                    android:src="@drawable/ic_arrow_right"
+                    app:tint="#FFFFFF" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
