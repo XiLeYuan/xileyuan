@@ -523,9 +523,21 @@ class MomentAdapter(
         val tvVideoDuration = videoView.findViewById<TextView>(R.id.tvVideoDuration)
         val ivPlayButton = videoView.findViewById<ImageView>(R.id.ivPlayButton)
         
-        // 设置视频尺寸（与单张横图相同）
-        val videoWidth = availableWidth
-        val videoHeight = (videoWidth * 0.75f).toInt() // 4:3 比例
+        // 设置视频尺寸
+        // 横屏视频（宽度 > 高度，宽高比 > 1）：宽度占屏幕宽度的一半
+        // 竖屏视频（宽度 < 高度，宽高比 < 1）：使用可用宽度
+        // 默认假设为横屏视频（4:3 比例）
+        val aspectRatio = 0.75f // 4:3 比例（高度/宽度）
+        val isLandscape = true // 假设为横屏视频（宽度 > 高度）
+        
+        val videoWidth = if (isLandscape) {
+            // 横屏视频：宽度占屏幕宽度的一半
+            screenWidth / 2
+        } else {
+            // 竖屏视频：使用可用宽度
+            availableWidth
+        }
+        val videoHeight = (videoWidth * aspectRatio).toInt() // 根据宽高比计算高度
         
         val lp = FlexboxLayout.LayoutParams(videoWidth, videoHeight)
         lp.setMargins(margin, margin, margin, margin)

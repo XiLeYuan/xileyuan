@@ -38,8 +38,8 @@ object MomentImageLayoutManager {
         
         return when (displayCount) {
             1 -> getSingleImageLayout(screenWidth, availableWidth, isVertical, margin)
-            2 -> getTwoImagesLayout(availableWidth, margin)
-            3 -> getThreeImagesLayout(availableWidth, margin)
+            2 -> getTwoImagesLayout(context, screenWidth, padding, margin) // 传入context、屏幕宽度和左边距
+            3 -> getThreeImagesLayout(context, screenWidth, margin) // 传入context和屏幕宽度
             else -> emptyList()
         }
     }
@@ -69,10 +69,13 @@ object MomentImageLayoutManager {
     }
 
     /**
-     * 2张图片：并排显示，正方形
+     * 2张图片：并排显示，正方形，总宽度占屏幕宽度的一半
      */
-    private fun getTwoImagesLayout(availableWidth: Int, margin: Int): List<ImageSize> {
-        val size = (availableWidth - margin) / 2
+    private fun getTwoImagesLayout(context: Context, screenWidth: Int, leftPadding: Int, margin: Int): List<ImageSize> {
+        // 两张图片的总宽度 = 屏幕宽度的一半
+        val totalWidth = screenWidth / 2
+        // 每张图片的宽度 = (总宽度 - 间距) / 2
+        val size = (totalWidth - margin) / 2
         return listOf(
             ImageSize(size, size),
             ImageSize(size, size)
@@ -82,15 +85,19 @@ object MomentImageLayoutManager {
     /**
      * 3张图片：第一张最大，高度等于第二三张之和，宽度等于第二三张之和
      * 第二张和第三张并列布局（上下排列）
+     * 横向总宽度占屏幕宽度的一半
      */
-    private fun getThreeImagesLayout(availableWidth: Int, margin: Int): List<ImageSize> {
+    private fun getThreeImagesLayout(context: Context, screenWidth: Int, margin: Int): List<ImageSize> {
+        // 横向总宽度 = 屏幕宽度的一半
+        val totalWidth = screenWidth / 2
+        
         // 第二张和第三张的宽度（相等）
-        val secondThirdWidth = (availableWidth - margin * 2) / 3
+        val secondThirdWidth = (totalWidth - margin) / 2
         // 第二张和第三张的高度（相等）
         val secondThirdHeight = secondThirdWidth
         
-        // 第一张的宽度 = 第二张宽度 + 第三张宽度 + 间距
-        val firstWidth = secondThirdWidth * 2 + margin
+        // 第一张的宽度 = 横向总宽度（等于第二张宽度 + 第三张宽度 + 间距）
+        val firstWidth = totalWidth
         // 第一张的高度 = 第二张高度 + 第三张高度 + 间距
         val firstHeight = secondThirdHeight * 2 + margin
         
