@@ -1,13 +1,17 @@
 package com.xly.business.square.view
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
+import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.xly.base.LYBaseActivity
 import com.xly.business.recommend.view.HometownFragment
 import com.xly.business.recommend.viewmodel.RecommendViewModel
@@ -15,6 +19,7 @@ import com.xly.business.square.model.Matchmaker
 import com.xly.business.square.view.adapter.MatchmakerUserResourcesAdapter
 import com.xly.business.user.LYUserDetailInfoActivity
 import com.xly.databinding.ActivityMatchmakerUserResourcesBinding
+import com.xly.databinding.ItemMatchmakerHeaderBinding
 import com.xly.middlelibrary.utils.MatchmakerMockData
 import com.jspp.model.UserCard
 
@@ -22,6 +27,10 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
 
     private lateinit var matchmaker: Matchmaker
     private lateinit var adapter: MatchmakerUserResourcesAdapter
+    private var headerBinding: ItemMatchmakerHeaderBinding? = null
+    private var isScrolling = false
+    private var scrollRunnable: Runnable? = null
+    private var contactButton: View? = null
 
     companion object {
         const val EXTRA_MATCHMAKER_ID = "matchmaker_id"
@@ -53,6 +62,7 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
         setupBackButton()
         setupRecyclerView()
         setupRefreshLayout()
+        setupContactButton()
         loadUserResources()
     }
 
@@ -64,25 +74,34 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
 
     private fun setupRecyclerView() {
         // 创建适配器
-        adapter = MatchmakerUserResourcesAdapter(matchmaker) { user, avatarView ->
-            // 点击用户卡片，跳转到用户详情页（带转场动画）
-            val intent = Intent(this, LYUserDetailInfoActivity::class.java).apply {
-                putExtra("user_id", user.id)
-                putExtra("user_name", user.name)
-                putExtra("user_avatar", user.avatar)
-            }
+        adapter = MatchmakerUserResourcesAdapter(
+            matchmaker,
+            onUserClick = { user, avatarView ->
+                // 点击用户卡片，跳转到用户详情页（带转场动画）
+                val intent = Intent(this, LYUserDetailInfoActivity::class.java).apply {
+                    putExtra("user_id", user.id)
+                    putExtra("user_name", user.name)
+                    putExtra("user_avatar", user.avatar)
+                }
 
-            if (avatarView != null) {
-                val transitionName = "user_avatar_${user.id}"
-                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                    this,
-                    Pair.create(avatarView, transitionName)
-                )
-                startActivity(intent, options.toBundle())
-            } else {
-                startActivity(intent)
+                if (avatarView != null) {
+                    val transitionName = "user_avatar_${user.id}"
+                    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        this,
+                        Pair.create(avatarView, transitionName)
+                    )
+                    startActivity(intent, options.toBundle())
+                } else {
+                    startActivity(intent)
+                }
+            },
+            onHeaderCreated = { binding ->
+                // 保存 headerBinding 引用
+                headerBinding = binding
+                // 设置按钮点击事件
+                setupHeaderButtons(binding)
             }
-        }
+        )
 
         // 使用网格布局，两列
         val gridLayoutManager = GridLayoutManager(this, 2)
@@ -99,6 +118,97 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
         // 设置 padding（同乡页面样式）
         viewBind.recyclerView.setPadding(8.dpToPx(), 0, 8.dpToPx(), 8.dpToPx())
         viewBind.recyclerView.clipToPadding = false
+        
+        // 设置滚动监听
+        setupScrollListener()
+    }
+    
+    private fun setupHeaderButtons(binding: ItemMatchmakerHeaderBinding) {
+        // 关注按钮点击事件
+        binding.llFollow.setOnClickListener {
+            // TODO: 实现关注功能
+        }
+    }
+    
+    private fun setupContactButton() {
+        contactButton = viewBind.llContact
+        // 联系红娘按钮点击事件
+        viewBind.llContact.setOnClickListener {
+            // TODO: 实现联系红娘功能
+        }
+    }
+    
+    private fun setupScrollListener() {
+        viewBind.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                when (newState) {
+                    RecyclerView.SCROLL_STATE_DRAGGING,
+                    RecyclerView.SCROLL_STATE_SETTLING -> {
+                        // 开始滚动，隐藏按钮
+                        if (!isScrolling) {
+                            isScrolling = true
+                            hideButtons()
+                        }
+                        // 取消之前的延迟任务
+                        scrollRunnable?.let { viewBind.recyclerView.removeCallbacks(it) }
+                    }
+                    RecyclerView.SCROLL_STATE_IDLE -> {
+                        // 停止滚动，延迟显示按钮（动画）
+                        scrollRunnable = Runnable {
+                            isScrolling = false
+                            showButtons()
+                        }
+                        viewBind.recyclerView.postDelayed(scrollRunnable!!, 300) // 300ms 后显示
+                    }
+                }
+            }
+        })
+    }
+    
+    private fun hideButtons() {
+        // 只隐藏联系红娘按钮，关注按钮不隐藏
+        contactButton?.let {
+            animateButtonVisibility(it, false)
+        }
+    }
+    
+    private fun showButtons() {
+        // 只显示联系红娘按钮，关注按钮不隐藏
+        contactButton?.let {
+            animateButtonVisibility(it, true)
+        }
+    }
+    
+    private fun animateButtonVisibility(button: View, show: Boolean) {
+        if (show && button.alpha == 1f) return // 已经显示，不需要动画
+        if (!show && button.alpha == 0f) return // 已经隐藏，不需要动画
+        
+        val animatorSet = AnimatorSet()
+        
+        if (show) {
+            button.visibility = View.VISIBLE
+            val alphaAnimator = ObjectAnimator.ofFloat(button, "alpha", 0f, 1f)
+            val scaleXAnimator = ObjectAnimator.ofFloat(button, "scaleX", 0.8f, 1f)
+            val scaleYAnimator = ObjectAnimator.ofFloat(button, "scaleY", 0.8f, 1f)
+            animatorSet.playTogether(alphaAnimator, scaleXAnimator, scaleYAnimator)
+            animatorSet.duration = 300
+            animatorSet.interpolator = DecelerateInterpolator()
+        } else {
+            val alphaAnimator = ObjectAnimator.ofFloat(button, "alpha", 1f, 0f)
+            val scaleXAnimator = ObjectAnimator.ofFloat(button, "scaleX", 1f, 0.8f)
+            val scaleYAnimator = ObjectAnimator.ofFloat(button, "scaleY", 1f, 0.8f)
+            animatorSet.playTogether(alphaAnimator, scaleXAnimator, scaleYAnimator)
+            animatorSet.duration = 200
+            animatorSet.interpolator = DecelerateInterpolator()
+            animatorSet.addListener(object : android.animation.AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: android.animation.Animator) {
+                    button.visibility = View.GONE
+                }
+            })
+        }
+        
+        animatorSet.start()
     }
 
     private fun Int.dpToPx(): Int {

@@ -1,9 +1,16 @@
 package com.xly.business.square.view.adapter
 
+import android.graphics.Typeface
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -16,7 +23,8 @@ import com.xly.databinding.ItemMatchmakerHeaderBinding
 
 class MatchmakerUserResourcesAdapter(
     private val matchmaker: Matchmaker,
-    private val onUserClick: (HometownFragment.HometownUser, View?) -> Unit
+    private val onUserClick: (HometownFragment.HometownUser, View?) -> Unit,
+    private val onHeaderCreated: ((ItemMatchmakerHeaderBinding) -> Unit)? = null
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -46,6 +54,7 @@ class MatchmakerUserResourcesAdapter(
                     parent,
                     false
                 )
+                onHeaderCreated?.invoke(binding)
                 HeaderViewHolder(binding, matchmaker)
             }
             else -> {
@@ -114,7 +123,14 @@ class MatchmakerUserResourcesAdapter(
             binding.tvMatchmakerLocation.text = matchmaker.location
             binding.tvMatchmakerRating.text = "⭐ ${String.format("%.1f", matchmaker.rating)}分"
             binding.tvMatchmakerDescription.text = matchmaker.description
-            binding.tvUserCount.text = "${matchmaker.userCount}位用户"
+            // 设置简介字体为 SERIF（与红娘列表 item 一致）
+            binding.tvMatchmakerDescription.typeface = android.graphics.Typeface.create(
+                android.graphics.Typeface.SERIF,
+                android.graphics.Typeface.NORMAL
+            )
+            
+            // 设置用户数量 - 数字使用橘色加粗斜体
+            setupUserCount(binding.tvUserCount, matchmaker.userCount)
 
             // 设置标签
             binding.llMatchmakerTags.removeAllViews()
@@ -132,6 +148,43 @@ class MatchmakerUserResourcesAdapter(
             } else {
                 binding.llMatchmakerTags.visibility = View.GONE
             }
+        }
+        
+        private fun setupUserCount(textView: TextView, userCount: Int) {
+            // 数字和文案之间保持一个空格
+            val text = "${userCount} 位用户"
+            val spannableString = SpannableString(text)
+            
+            // 找到数字的起始和结束位置
+            val numberStart = 0
+            val numberEnd = userCount.toString().length
+            
+            // 设置数字颜色为橘色
+            val orangeColor = ContextCompat.getColor(textView.context, R.color.brand_orange)
+            spannableString.setSpan(
+                ForegroundColorSpan(orangeColor),
+                numberStart,
+                numberEnd,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            
+            // 设置数字字体大小（增大1.3倍）
+            spannableString.setSpan(
+                RelativeSizeSpan(1.3f),
+                numberStart,
+                numberEnd,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            
+            // 设置数字字体为斜体加粗
+            spannableString.setSpan(
+                StyleSpan(Typeface.BOLD_ITALIC),
+                numberStart,
+                numberEnd,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            
+            textView.text = spannableString
         }
     }
 

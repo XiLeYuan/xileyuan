@@ -40,4 +40,45 @@
 
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
+    <!-- 联系红娘按钮 - 右下角，浮动在屏幕上 -->
+    <LinearLayout
+        android:id="@+id/llContact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_follow_button"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:contentDescription="联系红娘"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:elevation="8dp"
+        android:alpha="1.0"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/ivContactIcon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_message"
+            app:tint="@color/brand_primary" />
+
+        <TextView
+            android:id="@+id/tvContactText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:text="联系"
+            android:textSize="12sp"
+            android:textColor="@color/brand_primary" />
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

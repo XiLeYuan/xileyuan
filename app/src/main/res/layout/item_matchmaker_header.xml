@@ -103,7 +103,7 @@
             android:layout_marginTop="12dp"
             android:text="10年专业经验，成功撮合500+对新人，擅长高端客户匹配"
             android:textColor="@android:color/white"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_size_body_small"
             android:lineSpacingExtra="4dp"
             android:maxLines="2"
             android:ellipsize="end" />
@@ -143,6 +143,46 @@
             android:text="128位用户"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <!-- 关注按钮 - 右上角 -->
+    <LinearLayout
+        android:id="@+id/llFollow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_follow_button"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:contentDescription="关注"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:alpha="1.0"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/ivFollowIcon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_follow"
+            app:tint="@color/brand_primary" />
+
+        <TextView
+            android:id="@+id/tvFollowText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:text="关注"
+            android:textSize="12sp"
+            android:textColor="@color/brand_primary" />
 
     </LinearLayout>
 
