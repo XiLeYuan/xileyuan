@@ -30,6 +30,12 @@ class ProfileViewModel : ViewModel() {
         val likesCount: Int = 0,
         val visitorsCount: Int = 0,
         val popularityScore: Int = 0,
-        val interactionsCount: Int = 0
+        val interactionsCount: Int = 0,
+        // 新增数量（用于角标显示）
+        val likedPeopleCount: Int = 0, // 喜欢的人总数
+        val likedPeopleNewCount: Int = 0, // 喜欢的人新增数量
+        val whoLikedMeCount: Int = 0, // 谁喜欢我总数
+        val whoLikedMeNewCount: Int = 0, // 谁喜欢我新增数量
+        val visitorsNewCount: Int = 0 // 访客新增数量
     )
 }

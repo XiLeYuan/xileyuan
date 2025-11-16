@@ -143,11 +143,11 @@ class CherryPickAdapter(
                     textSize = 11f
                     setTextColor(ContextCompat.getColor(
                         context,
-                        R.color.brand_primary
+                        R.color.bright_green
                     ))
                     background = ContextCompat.getDrawable(
                         context,
-                        R.drawable.bg_selected_tag
+                        R.drawable.bg_feature_tag_black_transparent
                     )
                     setPadding(10.dpToPx(), 4.dpToPx(), 10.dpToPx(), 4.dpToPx())
                     setTypeface(typeface, android.graphics.Typeface.BOLD)

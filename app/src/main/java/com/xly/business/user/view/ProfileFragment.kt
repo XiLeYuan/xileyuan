@@ -127,6 +127,39 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
         viewBind.tvLikedPeopleCount.typeface = LYFontUtil.getMediumFont(requireContext())
         viewBind.tvVisitorsCount.typeface = LYFontUtil.getMediumFont(requireContext())
         viewBind.tvWhoLikedMeCount.typeface = LYFontUtil.getMediumFont(requireContext())
+        
+        // 设置角标（示例数据，实际应该从服务器获取）
+        updateBadges(5, 3, 8) // 喜欢的人新增5，访客新增3，谁喜欢我新增8
+    }
+    
+    /**
+     * 更新角标显示
+     * @param likedPeopleNewCount 喜欢的人新增数量
+     * @param visitorsNewCount 访客新增数量
+     * @param whoLikedMeNewCount 谁喜欢我新增数量
+     */
+    private fun updateBadges(likedPeopleNewCount: Int, visitorsNewCount: Int, whoLikedMeNewCount: Int) {
+        // 更新"喜欢的人"角标
+        updateBadge(viewBind.tvLikedPeopleBadge, likedPeopleNewCount)
+        
+        // 更新"访客"角标
+        updateBadge(viewBind.tvVisitorsBadge, visitorsNewCount)
+        
+        // 更新"谁喜欢我"角标
+        updateBadge(viewBind.tvWhoLikedMeBadge, whoLikedMeNewCount)
+    }
+    
+    /**
+     * 更新单个角标
+     */
+    private fun updateBadge(badgeView: TextView, newCount: Int) {
+        if (newCount > 0) {
+            badgeView.visibility = View.VISIBLE
+            // 如果数量大于99，显示"99+"
+            badgeView.text = if (newCount > 99) "99+" else newCount.toString()
+        } else {
+            badgeView.visibility = View.GONE
+        }
     }
 
     private fun setupClickListeners() {
@@ -464,7 +497,17 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
     }
 
     private fun updateProfileStats(stats: ProfileViewModel.ProfileStats) {
-
+        // 更新统计数据
+        viewBind.tvLikedPeopleCount.text = stats.likedPeopleCount.toString()
+        viewBind.tvVisitorsCount.text = stats.visitorsCount.toString()
+        viewBind.tvWhoLikedMeCount.text = stats.whoLikedMeCount.toString()
+        
+        // 更新角标（从统计数据中获取新增数量）
+        updateBadges(
+            stats.likedPeopleNewCount,
+            stats.visitorsNewCount,
+            stats.whoLikedMeNewCount
+        )
     }
 
     override fun inflateBinding(

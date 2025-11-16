@@ -84,6 +84,9 @@
     <!-- 输入框聚焦色 - 使用蓝色，专业可信，与错误色区分 -->
     <color name="input_focus">#1A6DFF</color>
     <color name="input_focus_light">#4A8EFF</color>
+    
+    <!-- 亮绿色 -->
+    <color name="bright_green">#00FF7F</color>
 
 </resources>
 
