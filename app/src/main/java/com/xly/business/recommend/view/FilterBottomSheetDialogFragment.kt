@@ -1,9 +1,12 @@
 package com.xly.business.recommend.view
 
+import android.graphics.Outline
+import android.graphics.Path
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -43,6 +46,39 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         setupClickListeners()
+        
+        // 在布局完成后设置圆角
+        view.post {
+            setupRoundedCorners()
+        }
+    }
+    
+    private fun setupRoundedCorners() {
+        // 24dp 转换为像素
+        val cornerRadius = 24 * resources.displayMetrics.density
+        binding.root.apply {
+            clipToOutline = true
+            outlineProvider = object : ViewOutlineProvider() {
+                override fun getOutline(view: View, outline: Outline) {
+                    if (view.width > 0 && view.height > 0) {
+                        // 使用 Path 来只设置顶部两个角的圆角
+                        val path = Path().apply {
+                            moveTo(0f, cornerRadius)
+                            quadTo(0f, 0f, cornerRadius, 0f)
+                            lineTo(view.width - cornerRadius, 0f)
+                            quadTo(view.width.toFloat(), 0f, view.width.toFloat(), cornerRadius)
+                            lineTo(view.width.toFloat(), view.height.toFloat())
+                            lineTo(0f, view.height.toFloat())
+                            close()
+                        }
+                        outline.setConvexPath(path)
+                    } else {
+                        // 如果还没有测量完成，使用默认的圆角矩形
+                        outline.setRoundRect(0, 0, view.width, view.height, cornerRadius)
+                    }
+                }
+            }
+        }
     }
 
     private fun setupViews() {
@@ -138,10 +174,44 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
         val dialog = dialog as? BottomSheetDialog
         val bottomSheet = dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
         bottomSheet?.let {
+            // 彻底移除默认的白色背景，让我们的圆角背景显示出来
+            it.background = null
+            it.setBackgroundDrawable(null)
+            
+            // 在布局完成后设置圆角
+            it.post {
+                val cornerRadius = 24 * resources.displayMetrics.density
+                it.clipToOutline = true
+                it.outlineProvider = object : ViewOutlineProvider() {
+                    override fun getOutline(view: View, outline: Outline) {
+                        if (view.width > 0 && view.height > 0) {
+                            val path = Path().apply {
+                                moveTo(0f, cornerRadius)
+                                quadTo(0f, 0f, cornerRadius, 0f)
+                                lineTo(view.width - cornerRadius, 0f)
+                                quadTo(view.width.toFloat(), 0f, view.width.toFloat(), cornerRadius)
+                                lineTo(view.width.toFloat(), view.height.toFloat())
+                                lineTo(0f, view.height.toFloat())
+                                close()
+                            }
+                            outline.setConvexPath(path)
+                        } else {
+                            outline.setRoundRect(0, 0, view.width, view.height, cornerRadius)
+                        }
+                    }
+                }
+            }
+            
+            // 确保可以裁剪圆角
+            binding.root.clipToOutline = true
+            
             val behavior = BottomSheetBehavior.from(it)
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
             behavior.isDraggable = true
         }
+        
+        // 也设置 window 背景为透明
+        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
         
         // 设置窗口动画（从底部出现）
         dialog?.window?.setWindowAnimations(R.style.BottomSheetAnimation)

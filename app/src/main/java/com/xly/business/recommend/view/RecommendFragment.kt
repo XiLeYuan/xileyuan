@@ -173,12 +173,7 @@ class RecommendFragment : LYBaseFragment<FragmentRecommendBinding, RecommendView
     }
 
     private fun showFilterDialog() {
-        val filterDialog = FilterBottomSheetDialogFragment.newInstance()
-        filterDialog.onConfirmClick = { options ->
-            // TODO: 根据筛选条件过滤数据
-            // 这里可以根据筛选条件重新加载数据
-        }
-        filterDialog.show(parentFragmentManager, "FilterBottomSheetDialogFragment")
+        FilterActivity.start(requireContext())
     }
 
     override fun inflateBinding(
