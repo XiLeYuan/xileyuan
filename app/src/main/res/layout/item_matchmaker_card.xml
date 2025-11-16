@@ -104,6 +104,22 @@
 
                 </LinearLayout>
 
+                <!-- 关注按钮 - 右上角，与名字和地点整体竖直居中 -->
+                <ImageView
+                    android:id="@+id/ivFollow"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvName"
+                    app:layout_constraintBottom_toBottomOf="@id/llLocation"
+                    android:src="@drawable/ic_follow"
+                    android:background="@drawable/bg_follow_button"
+                    android:padding="6dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:contentDescription="关注"
+                    app:tint="@color/brand_primary" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 

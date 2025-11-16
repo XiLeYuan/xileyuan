@@ -66,6 +66,10 @@ class MatchmakerFragment : LYBaseFragment<FragmentMatchmakerBinding, RecommendVi
             onContactClick = { matchmaker ->
                 // 点击联系红娘按钮
                 contactMatchmaker(matchmaker)
+            },
+            onFollowClick = { matchmaker ->
+                // 点击关注按钮
+                followMatchmaker(matchmaker)
             }
         )
 
@@ -130,6 +134,11 @@ class MatchmakerFragment : LYBaseFragment<FragmentMatchmakerBinding, RecommendVi
         // TODO: 实现联系红娘功能，可以跳转到聊天页面或显示联系方式
         // 例如：跳转到聊天页面
         // ChatActivity.start(requireContext(), matchmaker.id)
+    }
+
+    private fun followMatchmaker(matchmaker: Matchmaker) {
+        // TODO: 实现关注红娘功能
+        // 例如：调用API关注/取消关注，更新UI状态
     }
 
     override fun initObservers() {

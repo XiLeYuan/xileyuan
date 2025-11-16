@@ -24,7 +24,8 @@ import com.xly.business.square.model.Matchmaker
 class MatchmakerAdapter(
     private val onItemClick: (Matchmaker) -> Unit,
     private val onViewDetailsClick: (Matchmaker) -> Unit,
-    private val onContactClick: (Matchmaker) -> Unit
+    private val onContactClick: (Matchmaker) -> Unit,
+    private val onFollowClick: (Matchmaker) -> Unit
 ) : ListAdapter<Matchmaker, MatchmakerAdapter.MatchmakerViewHolder>(MatchmakerDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchmakerViewHolder {
@@ -37,7 +38,7 @@ class MatchmakerAdapter(
     }
 
     override fun onBindViewHolder(holder: MatchmakerViewHolder, position: Int) {
-        holder.bind(getItem(position), onItemClick, onViewDetailsClick, onContactClick)
+        holder.bind(getItem(position), onItemClick, onViewDetailsClick, onContactClick, onFollowClick)
     }
 
     class MatchmakerViewHolder(
@@ -48,7 +49,8 @@ class MatchmakerAdapter(
             matchmaker: Matchmaker,
             onItemClick: (Matchmaker) -> Unit,
             onViewDetailsClick: (Matchmaker) -> Unit,
-            onContactClick: (Matchmaker) -> Unit
+            onContactClick: (Matchmaker) -> Unit,
+            onFollowClick: (Matchmaker) -> Unit
         ) {
             // 头像 - 加载本地 mipmap 资源
             val context = binding.root.context
@@ -91,6 +93,10 @@ class MatchmakerAdapter(
                 onViewDetailsClick(matchmaker)
             }
 
+            // 关注按钮点击事件
+            binding.ivFollow.setOnClickListener {
+                onFollowClick(matchmaker)
+            }
 
             // 点击事件（点击卡片其他区域）
             binding.root.setOnClickListener {
