@@ -92,4 +92,20 @@
         app:layout_constraintStart_toStartOf="parent"
         android:elevation="8dp" />
 
+    <!-- 用户数文本 - 在返回按钮右边，完全变成珊瑚红时显示 -->
+    <TextView
+        android:id="@+id/tvUserCountInNav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="128位用户"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="44dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnBack"
+        android:elevation="8dp"
+        android:alpha="0.0"
+        android:visibility="gone" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

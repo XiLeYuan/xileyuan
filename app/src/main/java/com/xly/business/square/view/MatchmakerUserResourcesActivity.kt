@@ -4,6 +4,12 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Typeface
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.DecelerateInterpolator
@@ -36,6 +42,7 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
     private var contactButton: View? = null
     private var lastTopNaviBgColor: Int = Color.TRANSPARENT
     private val headerHeight = 320 // header 的高度（dp转px后的值）
+    private var isUserCountVisible = false // 用户数文本是否可见
 
     companion object {
         const val EXTRA_MATCHMAKER_ID = "matchmaker_id"
@@ -183,13 +190,10 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
     
     private fun updateTopNaviBgColor() {
         val recyclerView = viewBind.recyclerView
-        val scrollY = recyclerView.computeVerticalScrollOffset()
+        val layoutManager = recyclerView.layoutManager as? GridLayoutManager ?: return
         
-        // header 的高度（px）
-        val headerHeightPx = (headerHeight * resources.displayMetrics.density).toInt()
-        
-        // 计算滚动比例：0 表示在顶部（完全透明），1 表示滚动超过 header 高度（完全不透明）
-        val scrollRatio = (scrollY.toFloat() / headerHeightPx).coerceIn(0f, 1f)
+        // 检查第一个item（header，position 0）是否可见
+        val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
         
         // 目标颜色（主题色珊瑚红）
         val targetColor = ContextCompat.getColor(this, R.color.brand_primary)
@@ -201,16 +205,51 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
         val currentAlpha: Int
         val finalColor: Int
         
-        if (scrollY <= 0) {
-            // 向下滑动或在顶部，完全透明
+        if (firstVisiblePosition > 0) {
+            // 第一个item（header）完全不可见，直接设置为完全不透明的珊瑚红
+            currentAlpha = 255
+            finalColor = targetColor
+        } else if (firstVisiblePosition == 0) {
+            // header 可见，根据可见部分计算渐变
+            val headerView = layoutManager.findViewByPosition(0)
+            if (headerView != null) {
+                // 获取header view在屏幕中的位置
+                val headerTop = headerView.top
+                val headerBottom = headerView.bottom
+                val headerHeight = headerView.height
+                
+                // 计算header可见部分的高度
+                // headerTop 可能是负数（向上滚动时），headerBottom 是可见的底部位置
+                val recyclerViewTop = recyclerView.top
+                val recyclerViewBottom = recyclerView.bottom
+                
+                val visibleTop = kotlin.math.max(headerTop, recyclerViewTop)
+                val visibleBottom = kotlin.math.min(headerBottom, recyclerViewBottom)
+                val visibleHeight = kotlin.math.max(0, visibleBottom - visibleTop)
+                
+                // 计算可见比例
+                val visibleRatio = if (headerHeight > 0) {
+                    (visibleHeight.toFloat() / headerHeight).coerceIn(0f, 1f)
+                } else {
+                    1f
+                }
+                
+                // 可见比例越小（滚动越多），alpha越大
+                val alphaRatio = 1f - visibleRatio
+                
+                // 使用平滑插值函数，使渐变更平滑
+                val smoothRatio = alphaRatio * alphaRatio * (3f - 2f * alphaRatio) // smoothstep
+                currentAlpha = (smoothRatio * 255).toInt().coerceIn(0, 255)
+                finalColor = Color.argb(currentAlpha, targetRed, targetGreen, targetBlue)
+            } else {
+                // 如果找不到view，默认透明
+                currentAlpha = 0
+                finalColor = Color.TRANSPARENT
+            }
+        } else {
+            // 在顶部，完全透明
             currentAlpha = 0
             finalColor = Color.TRANSPARENT
-        } else {
-            // 向上滑动，从透明渐变到白色
-            // 使用平滑插值函数，使渐变更平滑
-            val smoothRatio = scrollRatio * scrollRatio * (3f - 2f * scrollRatio) // smoothstep
-            currentAlpha = (smoothRatio * 255).toInt().coerceIn(0, 255)
-            finalColor = Color.argb(currentAlpha, targetRed, targetGreen, targetBlue)
         }
         
         // 防抖机制：只在颜色变化超过阈值时才更新
@@ -239,6 +278,86 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
         
         // 更新 topNaviBg 的背景颜色
         viewBind.topNaviBg.setBackgroundColor(finalColor)
+        
+        // 控制用户数文本的显示/隐藏
+        updateUserCountVisibility(currentAlpha == 255)
+    }
+    
+    private fun updateUserCountVisibility(shouldShow: Boolean) {
+        if (shouldShow == isUserCountVisible) {
+            // 状态没有变化，不需要更新
+            return
+        }
+        
+        isUserCountVisible = shouldShow
+        val userCountText = viewBind.tvUserCountInNav
+        
+        if (shouldShow) {
+            // 显示用户数文本，数字使用白色
+            setupUserCountText(userCountText, matchmaker.userCount)
+            
+            // 动画显示
+            userCountText.visibility = View.VISIBLE
+            val animatorSet = AnimatorSet()
+            val alphaAnimator = ObjectAnimator.ofFloat(userCountText, "alpha", 0f, 1f)
+            val scaleXAnimator = ObjectAnimator.ofFloat(userCountText, "scaleX", 0.8f, 1f)
+            val scaleYAnimator = ObjectAnimator.ofFloat(userCountText, "scaleY", 0.8f, 1f)
+            animatorSet.playTogether(alphaAnimator, scaleXAnimator, scaleYAnimator)
+            animatorSet.duration = 300
+            animatorSet.interpolator = DecelerateInterpolator()
+            animatorSet.start()
+        } else {
+            // 动画隐藏
+            val animatorSet = AnimatorSet()
+            val alphaAnimator = ObjectAnimator.ofFloat(userCountText, "alpha", 1f, 0f)
+            val scaleXAnimator = ObjectAnimator.ofFloat(userCountText, "scaleX", 1f, 0.8f)
+            val scaleYAnimator = ObjectAnimator.ofFloat(userCountText, "scaleY", 1f, 0.8f)
+            animatorSet.playTogether(alphaAnimator, scaleXAnimator, scaleYAnimator)
+            animatorSet.duration = 200
+            animatorSet.interpolator = DecelerateInterpolator()
+            animatorSet.addListener(object : android.animation.AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: android.animation.Animator) {
+                    userCountText.visibility = View.GONE
+                }
+            })
+            animatorSet.start()
+        }
+    }
+    
+    private fun setupUserCountText(textView: TextView, userCount: Int) {
+        // 数字和文案之间保持一个空格
+        val text = "${userCount} 位用户"
+        val spannableString = SpannableString(text)
+        
+        // 找到数字的起始和结束位置
+        val numberStart = 0
+        val numberEnd = userCount.toString().length
+        
+        // 设置数字颜色为白色
+        spannableString.setSpan(
+            ForegroundColorSpan(Color.WHITE),
+            numberStart,
+            numberEnd,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        
+        // 设置数字字体大小（增大1.3倍）
+        spannableString.setSpan(
+            RelativeSizeSpan(1.3f),
+            numberStart,
+            numberEnd,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        
+        // 设置数字字体为斜体加粗
+        spannableString.setSpan(
+            StyleSpan(Typeface.BOLD_ITALIC),
+            numberStart,
+            numberEnd,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        
+        textView.text = spannableString
     }
     
     private fun hideButtons() {
