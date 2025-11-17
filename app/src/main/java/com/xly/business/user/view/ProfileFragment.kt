@@ -21,6 +21,7 @@ import com.scwang.smart.refresh.header.MaterialHeader
 import com.xly.R
 import com.xly.base.LYBaseFragment
 import com.xly.business.user.viewmodel.ProfileViewModel
+import com.xly.business.user.view.SettingsActivity
 import com.xly.business.vip.view.LookStarMeActivity
 import com.xly.databinding.DialogFateUserCardBinding
 import com.xly.databinding.FragmentProfileBinding
@@ -210,7 +211,7 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
 
         // 设置点击
         viewBind.llSettings.setOnClickListener {
-            showToast("设置")
+            SettingsActivity.start(requireContext())
         }
     }
 

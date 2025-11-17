@@ -150,6 +150,11 @@
             android:exported="false"
             android:theme="@style/TransparentTheme" />
 
+        <activity
+            android:name="com.xly.business.user.view.SettingsActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+
 
     </application>
 
