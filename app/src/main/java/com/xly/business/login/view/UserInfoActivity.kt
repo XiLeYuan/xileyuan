@@ -1,5 +1,8 @@
 package com.xly.business.login.view
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.ViewModelProvider
@@ -16,6 +19,15 @@ class UserInfoActivity : LYBaseActivity<ActivityUserInfoBinding, LoginViewModel>
     private lateinit var pagerAdapter: UserInfoPagerAdapter
     private var currentStep = 0
     private var phoneNum = ""
+
+
+    companion object {
+        fun start(c: Context) {
+            val intent = Intent(c, UserInfoActivity::class.java)
+            (c as? Activity)?.startActivity(intent)
+            (c as? Activity)?.finish()
+        }
+    }
 
     override fun inflateBinding(layoutInflater: android.view.LayoutInflater) = ActivityUserInfoBinding.inflate(layoutInflater)
     override fun initViewModel() = ViewModelProvider(this)[LoginViewModel::class.java]

@@ -10,6 +10,7 @@ import com.gyf.immersionbar.ImmersionBar
 import com.xly.R
 import com.xly.business.login.view.LoginActivity
 import com.xly.business.login.view.PrivacyAgreementDialog
+import com.xly.business.login.view.UserInfoActivity
 import com.xly.middlelibrary.utils.MMKVManager
 import kotlinx.coroutines.Runnable
 
@@ -62,7 +63,8 @@ class SplashActivity :AppCompatActivity() {
         handler.postDelayed(Runnable {
             val hasAuth = MMKVManager.getBoolean(MMKVManager.KEY_AUTH_SUCCESS)
             if (hasAuth) {
-                LYMainActivity.start(this)
+//                LYMainActivity.start(this)
+                UserInfoActivity.start(this)
             } else {
                 LoginActivity.start(this)
             }
