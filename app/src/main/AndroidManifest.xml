@@ -155,6 +155,16 @@
             android:exported="false"
             android:theme="@style/AppTheme" />
 
+        <activity
+            android:name="com.xly.business.user.view.MyProfileActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name="com.xly.business.user.view.EditBasicInfoActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+
 
     </application>
 
