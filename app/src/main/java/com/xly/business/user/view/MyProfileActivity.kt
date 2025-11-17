@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.widget.TextView
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +14,7 @@ import com.google.android.flexbox.FlexboxLayout
 import com.xly.R
 import com.xly.base.LYBaseActivity
 import com.xly.business.square.view.adapter.BlurTransformation
+import com.xly.business.user.LYUserDetailInfoActivity
 import com.xly.business.user.UserInfo
 import com.xly.business.user.view.adapter.ProfilePhotoAdapter
 import com.xly.databinding.ActivityMyProfileBinding
@@ -50,6 +53,11 @@ class MyProfileActivity : LYBaseActivity<ActivityMyProfileBinding, MyProfileView
         // 编辑基本资料按钮
         viewBind.ivEditBasicInfo.click {
             EditBasicInfoActivity.start(this)
+        }
+
+        // 预览按钮 - 进入用户详情页
+        viewBind.tvPreview.click {
+            showUserDetail()
         }
     }
 
@@ -176,6 +184,30 @@ class MyProfileActivity : LYBaseActivity<ActivityMyProfileBinding, MyProfileView
 
     private fun updatePhotosTitle(currentCount: Int) {
         viewBind.tvPhotosTitle.text = "个人照片（$currentCount/6）"
+    }
+
+    private fun showUserDetail() {
+        // TODO: 从实际用户数据获取用户ID和头像信息
+        // 这里使用示例数据
+        val userId = "current_user_001"
+        val userName = "Ella"
+        val userAvatar = "head_one"
+        
+        val intent = Intent(this, LYUserDetailInfoActivity::class.java).apply {
+            putExtra("user_id", userId)
+            putExtra("user_name", userName)
+            putExtra("user_avatar", userAvatar)
+        }
+
+        // 使用头像进行转场动画
+        val transitionName = "user_avatar_$userId"
+        viewBind.ivAvatar.transitionName = transitionName
+        
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+            this,
+            Pair.create(viewBind.ivAvatar, transitionName)
+        )
+        startActivity(intent, options.toBundle())
     }
 }
 
