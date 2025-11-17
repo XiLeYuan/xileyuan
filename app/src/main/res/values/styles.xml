@@ -168,4 +168,16 @@
         <item name="android:windowExitAnimation">@anim/slide_down_fade_out</item>
     </style>
 
+    <!-- 推荐卡片图片圆角样式 - 与CardView的12dp圆角一致 -->
+    <style name="ShapeAppearanceOverlay.CardImage" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
+
+    <!-- 今日精选卡片图片圆角样式 - 与CardView的16dp圆角一致 -->
+    <style name="ShapeAppearanceOverlay.CardImageSelection" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
 </resources>
