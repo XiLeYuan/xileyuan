@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- 标题 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="基本信息"
+            android:textSize="19sp"
+            android:textColor="#222222"
+            android:layout_marginBottom="32dp"/>
+
+        <!-- 昵称输入框 -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutNickname"
+            style="@style/RoundedBorderTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入昵称"
+            app:endIconMode="clear_text"
+            app:errorEnabled="true"
+            app:errorTextColor="@color/text_error"
+            app:helperTextEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:maxLength="20"
+                android:textSize="16sp"
+                android:textColor="@color/text_primary"
+                android:textCursorDrawable="@drawable/cursor_dark"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:minHeight="56dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- 性别选择 -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutGender"
+            style="@style/RoundedBorderTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:hint="请选择性别"
+            app:endIconMode="dropdown_menu"
+            app:errorEnabled="true"
+            app:errorTextColor="@color/text_error"
+            app:helperTextEnabled="false">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/actvGender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:focusable="false"
+                android:clickable="true"
+                android:textSize="16sp"
+                android:textColor="@color/text_primary"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:minHeight="56dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- 年龄标题 -->
+        <TextView
+            android:id="@+id/tvAgeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="年龄"
+            android:textSize="16sp"
+            android:textColor="#222222"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- 年龄选择器 -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp">
+
+            <SeekBar
+                android:id="@+id/seekBarAge"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="20dp"
+                android:progressDrawable="@drawable/progress_bar_flamingo"
+                android:thumb="@mipmap/ic_seekbar_thumb"
+                android:max="32"/>
+
+            <TextView
+                android:id="@+id/tvAgeBubble"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_bubble_flamingo"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:text=""
+                android:layout_gravity="top"
+                android:visibility="gone"/>
+        </FrameLayout>
+
+        <!-- 身高标题 -->
+        <TextView
+            android:id="@+id/tvHeightLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="身高"
+            android:textSize="16sp"
+            android:textColor="#222222"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- 身高选择器 -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp">
+
+            <SeekBar
+                android:id="@+id/seekBarHeight"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="20dp"
+                android:progressDrawable="@drawable/progress_bar_flamingo"
+                android:thumb="@mipmap/ic_seekbar_thumb"
+                android:max="70"/>
+
+            <TextView
+                android:id="@+id/tvHeightBubble"
+                android:layout_width="55dp"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_bubble_flamingo"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:text=""
+                android:gravity="center"
+                android:layout_gravity="top"
+                android:visibility="gone"/>
+        </FrameLayout>
+
+        <!-- 下一步按钮 -->
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="下一步"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/flamingo_radius_btn"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:enabled="false"
+            android:layout_gravity="right"
+            android:alpha="0.5"
+            android:layout_marginTop="16dp"/>
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
+

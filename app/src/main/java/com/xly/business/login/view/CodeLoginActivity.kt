@@ -65,20 +65,20 @@ class CodeLoginActivity : LYBaseActivity<ActivityCodeLoginBinding, LoginViewMode
                         MMKVManager.putBoolean(MMKVManager.KEY_AUTH_SUCCESS, true)
 
                         // 清除所有之前的Activity并跳转到主页面（用于本地调试）
-                        ActivityStackManager.startActivityAndClearStack(
+                        /*ActivityStackManager.startActivityAndClearStack(
                             this@CodeLoginActivity,
                             LYMainActivity::class.java
-                        )
+                        )*/
+
+                        // 清除所有之前的Activity并跳转到用户信息录入第一个页面
+                        ActivityStackManager.startActivityAndClearStack(
+                            this@CodeLoginActivity,
+                            UserInfoFirstStepActivity::class.java
+                        ) {
+                            putExtra("phone", phone)
+                            putExtra("code", code)
+                        }
                         
-                        // 如果需要跳转到用户信息页面，取消注释下面的代码
-                        // ActivityStackManager.startActivityAndClearStack(
-                        //     this@CodeLoginActivity,
-                        //     UserInfoActivity::class.java
-                        // ) {
-                        //     putExtra("phone", phone)
-                        //     putExtra("code", code)
-                        // }
-//                        requestLogin(phone,code)
                     }
                 }
                 override fun afterTextChanged(s: Editable?) {}
@@ -236,10 +236,10 @@ class CodeLoginActivity : LYBaseActivity<ActivityCodeLoginBinding, LoginViewMode
             hideLoading()
             MMKVManager.putBoolean(MMKVManager.KEY_LOGIN_SUCCESS, true)
             
-            // 清除所有之前的Activity并跳转到UserInfoActivity
+            // 清除所有之前的Activity并跳转到用户信息录入第一个页面
             ActivityStackManager.startActivityAndClearStack(
                 this@CodeLoginActivity,
-                UserInfoActivity::class.java
+                UserInfoFirstStepActivity::class.java
             ) {
                 putExtra("phone", phone)
                 putExtra("code", code)
