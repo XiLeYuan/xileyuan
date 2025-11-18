@@ -12,11 +12,13 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.xly.R
 import com.xly.business.user.adapter.ImagePagerAdapter
 import com.xly.business.user.adapter.ThumbnailAdapter
+import com.xly.business.user.utils.UserDetailTagUtils
 
 class LYUserDetailInfoActivity : AppCompatActivity() {
     private val primaryColor = Color.parseColor("#FF6B6B") // 主题色珊瑚红
@@ -88,6 +90,48 @@ class LYUserDetailInfoActivity : AppCompatActivity() {
         }
 
         setupImagePager()
+        setupBasicInfoTags()
+        setupSelfIntroduction()
+        setupMateRequirement()
+    }
+    
+    private fun setupSelfIntroduction() {
+        val tvSelfIntroduction = findViewById<android.widget.TextView>(R.id.tvSelfIntroduction)
+        tvSelfIntroduction?.let {
+            // 设置字体样式为 SERIF（与红娘列表的介绍文本样式一致）
+            it.typeface = android.graphics.Typeface.create(
+                android.graphics.Typeface.SERIF,
+                android.graphics.Typeface.NORMAL
+            )
+        }
+    }
+    
+    private fun setupMateRequirement() {
+        val tvMateRequirement = findViewById<android.widget.TextView>(R.id.tvMateRequirement)
+        tvMateRequirement?.let {
+            // 设置字体样式为 SERIF（与红娘列表的介绍文本样式一致）
+            it.typeface = android.graphics.Typeface.create(
+                android.graphics.Typeface.SERIF,
+                android.graphics.Typeface.NORMAL
+            )
+        }
+    }
+    
+    private fun setupBasicInfoTags() {
+        val llBasicInfoTags = findViewById<FlexboxLayout>(R.id.llBasicInfoTags)
+        llBasicInfoTags?.let {
+            // 使用示例数据，实际应该从用户数据中获取
+            val basicInfoTags = listOf(
+                "软件工程师",
+                "本科",
+                "165cm",
+                "28岁",
+                "北京",
+                "已购车",
+                "已购房"
+            )
+            UserDetailTagUtils.setupBasicInfoTags(it, basicInfoTags)
+        }
     }
     
     private fun setupScrollListener(appBarLayout: AppBarLayout) {
