@@ -73,7 +73,7 @@ class CodeLoginActivity : LYBaseActivity<ActivityCodeLoginBinding, LoginViewMode
                         // 清除所有之前的Activity并跳转到用户信息录入第一个页面
                         ActivityStackManager.startActivityAndClearStack(
                             this@CodeLoginActivity,
-                            UserInfoFirstStepActivity::class.java
+                            UserInfoActivity::class.java
                         ) {
                             putExtra("phone", phone)
                             putExtra("code", code)
@@ -239,7 +239,7 @@ class CodeLoginActivity : LYBaseActivity<ActivityCodeLoginBinding, LoginViewMode
             // 清除所有之前的Activity并跳转到用户信息录入第一个页面
             ActivityStackManager.startActivityAndClearStack(
                 this@CodeLoginActivity,
-                UserInfoFirstStepActivity::class.java
+                UserInfoActivity::class.java
             ) {
                 putExtra("phone", phone)
                 putExtra("code", code)

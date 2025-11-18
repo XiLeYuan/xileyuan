@@ -65,7 +65,7 @@ class SplashActivity :AppCompatActivity() {
             val hasAuth = MMKVManager.getBoolean(MMKVManager.KEY_AUTH_SUCCESS)
             if (hasAuth) {
 //                LYMainActivity.start(this)
-                UserInfoFirstStepActivity.start(this)
+                UserInfoActivity.start(this)
             } else {
                 LoginActivity.start(this)
             }
