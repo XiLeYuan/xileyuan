@@ -2,15 +2,11 @@ package com.xly.business.login.view
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.SeekBar
+import android.widget.RadioButton
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.xly.R
 import com.xly.base.ActivityStackManager
@@ -23,8 +19,11 @@ import com.xly.index.LYMainActivity
 class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBinding, LoginViewModel>() {
 
     private var selectedGender: String? = null
-    private var ageValue = 0
-    private var heightValue = 0
+    private var ageValue: String? = null
+    private var heightValue: String? = null
+    private var hometownValue: String? = null
+    private var residenceValue: String? = null
+    private var educationValue: String? = null
     private var nickname: String = ""
 
     companion object {
@@ -44,6 +43,9 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
         setupGender()
         setupAge()
         setupHeight()
+        setupHometown()
+        setupResidence()
+        setupEducation()
         updateNextButtonState()
     }
 
@@ -66,128 +68,140 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
     }
 
     private fun setupGender() {
-        val genderOptions = listOf("男士", "女士")
-        val adapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_dropdown_item_1line,
-            genderOptions
-        )
-        
-        viewBind.actvGender.setAdapter(adapter)
-        
-        // 防止键盘弹出
-        viewBind.actvGender.keyListener = null
-        
-        // 点击时显示下拉菜单
-        viewBind.actvGender.setOnClickListener {
-            viewBind.actvGender.showDropDown()
-        }
-        
-        // 选择项时更新状态
-        viewBind.actvGender.setOnItemClickListener { _, _, position, _ ->
-            selectedGender = if (position == 0) "1" else "2" // 0=男士, 1=女士
+        viewBind.rgGender.setOnCheckedChangeListener { _, checkedId ->
+            selectedGender = when (checkedId) {
+                R.id.rbMale -> "1" // 男士
+                R.id.rbFemale -> "2" // 女士
+                else -> null
+            }
             updateNextButtonState()
         }
     }
 
     private fun setupAge() {
-        viewBind.seekBarAge.max = 32 // 18~50+ 共33档
-        viewBind.seekBarAge.progress = 0
-        viewBind.tvAgeBubble.visibility = View.GONE
-
-        viewBind.seekBarAge.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                val age = progress + 18
-                ageValue = if (progress == 32) 51 else age
-                val ageText = if (progress == 32) "50+岁" else "${age}岁"
-                viewBind.tvAgeBubble.text = ageText
-                viewBind.tvAgeBubble.visibility = View.VISIBLE
-                
-                // 气泡位置
-                val bubbleWidth = viewBind.tvAgeBubble.width.toFloat()
-                val seekBarWidth = viewBind.seekBarAge.width.toFloat()
-                if (seekBarWidth > 0 && bubbleWidth > 0) {
-                    val percent = progress.toFloat() / viewBind.seekBarAge.max
-                    val translationX = (seekBarWidth - bubbleWidth) * percent
-                    viewBind.tvAgeBubble.translationX = translationX
-                }
-                
-                updateNextButtonState()
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                viewBind.tvAgeBubble.visibility = View.VISIBLE
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
-
-        // 初始化时计算一次气泡位置
-        viewBind.tvAgeBubble.post {
-            val progress = viewBind.seekBarAge.progress
-            val bubbleWidth = viewBind.tvAgeBubble.width.toFloat()
-            val seekBarWidth = viewBind.seekBarAge.width.toFloat()
-            if (seekBarWidth > 0 && bubbleWidth > 0) {
-                val percent = progress.toFloat() / viewBind.seekBarAge.max
-                val translationX = (seekBarWidth - bubbleWidth) * percent
-                viewBind.tvAgeBubble.translationX = translationX
-            }
+        viewBind.llAge.setOnClickListener {
+            showAgePicker()
         }
     }
 
     private fun setupHeight() {
-        viewBind.seekBarHeight.max = 70 // 140~210 共71档
-        viewBind.seekBarHeight.progress = 0
-        viewBind.tvHeightBubble.visibility = View.GONE
-
-        viewBind.seekBarHeight.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                val height = progress + 140
-                heightValue = height
-                val heightText = "${height}cm"
-                viewBind.tvHeightBubble.text = heightText
-                viewBind.tvHeightBubble.visibility = View.VISIBLE
-                
-                // 气泡位置
-                val bubbleWidth = viewBind.tvHeightBubble.width.toFloat()
-                val seekBarWidth = viewBind.seekBarHeight.width.toFloat()
-                if (seekBarWidth > 0 && bubbleWidth > 0) {
-                    val percent = progress.toFloat() / viewBind.seekBarHeight.max
-                    val translationX = (seekBarWidth - bubbleWidth) * percent
-                    viewBind.tvHeightBubble.translationX = translationX
-                }
-                
-                updateNextButtonState()
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                viewBind.tvHeightBubble.visibility = View.VISIBLE
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
-
-        // 初始化时计算一次气泡位置
-        viewBind.tvHeightBubble.post {
-            val progress = viewBind.seekBarHeight.progress
-            val bubbleWidth = viewBind.tvHeightBubble.width.toFloat()
-            val seekBarWidth = viewBind.seekBarHeight.width.toFloat()
-            if (seekBarWidth > 0 && bubbleWidth > 0) {
-                val percent = progress.toFloat() / viewBind.seekBarHeight.max
-                val translationX = (seekBarWidth - bubbleWidth) * percent
-                viewBind.tvHeightBubble.translationX = translationX
-            }
+        viewBind.llHeight.setOnClickListener {
+            showHeightPicker()
         }
+    }
+
+    private fun setupHometown() {
+        viewBind.llHometown.setOnClickListener {
+            showHometownPicker()
+        }
+    }
+
+    private fun setupResidence() {
+        viewBind.llResidence.setOnClickListener {
+            showResidencePicker()
+        }
+    }
+
+    private fun setupEducation() {
+        viewBind.llEducation.setOnClickListener {
+            showEducationPicker()
+        }
+    }
+
+    private fun showAgePicker() {
+        val ageOptions = (18..50).map { "${it}岁" } + listOf("50+岁")
+        BottomPickerDialog(
+            this,
+            "选择年龄",
+            ageOptions
+        ) { selected ->
+            ageValue = selected
+            viewBind.tvAge.text = selected
+            viewBind.tvAge.setTextColor(getColor(R.color.text_primary))
+            updateNextButtonState()
+        }.show()
+    }
+
+    private fun showHeightPicker() {
+        val heightOptions = (140..210).map { "${it}cm" }
+        BottomPickerDialog(
+            this,
+            "选择身高",
+            heightOptions
+        ) { selected ->
+            heightValue = selected
+            viewBind.tvHeight.text = selected
+            viewBind.tvHeight.setTextColor(getColor(R.color.text_primary))
+            updateNextButtonState()
+        }.show()
+    }
+
+    private fun showHometownPicker() {
+        // 这里可以使用AddressPickerDialog或者简单的列表
+        // 暂时使用简单的省份列表
+        val provinceOptions = listOf(
+            "北京", "上海", "天津", "重庆", "河北", "山西", "内蒙古", "辽宁",
+            "吉林", "黑龙江", "江苏", "浙江", "安徽", "福建", "江西", "山东",
+            "河南", "湖北", "湖南", "广东", "广西", "海南", "四川", "贵州",
+            "云南", "西藏", "陕西", "甘肃", "青海", "宁夏", "新疆", "台湾", "香港", "澳门"
+        )
+        BottomPickerDialog(
+            this,
+            "选择家乡",
+            provinceOptions
+        ) { selected ->
+            hometownValue = selected
+            viewBind.tvHometown.text = selected
+            viewBind.tvHometown.setTextColor(getColor(R.color.text_primary))
+            updateNextButtonState()
+        }.show()
+    }
+
+    private fun showResidencePicker() {
+        val provinceOptions = listOf(
+            "北京", "上海", "天津", "重庆", "河北", "山西", "内蒙古", "辽宁",
+            "吉林", "黑龙江", "江苏", "浙江", "安徽", "福建", "江西", "山东",
+            "河南", "湖北", "湖南", "广东", "广西", "海南", "四川", "贵州",
+            "云南", "西藏", "陕西", "甘肃", "青海", "宁夏", "新疆", "台湾", "香港", "澳门"
+        )
+        BottomPickerDialog(
+            this,
+            "选择现居住地",
+            provinceOptions
+        ) { selected ->
+            residenceValue = selected
+            viewBind.tvResidence.text = selected
+            viewBind.tvResidence.setTextColor(getColor(R.color.text_primary))
+            updateNextButtonState()
+        }.show()
+    }
+
+    private fun showEducationPicker() {
+        val educationOptions = listOf(
+            "初中及以下", "高中/中专", "大专", "本科", "硕士", "博士"
+        )
+        BottomPickerDialog(
+            this,
+            "选择学历",
+            educationOptions
+        ) { selected ->
+            educationValue = selected
+            viewBind.tvEducation.text = selected
+            viewBind.tvEducation.setTextColor(getColor(R.color.text_primary))
+            updateNextButtonState()
+        }.show()
     }
 
     private fun updateNextButtonState() {
         val isValid = nickname.isNotEmpty() && 
                      selectedGender != null && 
-                     ageValue > 0 && 
-                     heightValue > 0
+                     ageValue != null && 
+                     heightValue != null &&
+                     hometownValue != null &&
+                     residenceValue != null &&
+                     educationValue != null
         
         viewBind.btnNext.isEnabled = isValid
-        viewBind.btnNext.alpha = if (isValid) 1f else 0.5f
     }
 
     private fun submitInfo() {
@@ -198,16 +212,18 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
         // 保存到 ViewModel
         viewModel.nickname = nickname
         viewModel.gender = selectedGender
-        viewModel.age = ageValue
-        viewModel.height = heightValue
+        // 解析年龄和身高数值
+        val age = ageValue?.replace("岁", "")?.replace("+", "")?.toIntOrNull() ?: 0
+        val height = heightValue?.replace("cm", "")?.toIntOrNull() ?: 0
 
         // 提交到服务器
         val request = UserInfoRegisterReq().apply {
             step = 1
             this.nickname = this@UserInfoFirstStepActivity.nickname
             this.gender = selectedGender ?: ""
-            this.age = ageValue
-            this.height = heightValue
+            this.age = age
+            this.height = height
+            // 如果需要保存其他字段，可以在这里添加
         }
 
         showLoading()
@@ -223,12 +239,24 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
             Toast.makeText(this, "请选择性别", Toast.LENGTH_SHORT).show()
             return false
         }
-        if (ageValue == 0) {
+        if (ageValue == null) {
             Toast.makeText(this, "请选择年龄", Toast.LENGTH_SHORT).show()
             return false
         }
-        if (heightValue == 0) {
+        if (heightValue == null) {
             Toast.makeText(this, "请选择身高", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if (hometownValue == null) {
+            Toast.makeText(this, "请选择家乡", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if (residenceValue == null) {
+            Toast.makeText(this, "请选择现居住地", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if (educationValue == null) {
+            Toast.makeText(this, "请选择学历", Toast.LENGTH_SHORT).show()
             return false
         }
         return true
@@ -238,7 +266,6 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
         viewModel.registerResult.observe(this) { authResponse ->
             hideLoading()
             // 跳转到下一步或主页面
-            // 这里可以根据业务需求跳转到 UserInfoActivity 的下一步，或者直接跳转到主页
             ActivityStackManager.startActivityAndClearStack(
                 this,
                 LYMainActivity::class.java
@@ -251,4 +278,3 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
         }
     }
 }
-

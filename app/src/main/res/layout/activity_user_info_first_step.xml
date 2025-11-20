@@ -2,177 +2,405 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:fillViewport="true">
+    android:layout_height="wrap_content"
+    android:background="@color/bg_secondary"
+    android:fillViewport="true"
+    android:padding="16dp">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- 标题：基本资料 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="基本资料"
+            android:textSize="18sp"
+            android:textColor="@color/text_primary"
+            android:gravity="center"
+            android:paddingTop="24dp"
+            android:paddingBottom="16dp" />
+
+    <!-- 卡片容器 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:background="@drawable/bg_info_card_white"
+        android:layout_marginTop="10dp"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp">
 
-        <!-- 标题 -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="基本信息"
-            android:textSize="19sp"
-            android:textColor="#222222"
-            android:layout_marginBottom="32dp"/>
 
-        <!-- 昵称输入框 -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutNickname"
-            style="@style/RoundedBorderTextInputLayout"
+
+        <!-- 第一行：用户昵称 -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="请输入昵称"
-            app:endIconMode="clear_text"
-            app:errorEnabled="true"
-            app:errorTextColor="@color/text_error"
-            app:helperTextEnabled="false">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:minHeight="56dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etNickname"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="昵称"
+                android:textSize="16sp"
+                android:textColor="@color/text_primary" />
+
+            <EditText
+                android:id="@+id/etNickname"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
                 android:inputType="text"
                 android:maxLength="20"
                 android:textSize="16sp"
                 android:textColor="@color/text_primary"
                 android:textCursorDrawable="@drawable/cursor_dark"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
-                android:minHeight="56dp" />
+                android:background="@android:color/transparent"
+                android:hint="请输入昵称"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:gravity="end|center_vertical" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
 
-        <!-- 性别选择 -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutGender"
-            style="@style/RoundedBorderTextInputLayout"
+        <!-- 分割线 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
+
+        <!-- 第二行：性别选择 -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:hint="请选择性别"
-            app:endIconMode="dropdown_menu"
-            app:errorEnabled="true"
-            app:errorTextColor="@color/text_error"
-            app:helperTextEnabled="false">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:minHeight="56dp">
 
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/actvGender"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:inputType="none"
-                android:focusable="false"
-                android:clickable="true"
+                android:layout_weight="1"
+                android:text="性别"
                 android:textSize="16sp"
-                android:textColor="@color/text_primary"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
-                android:minHeight="56dp" />
+                android:textColor="@color/text_primary" />
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- 年龄标题 -->
-        <TextView
-            android:id="@+id/tvAgeLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="年龄"
-            android:textSize="16sp"
-            android:textColor="#222222"
-            android:layout_marginBottom="8dp"/>
-
-        <!-- 年龄选择器 -->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp">
-
-            <SeekBar
-                android:id="@+id/seekBarAge"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginTop="20dp"
-                android:progressDrawable="@drawable/progress_bar_flamingo"
-                android:thumb="@mipmap/ic_seekbar_thumb"
-                android:max="32"/>
-
-            <TextView
-                android:id="@+id/tvAgeBubble"
-                android:layout_width="55dp"
+            <RadioGroup
+                android:id="@+id/rgGender"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_bubble_flamingo"
-                android:textColor="@android:color/white"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:text=""
-                android:layout_gravity="top"
-                android:visibility="gone"/>
-        </FrameLayout>
+                android:orientation="horizontal"
+                android:gravity="end">
 
-        <!-- 身高标题 -->
-        <TextView
-            android:id="@+id/tvHeightLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="身高"
-            android:textSize="16sp"
-            android:textColor="#222222"
-            android:layout_marginBottom="8dp"/>
+                <RadioButton
+                    android:id="@+id/rbMale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="男士"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_primary"
+                    android:layout_marginEnd="24dp" />
 
-        <!-- 身高选择器 -->
-        <FrameLayout
+                <RadioButton
+                    android:id="@+id/rbFemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="女士"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_primary" />
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <!-- 分割线 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
+
+        <!-- 第三行：年龄 -->
+        <LinearLayout
+            android:id="@+id/llAge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp">
-
-            <SeekBar
-                android:id="@+id/seekBarHeight"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginTop="20dp"
-                android:progressDrawable="@drawable/progress_bar_flamingo"
-                android:thumb="@mipmap/ic_seekbar_thumb"
-                android:max="70"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:minHeight="56dp">
 
             <TextView
-                android:id="@+id/tvHeightBubble"
-                android:layout_width="55dp"
-                android:layout_height="32dp"
-                android:background="@drawable/bg_bubble_flamingo"
-                android:textColor="@android:color/white"
-                android:textSize="14sp"
-                android:text=""
-                android:gravity="center"
-                android:layout_gravity="top"
-                android:visibility="gone"/>
-        </FrameLayout>
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="年龄"
+                android:textSize="16sp"
+                android:textColor="@color/text_primary" />
+
+            <TextView
+                android:id="@+id/tvAge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请选择年龄"
+                android:textSize="16sp"
+                android:textColor="@color/text_hint"
+                android:layout_marginEnd="8dp" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_arrow_right"
+                app:tint="@color/text_hint" />
+
+        </LinearLayout>
+
+        <!-- 分割线 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
+
+        <!-- 第四行：身高 -->
+        <LinearLayout
+            android:id="@+id/llHeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:minHeight="56dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="身高"
+                android:textSize="16sp"
+                android:textColor="@color/text_primary" />
+
+            <TextView
+                android:id="@+id/tvHeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请选择身高"
+                android:textSize="16sp"
+                android:textColor="@color/text_hint"
+                android:layout_marginEnd="8dp" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_arrow_right"
+                app:tint="@color/text_hint" />
+
+        </LinearLayout>
+
+        <!-- 分割线 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
+
+        <!-- 第五行：家乡 -->
+        <LinearLayout
+            android:id="@+id/llHometown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:minHeight="56dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="家乡"
+                android:textSize="16sp"
+                android:textColor="@color/text_primary" />
+
+            <TextView
+                android:id="@+id/tvHometown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请选择家乡"
+                android:textSize="16sp"
+                android:textColor="@color/text_hint"
+                android:layout_marginEnd="8dp" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_arrow_right"
+                app:tint="@color/text_hint" />
+
+        </LinearLayout>
+
+        <!-- 分割线 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
+
+        <!-- 第六行：现居住地 -->
+        <LinearLayout
+            android:id="@+id/llResidence"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:minHeight="56dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="现居住地"
+                android:textSize="16sp"
+                android:textColor="@color/text_primary" />
+
+            <TextView
+                android:id="@+id/tvResidence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请选择现居住地"
+                android:textSize="16sp"
+                android:textColor="@color/text_hint"
+                android:layout_marginEnd="8dp" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_arrow_right"
+                app:tint="@color/text_hint" />
+
+        </LinearLayout>
+
+        <!-- 分割线 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
+
+        <!-- 第七行：学历 -->
+        <LinearLayout
+            android:id="@+id/llEducation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:minHeight="56dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="学历"
+                android:textSize="16sp"
+                android:textColor="@color/text_primary" />
+
+            <TextView
+                android:id="@+id/tvEducation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请选择学历"
+                android:textSize="16sp"
+                android:textColor="@color/text_hint"
+                android:layout_marginEnd="8dp" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_arrow_right"
+                app:tint="@color/text_hint" />
+
+        </LinearLayout>
+
+        </LinearLayout>
 
         <!-- 下一步按钮 -->
-        <Button
+        <ImageButton
             android:id="@+id/btnNext"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:text="下一步"
-            android:textSize="16sp"
-            android:textColor="@android:color/white"
-            android:background="@drawable/flamingo_radius_btn"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+            android:layout_height="40dp"
+            android:layout_gravity="end"
+            android:minWidth="80dp"
+            android:background="@drawable/bg_next_button_gradient"
+            android:src="@mipmap/login_arrow_icon"
+            android:contentDescription="下一步"
+            android:scaleType="centerInside"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:enabled="false"
-            android:layout_gravity="right"
-            android:alpha="0.5"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp" />
 
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
-

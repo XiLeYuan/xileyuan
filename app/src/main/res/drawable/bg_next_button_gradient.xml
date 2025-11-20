@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 禁用状态 - 浅珊瑚红 -->
+    <item android:state_enabled="false">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/brand_primary_light" />
+            <corners android:radius="12dp" />
+        </shape>
+    </item>
+    <!-- 按压状态 -->
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="linear"
+                android:angle="0"
+                android:startColor="@color/brand_primary_dark"
+                android:endColor="@color/brand_primary" />
+            <corners android:radius="12dp" />
+        </shape>
+    </item>
+    <!-- 正常状态 - 从左到右渐变 -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="linear"
+                android:angle="0"
+                android:startColor="@color/brand_primary"
+                android:endColor="@color/brand_primary_light" />
+            <corners android:radius="12dp" />
+        </shape>
+    </item>
+</selector>
+
