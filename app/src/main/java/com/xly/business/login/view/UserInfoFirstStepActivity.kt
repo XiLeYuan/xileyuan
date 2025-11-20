@@ -55,6 +55,14 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
         viewBind.btnNext.setOnClickListener {
             submitInfo()
         }
+        
+        // 跳过按钮 - 直接进入首页
+        viewBind.tvSkip.setOnClickListener {
+            ActivityStackManager.startActivityAndClearStack(
+                this,
+                LYMainActivity::class.java
+            )
+        }
     }
 
     private fun setupAvatar() {

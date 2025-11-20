@@ -76,6 +76,44 @@
 
         </FrameLayout>
 
+        <!-- 随缘入口按钮容器（左侧，与筛选按钮一排） -->
+        <FrameLayout
+            android:id="@+id/fateButtonContainer"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:clickable="true"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:focusable="true"
+            android:gravity="center"
+            android:background="@drawable/bg_filter_circle_selector">
+
+            <!-- 随缘入口按钮图标 -->
+            <ImageView
+                android:id="@+id/fateButton"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/suiyuan_icon" />
+
+            <!-- 圆形进度条 -->
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/fateProgressBar"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:indicatorColor="@color/brand_orange"
+                app:indicatorSize="20dp"
+                app:trackColor="#33FF6B6B"
+                app:trackThickness="2dp" />
+
+        </FrameLayout>
+
         <!-- 筛选入口 -->
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivFilter"
