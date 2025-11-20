@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.xly.business.vip.model.VipRechargeOption
 import com.xly.R
+import com.xly.business.vip.model.VipRechargeOption
 
 class VipRechargeAdapter(
     private val list: List<VipRechargeOption>,
@@ -14,8 +14,11 @@ class VipRechargeAdapter(
 ) : RecyclerView.Adapter<VipRechargeAdapter.VipViewHolder>() {
 
     inner class VipViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvAmount: TextView = itemView.findViewById(R.id.tvAmount)
-        val tvDesc: TextView = itemView.findViewById(R.id.tvDesc)
+        val tvTag: TextView = itemView.findViewById(R.id.tvTag)
+        val tvCurrentPrice: TextView = itemView.findViewById(R.id.tvCurrentPrice)
+        val tvOriginalPrice: TextView = itemView.findViewById(R.id.tvOriginalPrice)
+        val tvPerMonth: TextView = itemView.findViewById(R.id.tvPerMonth)
+        val root: View = itemView.findViewById(R.id.layoutRoot)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VipViewHolder {
@@ -26,8 +29,24 @@ class VipRechargeAdapter(
 
     override fun onBindViewHolder(holder: VipViewHolder, position: Int) {
         val option = list[position]
-        holder.tvAmount.text = option.amount
-        holder.tvDesc.text = option.desc
+        holder.tvTag.text = option.tag
+        holder.tvCurrentPrice.text = option.currentPrice
+        holder.tvPerMonth.text = option.perMonthText
+
+        if (option.originalPrice.isNullOrEmpty()) {
+            holder.tvOriginalPrice.visibility = View.GONE
+        } else {
+            holder.tvOriginalPrice.visibility = View.VISIBLE
+            holder.tvOriginalPrice.text = option.originalPrice
+        }
+
+        // 主推高亮边框
+        if (option.isRecommended) {
+            holder.root.setBackgroundResource(R.drawable.vip_card_item_border_primary)
+        } else {
+            holder.root.setBackgroundResource(R.drawable.vip_card_item_border)
+        }
+
         holder.itemView.setOnClickListener { onItemClick(option) }
     }
 

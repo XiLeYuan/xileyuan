@@ -172,7 +172,7 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
 
         // VIP卡片内层点击 - 直接开通VIP
         viewBind.llVipInner.setOnClickListener {
-            showToast("开通VIP")
+            LookStarMeActivity.start(requireActivity())
         }
 
         // VIP开通按钮点击

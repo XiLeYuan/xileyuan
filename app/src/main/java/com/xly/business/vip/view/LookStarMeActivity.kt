@@ -4,53 +4,85 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import com.gyf.immersionbar.ImmersionBar
 import com.xly.base.LYBaseActivity
-import com.xly.business.vip.model.VipRechargeOption
-import com.xly.business.vip.view.adapter.VipRechargeAdapter
 import com.xly.databinding.ActivityStarMeBinding
 import com.xly.index.viewmodel.MainViewModel
-import com.xly.middlelibrary.utils.click
+import kotlin.math.abs
 
-class LookStarMeActivity: LYBaseActivity<ActivityStarMeBinding, MainViewModel>() {
-
+class LookStarMeActivity : LYBaseActivity<ActivityStarMeBinding, MainViewModel>() {
 
     companion object {
         fun start(c: Context) {
-            val intent = Intent(c,LookStarMeActivity::class.java)
+            val intent = Intent(c, LookStarMeActivity::class.java)
             (c as? Activity)?.startActivity(intent)
         }
     }
 
-
     override fun initView() {
+        // 顶部透明状态栏，文字使用浅色
+        ImmersionBar.with(this)
+            .statusBarDarkFont(false)
+            .transparentStatusBar()
+            .init()
 
-        viewBind.vipRechargeRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        Glide.with(this).load("https://picsum.photos/id/453/800/1200")
+            .into(viewBind.ivBanner)
+        setupViewPagerAndTabs()
+        setupAppBarOffset()
 
-        val options = listOf(
-            VipRechargeOption("¥30", "30天VIP"),
-            VipRechargeOption("¥88", "90天VIP"),
-            VipRechargeOption("¥168", "180天VIP"),
-            VipRechargeOption("¥299", "365天VIP")
-        )
-
-        viewBind.vipRechargeRecyclerView.adapter = VipRechargeAdapter(options) { selectedOption ->
-            // 处理点击事件，如弹窗确认、跳转支付等
-            showToast("选择了：${selectedOption.desc}")
-        }
+        viewBind.ivBack.setOnClickListener { finish() }
     }
 
+    private fun setupViewPagerAndTabs() {
+        val fragments: List<Fragment> = listOf(
+            WhoLikesMeFragment(),
+            VipTabFragment(),
+            SvipTabFragment()
+        )
+        val titles = listOf("谁喜欢我", "VIP", "SVIP")
 
+        viewBind.viewPager.offscreenPageLimit = fragments.size
+        viewBind.viewPager.adapter = object : FragmentStateAdapter(this) {
+            override fun getItemCount(): Int = fragments.size
+            override fun createFragment(position: Int): Fragment = fragments[position]
+        }
+        viewBind.viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-    override fun initOnClick() {
-        viewBind.lookStarBtn.click {
-            showToast("查看喜欢我的人")
-        }
-        viewBind.cancelTv.click {
-            finish()
-        }
+        TabLayoutMediator(viewBind.tabLayout, viewBind.viewPager) { tab, position ->
+            tab.text = titles[position]
+        }.attach()
+    }
+
+    private fun setupAppBarOffset() {
+        viewBind.appBarLayout.addOnOffsetChangedListener(
+            AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+                val totalScrollRange = appBarLayout.totalScrollRange
+                if (totalScrollRange == 0) return@OnOffsetChangedListener
+
+                val fraction = abs(verticalOffset) / totalScrollRange.toFloat()
+                val isCollapsed = fraction > 0.6f
+
+                if (isCollapsed) {
+                    viewBind.tabLayout.setTabTextColors(
+                        resources.getColor(android.R.color.darker_gray),
+                        resources.getColor(android.R.color.black)
+                    )
+                } else {
+                    viewBind.tabLayout.setTabTextColors(
+                        resources.getColor(android.R.color.system_surface_container_low_light),
+                        resources.getColor(android.R.color.white)
+                    )
+                }
+            }
+        )
     }
 
     override fun inflateBinding(layoutInflater: LayoutInflater): ActivityStarMeBinding {
@@ -60,5 +92,4 @@ class LookStarMeActivity: LYBaseActivity<ActivityStarMeBinding, MainViewModel>()
     override fun initViewModel(): MainViewModel {
         return ViewModelProvider(this)[MainViewModel::class.java]
     }
-
 }
