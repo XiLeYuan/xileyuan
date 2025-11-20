@@ -89,15 +89,15 @@
     <color name="bright_green">#00FF7F</color>
 
     <!-- ==================== 认证颜色系统 ==================== -->
-    <!-- 普通用户认证 - 信任蓝 -->
-    <color name="verify_user">#4A90E2</color>
-    <color name="verify_user_light">#6BA3E8</color>
-    <color name="verify_user_dark">#357ABD</color>
+    <!-- 普通用户认证 - 亮黄色 -->
+    <color name="verify_user">#FFEB3B</color>
+    <color name="verify_user_light">#FFF176</color>
+    <color name="verify_user_dark">#FDD835</color>
     
-    <!-- 红娘认证 - 专业深蓝 -->
-    <color name="verify_matchmaker">#2C5F8D</color>
-    <color name="verify_matchmaker_light">#4A7BA8</color>
-    <color name="verify_matchmaker_dark">#1E4A6B</color>
+    <!-- 红娘认证 - 深亮黄 -->
+    <color name="verify_matchmaker">#FDD835</color>
+    <color name="verify_matchmaker_light">#FFEB3B</color>
+    <color name="verify_matchmaker_dark">#F9A825</color>
 
     <!-- ==================== VIP颜色系统 ==================== -->
     <!-- VIP主色 - 尊贵金 -->

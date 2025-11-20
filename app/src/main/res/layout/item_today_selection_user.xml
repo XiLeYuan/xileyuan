@@ -91,7 +91,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tvNameAge"
-                    android:src="@mipmap/verified_icon"
+                    android:src="@mipmap/verified_icon2"
                     android:layout_marginStart="5dp"
                     android:visibility="gone"/>
 
