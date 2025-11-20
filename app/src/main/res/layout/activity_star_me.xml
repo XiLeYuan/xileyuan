@@ -61,7 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
-                    app:tabIndicatorColor="@color/colorPrimary"
+                    app:tabIndicatorColor="@color/white"
                     app:tabIndicatorHeight="3dp"
                     app:tabMode="fixed"
                     app:tabSelectedTextColor="@android:color/white"
