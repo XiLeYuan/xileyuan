@@ -150,7 +150,7 @@
 
         </LinearLayout>
 
-        <!-- 用户数量和查看详情按钮 - 横向布局 -->
+        <!-- 用户数量和右箭头 - 横向布局 -->
         <LinearLayout
             android:id="@+id/llUserCountAndDetails"
             android:layout_width="0dp"
@@ -160,51 +160,29 @@
             app:layout_constraintTop_toBottomOf="@id/llTags"
             android:layout_marginTop="12dp"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical|end"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="查看用户资源">
 
             <!-- 用户数量 -->
             <TextView
                 android:id="@+id/tvUserCount"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="128位用户"
                 android:textSize="@dimen/text_size_body_small"
                 android:textColor="@color/text_secondary"
                 android:gravity="center_vertical" />
 
-            <!-- 查看按钮 -->
-            <LinearLayout
-                android:id="@+id/llViewDetails"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="@drawable/bg_like_button"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:paddingTop="6dp"
-                android:paddingBottom="6dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:contentDescription="查看用户资源">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="查看"
-                    android:textSize="12sp"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:layout_marginStart="2dp"
-                    android:src="@drawable/ic_arrow_right"
-                    app:tint="#FFFFFF" />
-
-            </LinearLayout>
+            <!-- 右箭头 -->
+            <ImageView
+                android:id="@+id/ivArrowRight"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginStart="4dp"
+                android:src="@drawable/ic_arrow_right"
+                app:tint="@color/text_secondary" />
 
         </LinearLayout>
 

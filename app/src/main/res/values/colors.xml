@@ -88,6 +88,52 @@
     <!-- 亮绿色 -->
     <color name="bright_green">#00FF7F</color>
 
+    <!-- ==================== 认证颜色系统 ==================== -->
+    <!-- 普通用户认证 - 信任蓝 -->
+    <color name="verify_user">#4A90E2</color>
+    <color name="verify_user_light">#6BA3E8</color>
+    <color name="verify_user_dark">#357ABD</color>
+    
+    <!-- 红娘认证 - 专业深蓝 -->
+    <color name="verify_matchmaker">#2C5F8D</color>
+    <color name="verify_matchmaker_light">#4A7BA8</color>
+    <color name="verify_matchmaker_dark">#1E4A6B</color>
+
+    <!-- ==================== VIP颜色系统 ==================== -->
+    <!-- VIP主色 - 尊贵金 -->
+    <color name="vip_gold">#FFB400</color>
+    <color name="vip_gold_light">#FFC933</color>
+    <color name="vip_gold_dark">#E6A200</color>
+
+    <!-- ==================== 标签颜色系统 ==================== -->
+    <!-- 精选/推荐标签 -->
+    <color name="tag_featured_bg">#FF6B6B</color>
+    <color name="tag_featured_text">#FFFFFF</color>
+    
+    <!-- 普通信息标签 -->
+    <color name="tag_info_bg">#F0F0F0</color>
+    <color name="tag_info_text">#666666</color>
+    
+    <!-- 特色标签 -->
+    <color name="tag_special_bg">#FFF4E6</color>
+    <color name="tag_special_text">#FF8C42</color>
+
+    <!-- ==================== 状态颜色系统 ==================== -->
+    <color name="status_online">#4ECDC4</color>
+    <color name="status_offline">#CCCCCC</color>
+    <color name="status_new">#FFD93D</color>
+
+    <!-- ==================== 按钮状态颜色 ==================== -->
+    <color name="button_primary_pressed">#E85A5A</color>
+    <color name="button_secondary_pressed_bg">#FFF5F5</color>
+    <color name="button_followed_bg">#F0F0F0</color>
+    <color name="button_followed_text">#666666</color>
+
+    <!-- ==================== 图标颜色系统 ==================== -->
+    <color name="icon_default">#2C2C2C</color>
+    <color name="icon_accent">#FF6B6B</color>
+    <color name="icon_secondary">#999999</color>
+
 </resources>
 
 

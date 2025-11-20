@@ -94,8 +94,8 @@ class MatchmakerAdapter(
             // 标签
             setupTags(binding.llTags, matchmaker.tags)
 
-            // 查看详情按钮点击事件
-            binding.llViewDetails.setOnClickListener {
+            // 用户数量区域点击事件（跳转到用户资源详情页）
+            binding.llUserCountAndDetails.setOnClickListener {
                 onViewDetailsClick(matchmaker)
             }
 
