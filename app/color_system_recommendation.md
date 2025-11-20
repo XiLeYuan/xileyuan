@@ -132,39 +132,7 @@
 
 ```xml
 <!-- 认证颜色 -->
-<color name="verify_user">#4A90E2</color>          <!-- 普通用户认证 - 信任蓝 -->
-<color name="verify_user_light">#6BA3E8</color>   <!-- 普通用户认证 - 浅色 -->
-<color name="verify_user_dark">#357ABD</color>    <!-- 普通用户认证 - 深色 -->
 
-<color name="verify_matchmaker">#2C5F8D</color>   <!-- 红娘认证 - 专业深蓝 -->
-<color name="verify_matchmaker_light">#4A7BA8</color> <!-- 红娘认证 - 浅色 -->
-<color name="verify_matchmaker_dark">#1E4A6B</color> <!-- 红娘认证 - 深色 -->
-
-<!-- VIP颜色 -->
-<color name="vip_gold">#FFB400</color>            <!-- VIP主色 - 温暖金 -->
-<color name="vip_gold_light">#FFC933</color>      <!-- VIP浅色 -->
-<color name="vip_gold_dark">#E6A200</color>       <!-- VIP深色 -->
-
-<!-- 标签颜色 -->
-<color name="tag_featured_bg">#FF6B6B</color>      <!-- 精选标签背景 -->
-<color name="tag_info_bg">#F0F0F0</color>         <!-- 普通信息标签背景 -->
-<color name="tag_special_bg">#FFF4E6</color>      <!-- 特色标签背景 -->
-<color name="tag_special_text">#FF8C42</color>    <!-- 特色标签文字 -->
-
-<!-- 状态颜色 -->
-<color name="status_online">#4ECDC4</color>       <!-- 在线状态 -->
-<color name="status_offline">#CCCCCC</color>       <!-- 离线状态 -->
-<color name="status_new">#FFD93D</color>          <!-- 新用户 -->
-
-<!-- 按钮状态 -->
-<color name="button_primary_pressed">#E85A5A</color> <!-- 主要按钮按压态 -->
-<color name="button_secondary_pressed_bg">#FFF5F5</color> <!-- 次要按钮按压背景 -->
-
-<!-- 图标颜色 -->
-<color name="icon_default">#2C2C2C</color>        <!-- 默认图标 -->
-<color name="icon_accent">#FF6B6B</color>         <!-- 强调图标 -->
-<color name="icon_secondary">#999999</color>      <!-- 辅助图标 -->
-```
 
 ---
 

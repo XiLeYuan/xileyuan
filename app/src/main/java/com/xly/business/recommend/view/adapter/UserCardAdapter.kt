@@ -103,6 +103,11 @@ class UserCardAdapter(
             
             // 设置认证标识显示（暂时默认显示，后续可以从userCard添加isVerified字段）
             verifyIv.visibility = View.VISIBLE
+            // 设置认证图标颜色为普通用户认证颜色（信任蓝）
+            verifyIv.setColorFilter(
+                itemView.context.getColor(R.color.verify_user),
+                android.graphics.PorterDuff.Mode.SRC_IN
+            )
             
             tvLocation.text = userCard.location
             tvBio.text = userCard.bio

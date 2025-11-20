@@ -72,6 +72,11 @@ class CherryPickAdapter(
 
             // 认证标识显示（暂时默认显示，后续可以从user添加isVerified字段控制）
             binding.ivVerified.visibility = View.VISIBLE
+            // 设置认证图标颜色为普通用户认证颜色（信任蓝）
+            binding.ivVerified.setColorFilter(
+                ContextCompat.getColor(binding.root.context, R.color.verify_user),
+                android.graphics.PorterDuff.Mode.SRC_IN
+            )
 
             // 家乡和现居地
             if (user.hometown.isNotEmpty()) {
