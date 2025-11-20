@@ -20,7 +20,7 @@
             android:textSize="18sp"
             android:textColor="@color/text_primary"
             android:gravity="center"
-            android:paddingTop="24dp"
+            android:paddingTop="34dp"
             android:paddingBottom="16dp" />
 
     <!-- 卡片容器 -->
@@ -37,7 +37,55 @@
 
 
 
-        <!-- 第一行：用户昵称 -->
+        <!-- 第一行：头像上传 -->
+        <LinearLayout
+            android:id="@+id/llAvatar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:minHeight="56dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="头像"
+                android:textSize="16sp"
+                android:textColor="@color/text_primary" />
+
+            <com.xly.middlelibrary.widget.LYRoundImageView
+                android:id="@+id/ivAvatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/head_img"
+                android:layout_marginEnd="8dp" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_arrow_right"
+                app:tint="@color/text_hint" />
+
+        </LinearLayout>
+
+        <!-- 分割线 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
+
+        <!-- 第二行：用户昵称 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -117,7 +165,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="男士"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textColor="@color/text_primary"
                     android:layout_marginEnd="24dp" />
 
@@ -126,7 +174,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="女士"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textColor="@color/text_primary" />
 
             </RadioGroup>
@@ -381,25 +429,30 @@
         </LinearLayout>
 
         <!-- 下一步按钮 -->
-        <ImageButton
+        <FrameLayout
             android:id="@+id/btnNext"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="end"
             android:minWidth="80dp"
             android:background="@drawable/bg_next_button_gradient"
-            android:src="@mipmap/login_arrow_icon"
-            android:contentDescription="下一步"
-            android:scaleType="centerInside"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
+            android:clickable="true"
+            android:focusable="true"
             android:enabled="false"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp" />
+            android:layout_marginBottom="24dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/login_arrow_icon"
+                android:contentDescription="下一步"
+                android:scaleType="fitCenter" />
+
+        </FrameLayout>
 
     </LinearLayout>
 

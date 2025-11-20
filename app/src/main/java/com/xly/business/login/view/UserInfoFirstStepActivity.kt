@@ -39,6 +39,7 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
     override fun initViewModel() = ViewModelProvider(this)[LoginViewModel::class.java]
 
     override fun initView() {
+        setupAvatar()
         setupNickname()
         setupGender()
         setupAge()
@@ -56,6 +57,14 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
         }
     }
 
+    private fun setupAvatar() {
+        viewBind.llAvatar.setOnClickListener {
+            // TODO: 实现头像上传功能，可以弹出图片选择器
+            // 例如：使用图片选择库（如 ImagePicker）或系统 Intent
+            showToast("头像上传功能待实现")
+        }
+    }
+
     private fun setupNickname() {
         viewBind.etNickname.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -65,6 +74,21 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
             }
             override fun afterTextChanged(s: Editable?) {}
         })
+        
+        // 监听焦点变化，失去焦点时清除焦点隐藏光标
+        viewBind.etNickname.setOnFocusChangeListener { view, hasFocus ->
+            if (!hasFocus) {
+                view.clearFocus()
+            }
+        }
+        
+        // 点击其他地方时隐藏键盘和光标
+        viewBind.root.setOnClickListener {
+            viewBind.etNickname.clearFocus()
+            // 隐藏键盘
+            val imm = getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+            imm.hideSoftInputFromWindow(viewBind.etNickname.windowToken, 0)
+        }
     }
 
     private fun setupGender() {

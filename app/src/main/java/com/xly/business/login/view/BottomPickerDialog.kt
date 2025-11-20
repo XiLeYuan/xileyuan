@@ -1,9 +1,12 @@
 package com.xly.business.login.view
 
 import android.content.Context
+import android.graphics.Outline
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +29,29 @@ class BottomPickerDialog(
         binding = DialogBottomPickerBinding.inflate(LayoutInflater.from(context))
         setContentView(binding.root)
         setupViews()
+    }
+    
+    override fun onStart() {
+        super.onStart()
+        // 设置底部弹窗的圆角
+        val bottomSheet = findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+        bottomSheet?.let {
+            it.background = null
+            it.setBackgroundDrawable(null)
+            it.post {
+                val cornerRadius = 24 * context.resources.displayMetrics.density
+                it.clipToOutline = true
+                it.outlineProvider = object : ViewOutlineProvider() {
+                    override fun getOutline(view: View, outline: Outline) {
+                        if (view.width > 0 && view.height > 0) {
+                            outline.setRoundRect(0, 0, view.width, view.height, cornerRadius)
+                        }
+                    }
+                }
+            }
+        }
+        // 设置窗口背景为透明
+        window?.setBackgroundDrawableResource(android.R.color.transparent)
     }
 
     private fun setupViews() {
