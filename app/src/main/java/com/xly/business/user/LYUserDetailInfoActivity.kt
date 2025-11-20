@@ -93,6 +93,7 @@ class LYUserDetailInfoActivity : AppCompatActivity() {
         setupBasicInfoTags()
         setupSelfIntroduction()
         setupMateRequirement()
+        setupFamilyInfo()
     }
     
     private fun setupSelfIntroduction() {
@@ -109,6 +110,17 @@ class LYUserDetailInfoActivity : AppCompatActivity() {
     private fun setupMateRequirement() {
         val tvMateRequirement = findViewById<android.widget.TextView>(R.id.tvMateRequirement)
         tvMateRequirement?.let {
+            // 设置字体样式为 SERIF（与红娘列表的介绍文本样式一致）
+            it.typeface = android.graphics.Typeface.create(
+                android.graphics.Typeface.SERIF,
+                android.graphics.Typeface.NORMAL
+            )
+        }
+    }
+    
+    private fun setupFamilyInfo() {
+        val tvFamilyInfo = findViewById<android.widget.TextView>(R.id.tvFamilyInfo)
+        tvFamilyInfo?.let {
             // 设置字体样式为 SERIF（与红娘列表的介绍文本样式一致）
             it.typeface = android.graphics.Typeface.create(
                 android.graphics.Typeface.SERIF,
