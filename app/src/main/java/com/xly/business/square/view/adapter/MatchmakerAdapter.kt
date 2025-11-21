@@ -25,8 +25,7 @@ import com.xly.middlelibrary.utils.LYFontUtil
 class MatchmakerAdapter(
     private val onItemClick: (Matchmaker) -> Unit,
     private val onViewDetailsClick: (Matchmaker) -> Unit,
-    private val onContactClick: (Matchmaker) -> Unit,
-    private val onFollowClick: (Matchmaker) -> Unit
+    private val onContactClick: (Matchmaker) -> Unit
 ) : ListAdapter<Matchmaker, MatchmakerAdapter.MatchmakerViewHolder>(MatchmakerDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchmakerViewHolder {
@@ -39,7 +38,7 @@ class MatchmakerAdapter(
     }
 
     override fun onBindViewHolder(holder: MatchmakerViewHolder, position: Int) {
-        holder.bind(getItem(position), onItemClick, onViewDetailsClick, onContactClick, onFollowClick)
+        holder.bind(getItem(position), onItemClick, onViewDetailsClick, onContactClick)
     }
 
     class MatchmakerViewHolder(
@@ -50,8 +49,7 @@ class MatchmakerAdapter(
             matchmaker: Matchmaker,
             onItemClick: (Matchmaker) -> Unit,
             onViewDetailsClick: (Matchmaker) -> Unit,
-            onContactClick: (Matchmaker) -> Unit,
-            onFollowClick: (Matchmaker) -> Unit
+            onContactClick: (Matchmaker) -> Unit
         ) {
             // 头像 - 加载本地 mipmap 资源
             val context = binding.root.context
@@ -78,7 +76,7 @@ class MatchmakerAdapter(
             binding.ivVerified.visibility =
                 if (matchmaker.isVerified) View.VISIBLE else View.GONE
 
-            // 用户数量 - 突出显示数字
+            // 用户数量 - 数字和文本大小一致（右上角）
             setupUserCount(binding.tvUserCount, matchmaker.userCount)
 
             // 服务区域
@@ -94,14 +92,14 @@ class MatchmakerAdapter(
             // 标签
             setupTags(binding.llTags, matchmaker.tags)
 
-            // 用户数量区域点击事件（跳转到用户资源详情页）
-            binding.llUserCountAndDetails.setOnClickListener {
+            // 箭头按钮点击事件（跳转到用户资源详情页）
+            binding.ivArrowButton.setOnClickListener {
                 onViewDetailsClick(matchmaker)
             }
 
-            // 关注按钮点击事件
-            binding.llFollow.setOnClickListener {
-                onFollowClick(matchmaker)
+            // 用户数量点击事件（跳转到用户资源详情页）
+            binding.tvUserCount.setOnClickListener {
+                onViewDetailsClick(matchmaker)
             }
 
             // 点击事件（点击卡片其他区域）
@@ -176,10 +174,10 @@ class MatchmakerAdapter(
             val numberStart = 0
             val numberEnd = userCount.toString().length
             
-            // 设置数字颜色为橘色
-            val orangeColor = ContextCompat.getColor(textView.context, R.color.brand_orange)
+            // 设置数字颜色为主题色（温暖珊瑚红）
+            val primaryColor = ContextCompat.getColor(textView.context, R.color.brand_primary)
             spannableString.setSpan(
-                ForegroundColorSpan(orangeColor),
+                ForegroundColorSpan(primaryColor),
                 numberStart,
                 numberEnd,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -193,9 +191,9 @@ class MatchmakerAdapter(
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             
-            // 设置数字字体为斜体加粗
+            // 设置数字字体为加粗
             spannableString.setSpan(
-                StyleSpan(android.graphics.Typeface.BOLD_ITALIC),
+                StyleSpan(android.graphics.Typeface.BOLD),
                 numberStart,
                 numberEnd,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE

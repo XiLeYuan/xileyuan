@@ -79,42 +79,21 @@
                     android:textSize="@dimen/text_size_body_small"
                     android:textColor="@color/text_secondary" />
 
-                <!-- 关注按钮 - 右上角，与名字和地点整体竖直居中 -->
-                <LinearLayout
-                    android:id="@+id/llFollow"
+                <!-- 用户数量 - 右上角，与名字和地点整体竖直居中 -->
+                <TextView
+                    android:id="@+id/tvUserCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tvName"
                     app:layout_constraintBottom_toBottomOf="@id/tvLocation"
-                    android:orientation="horizontal"
+                    android:text="128位用户"
+                    android:textSize="@dimen/text_size_body_small"
                     android:gravity="center_vertical"
-                    android:background="@drawable/bg_follow_button"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:paddingTop="6dp"
-                    android:paddingBottom="6dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:contentDescription="关注">
-
-                    <ImageView
-                        android:id="@+id/ivFollowIcon"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_follow"
-                        app:tint="@color/brand_primary" />
-
-                    <TextView
-                        android:id="@+id/tvFollowText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="2dp"
-                        android:text="关注"
-                        android:textSize="12sp"
-                        android:textColor="@color/brand_primary" />
-
-                </LinearLayout>
+                    android:foreground="?attr/selectableItemBackground"
+                    android:contentDescription="查看用户资源" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -137,53 +116,42 @@
             android:ellipsize="end"
             android:lineSpacingExtra="4dp" />
 
-        <!-- 标签 -->
-        <LinearLayout
-            android:id="@+id/llTags"
+        <!-- 标签和箭头按钮 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clTagsContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvDescription"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal">
+            android:layout_marginTop="12dp">
 
-        </LinearLayout>
-
-        <!-- 用户数量和右箭头 - 横向布局 -->
-        <LinearLayout
-            android:id="@+id/llUserCountAndDetails"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/llTags"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical|end"
-            android:clickable="true"
-            android:focusable="true"
-            android:contentDescription="查看用户资源">
-
-            <!-- 用户数量 -->
-            <TextView
-                android:id="@+id/tvUserCount"
-                android:layout_width="wrap_content"
+            <!-- 标签 -->
+            <LinearLayout
+                android:id="@+id/llTags"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="128位用户"
-                android:textSize="@dimen/text_size_body_small"
-                android:textColor="@color/text_secondary"
-                android:gravity="center_vertical" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/ivArrowButton"
+                android:orientation="horizontal">
 
-            <!-- 右箭头 -->
+            </LinearLayout>
+
+            <!-- 箭头按钮 - 最右边 -->
             <ImageView
-                android:id="@+id/ivArrowRight"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:layout_marginStart="4dp"
+                android:id="@+id/ivArrowButton"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/llTags"
+                app:layout_constraintBottom_toBottomOf="@id/llTags"
                 android:src="@drawable/ic_arrow_right"
-                app:tint="@color/text_secondary" />
+                app:tint="@color/brand_primary"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:contentDescription="查看用户资源" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

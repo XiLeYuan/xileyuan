@@ -66,10 +66,6 @@ class MatchmakerFragment : LYBaseFragment<FragmentMatchmakerBinding, RecommendVi
             onContactClick = { matchmaker ->
                 // 点击联系红娘按钮
                 contactMatchmaker(matchmaker)
-            },
-            onFollowClick = { matchmaker ->
-                // 点击关注按钮
-                followMatchmaker(matchmaker)
             }
         )
 
