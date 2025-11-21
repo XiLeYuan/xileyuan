@@ -48,13 +48,32 @@
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
-            <!-- 红娘头像 -->
-            <com.xly.middlelibrary.widget.LYRoundImageView
-                android:id="@+id/ivMatchmakerAvatar"
+            <!-- 头像容器（包含头像和认证标识） -->
+            <FrameLayout
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/head_img" />
+                android:layout_marginStart="0dp">
+
+                <!-- 红娘头像 -->
+                <com.xly.middlelibrary.widget.LYRoundImageView
+                    android:id="@+id/ivMatchmakerAvatar"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/head_img" />
+
+                <!-- 认证标识（头像右下角） -->
+                <ImageView
+                    android:id="@+id/ivVerified"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:src="@mipmap/verified_icon2"
+                    android:visibility="visible" />
+
+            </FrameLayout>
 
             <!-- 红娘基本信息 -->
             <LinearLayout
