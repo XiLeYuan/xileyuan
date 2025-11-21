@@ -22,11 +22,10 @@ class BottomPickerDialog(
     private val onItemSelected: (String) -> Unit
 ) : BottomSheetDialog(context) {
     
-    private lateinit var binding: DialogBottomPickerBinding
+    private var binding: DialogBottomPickerBinding = DialogBottomPickerBinding.inflate(LayoutInflater.from(context))
     private var selectedPosition = -1
 
     init {
-        binding = DialogBottomPickerBinding.inflate(LayoutInflater.from(context))
         setContentView(binding.root)
         setupViews()
     }
