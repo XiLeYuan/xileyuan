@@ -26,6 +26,8 @@ class LookStarMeActivity : LYBaseActivity<ActivityStarMeBinding, MainViewModel>(
         }
     }
 
+    private var isLightStatusBar = false
+
     override fun initView() {
         // 顶部透明状态栏，文字使用浅色
         ImmersionBar.with(this)
@@ -33,7 +35,7 @@ class LookStarMeActivity : LYBaseActivity<ActivityStarMeBinding, MainViewModel>(
             .transparentStatusBar()
             .init()
 
-        Glide.with(this).load("https://picsum.photos/id/453/800/1200")
+        Glide.with(this).load(com.xly.R.mipmap.banner_who_likes_me)
             .into(viewBind.ivBanner)
         setupViewPagerAndTabs()
         setupAppBarOffset()
@@ -55,6 +57,19 @@ class LookStarMeActivity : LYBaseActivity<ActivityStarMeBinding, MainViewModel>(
             override fun createFragment(position: Int): Fragment = fragments[position]
         }
         viewBind.viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        
+        viewBind.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                val bannerResId = when (position) {
+                    0 -> com.xly.R.mipmap.banner_who_likes_me
+                    1 -> com.xly.R.mipmap.banner_vip
+                    2 -> com.xly.R.mipmap.banner_svip
+                    else -> com.xly.R.mipmap.banner_who_likes_me
+                }
+                Glide.with(this@LookStarMeActivity).load(bannerResId).into(viewBind.ivBanner)
+            }
+        })
 
         TabLayoutMediator(viewBind.tabLayout, viewBind.viewPager) { tab, position ->
             tab.text = titles[position]
@@ -75,11 +90,27 @@ class LookStarMeActivity : LYBaseActivity<ActivityStarMeBinding, MainViewModel>(
                         resources.getColor(android.R.color.darker_gray),
                         resources.getColor(android.R.color.black)
                     )
+                    if (!isLightStatusBar) {
+                        ImmersionBar.with(this)
+                            .statusBarColor(android.R.color.white)
+                            .statusBarDarkFont(true)
+                            .init()
+                        viewBind.ivBack.setImageResource(com.xly.R.mipmap.ic_arrow_left_black)
+                        isLightStatusBar = true
+                    }
                 } else {
                     viewBind.tabLayout.setTabTextColors(
                         resources.getColor(android.R.color.system_surface_container_low_light),
                         resources.getColor(android.R.color.white)
                     )
+                    if (isLightStatusBar) {
+                        ImmersionBar.with(this)
+                            .transparentStatusBar()
+                            .statusBarDarkFont(false)
+                            .init()
+                        viewBind.ivBack.setImageResource(com.xly.R.mipmap.ic_arrow_left_white)
+                        isLightStatusBar = false
+                    }
                 }
             }
         )
