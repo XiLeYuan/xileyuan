@@ -2,6 +2,8 @@ package com.xly.business.login.view
 
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -51,8 +53,9 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
     override fun initOnClick() {
         // 下一步按钮
         viewBind.btnNext.setOnClickListener {
-            UserInfoSecondStepActivity.start(this)
-//            submitInfo()
+            if (validateInput()) {
+                simulateNetworkRequest()
+            }
         }
         
         // 跳过按钮 - 直接进入首页
@@ -266,11 +269,32 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
         return true
     }
 
+    private fun simulateNetworkRequest() {
+        // 显示加载状态
+        showLoading()
+        
+        // 保存到 ViewModel
+        viewModel.nickname = nickname
+        viewModel.gender = selectedGender
+        // 解析年龄和身高数值
+        val age = ageValue?.replace("岁", "")?.replace("+", "")?.toIntOrNull() ?: 0
+        val height = heightValue?.replace("cm", "")?.toIntOrNull() ?: 0
+        
+        // 模拟网络请求延迟（1.5秒）
+        Handler(Looper.getMainLooper()).postDelayed({
+            hideLoading()
+            // 跳转到第三步
+//            UserInfoThirdStepActivity.start(this)
+            UserInfoSecondStepActivity.start(this)
+            finish()
+        }, 1500)
+    }
+
     override fun initObservers() {
         viewModel.registerResult.observe(this) { authResponse ->
             hideLoading()
-            // 跳转到第二步
-            UserInfoSecondStepActivity.start(this)
+            // 跳转到第三步
+            UserInfoThirdStepActivity.start(this)
             finish()
         }
 

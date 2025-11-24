@@ -27,6 +27,10 @@ class LoginViewModel : ViewModel() {
     var school: String? = null
     var job: String? = null
     var income: String? = null
+    var houseStatus: String? = null
+    var carStatus: String? = null
+    var maritalStatus: String? = null
+    var childrenStatus: String? = null
     var nickname: String? = null
     var avatarUrl: String? = null
 
