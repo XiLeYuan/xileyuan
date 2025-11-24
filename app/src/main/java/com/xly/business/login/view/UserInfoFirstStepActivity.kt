@@ -9,7 +9,14 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.widget.RadioButton
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.luck.picture.lib.basic.PictureSelector
+import com.luck.picture.lib.config.SelectModeConfig
+import com.luck.picture.lib.config.SelectMimeType
+import com.luck.picture.lib.entity.LocalMedia
+import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.xly.R
 import com.xly.base.ActivityStackManager
 import com.xly.base.LYBaseActivity
@@ -17,6 +24,9 @@ import com.xly.business.login.model.UserInfoRegisterReq
 import com.xly.business.login.viewmodel.LoginViewModel
 import com.xly.databinding.ActivityUserInfoFirstStepBinding
 import com.xly.index.LYMainActivity
+import com.xly.middlelibrary.utils.GlideEngine
+import com.xly.middlelibrary.utils.LYUtils
+import java.io.File
 
 class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBinding, LoginViewModel>() {
 
@@ -69,10 +79,112 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
 
     private fun setupAvatar() {
         viewBind.llAvatar.setOnClickListener {
-            // TODO: 实现头像上传功能，可以弹出图片选择器
-            // 例如：使用图片选择库（如 ImagePicker）或系统 Intent
-            showToast("头像上传功能待实现")
+            showAvatarPickerDialog()
         }
+    }
+
+    private fun showAvatarPickerDialog() {
+        val dialog = AvatarPickerBottomSheetDialogFragment().apply {
+            onCameraClick = {
+                selectAvatarFromCamera()
+            }
+            onGalleryClick = {
+                selectAvatarFromGallery()
+            }
+        }
+        dialog.show(supportFragmentManager, "AvatarPickerDialog")
+    }
+
+    private fun selectAvatarFromCamera() {
+        // 检查权限
+        if (!LYUtils.checkStoragePermission(this)) {
+            LYUtils.requestStoragePermission(this)
+            return
+        }
+        if (!LYUtils.checkCameraPermission(this)) {
+            LYUtils.requestCameraPermission(this)
+            return
+        }
+
+        // 使用PictureSelector拍照，启用裁剪，设置高大于宽的比例（3:2，高度:宽度）
+        PictureSelector.create(this)
+            .openCamera(SelectMimeType.ofImage())
+            .setCropEngine(com.xly.middlelibrary.utils.AvatarCropEngine())
+            .forResult(object : OnResultCallbackListener<LocalMedia> {
+                override fun onResult(result: ArrayList<LocalMedia?>?) {
+                    if (result != null && result.isNotEmpty()) {
+                        val localMedia = result[0]
+                        val filePath = localMedia?.availablePath
+                        if (!filePath.isNullOrEmpty()) {
+                            // 如果是 content:// URI，直接使用 Uri，否则使用 File
+                            if (filePath.startsWith("content://")) {
+                                Glide.with(this@UserInfoFirstStepActivity)
+                                    .load(android.net.Uri.parse(filePath))
+                                    .circleCrop()
+                                    .into(viewBind.ivAvatar)
+                            } else {
+                                processSelectedImage(File(filePath))
+                            }
+                        }
+                    }
+                }
+
+                override fun onCancel() {
+                    // 用户取消拍照
+                }
+            })
+    }
+
+    private fun selectAvatarFromGallery() {
+        // 检查权限
+        if (!LYUtils.checkStoragePermission(this)) {
+            LYUtils.requestStoragePermission(this)
+            return
+        }
+
+        // 使用PictureSelector选择图片，启用裁剪，设置高大于宽的比例（3:2，高度:宽度）
+        PictureSelector.create(this)
+            .openGallery(SelectMimeType.ofImage())
+            .setImageEngine(GlideEngine.instance)
+            .setMaxSelectNum(1)
+            .setSelectionMode(SelectModeConfig.SINGLE)
+            .setCropEngine(com.xly.middlelibrary.utils.AvatarCropEngine())
+            .forResult(object : OnResultCallbackListener<LocalMedia> {
+                override fun onResult(result: ArrayList<LocalMedia?>?) {
+                    if (result != null && result.isNotEmpty()) {
+                        val localMedia = result[0]
+                        val filePath = localMedia?.availablePath
+                        if (!filePath.isNullOrEmpty()) {
+                            // 如果是 content:// URI，直接使用 Uri，否则使用 File
+                            if (filePath.startsWith("content://")) {
+                                Glide.with(this@UserInfoFirstStepActivity)
+                                    .load(android.net.Uri.parse(filePath))
+                                    .circleCrop()
+                                    .into(viewBind.ivAvatar)
+                            } else {
+                                processSelectedImage(File(filePath))
+                            }
+                        }
+                    }
+                }
+
+                override fun onCancel() {
+                    // 用户取消选择
+                }
+            })
+    }
+
+    private fun processSelectedImage(imageFile: File) {
+        // 显示选择的图片
+        // 使用文件路径字符串加载，兼容 content:// URI
+        val imagePath = imageFile.absolutePath
+        Glide.with(this)
+            .load(if (imagePath.startsWith("content://")) android.net.Uri.parse(imagePath) else imageFile)
+            .circleCrop()
+            .into(viewBind.ivAvatar)
+        
+        // 保存图片路径到ViewModel（如果需要上传到服务器）
+        // viewModel.avatarPath = imagePath
     }
 
     private fun setupNickname() {

@@ -219,6 +219,8 @@ android {
 
         // PictureSelector 图片选择器
         implementation 'io.github.lucksiege:pictureselector:v3.11.2'
+
+        implementation 'io.github.lucksiege:ucrop:v3.11.2'
         
         // Luban 图片压缩
         implementation 'top.zibin:Luban:1.1.8'

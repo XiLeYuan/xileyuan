@@ -98,4 +98,28 @@ object LYUtils {
                 })
         }
     }
+
+    /**
+     * 检查相机权限
+     */
+    fun checkCameraPermission(context: Context): Boolean {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+    }
+
+    /**
+     * 申请相机权限
+     */
+    fun requestCameraPermission(activity: Activity) {
+        XXPermissions.with(activity)
+            .permission(Permission.CAMERA)
+            .request(object : OnPermissionCallback {
+                override fun onGranted(permissions: MutableList<String>, allGranted: Boolean) {
+                    // 权限申请成功
+                }
+                
+                override fun onDenied(permissions: MutableList<String>, doNotAskAgain: Boolean) {
+                    // 权限申请失败
+                }
+            })
+    }
 }
