@@ -270,8 +270,11 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
     }
 
     private fun simulateNetworkRequest() {
-        // 显示加载状态
-        showLoading()
+        // 显示按钮上的进度条，隐藏箭头，禁用按钮
+        viewBind.progressBar.visibility = android.view.View.VISIBLE
+        viewBind.ivArrow.visibility = android.view.View.GONE
+        viewBind.btnNext.isEnabled = false
+        viewBind.btnNext.isClickable = false
         
         // 保存到 ViewModel
         viewModel.nickname = nickname
@@ -282,7 +285,12 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
         
         // 模拟网络请求延迟（1.5秒）
         Handler(Looper.getMainLooper()).postDelayed({
-            hideLoading()
+            // 恢复按钮状态
+            viewBind.progressBar.visibility = android.view.View.GONE
+            viewBind.ivArrow.visibility = android.view.View.VISIBLE
+            viewBind.btnNext.isEnabled = true
+            viewBind.btnNext.isClickable = true
+            
             // 跳转到第三步
 //            UserInfoThirdStepActivity.start(this)
             UserInfoSecondStepActivity.start(this)

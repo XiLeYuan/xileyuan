@@ -423,12 +423,24 @@
             android:layout_marginBottom="24dp">
 
             <ImageView
+                android:id="@+id/ivArrow"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:src="@mipmap/login_arrow_icon"
                 android:contentDescription="下一步"
                 android:scaleType="fitCenter" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progressBar"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:indicatorColor="@color/white"
+                app:indicatorSize="20dp"
+                app:trackThickness="2dp" />
 
         </FrameLayout>
 
