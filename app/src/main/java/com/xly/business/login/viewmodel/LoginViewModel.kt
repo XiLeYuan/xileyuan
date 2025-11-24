@@ -31,6 +31,8 @@ class LoginViewModel : ViewModel() {
     var carStatus: String? = null
     var maritalStatus: String? = null
     var childrenStatus: String? = null
+    var lifePhotos: MutableList<String> = mutableListOf()
+    var selfIntroduction: String? = null
     var nickname: String? = null
     var avatarUrl: String? = null
 
