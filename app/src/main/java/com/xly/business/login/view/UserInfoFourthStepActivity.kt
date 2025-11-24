@@ -7,7 +7,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.config.SelectModeConfig
 import com.luck.picture.lib.config.SelectMimeType
@@ -64,12 +64,12 @@ class UserInfoFourthStepActivity : LYBaseActivity<ActivityUserInfoFourthStepBind
     }
 
     private fun setupLifePhotos() {
-        val layoutManager = GridLayoutManager(this, 4)
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         viewBind.rvLifePhotos.layoutManager = layoutManager
         
         photoAdapter = LifePhotoAdapter4(
             photos = lifePhotoList,
-            onAddClick = { selectLifePhotos() },
+            onAddClick = { showLifePhotoPickerDialog() },
             onDeleteClick = { position ->
                 lifePhotoList.removeAt(position)
                 photoAdapter.notifyDataSetChanged()
@@ -105,23 +105,85 @@ class UserInfoFourthStepActivity : LYBaseActivity<ActivityUserInfoFourthStepBind
         }
     }
 
-    private fun selectLifePhotos() {
-        if (!LYUtils.checkStoragePermission(this)) {
-            LYUtils.requestStoragePermission(this)
-            return
-        }
-        
+    private fun showLifePhotoPickerDialog() {
         val remainingSlots = 4 - lifePhotoList.size
         if (remainingSlots <= 0) {
             showToast("最多只能上传4张生活照")
             return
         }
         
+        val dialog = AvatarPickerBottomSheetDialogFragment().apply {
+            onCameraClick = {
+                selectLifePhotoFromCamera()
+            }
+            onGalleryClick = {
+                selectLifePhotoFromGallery()
+            }
+        }
+        dialog.show(supportFragmentManager, "LifePhotoPickerDialog")
+    }
+
+    private fun selectLifePhotoFromCamera() {
+        // 检查权限
+        if (!LYUtils.checkStoragePermission(this)) {
+            LYUtils.requestStoragePermission(this)
+            return
+        }
+        if (!LYUtils.checkCameraPermission(this)) {
+            LYUtils.requestCameraPermission(this)
+            return
+        }
+
+        val remainingSlots = 4 - lifePhotoList.size
+        if (remainingSlots <= 0) {
+            showToast("最多只能上传4张生活照")
+            return
+        }
+
+        // 使用PictureSelector拍照，启用裁剪
+        PictureSelector.create(this)
+            .openCamera(SelectMimeType.ofImage())
+            .setCropEngine(com.xly.middlelibrary.utils.LifePhotoCropEngine())
+            .forResult(object : OnResultCallbackListener<LocalMedia> {
+                override fun onResult(result: ArrayList<LocalMedia?>?) {
+                    if (result != null && result.isNotEmpty()) {
+                        val localMedia = result[0]
+                        val filePath = localMedia?.availablePath
+                        if (!filePath.isNullOrEmpty() && lifePhotoList.size < 4) {
+                            lifePhotoList.add(filePath)
+                            photoAdapter.notifyDataSetChanged()
+                            updateNextButtonState()
+                        }
+                    }
+                }
+
+                override fun onCancel() {
+                    // 用户取消拍照
+                }
+            })
+    }
+
+    private fun selectLifePhotoFromGallery() {
+        // 检查权限
+        if (!LYUtils.checkStoragePermission(this)) {
+            LYUtils.requestStoragePermission(this)
+            return
+        }
+
+        val remainingSlots = 4 - lifePhotoList.size
+        if (remainingSlots <= 0) {
+            showToast("最多只能上传4张生活照")
+            return
+        }
+
+        // 使用PictureSelector选择图片，启用裁剪（可以多选，但每次选择一张后需要裁剪）
+        // 注意：多选模式下，PictureSelector会为每张图片单独调用裁剪引擎
         PictureSelector.create(this)
             .openGallery(SelectMimeType.ofImage())
             .setImageEngine(GlideEngine.instance)
             .setMaxSelectNum(remainingSlots)
             .setSelectionMode(SelectModeConfig.MULTIPLE)
+            .setCropEngine(com.xly.middlelibrary.utils.LifePhotoCropEngine())
             .forResult(object : OnResultCallbackListener<LocalMedia> {
                 override fun onResult(result: ArrayList<LocalMedia?>?) {
                     if (result != null && result.isNotEmpty()) {
@@ -135,6 +197,7 @@ class UserInfoFourthStepActivity : LYBaseActivity<ActivityUserInfoFourthStepBind
                         updateNextButtonState()
                     }
                 }
+
                 override fun onCancel() {
                     // 用户取消选择
                 }

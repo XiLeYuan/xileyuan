@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.imageview.ShapeableImageView
 import com.xly.R
 
 class LifePhotoAdapter4(
@@ -56,7 +57,7 @@ class LifePhotoAdapter4(
     }
 
     class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val ivPhoto: ImageView = view.findViewById(R.id.ivPhoto)
+        val ivPhoto: ShapeableImageView = view.findViewById(R.id.ivPhoto)
         val btnDelete: ImageView = view.findViewById(R.id.btnDelete)
     }
 }

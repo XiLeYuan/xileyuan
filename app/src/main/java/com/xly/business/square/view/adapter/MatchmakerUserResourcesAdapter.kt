@@ -214,14 +214,60 @@ class MatchmakerUserResourcesAdapter(
             // 设置转场动画名称
             binding.ivAvatar.transitionName = "user_avatar_${user.id}"
 
-            // 设置姓名和年龄
+            // 设置姓名（年龄和认证标识在布局中已经通过逗号连接）
             binding.tvName.text = user.name
             binding.tvAge.text = "${user.age}岁"
+            
+            // 显示/隐藏逗号分隔符
+            binding.tvNameAgeSeparator.visibility = View.VISIBLE
+            
+            // 显示/隐藏认证标识
+            binding.ivVerified.visibility = if (user.isVerified) View.VISIBLE else View.GONE
+
+            // 设置标签
+            setupTags(binding.llTags, user.tags)
 
             // 点击事件
             binding.root.setOnClickListener {
                 onUserClick(user, binding.ivAvatar)
             }
+        }
+
+        private fun setupTags(container: ViewGroup, tags: List<String>) {
+            container.removeAllViews()
+            
+            if (tags.isNotEmpty()) {
+                container.visibility = View.VISIBLE
+                tags.take(2).forEach { tag -> // 最多显示2个标签
+                    val tagView = TextView(container.context).apply {
+                        text = tag
+                        textSize = 11f
+                        setTextColor(ContextCompat.getColor(
+                            context,
+                            R.color.text_secondary
+                        ))
+                        background = ContextCompat.getDrawable(
+                            context,
+                            R.drawable.tag_background
+                        )
+                        setPadding(8.dpToPx(), 4.dpToPx(), 8.dpToPx(), 4.dpToPx())
+
+                        layoutParams = ViewGroup.MarginLayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT
+                        ).apply {
+                            marginEnd = 4.dpToPx()
+                        }
+                    }
+                    container.addView(tagView)
+                }
+            } else {
+                container.visibility = View.GONE
+            }
+        }
+
+        private fun Int.dpToPx(): Int {
+            return (this * binding.root.context.resources.displayMetrics.density).toInt()
         }
     }
 

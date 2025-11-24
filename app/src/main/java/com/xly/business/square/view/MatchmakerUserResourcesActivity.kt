@@ -439,12 +439,22 @@ class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserRes
             "head_five", "head_six", "head_seven", "head_eight"
         )
 
+        val tagsList = listOf(
+            listOf("本科", "5k-8k"),
+            listOf("硕士", "10k-15k"),
+            listOf("本科", "8k-12k"),
+            listOf("博士", "15k-20k"),
+            listOf("本科", "3k-5k")
+        )
+        
         val hometownUsers = allMockUsers.mapIndexed { index, userCard ->
             HometownFragment.HometownUser(
                 id = userCard.id,
                 name = userCard.name,
                 age = userCard.age,
-                avatar = avatarResources[index % avatarResources.size]
+                avatar = avatarResources[index % avatarResources.size],
+                isVerified = index % 3 == 0, // 每3个用户中有一个认证
+                tags = tagsList[index % tagsList.size]
             )
         }
 

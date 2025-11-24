@@ -87,6 +87,9 @@
                 android:layout_height="wrap_content"
                 android:overScrollMode="never"
                 android:clipToPadding="false"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:paddingTop="0dp"
                 android:paddingBottom="16dp" />
 
             <!-- 分割线 -->

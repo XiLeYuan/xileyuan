@@ -36,26 +36,62 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <TextView
-                android:id="@+id/tvName"
+            <!-- 名字、年龄、认证标识同一行 -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="小美"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_primary_dark"
-                android:maxLines="1"
-                android:ellipsize="end" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/tvAge"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="小美"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary_dark"
+                    android:maxLines="1"
+                    android:ellipsize="end" />
+
+                <TextView
+                    android:id="@+id/tvNameAgeSeparator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="，"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_primary_dark" />
+
+                <TextView
+                    android:id="@+id/tvAge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="25岁"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_primary_dark"
+                    android:maxLines="1" />
+
+                <ImageView
+                    android:id="@+id/ivVerified"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginStart="4dp"
+                    android:src="@mipmap/verified_icon"
+                    android:scaleType="fitCenter"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <!-- 标签容器 -->
+            <LinearLayout
+                android:id="@+id/llTags"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="25岁"
-                android:textSize="12sp"
-                android:textColor="@color/text_secondary"
-                android:maxLines="1" />
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+            </LinearLayout>
 
         </LinearLayout>
 
