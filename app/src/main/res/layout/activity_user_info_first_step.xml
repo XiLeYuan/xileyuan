@@ -404,55 +404,6 @@
 
         </LinearLayout>
 
-        <!-- 分割线 -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/divider"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp" />
-
-        <!-- 第七行：学历 -->
-        <LinearLayout
-            android:id="@+id/llEducation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:minHeight="56dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="学历"
-                android:textSize="16sp"
-                android:textColor="@color/text_primary" />
-
-            <TextView
-                android:id="@+id/tvEducation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="请选择学历"
-                android:textSize="16sp"
-                android:textColor="@color/text_hint"
-                android:layout_marginEnd="8dp" />
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/ic_arrow_right"
-                app:tint="@color/text_hint" />
-
-        </LinearLayout>
-
         </LinearLayout>
 
         <!-- 下一步按钮 -->

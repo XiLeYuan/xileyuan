@@ -24,6 +24,9 @@ class LoginViewModel : ViewModel() {
     var age: Int? = null
     var height: Int? = null
     var education: String? = null
+    var school: String? = null
+    var job: String? = null
+    var income: String? = null
     var nickname: String? = null
     var avatarUrl: String? = null
 

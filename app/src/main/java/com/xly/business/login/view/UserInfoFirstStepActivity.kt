@@ -23,7 +23,6 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
     private var heightValue: String? = null
     private var hometownValue: String? = null
     private var residenceValue: String? = null
-    private var educationValue: String? = null
     private var nickname: String = ""
 
     companion object {
@@ -46,14 +45,14 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
         setupHeight()
         setupHometown()
         setupResidence()
-        setupEducation()
         updateNextButtonState()
     }
 
     override fun initOnClick() {
         // 下一步按钮
         viewBind.btnNext.setOnClickListener {
-            submitInfo()
+            UserInfoSecondStepActivity.start(this)
+//            submitInfo()
         }
         
         // 跳过按钮 - 直接进入首页
@@ -134,12 +133,6 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
         }
     }
 
-    private fun setupEducation() {
-        viewBind.llEducation.setOnClickListener {
-            showEducationPicker()
-        }
-    }
-
     private fun showAgePicker() {
         val ageOptions = (18..50).map { "${it}岁" } + listOf("50+岁")
         BottomPickerDialog(
@@ -208,30 +201,13 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
         }.show()
     }
 
-    private fun showEducationPicker() {
-        val educationOptions = listOf(
-            "初中及以下", "高中/中专", "大专", "本科", "硕士", "博士"
-        )
-        BottomPickerDialog(
-            this,
-            "选择学历",
-            educationOptions
-        ) { selected ->
-            educationValue = selected
-            viewBind.tvEducation.text = selected
-            viewBind.tvEducation.setTextColor(getColor(R.color.text_primary))
-            updateNextButtonState()
-        }.show()
-    }
-
     private fun updateNextButtonState() {
         val isValid = nickname.isNotEmpty() && 
                      selectedGender != null && 
                      ageValue != null && 
                      heightValue != null &&
                      hometownValue != null &&
-                     residenceValue != null &&
-                     educationValue != null
+                     residenceValue != null
         
         viewBind.btnNext.isEnabled = isValid
     }
@@ -287,21 +263,15 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
             Toast.makeText(this, "请选择现居住地", Toast.LENGTH_SHORT).show()
             return false
         }
-        if (educationValue == null) {
-            Toast.makeText(this, "请选择学历", Toast.LENGTH_SHORT).show()
-            return false
-        }
         return true
     }
 
     override fun initObservers() {
         viewModel.registerResult.observe(this) { authResponse ->
             hideLoading()
-            // 跳转到下一步或主页面
-            ActivityStackManager.startActivityAndClearStack(
-                this,
-                LYMainActivity::class.java
-            )
+            // 跳转到第二步
+            UserInfoSecondStepActivity.start(this)
+            finish()
         }
 
         viewModel.errorMessage.observe(this) { errorMessage ->
