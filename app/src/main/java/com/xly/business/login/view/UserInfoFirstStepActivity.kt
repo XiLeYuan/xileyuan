@@ -264,10 +264,10 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
 
     private fun showHeightPicker() {
         val heightOptions = (140..210).map { "${it}cm" }
-        BottomPickerDialog(
+        HeightPickerDialog(
             this,
-            "选择身高",
-            heightOptions
+            heightOptions,
+            heightValue
         ) { selected ->
             heightValue = selected
             viewBind.tvHeight.text = selected
