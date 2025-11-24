@@ -56,6 +56,43 @@ class RecommendContentFragment : Fragment() {
         loadCardData()
     }
 
+    override fun onResume() {
+        super.onResume()
+        // 恢复卡片元素的alpha值（从详情页返回时）
+        restoreCardElementsAlpha()
+    }
+
+    /**
+     * 恢复所有可见卡片元素的alpha值
+     */
+    private fun restoreCardElementsAlpha() {
+        // 获取CardStackView中当前可见的卡片
+        val cardStackView = binding.cardStackView
+        for (i in 0 until cardStackView.childCount) {
+            val cardView = cardStackView.getChildAt(i) as? ViewGroup
+            cardView?.let { restoreCardElementAlpha(it) }
+        }
+    }
+
+    /**
+     * 恢复单个卡片元素的alpha值
+     */
+    private fun restoreCardElementAlpha(itemView: ViewGroup) {
+        val infoContainer = itemView.findViewById<ViewGroup>(R.id.llInfoContainer)
+        val shareButton = itemView.findViewById<View>(R.id.ivShare)
+        val arrowButton = itemView.findViewById<View>(R.id.arrowRightIv)
+        val gradientOverlay = if (itemView.childCount > 1) itemView.getChildAt(1) else null
+        
+        val viewsToRestore = listOfNotNull(
+            infoContainer,
+            shareButton,
+            arrowButton,
+            gradientOverlay
+        )
+        
+        com.xly.middlelibrary.utils.fadeInViews(viewsToRestore, duration = 200)
+    }
+
     private fun setupCardStackView() {
         cardStackLayoutManager = CardStackLayoutManager(requireActivity(), object : CardStackListener {
             override fun onCardDragging(direction: Direction, ratio: Float) {
@@ -90,8 +127,8 @@ class RecommendContentFragment : Fragment() {
             setCanScrollVertical(false)
         }
 
-        userCardAdapter = UserCardAdapter { userCard, cardView ->
-            showUserDetail(userCard, cardView)
+        userCardAdapter = UserCardAdapter { userCard, cardView, itemView ->
+            showUserDetail(userCard, cardView, itemView)
         }
 
         binding.cardStackView.layoutManager = cardStackLayoutManager
@@ -120,7 +157,7 @@ class RecommendContentFragment : Fragment() {
         }
     }
 
-    private fun showUserDetail(userCard: UserCard, avatarView: View? = null) {
+    private fun showUserDetail(userCard: UserCard, avatarView: View? = null, itemView: ViewGroup? = null) {
         val intent = Intent(requireActivity(), LYUserDetailInfoActivity::class.java).apply {
             putExtra("user_id", userCard.id)
             putExtra("user_name", userCard.name)
@@ -129,11 +166,41 @@ class RecommendContentFragment : Fragment() {
 
         if (avatarView != null) {
             val transitionName = "user_avatar_${userCard.id}"
-            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                requireActivity(),
-                Pair.create(avatarView, transitionName)
-            )
-            startActivity(intent, options.toBundle())
+            
+            // 如果找到卡片容器，先淡出非图片元素
+            if (itemView != null) {
+                // 找到需要淡出的元素
+                val infoContainer = itemView.findViewById<ViewGroup>(R.id.llInfoContainer)
+                val shareButton = itemView.findViewById<View>(R.id.ivShare)
+                val arrowButton = itemView.findViewById<View>(R.id.arrowRightIv)
+                // 查找渐变遮罩层（ConstraintLayout中的第二个子视图，通常是渐变View）
+                val gradientOverlay = (itemView as? android.view.ViewGroup)?.let { parent ->
+                    if (parent.childCount > 1) parent.getChildAt(1) else null
+                }
+                
+                val viewsToFade = listOfNotNull(
+                    infoContainer,
+                    shareButton,
+                    arrowButton,
+                    gradientOverlay
+                )
+                
+                // 淡出元素，然后启动转场动画
+                com.xly.middlelibrary.utils.fadeOutViews(viewsToFade, duration = 150) {
+                    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        requireActivity(),
+                        Pair.create(avatarView, transitionName)
+                    )
+                    startActivity(intent, options.toBundle())
+                }
+            } else {
+                // 如果找不到容器，直接启动转场
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    requireActivity(),
+                    Pair.create(avatarView, transitionName)
+                )
+                startActivity(intent, options.toBundle())
+            }
         } else {
             startActivity(intent)
         }

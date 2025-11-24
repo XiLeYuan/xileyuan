@@ -31,6 +31,54 @@ class CherryPickFragment : LYBaseFragment<FragmentTodaySelectionBinding, CherryP
         setupListeners()
     }
 
+    override fun onResume() {
+        super.onResume()
+        // 恢复卡片元素的alpha值（从详情页返回时）
+        restoreCardElementsAlpha()
+    }
+
+    /**
+     * 恢复所有可见卡片元素的alpha值
+     */
+    private fun restoreCardElementsAlpha() {
+        val recyclerView = viewBind.recyclerView
+        val layoutManager = recyclerView.layoutManager as? LinearLayoutManager
+            ?: return
+        
+        // 获取可见item的范围
+        val firstVisible = layoutManager.findFirstVisibleItemPosition()
+        val lastVisible = layoutManager.findLastVisibleItemPosition()
+        
+        // 恢复每个可见item的alpha值
+        for (i in firstVisible..lastVisible) {
+            val viewHolder = recyclerView.findViewHolderForAdapterPosition(i)
+            viewHolder?.itemView?.let { itemView ->
+                restoreCardElementAlpha(itemView as? ViewGroup)
+            }
+        }
+    }
+
+    /**
+     * 恢复单个卡片元素的alpha值
+     */
+    private fun restoreCardElementAlpha(cardView: ViewGroup?) {
+        cardView?.let {
+            val infoContainer = it.findViewById<ViewGroup>(com.xly.R.id.llInfoContainer)
+            val rightButtons = it.findViewById<ViewGroup>(com.xly.R.id.llRightButtons)
+            val featureTags = it.findViewById<ViewGroup>(com.xly.R.id.llFeatureTags)
+            val gradientShadow = it.findViewById<View>(com.xly.R.id.vGradientShadow)
+            
+            val viewsToRestore = listOfNotNull(
+                infoContainer,
+                rightButtons,
+                featureTags,
+                gradientShadow
+            )
+            
+            com.xly.middlelibrary.utils.fadeInViews(viewsToRestore, duration = 200)
+        }
+    }
+
     private fun initViews() {
         // 设置更新时间
     }
@@ -80,12 +128,39 @@ class CherryPickFragment : LYBaseFragment<FragmentTodaySelectionBinding, CherryP
             putExtra("user_avatar", user.avatar)
         }
 
-        // 创建共享元素转场动画
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-            requireActivity(),
-            Pair.create(avatarView, "user_avatar_${user.id}")
-        )
-        startActivity(intent, options.toBundle())
+        // 找到卡片容器，准备淡出非图片元素
+        val cardView = avatarView.parent?.parent?.parent as? ViewGroup
+        if (cardView != null) {
+            // 找到需要淡出的元素容器
+            val infoContainer = cardView.findViewById<ViewGroup>(com.xly.R.id.llInfoContainer)
+            val rightButtons = cardView.findViewById<ViewGroup>(com.xly.R.id.llRightButtons)
+            val featureTags = cardView.findViewById<ViewGroup>(com.xly.R.id.llFeatureTags)
+            val gradientShadow = cardView.findViewById<View>(com.xly.R.id.vGradientShadow)
+            
+            val viewsToFade = listOfNotNull(
+                infoContainer,
+                rightButtons,
+                featureTags,
+                gradientShadow
+            )
+            
+            // 淡出元素，然后启动转场动画
+            com.xly.middlelibrary.utils.fadeOutViews(viewsToFade, duration = 150) {
+                // 创建共享元素转场动画
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    requireActivity(),
+                    Pair.create(avatarView, "user_avatar_${user.id}")
+                )
+                startActivity(intent, options.toBundle())
+            }
+        } else {
+            // 如果找不到容器，直接启动转场
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                requireActivity(),
+                Pair.create(avatarView, "user_avatar_${user.id}")
+            )
+            startActivity(intent, options.toBundle())
+        }
     }
 
     private fun handleLike(user: TodaySelectionUser) {

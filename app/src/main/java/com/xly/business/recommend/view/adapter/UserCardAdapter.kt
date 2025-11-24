@@ -13,7 +13,7 @@ import com.xly.R
 import com.xly.middlelibrary.utils.click
 
 class UserCardAdapter(
-    private val onCardClickListener: (UserCard, View) -> Unit
+    private val onCardClickListener: (UserCard, View, ViewGroup) -> Unit
 ) : RecyclerView.Adapter<UserCardAdapter.UserCardViewHolder>() {
 
     private val cards = mutableListOf<UserCard>()
@@ -60,7 +60,7 @@ class UserCardAdapter(
         
         // 设置箭头按钮点击事件（保留）
         holder.arrowRightIv.click {
-            onCardClickListener(userCard, holder.ivBackground)
+            onCardClickListener(userCard, holder.ivBackground, holder.itemView as ViewGroup)
         }
 
         // 设置分享按钮点击事件
