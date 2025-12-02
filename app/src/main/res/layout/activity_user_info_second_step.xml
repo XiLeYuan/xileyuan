@@ -46,7 +46,8 @@
                 android:paddingBottom="8dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?attr/selectableItemBackgroundBorderless" />
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:visibility="gone"/>
 
         </RelativeLayout>
 
