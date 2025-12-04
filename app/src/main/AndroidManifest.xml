@@ -148,6 +148,10 @@
             android:exported="false"
             android:theme="@style/AppTheme" />
         <activity
+            android:name="com.xly.business.login.view.UserInfoFifthStepActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name="com.xly.business.user.view.BubbleChooseActivity"
             android:exported="false"
             android:theme="@style/AppTheme" />
@@ -178,6 +182,11 @@
 
         <activity
             android:name="com.xly.business.user.view.EditBasicInfoActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name="com.xly.business.user.view.MyFateActivity"
             android:exported="false"
             android:theme="@style/AppTheme" />
 

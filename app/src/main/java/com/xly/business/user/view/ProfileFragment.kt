@@ -23,6 +23,7 @@ import com.xly.base.LYBaseFragment
 import com.xly.business.user.viewmodel.ProfileViewModel
 import com.xly.business.user.view.SettingsActivity
 import com.xly.business.user.view.MyProfileActivity
+import com.xly.business.user.view.MyFateActivity
 import com.xly.business.vip.view.LookStarMeActivity
 import com.xly.databinding.DialogFateUserCardBinding
 import com.xly.databinding.FragmentProfileBinding
@@ -207,7 +208,13 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
 
         // 我的缘份点击
         viewBind.llMyFate.setOnClickListener {
-            showToast("我的缘份")
+            android.util.Log.d("ProfileFragment", "我的缘份被点击了")
+            try {
+                MyFateActivity.start(requireContext())
+            } catch (e: Exception) {
+                android.util.Log.e("ProfileFragment", "启动MyFateActivity失败", e)
+                showToast("启动失败: ${e.message}")
+            }
         }
 
         // 设置点击

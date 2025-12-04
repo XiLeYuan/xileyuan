@@ -35,6 +35,8 @@ class LoginViewModel : ViewModel() {
     var selfIntroduction: String? = null
     var nickname: String? = null
     var avatarUrl: String? = null
+    var realName: String? = null
+    var idCardNumber: String? = null
 
     private val _loginResult = MutableLiveData<AuthResponse>()
     val loginResult: LiveData<AuthResponse> = _loginResult

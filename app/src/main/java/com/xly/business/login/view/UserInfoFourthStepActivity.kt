@@ -257,11 +257,9 @@ class UserInfoFourthStepActivity : LYBaseActivity<ActivityUserInfoFourthStepBind
             viewBind.btnNext.isEnabled = true
             viewBind.btnNext.isClickable = true
             
-            // 跳转到主页面
-            ActivityStackManager.startActivityAndClearStack(
-                this,
-                LYMainActivity::class.java
-            )
+            // 跳转到第五步
+            UserInfoFifthStepActivity.start(this)
+            finish()
         }
 
         viewModel.errorMessage.observe(this) { errorMessage ->
