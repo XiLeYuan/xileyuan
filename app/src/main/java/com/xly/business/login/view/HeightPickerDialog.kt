@@ -134,7 +134,8 @@ class HeightPickerDialog(
 
         // 初始定位到选中位置（170cm），使用不带动画的直接定位
         // 在弹窗显示前就设置好位置，避免可见的滚动动画
-        binding.rvOptions.post {
+        binding.rvOptions.scrollToPosition(10)
+        /*binding.rvOptions.post {
             val layoutManager = binding.rvOptions.layoutManager as? LinearLayoutManager ?: return@post
             // 确保RecyclerView已经测量完成
             if (binding.rvOptions.height > 0) {
@@ -160,7 +161,7 @@ class HeightPickerDialog(
                     isInitialScroll = false
                 }, 50) // 减少延迟时间
             }
-        }
+        }*/
     }
 
     private fun updateSelectedItem() {
