@@ -34,7 +34,13 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
     private var ageValue: String? = null
     private var heightValue: String? = null
     private var hometownValue: String? = null
+    private var hometownProvince: String? = null
+    private var hometownCity: String? = null
+    private var hometownDistrict: String? = null
     private var residenceValue: String? = null
+    private var residenceProvince: String? = null
+    private var residenceCity: String? = null
+    private var residenceDistrict: String? = null
     private var nickname: String = ""
 
     companion object {
@@ -277,43 +283,41 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
     }
 
     private fun showHometownPicker() {
-        // 这里可以使用AddressPickerDialog或者简单的列表
-        // 暂时使用简单的省份列表
-        val provinceOptions = listOf(
-            "北京", "上海", "天津", "重庆", "河北", "山西", "内蒙古", "辽宁",
-            "吉林", "黑龙江", "江苏", "浙江", "安徽", "福建", "江西", "山东",
-            "河南", "湖北", "湖南", "广东", "广西", "海南", "四川", "贵州",
-            "云南", "西藏", "陕西", "甘肃", "青海", "宁夏", "新疆", "台湾", "香港", "澳门"
-        )
-        BottomPickerDialog(
+        val dialog = AddressPickerDialog(
             this,
-            "选择家乡",
-            provinceOptions
-        ) { selected ->
-            hometownValue = selected
-            viewBind.tvHometown.text = selected
+            "选择家乡"
+        ) { province, city, district ->
+            hometownProvince = province
+            hometownCity = city
+            hometownDistrict = district
+            // 显示格式：省 市 区，例如：北京 北京市 朝阳区
+            hometownValue = "$province $city $district"
+            viewBind.tvHometown.text = hometownValue
             viewBind.tvHometown.setTextColor(getColor(R.color.text_primary))
             updateNextButtonState()
-        }.show()
+        }
+        // 如果有已选中的值，回显
+        dialog.setSelectedAddress(hometownProvince, hometownCity, hometownDistrict)
+        dialog.show()
     }
 
     private fun showResidencePicker() {
-        val provinceOptions = listOf(
-            "北京", "上海", "天津", "重庆", "河北", "山西", "内蒙古", "辽宁",
-            "吉林", "黑龙江", "江苏", "浙江", "安徽", "福建", "江西", "山东",
-            "河南", "湖北", "湖南", "广东", "广西", "海南", "四川", "贵州",
-            "云南", "西藏", "陕西", "甘肃", "青海", "宁夏", "新疆", "台湾", "香港", "澳门"
-        )
-        BottomPickerDialog(
+        val dialog = AddressPickerDialog(
             this,
-            "选择现居住地",
-            provinceOptions
-        ) { selected ->
-            residenceValue = selected
-            viewBind.tvResidence.text = selected
+            "选择现居住地"
+        ) { province, city, district ->
+            residenceProvince = province
+            residenceCity = city
+            residenceDistrict = district
+            // 显示格式：省 市 区，例如：北京 北京市 朝阳区
+            residenceValue = "$province $city $district"
+            viewBind.tvResidence.text = residenceValue
             viewBind.tvResidence.setTextColor(getColor(R.color.text_primary))
             updateNextButtonState()
-        }.show()
+        }
+        // 如果有已选中的值，回显
+        dialog.setSelectedAddress(residenceProvince, residenceCity, residenceDistrict)
+        dialog.show()
     }
 
     private fun updateNextButtonState() {

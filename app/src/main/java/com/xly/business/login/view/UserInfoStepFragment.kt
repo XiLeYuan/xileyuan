@@ -370,20 +370,36 @@ class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginVi
             5 -> {
                 addressBinding?.apply {
                     tvCurrentAddress.setOnClickListener {
-                        val addressJson = AddressPickerDialog.loadAddressJson(requireContext())
-                        AddressPickerDialog(requireContext(), addressJson) { p, c, d ->
-                            currentAddress = "$p $c $d"
+                        val dialog = AddressPickerDialog(
+                            requireContext(),
+                            "选择现居住地"
+                        ) { province, city, district ->
+                            currentAddress = "$province $city $district"
                             tvCurrentAddress.text = currentAddress
                             checkAddressValid()
-                        }.show()
+                        }
+                        // 如果有已选中的值，回显
+                        val parts = currentAddress?.split(" ") ?: emptyList()
+                        if (parts.size >= 3) {
+                            dialog.setSelectedAddress(parts[0], parts[1], parts[2])
+                        }
+                        dialog.show()
                     }
                     tvHometownAddress.setOnClickListener {
-                        val addressJson = AddressPickerDialog.loadAddressJson(requireContext())
-                        AddressPickerDialog(requireContext(), addressJson) { p, c, d ->
-                            hometownAddress = "$p $c $d"
+                        val dialog = AddressPickerDialog(
+                            requireContext(),
+                            "选择家乡"
+                        ) { province, city, district ->
+                            hometownAddress = "$province $city $district"
                             tvHometownAddress.text = hometownAddress
                             checkAddressValid()
-                        }.show()
+                        }
+                        // 如果有已选中的值，回显
+                        val parts = hometownAddress?.split(" ") ?: emptyList()
+                        if (parts.size >= 3) {
+                            dialog.setSelectedAddress(parts[0], parts[1], parts[2])
+                        }
+                        dialog.show()
                     }
                 }
             }

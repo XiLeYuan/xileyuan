@@ -55,14 +55,27 @@ class HeightPickerDialog(
     }
 
     private fun setupViews() {
-        // 设置初始选中位置
+        // 设置初始选中位置，默认定位到170cm
         initialValue?.let {
             selectedPosition = options.indexOf(it)
             if (selectedPosition < 0) {
-                selectedPosition = options.size / 2 // 默认选中中间
+                // 如果没有找到，默认定位到170cm
+                selectedPosition = options.indexOf("170cm")
+                if (selectedPosition < 0) {
+                    selectedPosition = options.size / 2 // 如果170cm不存在，选中中间
+                }
             }
         } ?: run {
-            selectedPosition = options.size / 2 // 默认选中中间
+            // 默认定位到170cm
+            selectedPosition = options.indexOf("170cm")
+            if (selectedPosition < 0) {
+                selectedPosition = options.size / 2 // 如果170cm不存在，选中中间
+            }
+        }
+
+        // 设置关闭按钮
+        binding.tvCancel.setOnClickListener {
+            dismiss()
         }
 
         // 设置确定按钮

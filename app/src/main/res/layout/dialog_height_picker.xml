@@ -7,7 +7,7 @@
     android:paddingTop="16dp"
     android:paddingBottom="24dp">
 
-    <!-- 标题栏：标题居中，右上角关闭按钮 -->
+    <!-- 标题栏：左上角关闭按钮，右上角确定按钮 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/llTitleBar"
         android:layout_width="match_parent"
@@ -18,17 +18,22 @@
         android:paddingBottom="20dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- 标题：水平居中 -->
+        <!-- 关闭按钮：左上角 -->
         <TextView
-            android:id="@+id/tvTitle"
+            android:id="@+id/tvCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="选择身高"
-            android:textSize="18sp"
-            android:textColor="@color/text_primary"
-            android:textStyle="bold"
+            android:text="关闭"
+            android:textSize="16sp"
+            android:textColor="@color/text_secondary"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <!-- 确定按钮：右上角 -->
@@ -45,6 +50,7 @@
             android:paddingBottom="8dp"
             android:clickable="true"
             android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
