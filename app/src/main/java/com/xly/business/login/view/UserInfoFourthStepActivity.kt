@@ -16,6 +16,7 @@ import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.xly.R
 import com.xly.base.ActivityStackManager
 import com.xly.base.LYBaseActivity
+import com.xly.business.login.model.UserInfoFourthStepRequest
 import com.xly.business.login.model.UserInfoRegisterReq
 import com.xly.business.login.view.adapter.LifePhotoAdapter4
 import com.xly.business.login.viewmodel.LoginViewModel
@@ -226,12 +227,18 @@ class UserInfoFourthStepActivity : LYBaseActivity<ActivityUserInfoFourthStepBind
         viewModel.lifePhotos = lifePhotoList
         viewModel.selfIntroduction = selfIntroduction
 
-        // 提交到服务器
+        // 创建第四步请求实体
+        val fourthStepRequest = UserInfoFourthStepRequest().apply {
+            this.lifePhotos = this@UserInfoFourthStepActivity.lifePhotoList.toList()
+            this.selfIntroduction = this@UserInfoFourthStepActivity.selfIntroduction
+        }
+
+        // 同时更新到 UserInfoRegisterReq（用于兼容现有接口）
         val request = UserInfoRegisterReq().apply {
             step = 4
             // 将图片路径列表转换为字符串（用逗号分隔）
-            this.lifePhotos = this@UserInfoFourthStepActivity.lifePhotoList.joinToString(",")
-            this.selfIntroduction = this@UserInfoFourthStepActivity.selfIntroduction
+            this.lifePhotos = fourthStepRequest.getLifePhotosString()
+            this.selfIntroduction = fourthStepRequest.selfIntroduction
         }
 
         viewModel.userInfoRegister(request)
