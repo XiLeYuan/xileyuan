@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.xly.R
 import com.xly.base.ActivityStackManager
 import com.xly.base.LYBaseActivity
+import com.xly.business.login.model.UserInfoSixthStepRequest
 import com.xly.business.login.model.UserInfoRegisterReq
 import com.xly.business.login.viewmodel.LoginViewModel
 import com.xly.databinding.ActivityUserInfoSixthStepBinding
@@ -126,11 +127,17 @@ class UserInfoSixthStepActivity : LYBaseActivity<ActivityUserInfoSixthStepBindin
         viewModel.realName = nameValue
         viewModel.idCardNumber = idCardValue
 
-        // 提交到服务器
-        val request = UserInfoRegisterReq().apply {
-            step = 6
+        // 创建第六步请求实体
+        val sixthStepRequest = UserInfoSixthStepRequest().apply {
             this.realName = this@UserInfoSixthStepActivity.nameValue
             this.idCardNumber = this@UserInfoSixthStepActivity.idCardValue
+        }
+
+        // 同时更新到 UserInfoRegisterReq（用于兼容现有接口）
+        val request = UserInfoRegisterReq().apply {
+            step = 6
+            this.realName = sixthStepRequest.realName
+            this.idCardNumber = sixthStepRequest.idCardNumber
         }
 
         viewModel.userInfoRegister(request)
