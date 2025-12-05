@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.xly.R
 import com.xly.base.ActivityStackManager
 import com.xly.base.LYBaseActivity
+import com.xly.business.login.model.UserInfoSecondStepRequest
 import com.xly.business.login.model.UserInfoRegisterReq
 import com.xly.business.login.viewmodel.LoginViewModel
 import com.xly.databinding.ActivityUserInfoSecondStepBinding
@@ -178,22 +179,30 @@ class UserInfoSecondStepActivity : LYBaseActivity<ActivityUserInfoSecondStepBind
         viewModel.job = jobValue
         viewModel.income = incomeValue
 
-        // 提交到服务器
-        val request = UserInfoRegisterReq().apply {
-            step = 2
-            // 学历需要转换为对应的数字等级（1-5）
-            this.educationLevel = when (this@UserInfoSecondStepActivity.educationValue) {
-                "初中及以下" -> true // 1
-                "高中/中专" -> true // 1
-                "大专" -> true // 2
-                "本科" -> true // 3
-                "硕士" -> true // 4
-                "博士" -> true // 5
-                else -> true
-            }
+        // 创建第二步请求实体
+        val secondStepRequest = UserInfoSecondStepRequest().apply {
+            this.education = this@UserInfoSecondStepActivity.educationValue ?: ""
             this.school = this@UserInfoSecondStepActivity.schoolValue
             this.occupation = this@UserInfoSecondStepActivity.jobValue
             this.incomeLevel = this@UserInfoSecondStepActivity.incomeValue ?: ""
+        }
+
+        // 同时更新到 UserInfoRegisterReq（用于兼容现有接口）
+        val request = UserInfoRegisterReq().apply {
+            step = 2
+            // 学历需要转换为对应的数字等级（1-6）
+            this.educationLevel = when (secondStepRequest.education) {
+                "初中及以下" -> true // 1
+                "高中/中专" -> true // 2
+                "大专" -> true // 3
+                "本科" -> true // 4
+                "硕士" -> true // 5
+                "博士" -> true // 6
+                else -> true
+            }
+            this.school = secondStepRequest.school
+            this.occupation = secondStepRequest.occupation
+            this.incomeLevel = secondStepRequest.incomeLevel
         }
 
         showLoading()
