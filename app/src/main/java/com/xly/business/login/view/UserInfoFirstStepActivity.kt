@@ -20,6 +20,7 @@ import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.xly.R
 import com.xly.base.ActivityStackManager
 import com.xly.base.LYBaseActivity
+import com.xly.business.login.model.UserInfoFirstStepRequest
 import com.xly.business.login.model.UserInfoRegisterReq
 import com.xly.business.login.viewmodel.LoginViewModel
 import com.xly.databinding.ActivityUserInfoFirstStepBinding
@@ -42,6 +43,7 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
     private var residenceCity: String? = null
     private var residenceDistrict: String? = null
     private var nickname: String = ""
+    private var avatarUrl: String = ""
 
     companion object {
         fun start(context: Context) {
@@ -343,14 +345,35 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
         val age = ageValue?.replace("岁", "")?.replace("+", "")?.toIntOrNull() ?: 0
         val height = heightValue?.replace("cm", "")?.toIntOrNull() ?: 0
 
-        // 提交到服务器
-        val request = UserInfoRegisterReq().apply {
-            step = 1
+        // 创建第一步请求实体
+        val firstStepRequest = UserInfoFirstStepRequest().apply {
             this.nickname = this@UserInfoFirstStepActivity.nickname
             this.gender = selectedGender ?: ""
             this.age = age
             this.height = height
-            // 如果需要保存其他字段，可以在这里添加
+            this.hometownProvince = hometownProvince ?: ""
+            this.hometownCity = hometownCity ?: ""
+            this.hometownDistrict = hometownDistrict ?: ""
+            this.residenceProvince = residenceProvince ?: ""
+            this.residenceCity = residenceCity ?: ""
+            this.residenceDistrict = residenceDistrict ?: ""
+            this.avatarUrl = this@UserInfoFirstStepActivity.avatarUrl
+        }
+
+        // 同时更新到 UserInfoRegisterReq（用于兼容现有接口）
+        val request = UserInfoRegisterReq().apply {
+            step = 1
+            this.nickname = firstStepRequest.nickname
+            this.gender = firstStepRequest.gender
+            this.age = firstStepRequest.age
+            this.height = firstStepRequest.height
+            this.hometownProvince = firstStepRequest.hometownProvince
+            this.hometownCity = firstStepRequest.hometownCity
+            this.hometownDistrict = firstStepRequest.hometownDistrict
+            this.currentProvince = firstStepRequest.residenceProvince
+            this.currentCity = firstStepRequest.residenceCity
+            this.currentDistrict = firstStepRequest.residenceDistrict
+            this.avatarUrl = firstStepRequest.avatarUrl
         }
 
         showLoading()
