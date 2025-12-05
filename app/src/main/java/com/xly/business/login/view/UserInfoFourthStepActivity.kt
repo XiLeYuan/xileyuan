@@ -264,8 +264,8 @@ class UserInfoFourthStepActivity : LYBaseActivity<ActivityUserInfoFourthStepBind
             viewBind.btnNext.isEnabled = true
             viewBind.btnNext.isClickable = true
             
-            // 跳转到第五步
-            UserInfoFifthStepActivity.start(this)
+            // 跳转到第五步（择偶要求）
+            UserInfoFifthStepActivityNew.start(this)
             finish()
         }
 

@@ -12,23 +12,23 @@ import com.xly.base.ActivityStackManager
 import com.xly.base.LYBaseActivity
 import com.xly.business.login.model.UserInfoRegisterReq
 import com.xly.business.login.viewmodel.LoginViewModel
-import com.xly.databinding.ActivityUserInfoFifthStepBinding
+import com.xly.databinding.ActivityUserInfoSixthStepBinding
 import com.xly.index.LYMainActivity
 
-class UserInfoFifthStepActivity : LYBaseActivity<ActivityUserInfoFifthStepBinding, LoginViewModel>() {
+class UserInfoSixthStepActivity : LYBaseActivity<ActivityUserInfoSixthStepBinding, LoginViewModel>() {
 
     private var nameValue: String = ""
     private var idCardValue: String = ""
 
     companion object {
         fun start(context: Context) {
-            val intent = Intent(context, UserInfoFifthStepActivity::class.java)
+            val intent = Intent(context, UserInfoSixthStepActivity::class.java)
             context.startActivity(intent)
         }
     }
 
     override fun inflateBinding(layoutInflater: LayoutInflater) = 
-        ActivityUserInfoFifthStepBinding.inflate(layoutInflater)
+        ActivityUserInfoSixthStepBinding.inflate(layoutInflater)
 
     override fun initViewModel() = ViewModelProvider(this)[LoginViewModel::class.java]
 
@@ -128,9 +128,9 @@ class UserInfoFifthStepActivity : LYBaseActivity<ActivityUserInfoFifthStepBindin
 
         // 提交到服务器
         val request = UserInfoRegisterReq().apply {
-            step = 5
-            this.realName = this@UserInfoFifthStepActivity.nameValue
-            this.idCardNumber = this@UserInfoFifthStepActivity.idCardValue
+            step = 6
+            this.realName = this@UserInfoSixthStepActivity.nameValue
+            this.idCardNumber = this@UserInfoSixthStepActivity.idCardValue
         }
 
         viewModel.userInfoRegister(request)
