@@ -46,4 +46,49 @@
 
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
+    <!-- 发动态浮动按钮容器 -->
+    <FrameLayout
+        android:id="@+id/floatButtonContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- 展开后的容器（横向展开） -->
+        <LinearLayout
+            android:id="@+id/expandedContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:background="@drawable/bg_float_button_yellow"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvPublishText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发动态"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- 圆形按钮（加号） -->
+        <ImageView
+            android:id="@+id/floatButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/bg_float_button_circle_yellow"
+            android:contentDescription="发动态"
+            android:padding="16dp"
+            android:src="@drawable/ic_add" />
+
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

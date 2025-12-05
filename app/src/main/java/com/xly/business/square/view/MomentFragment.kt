@@ -1,10 +1,13 @@
 package com.xly.business.square.view
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +28,15 @@ class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() 
     private val pageSize = 10
     private var hasMoreData = true
     private var isLoading = false
+    
+    // 浮动按钮相关
+    private var isFloatButtonVisible = true
+    private var isExpanded = false
+    private var scrollHandler: Handler? = Handler()
+    private val scrollRunnable = Runnable {
+        // 滚动停止后显示按钮
+        showFloatButton()
+    }
     
     // Mock banner 数据
     private val bannerList = listOf(
@@ -53,6 +65,7 @@ class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() 
         
         setupRefreshLayout()
         setupRecyclerView()
+        setupFloatButton()
         
         // 初始加载数据
         loadData(isRefresh = false)
@@ -284,6 +297,14 @@ class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() 
             override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 checkAndPlayVideo(recyclerView)
+                
+                // 滚动时隐藏浮动按钮
+                if (dy != 0) {
+                    hideFloatButton()
+                    // 移除之前的runnable，重新计时
+                    scrollHandler?.removeCallbacks(scrollRunnable)
+                    scrollHandler?.postDelayed(scrollRunnable, 500) // 500ms后显示
+                }
             }
             
             override fun onScrollStateChanged(recyclerView: androidx.recyclerview.widget.RecyclerView, newState: Int) {
@@ -291,6 +312,12 @@ class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() 
                 if (newState == androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE) {
                     // 滚动停止时检查并播放视频
                     checkAndPlayVideo(recyclerView)
+                    // 滚动停止后显示浮动按钮
+                    scrollHandler?.removeCallbacks(scrollRunnable)
+                    scrollHandler?.postDelayed(scrollRunnable, 300) // 300ms后显示
+                } else {
+                    // 开始滚动时隐藏
+                    hideFloatButton()
                 }
             }
         })
@@ -489,10 +516,172 @@ class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() 
         return ViewModelProvider(requireActivity())[RecommendViewModel::class.java]
     }
     
+    /**
+     * 设置浮动按钮
+     */
+    private fun setupFloatButton() {
+        // 初始状态：按钮在屏幕外（右侧），等待布局完成后再设置
+        viewBind.floatButtonContainer.post {
+            val screenWidth = resources.displayMetrics.widthPixels
+            viewBind.floatButtonContainer.translationX = screenWidth.toFloat()
+            
+            // 延迟显示按钮（页面加载完成后）
+            viewBind.floatButtonContainer.postDelayed({
+                showFloatButton()
+            }, 500)
+        }
+        
+        // 点击圆形按钮
+        viewBind.floatButton.setOnClickListener {
+            if (!isExpanded) {
+                expandFloatButton()
+            } else {
+                collapseFloatButton()
+            }
+        }
+        
+        // 点击展开后的容器
+        viewBind.expandedContainer.setOnClickListener {
+            // TODO: 跳转到发动态页面
+            collapseFloatButton()
+        }
+    }
+    
+    /**
+     * 显示浮动按钮（从右侧滑入）
+     */
+    private fun showFloatButton() {
+        if (!isFloatButtonVisible) {
+            isFloatButtonVisible = true
+            val screenWidth = resources.displayMetrics.widthPixels
+            val animator = ObjectAnimator.ofFloat(
+                viewBind.floatButtonContainer,
+                "translationX",
+                screenWidth.toFloat(),
+                0f
+            ).apply {
+                duration = 300
+                interpolator = DecelerateInterpolator()
+            }
+            animator.start()
+        }
+    }
+    
+    /**
+     * 隐藏浮动按钮（滑出到右侧）
+     */
+    private fun hideFloatButton() {
+        if (isFloatButtonVisible) {
+            isFloatButtonVisible = false
+            // 如果展开状态，先收起
+            if (isExpanded) {
+                collapseFloatButton()
+            }
+            val screenWidth = resources.displayMetrics.widthPixels
+            val animator = ObjectAnimator.ofFloat(
+                viewBind.floatButtonContainer,
+                "translationX",
+                0f,
+                screenWidth.toFloat()
+            ).apply {
+                duration = 250
+                interpolator = AccelerateDecelerateInterpolator()
+            }
+            animator.start()
+        }
+    }
+    
+    /**
+     * 展开浮动按钮（横向展开）
+     */
+    private fun expandFloatButton() {
+        if (isExpanded) return
+        
+        isExpanded = true
+        
+        // 隐藏圆形按钮
+        viewBind.floatButton.visibility = View.GONE
+        
+        // 显示展开容器
+        viewBind.expandedContainer.visibility = View.VISIBLE
+        
+        // 测量展开容器的目标宽度
+        viewBind.expandedContainer.measure(
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+            View.MeasureSpec.makeMeasureSpec(56, View.MeasureSpec.EXACTLY)
+        )
+        val targetWidth = viewBind.expandedContainer.measuredWidth
+        
+        // 设置初始宽度为0
+        val layoutParams = viewBind.expandedContainer.layoutParams
+        layoutParams.width = 0
+        viewBind.expandedContainer.layoutParams = layoutParams
+        viewBind.expandedContainer.requestLayout()
+        
+        // 横向展开动画
+        viewBind.expandedContainer.post {
+            val animator = android.animation.ValueAnimator.ofInt(0, targetWidth).apply {
+                duration = 300
+                interpolator = DecelerateInterpolator()
+                addUpdateListener { animation ->
+                    val width = animation.animatedValue as Int
+                    val params = viewBind.expandedContainer.layoutParams
+                    params.width = width
+                    viewBind.expandedContainer.layoutParams = params
+                }
+            }
+            animator.start()
+        }
+    }
+    
+    /**
+     * 收起浮动按钮
+     */
+    private fun collapseFloatButton() {
+        if (!isExpanded) return
+        
+        isExpanded = false
+        
+        val currentWidth = viewBind.expandedContainer.width
+        if (currentWidth <= 0) {
+            // 如果宽度已经是0，直接切换视图
+            viewBind.floatButton.visibility = View.VISIBLE
+            viewBind.expandedContainer.visibility = View.GONE
+            return
+        }
+        
+        // 横向收起动画
+        val animator = android.animation.ValueAnimator.ofInt(currentWidth, 0).apply {
+            duration = 250
+            interpolator = AccelerateDecelerateInterpolator()
+            addUpdateListener { animation ->
+                val width = animation.animatedValue as Int
+                val params = viewBind.expandedContainer.layoutParams
+                params.width = width
+                viewBind.expandedContainer.layoutParams = params
+            }
+        }
+        
+        animator.start()
+        
+        // 动画结束后显示圆形按钮，隐藏展开容器
+        viewBind.expandedContainer.postDelayed({
+            viewBind.floatButton.visibility = View.VISIBLE
+            viewBind.expandedContainer.visibility = View.GONE
+            // 重置宽度
+            val params = viewBind.expandedContainer.layoutParams
+            params.width = ViewGroup.LayoutParams.WRAP_CONTENT
+            viewBind.expandedContainer.layoutParams = params
+        }, 250)
+    }
+    
     override fun onDestroyView() {
         super.onDestroyView()
         // 释放所有视频播放器
         adapter?.releaseAllPlayers()
+        // 清理Handler
+        scrollHandler?.removeCallbacks(scrollRunnable)
+        scrollHandler = null
     }
     
     override fun onPause() {
