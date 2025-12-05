@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.xly.R
 import com.xly.base.ActivityStackManager
 import com.xly.base.LYBaseActivity
+import com.xly.business.login.model.UserInfoThirdStepRequest
 import com.xly.business.login.model.UserInfoRegisterReq
 import com.xly.business.login.viewmodel.LoginViewModel
 import com.xly.databinding.ActivityUserInfoThirdStepBinding
@@ -168,13 +169,21 @@ class UserInfoThirdStepActivity : LYBaseActivity<ActivityUserInfoThirdStepBindin
         viewModel.maritalStatus = maritalStatus
         viewModel.childrenStatus = childrenStatus
 
-        // 提交到服务器
-        val request = UserInfoRegisterReq().apply {
-            step = 3
+        // 创建第三步请求实体
+        val thirdStepRequest = UserInfoThirdStepRequest().apply {
             this.houseStatus = this@UserInfoThirdStepActivity.houseStatus ?: ""
             this.carStatus = this@UserInfoThirdStepActivity.carStatus ?: ""
             this.maritalStatus = this@UserInfoThirdStepActivity.maritalStatus ?: ""
             this.childrenStatus = this@UserInfoThirdStepActivity.childrenStatus ?: ""
+        }
+
+        // 同时更新到 UserInfoRegisterReq（用于兼容现有接口）
+        val request = UserInfoRegisterReq().apply {
+            step = 3
+            this.houseStatus = thirdStepRequest.houseStatus
+            this.carStatus = thirdStepRequest.carStatus
+            this.maritalStatus = thirdStepRequest.maritalStatus
+            this.childrenStatus = thirdStepRequest.childrenStatus
         }
 
         showLoading()
