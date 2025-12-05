@@ -26,6 +26,7 @@ class HeightPickerDialog(
     private var layoutManager: LinearLayoutManager? = null
     private val itemHeight = (56 * context.resources.displayMetrics.density).toInt() // 56dp转px
     private val visibleItemCount = 5 // 显示5个item，中间为选中项
+    private var isInitialScroll = true // 标记是否为初始滚动
 
     init {
         setContentView(binding.root)
@@ -46,6 +47,18 @@ class HeightPickerDialog(
                         if (view.width > 0 && view.height > 0) {
                             outline.setRoundRect(0, 0, view.width, view.height, cornerRadius)
                         }
+                    }
+                }
+                // 在弹窗显示后立即定位，此时RecyclerView应该已经测量完成
+                binding.rvOptions.post {
+                    val layoutManager = binding.rvOptions.layoutManager as? LinearLayoutManager ?: return@post
+                    if (binding.rvOptions.height > 0 && isInitialScroll) {
+                        val centerY = binding.rvOptions.height / 2
+                        val offset = centerY - itemHeight / 2
+                        layoutManager.scrollToPositionWithOffset(selectedPosition, offset)
+                        (binding.rvOptions.adapter as? HeightPickerAdapter)?.updateSelectedPosition(selectedPosition)
+                        updateSelectedItem()
+                        isInitialScroll = false
                     }
                 }
             }
@@ -74,7 +87,7 @@ class HeightPickerDialog(
         }
 
         // 设置关闭按钮
-        binding.tvCancel.setOnClickListener {
+        binding.ivCancel.setOnClickListener {
             dismiss()
         }
 
@@ -99,33 +112,54 @@ class HeightPickerDialog(
             selectedPosition = position
             snapToPosition(position)
         }
-
+        
         // 添加滚动监听，实现中间选中效果
+        // 修改滚动监听，初始滚动时不触发snapToCenter
         binding.rvOptions.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                updateSelectedItem()
+                if (!isInitialScroll) {
+                    updateSelectedItem()
+                }
             }
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    // 滚动停止时，自动对齐到最近的item
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && !isInitialScroll) {
+                    // 滚动停止时，自动对齐到最近的item（但不在初始滚动时触发）
                     snapToCenter()
                 }
             }
         })
 
-        // 初始滚动到选中位置
+        // 初始定位到选中位置（170cm），使用不带动画的直接定位
+        // 在弹窗显示前就设置好位置，避免可见的滚动动画
         binding.rvOptions.post {
             val layoutManager = binding.rvOptions.layoutManager as? LinearLayoutManager ?: return@post
-            val centerY = binding.rvOptions.height / 2
-            val offset = centerY - itemHeight / 2
-            layoutManager.scrollToPositionWithOffset(selectedPosition, offset)
-            // 延迟一下再更新选中状态，确保view已经创建
-            binding.rvOptions.postDelayed({
+            // 确保RecyclerView已经测量完成
+            if (binding.rvOptions.height > 0) {
+                val centerY = binding.rvOptions.height / 2
+                val offset = centerY - itemHeight / 2
+                // 直接定位，不使用动画
+                layoutManager.scrollToPositionWithOffset(selectedPosition, offset)
+                // 更新适配器的选中位置
+                (binding.rvOptions.adapter as? HeightPickerAdapter)?.updateSelectedPosition(selectedPosition)
+                // 立即更新选中状态
                 updateSelectedItem()
-            }, 150)
+                // 标记初始滚动完成
+                isInitialScroll = false
+            } else {
+                // 如果高度还没测量完成，等待一下再定位
+                binding.rvOptions.postDelayed({
+                    val centerY = binding.rvOptions.height / 2
+                    val offset = centerY - itemHeight / 2
+                    layoutManager.scrollToPositionWithOffset(selectedPosition, offset)
+                    (binding.rvOptions.adapter as? HeightPickerAdapter)?.updateSelectedPosition(selectedPosition)
+                    updateSelectedItem()
+                    // 标记初始滚动完成
+                    isInitialScroll = false
+                }, 50) // 减少延迟时间
+            }
         }
     }
 
