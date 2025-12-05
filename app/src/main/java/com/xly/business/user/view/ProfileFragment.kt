@@ -24,6 +24,7 @@ import com.xly.business.user.viewmodel.ProfileViewModel
 import com.xly.business.user.view.SettingsActivity
 import com.xly.business.user.view.MyProfileActivity
 import com.xly.business.user.view.MyFateActivity
+import com.xly.business.user.view.UserInteractionActivity
 import com.xly.business.vip.view.LookStarMeActivity
 import com.xly.databinding.DialogFateUserCardBinding
 import com.xly.databinding.FragmentProfileBinding
@@ -189,6 +190,21 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
         // 我的资料入口点击
         viewBind.llMyProfile.setOnClickListener {
             MyProfileActivity.start(requireContext())
+        }
+
+        // 喜欢的人入口点击
+        viewBind.llLikedPeople.setOnClickListener {
+            UserInteractionActivity.start(requireContext(), 0)
+        }
+
+        // 访客入口点击
+        viewBind.llVisitors.setOnClickListener {
+            UserInteractionActivity.start(requireContext(), 1)
+        }
+
+        // 谁喜欢我入口点击
+        viewBind.llWhoLikedMe.setOnClickListener {
+            UserInteractionActivity.start(requireContext(), 2)
         }
 
         // 我的特权点击
