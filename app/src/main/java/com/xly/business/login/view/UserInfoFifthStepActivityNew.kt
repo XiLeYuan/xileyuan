@@ -2,6 +2,8 @@ package com.xly.business.login.view
 
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -58,7 +60,7 @@ class UserInfoFifthStepActivityNew : LYBaseActivity<ActivityUserInfoFifthStepBin
         // 下一步按钮
         viewBind.btnNext.setOnClickListener {
             if (validateInput()) {
-                submitInfo()
+                simulateNetworkRequest()
             }
         }
         
@@ -237,6 +239,35 @@ class UserInfoFifthStepActivityNew : LYBaseActivity<ActivityUserInfoFifthStepBin
         }
         
         return true
+    }
+
+    private fun simulateNetworkRequest() {
+        // 显示按钮上的进度条，隐藏箭头，禁用按钮
+        viewBind.progressBar.visibility = android.view.View.VISIBLE
+        viewBind.ivArrow.visibility = android.view.View.GONE
+        viewBind.btnNext.isEnabled = false
+        viewBind.btnNext.isClickable = false
+        
+        // 保存到 ViewModel（如果需要）
+        // viewModel.idealPartner = idealPartner
+        // 解析年龄和身高数值
+        val ageMin = ageMinValue?.replace("岁", "")?.replace("+", "")?.toIntOrNull() ?: 0
+        val ageMax = ageMaxValue?.replace("岁", "")?.replace("+", "")?.toIntOrNull() ?: 0
+        val heightMin = heightMinValue?.replace("cm", "")?.toIntOrNull() ?: 0
+        val heightMax = heightMaxValue?.replace("cm", "")?.toIntOrNull() ?: 0
+        
+        // 模拟网络请求延迟（1.5秒）
+        Handler(Looper.getMainLooper()).postDelayed({
+            // 恢复按钮状态
+            viewBind.progressBar.visibility = android.view.View.GONE
+            viewBind.ivArrow.visibility = android.view.View.VISIBLE
+            viewBind.btnNext.isEnabled = true
+            viewBind.btnNext.isClickable = true
+            
+            // 跳转到第六步（身份验证）
+            UserInfoSixthStepActivity.start(this)
+            finish()
+        }, 1500)
     }
 
     override fun initObservers() {

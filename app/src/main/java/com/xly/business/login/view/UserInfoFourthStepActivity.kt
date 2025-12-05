@@ -2,6 +2,8 @@ package com.xly.business.login.view
 
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -52,7 +54,9 @@ class UserInfoFourthStepActivity : LYBaseActivity<ActivityUserInfoFourthStepBind
     override fun initOnClick() {
         // 下一步按钮
         viewBind.btnNext.setOnClickListener {
-            submitInfo()
+            if (validateInput()) {
+                simulateNetworkRequest()
+            }
         }
         
         // 跳过按钮 - 直接进入首页
@@ -254,6 +258,31 @@ class UserInfoFourthStepActivity : LYBaseActivity<ActivityUserInfoFourthStepBind
             return false
         }
         return true
+    }
+
+    private fun simulateNetworkRequest() {
+        // 显示按钮上的进度条，隐藏箭头，禁用按钮
+        viewBind.progressBar.visibility = android.view.View.VISIBLE
+        viewBind.ivArrow.visibility = android.view.View.GONE
+        viewBind.btnNext.isEnabled = false
+        viewBind.btnNext.isClickable = false
+        
+        // 保存到 ViewModel
+        viewModel.lifePhotos = lifePhotoList
+        viewModel.selfIntroduction = selfIntroduction
+        
+        // 模拟网络请求延迟（1.5秒）
+        Handler(Looper.getMainLooper()).postDelayed({
+            // 恢复按钮状态
+            viewBind.progressBar.visibility = android.view.View.GONE
+            viewBind.ivArrow.visibility = android.view.View.VISIBLE
+            viewBind.btnNext.isEnabled = true
+            viewBind.btnNext.isClickable = true
+            
+            // 跳转到第五步（择偶要求）
+            UserInfoFifthStepActivityNew.start(this)
+            finish()
+        }, 1500)
     }
 
     override fun initObservers() {
