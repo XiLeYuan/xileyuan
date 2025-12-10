@@ -2,6 +2,7 @@ package com.xly
 
 import android.app.Application
 import com.tencent.mmkv.MMKV
+import com.xly.config.AppKeys
 import com.xly.middlelibrary.utils.UmengHelper
 
 class LYApplication : Application() {
@@ -15,7 +16,7 @@ class LYApplication : Application() {
         // 初始化友盟SDK（必须先初始化基础SDK）
         UmengHelper.init(
             context = this,
-            appKey = "693919fe9a7f376488fbb6c9",
+            appKey = AppKeys.MENGA_APP_KEY,
             channel = getChannelName(), // 使用渠道名称
             isDebug = true // 开发环境开启日志
         )
