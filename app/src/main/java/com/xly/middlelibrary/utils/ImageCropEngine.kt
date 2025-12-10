@@ -1,16 +1,8 @@
 package com.xly.middlelibrary.utils
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.net.Uri
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
-import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.engine.CropEngine
 import com.luck.picture.lib.entity.LocalMedia
-import com.luck.picture.lib.interfaces.OnCallbackListener
-import java.io.File
 
 
 class ImageCropEngine : CropEngine {

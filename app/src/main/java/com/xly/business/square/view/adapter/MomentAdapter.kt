@@ -7,23 +7,22 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.HorizontalScrollView
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import androidx.recyclerview.widget.RecyclerView
-import android.widget.HorizontalScrollView
-import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.imageview.ShapeableImageView
-import com.xly.business.square.model.Moment
 import com.xly.R
+import com.xly.business.square.model.Moment
 import com.xly.business.square.view.MomentImageDetailActivity
-import com.xly.business.square.view.MomentVideoPlayerActivity
 import com.xly.middlelibrary.utils.click
 
 class MomentAdapter(

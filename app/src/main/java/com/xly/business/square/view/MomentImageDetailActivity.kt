@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.xly.base.LYBaseActivity
 import com.xly.business.recommend.viewmodel.RecommendViewModel
-import com.xly.middlelibrary.widget.DragPhotoView
 import com.xly.databinding.ActivityImageDetailBinding
+import com.xly.middlelibrary.widget.DragPhotoView
 
 class MomentImageDetailActivity : LYBaseActivity<ActivityImageDetailBinding, RecommendViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {

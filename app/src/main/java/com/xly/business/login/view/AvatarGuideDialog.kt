@@ -3,7 +3,6 @@ package com.xly.business.login.view
 import android.content.Context
 import android.view.LayoutInflater
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.xly.R
 import com.xly.databinding.DialogAvatarGuideBinding
 
 class AvatarGuideDialog(

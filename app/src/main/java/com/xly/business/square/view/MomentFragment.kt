@@ -13,13 +13,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.MaterialHeader
-import com.xly.base.LYBaseFragment
-import com.xly.business.square.model.Moment
-import com.xly.business.recommend.viewmodel.RecommendViewModel
-import com.xly.databinding.FragmentFindBinding
 import com.xly.R
-import com.xly.business.square.view.adapter.MomentAdapter
+import com.xly.base.LYBaseFragment
+import com.xly.business.recommend.viewmodel.RecommendViewModel
+import com.xly.business.square.model.Moment
 import com.xly.business.square.view.adapter.BannerItem
+import com.xly.business.square.view.adapter.MomentAdapter
+import com.xly.databinding.FragmentFindBinding
 
 class MomentFragment : LYBaseFragment<FragmentFindBinding,RecommendViewModel>() {
 

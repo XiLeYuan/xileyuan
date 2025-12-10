@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.xly.R
 import com.xly.base.LYBaseActivity
+import com.xly.business.login.view.LoginActivity
 import com.xly.databinding.ActivitySettingsBinding
 import com.xly.middlelibrary.utils.click
 
@@ -125,10 +126,10 @@ class SettingsActivity : LYBaseActivity<ActivitySettingsBinding, SettingsViewMod
 
     private fun handleLogout() {
         // TODO: 实现退出登录逻辑
-        showToast("退出登录")
+//        showToast("退出登录")
         // 示例：退出登录后跳转到登录页
-        // LoginActivity.start(this)
-        // finish()
+         LoginActivity.start(this)
+         finish()
     }
 }
 

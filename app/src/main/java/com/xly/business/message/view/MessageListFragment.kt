@@ -12,7 +12,6 @@ import com.xly.business.message.view.adapter.MessageAdapter
 import com.xly.business.recommend.viewmodel.RecommendViewModel
 import com.xly.databinding.FragmentMessageListBinding
 import com.xly.middlelibrary.utils.LYFontUtil
-import kotlin.jvm.java
 
 class MessageListFragment  : LYBaseFragment<FragmentMessageListBinding,RecommendViewModel>() {
 

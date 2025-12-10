@@ -15,11 +15,12 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.util.Pair
 import androidx.core.content.ContextCompat
+import androidx.core.util.Pair
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jspp.model.UserCard
 import com.xly.R
 import com.xly.base.LYBaseActivity
 import com.xly.business.recommend.view.HometownFragment
@@ -30,7 +31,6 @@ import com.xly.business.user.LYUserDetailInfoActivity
 import com.xly.databinding.ActivityMatchmakerUserResourcesBinding
 import com.xly.databinding.ItemMatchmakerHeaderBinding
 import com.xly.middlelibrary.utils.MatchmakerMockData
-import com.jspp.model.UserCard
 
 class MatchmakerUserResourcesActivity : LYBaseActivity<ActivityMatchmakerUserResourcesBinding, RecommendViewModel>() {
 

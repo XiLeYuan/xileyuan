@@ -15,7 +15,6 @@ import com.xly.R
 import com.xly.base.LYBaseActivity
 import com.xly.business.square.view.adapter.BlurTransformation
 import com.xly.business.user.LYUserDetailInfoActivity
-import com.xly.business.user.UserInfo
 import com.xly.business.user.view.adapter.ProfilePhotoAdapter
 import com.xly.databinding.ActivityMyProfileBinding
 import com.xly.middlelibrary.utils.click

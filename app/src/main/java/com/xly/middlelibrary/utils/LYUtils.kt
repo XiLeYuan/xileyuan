@@ -11,7 +11,6 @@ import android.renderscript.Allocation
 import android.renderscript.Element
 import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicBlur
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission

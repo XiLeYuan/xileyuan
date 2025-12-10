@@ -1,28 +1,5 @@
 package com.xly.middlelibrary.widget;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
-import android.util.AttributeSet;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.OvershootInterpolator;
-import android.view.animation.ScaleAnimation;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageView;
-
 /*
 public class LYAnimButton extends FrameLayout {
 

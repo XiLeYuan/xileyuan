@@ -3,9 +3,10 @@ package com.xly.middlelibrary.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.xly.R;
 
 public class HeaderBehavior extends CoordinatorLayout.Behavior<View> {
 

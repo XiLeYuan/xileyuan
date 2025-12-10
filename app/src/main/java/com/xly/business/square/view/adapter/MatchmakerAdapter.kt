@@ -17,9 +17,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.xly.databinding.ItemMatchmakerCardBinding
 import com.xly.R
 import com.xly.business.square.model.Matchmaker
+import com.xly.databinding.ItemMatchmakerCardBinding
 import com.xly.middlelibrary.utils.LYFontUtil
 
 class MatchmakerAdapter(

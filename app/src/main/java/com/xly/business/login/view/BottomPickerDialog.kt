@@ -2,7 +2,6 @@ package com.xly.business.login.view
 
 import android.content.Context
 import android.graphics.Outline
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

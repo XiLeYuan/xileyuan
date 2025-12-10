@@ -10,10 +10,8 @@ import com.gyf.immersionbar.ImmersionBar
 import com.xly.R
 import com.xly.business.login.view.LoginActivity
 import com.xly.business.login.view.PrivacyAgreementDialog
-import com.xly.business.login.view.UserInfoActivity
 import com.xly.business.login.view.UserInfoFirstStepActivity
 import com.xly.middlelibrary.utils.MMKVManager
-import kotlinx.coroutines.Runnable
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity :AppCompatActivity() {

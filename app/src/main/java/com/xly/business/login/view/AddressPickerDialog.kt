@@ -16,7 +16,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.xly.R
 import com.xly.databinding.DialogAddressPickerBinding
 import org.json.JSONArray
-import org.json.JSONObject
 import java.io.InputStream
 
 data class AddressItem(

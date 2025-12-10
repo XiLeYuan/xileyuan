@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 object LYHttpClient {
 
     //CY本地"http://192.168.1.6:9090/" CL本地："http://192.168.1.102:9090/"
-    private const val BASE_URL = "http://192.168.1.102:9090/"
+    private const val BASE_URL = "http://192.168.3.143:8080/"
 
     // 日志拦截器
     private val loggingInterceptor = HttpLoggingInterceptor().apply {

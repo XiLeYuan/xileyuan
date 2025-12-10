@@ -4,15 +4,15 @@ package com.xly.business.square.view.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.xly.databinding.ItemTodaySelectionUserBinding
-import com.xly.R
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.xly.R
 import com.xly.business.square.model.TodaySelectionUser
+import com.xly.databinding.ItemTodaySelectionUserBinding
 import com.xly.middlelibrary.utils.LYFontUtil
 
 class CherryPickAdapter(

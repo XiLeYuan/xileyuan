@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.xly.business.user.view.VerificationActivity
 import com.xly.R
+import com.xly.business.user.view.VerificationActivity
 
 class VerificationAdapter(
     private val verificationTypes: List<VerificationActivity.VerificationType>,
