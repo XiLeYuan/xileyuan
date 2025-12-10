@@ -104,6 +104,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="80dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -240,6 +241,62 @@
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="bottom|right|end"
         android:visibility="gone"/>
+
+    <!-- 底部浮动按钮栏 -->
+    <LinearLayout
+        android:id="@+id/llBottomButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:elevation="8dp"
+        android:layout_marginBottom="0dp">
+
+        <!-- 不喜欢按钮 -->
+        <ImageView
+            android:id="@+id/ivDislike"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@mipmap/cancel_icon"
+            android:background="@drawable/bg_button_circle_transparent"
+            android:padding="12dp"
+            android:tint="@android:color/white"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="不喜欢" />
+
+        <!-- 送花花按钮 -->
+        <ImageView
+            android:id="@+id/ivSendFlower"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:src="@mipmap/flow_icon"
+            android:background="@drawable/bg_button_circle_transparent"
+            android:padding="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="送花花" />
+
+        <!-- 喜欢按钮 -->
+        <ImageView
+            android:id="@+id/ivLike"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@mipmap/like_icon"
+            android:background="@drawable/bg_button_circle_transparent"
+            android:padding="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="喜欢" />
+
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

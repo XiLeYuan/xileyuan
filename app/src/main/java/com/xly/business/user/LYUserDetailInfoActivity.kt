@@ -94,6 +94,30 @@ class LYUserDetailInfoActivity : AppCompatActivity() {
         setupSelfIntroduction()
         setupMateRequirement()
         setupFamilyInfo()
+        setupBottomButtons()
+    }
+    
+    /**
+     * 设置底部按钮点击事件
+     */
+    private fun setupBottomButtons() {
+        // 不喜欢按钮
+        findViewById<View>(R.id.ivDislike)?.setOnClickListener {
+            // TODO: 实现不喜欢功能
+            android.widget.Toast.makeText(this, "不喜欢", android.widget.Toast.LENGTH_SHORT).show()
+        }
+        
+        // 送花花按钮
+        findViewById<View>(R.id.ivSendFlower)?.setOnClickListener {
+            // TODO: 实现送花花功能
+            android.widget.Toast.makeText(this, "送花花", android.widget.Toast.LENGTH_SHORT).show()
+        }
+        
+        // 喜欢按钮
+        findViewById<View>(R.id.ivLike)?.setOnClickListener {
+            // TODO: 实现喜欢功能
+            android.widget.Toast.makeText(this, "喜欢", android.widget.Toast.LENGTH_SHORT).show()
+        }
     }
     
     private fun setupSelfIntroduction() {

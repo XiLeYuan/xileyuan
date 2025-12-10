@@ -97,8 +97,8 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/verifyIv"
-                        android:layout_width="14dp"
-                        android:layout_height="14dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
                         android:src="@mipmap/verified_icon"
                         android:layout_marginStart="5dp"
                         android:layout_toRightOf="@id/tvNameAge"
