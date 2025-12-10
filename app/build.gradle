@@ -59,24 +59,24 @@ android {
 // 在构建之前执行该任务
     preBuild.dependsOn(updateSchemaVersion)*/
     signingConfigs {
-        /*release {
-            keyAlias 'jsppnew'
-            keyPassword 'jspp2020Ok'
-            storeFile file('\\key\\jsppnew.jks')
-            storePassword 'jspp2020Ok'
+        release {
+            keyAlias 'jiehunba'
+            keyPassword 'jiehunba@2025'
+            storeFile file('\\key\\jiehunba.jks')
+            storePassword 'jiehunba@2025'
             //签名版本的方式
             v1SigningEnabled true
             v2SigningEnabled true
-        }*/
-        /* debug {
-           keyAlias 'jsppnew'
-            keyPassword 'jspp2020Ok'
-            storeFile file('\\key\\jsppnew.jks')
-            storePassword 'jspp2020Ok'
+        }
+        debug {
+           keyAlias 'jiehunba'
+            keyPassword 'jiehunba@2025'
+            storeFile file('\\key\\jiehunba.jks')
+            storePassword 'jiehunba@2025'
             //签名版本的方式
             v1SigningEnabled true
             v2SigningEnabled true
-        }*/
+        }
 
     }
     /*buildTypes {
