@@ -43,6 +43,46 @@ object UmengHelper {
     }
 
     /**
+     * 初始化友盟APM（应用性能监控）
+     * 包括崩溃监控和ANR监控
+     * @param context Application上下文
+     * @param enableCrashMonitor 是否启用崩溃监控（默认true）
+     * @param enableAnrMonitor 是否启用ANR监控（默认true）
+     * @param anrTimeoutMs ANR超时时间（毫秒），默认5000ms
+     */
+
+
+
+
+    /**
+     * 启用ANR监控
+     * 监控应用无响应情况
+     * @param context Application上下文
+     * @param timeoutMs ANR超时时间（毫秒），默认5000ms
+     */
+
+    /**
+     * 手动上报崩溃信息
+     * @param throwable 异常对象
+     */
+
+    /**
+     * 手动上报ANR信息
+     * @param anrMessage ANR消息
+     */
+
+    /**
+     * 设置自定义用户ID（用于崩溃和ANR统计）
+     * @param userId 用户ID
+     */
+
+    /**
+     * 设置自定义标签（用于崩溃和ANR统计）
+     * @param key 标签key
+     * @param value 标签value
+     */
+
+    /**
      * 页面统计 - 页面开始
      * @param context 上下文
      * @param pageName 页面名称

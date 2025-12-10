@@ -240,7 +240,8 @@ android {
 
         implementation  'com.umeng.umsdk:common:9.4.7'// 必选
         implementation  'com.umeng.umsdk:asms:1.4.0'// 必选
-        implementation 'com.umeng.umsdk:apm:1.8.0'
+        implementation 'com.umeng.umsdk:apm:1.4.2'
+
 
 
 
