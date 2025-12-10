@@ -52,6 +52,14 @@
         tools:replace="android:allowBackup,android:networkSecurityConfig"
         tools:targetApi="r">
 
+        <!-- 友盟统计配置 -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="693919fe9a7f376488fbb6c9" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
+
 
         <activity
             android:name=".index.SplashActivity"

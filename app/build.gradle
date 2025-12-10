@@ -230,6 +230,18 @@ android {
 
         implementation 'com.github.hackware1993:MagicIndicator:1.7.0' // for androidx
 
+        // 友盟SDK - 统计SDK
+        /*implementation 'com.umeng.umsdk:common:9.6.8' // 基础组件库
+        implementation 'com.umeng.umsdk:asms:1.6.6' // asms包依赖(必选)
+        implementation 'com.umeng.umsdk:oaid_lenovo:1.0.0' // (可选)
+        implementation 'com.umeng.umsdk:oaid_mi:1.0.0' // (可选)
+        implementation 'com.umeng.umsdk:oaid_oppo:1.0.4' // (可选)
+        implementation 'com.umeng.umsdk:oaid_vivo:1.0.0.1' // (可选)*/
+
+        implementation  'com.umeng.umsdk:common:9.4.7'// 必选
+        implementation  'com.umeng.umsdk:asms:1.4.0'// 必选
+        implementation 'com.umeng.umsdk:apm:1.8.0'
+
 
 
     }

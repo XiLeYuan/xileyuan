@@ -11,6 +11,7 @@ import androidx.viewbinding.ViewBinding
 import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
 import com.xly.R
+import com.xly.middlelibrary.utils.UmengHelper
 import com.xly.middlelibrary.widget.LoadingDialog
 
 abstract class LYBaseActivity<VB : ViewBinding, VM : ViewModel> : AppCompatActivity() {
@@ -33,6 +34,9 @@ abstract class LYBaseActivity<VB : ViewBinding, VM : ViewModel> : AppCompatActiv
         initObservers()
         initView()
         initOnClick()
+        
+        // 友盟页面统计 - 页面开始
+        UmengHelper.onPageStart(this, getPageName())
     }
 
     open fun acceptData() {}
@@ -104,8 +108,19 @@ abstract class LYBaseActivity<VB : ViewBinding, VM : ViewModel> : AppCompatActiv
 
     override fun onDestroy() {
         super.onDestroy()
+        // 友盟页面统计 - 页面结束
+        UmengHelper.onPageEnd(this, getPageName())
         loadingDialog?.dismiss()
         loadingDialog = null
+    }
+    
+    /**
+     * 获取页面名称，用于友盟统计
+     * 子类可以重写此方法自定义页面名称
+     * 默认使用类名
+     */
+    protected open fun getPageName(): String {
+        return this::class.java.simpleName
     }
 
 

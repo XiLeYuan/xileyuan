@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
 import com.gyf.immersionbar.ImmersionBar
 import com.xly.R
+import com.xly.middlelibrary.utils.UmengHelper
 
 abstract class LYBaseFragment <VB : ViewBinding, VM : ViewModel> : Fragment() {
 
@@ -29,6 +30,27 @@ abstract class LYBaseFragment <VB : ViewBinding, VM : ViewModel> : Fragment() {
         initView()
         initOnClick()
         return viewBind.root
+    }
+    
+    override fun onResume() {
+        super.onResume()
+        // 友盟页面统计 - 页面开始（Fragment可选）
+        UmengHelper.onPageStart(requireContext(), getPageName())
+    }
+    
+    override fun onPause() {
+        super.onPause()
+        // 友盟页面统计 - 页面结束（Fragment可选）
+        UmengHelper.onPageEnd(requireContext(), getPageName())
+    }
+    
+    /**
+     * 获取页面名称，用于友盟统计
+     * 子类可以重写此方法自定义页面名称
+     * 默认使用类名
+     */
+    protected open fun getPageName(): String {
+        return this::class.java.simpleName
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
