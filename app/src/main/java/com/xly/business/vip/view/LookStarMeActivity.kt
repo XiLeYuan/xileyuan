@@ -285,9 +285,10 @@ class LookStarMeActivity : LYBaseActivity<ActivityVipRechargeBinding, MainViewMo
             val tvBenefit = TextView(this).apply {
                 layoutParams = LinearLayout.LayoutParams(
                     0,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT,
                     1f
                 )
+                gravity = android.view.Gravity.CENTER_VERTICAL
                 text = privilege.benefit
                 setTextColor(Color.parseColor("#FF333333"))
                 textSize = 13f
@@ -297,20 +298,22 @@ class LookStarMeActivity : LYBaseActivity<ActivityVipRechargeBinding, MainViewMo
             val tvVipBenefit = TextView(this).apply {
                 layoutParams = LinearLayout.LayoutParams(
                     0,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT,
                     1f
                 )
                 gravity = android.view.Gravity.CENTER
                 text = privilege.vipBenefit
                 setTextColor(Color.parseColor("#FF333333"))
                 textSize = 13f
+                setBackgroundColor(Color.parseColor("#FFF9E6"))
+                setPadding(0, dp2px(8), 0, dp2px(8))
             }
 
             // 普通用户权益
             val tvRegularBenefit = TextView(this).apply {
                 layoutParams = LinearLayout.LayoutParams(
                     0,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT,
                     1f
                 )
                 gravity = android.view.Gravity.CENTER

@@ -81,12 +81,13 @@
             android:id="@+id/btnSubscribe"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="@drawable/main_button_selector_bg"
+            android:background="@drawable/bg_vip_subscribe_button_selector"
             android:gravity="center"
             android:text="同意协议并开通"
-            android:textColor="#FFFFFFFF"
+            android:textColor="#FFB400"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:elevation="4dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -251,25 +252,29 @@
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:gravity="center_vertical"
                         android:text="权益"
                         android:textColor="#FF666666"
                         android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="VIP会员用户"
                         android:textColor="#FF333333"
                         android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:background="@drawable/bg_vip_column"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp" />
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="普通用户"
