@@ -9,7 +9,7 @@
         android:id="@+id/cardRoot"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="9dp"
         app:cardCornerRadius="12dp"
         app:cardElevation="0dp"
         app:cardBackgroundColor="#FFFFFFFF">
@@ -69,14 +69,13 @@
     <TextView
         android:id="@+id/tvDiscountTag"
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
+        android:layout_height="18dp"
         android:gravity="center"
         android:background="@drawable/bg_discount_tag_rounded"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
         android:text="专属2.9折"
         android:textColor="#FFFFFFFF"
-        android:textSize="10sp"
-        android:textStyle="bold"
+        android:textSize="9sp"
         android:layout_centerHorizontal="true"/>
 </RelativeLayout>
