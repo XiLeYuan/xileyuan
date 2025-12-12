@@ -57,6 +57,33 @@ class LookStarMeActivity : LYBaseActivity<ActivityVipRechargeBinding, MainViewMo
             monthlyPrice = "¥198/月",
             isRecommended = false,
             option = VipRechargeOption("连续包月", null, "¥198", "¥198/月", isRecommended = false, isContinuous = true)
+        ),
+        SubscriptionOption(
+            discountTag = "专属2.5折",
+            packageType = "年卡",
+            duration = "12个月",
+            price = "¥798",
+            monthlyPrice = "¥66.5/月",
+            isRecommended = false,
+            option = VipRechargeOption("年卡", null, "¥798", "¥66.5/月", isRecommended = false, isContinuous = false)
+        ),
+        SubscriptionOption(
+            discountTag = "专属5.2折",
+            packageType = "季卡",
+            duration = "3个月",
+            price = "¥418",
+            monthlyPrice = "¥139.3/月",
+            isRecommended = false,
+            option = VipRechargeOption("季卡", null, "¥418", "¥139.3/月", isRecommended = false, isContinuous = false)
+        ),
+        SubscriptionOption(
+            discountTag = "尝新首选",
+            packageType = "月卡",
+            duration = "1个月",
+            price = "¥268",
+            monthlyPrice = "¥268/月",
+            isRecommended = false,
+            option = VipRechargeOption("月卡", null, "¥268", "¥268/月", isRecommended = false, isContinuous = false)
         )
     )
 
@@ -93,7 +120,6 @@ class LookStarMeActivity : LYBaseActivity<ActivityVipRechargeBinding, MainViewMo
         setupDateRange()
         setupUserInfo()
         setupSubscriptionOptions()
-        setupCoursePromotion()
         setupPrivilegesTable()
         setupDefaultSelection()
     }
@@ -162,18 +188,28 @@ class LookStarMeActivity : LYBaseActivity<ActivityVipRechargeBinding, MainViewMo
             val tvPrice = cardView.findViewById<TextView>(com.xly.R.id.tvPrice)
             val tvMonthlyPrice = cardView.findViewById<TextView>(com.xly.R.id.tvMonthlyPrice)
             val layoutRoot = cardView.findViewById<ViewGroup>(com.xly.R.id.layoutRoot)
-
+            val cardRoot = cardView.findViewById<androidx.cardview.widget.CardView>(com.xly.R.id.cardRoot)
+            
+            // 设置标签文本
             tvDiscountTag.text = option.discountTag
+
             tvPackageType.text = option.packageType
             tvDuration.text = option.duration
             tvPrice.text = option.price
             tvMonthlyPrice.text = option.monthlyPrice
 
-            // 设置选中状态样式
+            // 设置初始宽度和选中状态样式
+            val normalWidth = dp2px(100)
+            val selectedWidth = dp2px(115)
+            
             if (option.isRecommended) {
                 layoutRoot.setBackgroundResource(com.xly.R.drawable.vip_card_item_border_primary)
+                cardRoot.layoutParams.width = selectedWidth
+                cardRoot.requestLayout()
             } else {
                 layoutRoot.setBackgroundResource(com.xly.R.drawable.vip_card_item_border)
+                cardRoot.layoutParams.width = normalWidth
+                cardRoot.requestLayout()
             }
 
             // 点击选择
@@ -188,24 +224,43 @@ class LookStarMeActivity : LYBaseActivity<ActivityVipRechargeBinding, MainViewMo
 
     private fun updateSubscriptionSelection(selectedView: View) {
         val container = viewBind.llSubscriptionOptions
+        val normalWidth = dp2px(100)
+        val selectedWidth = dp2px(115)
+        
         for (i in 0 until container.childCount) {
             val child = container.getChildAt(i)
             val layoutRoot = child.findViewById<ViewGroup>(com.xly.R.id.layoutRoot)
-            if (child == selectedView) {
-                layoutRoot.setBackgroundResource(com.xly.R.drawable.vip_card_item_border_primary)
-            } else {
-                layoutRoot.setBackgroundResource(com.xly.R.drawable.vip_card_item_border)
+            val cardRoot = child.findViewById<androidx.cardview.widget.CardView>(com.xly.R.id.cardRoot)
+            
+            if (layoutRoot != null && cardRoot != null) {
+                if (child == selectedView) {
+                    // 选中状态：橙色边框，宽度变大
+                    layoutRoot.setBackgroundResource(com.xly.R.drawable.vip_card_item_border_primary)
+                    animateWidth(cardRoot, cardRoot.layoutParams.width, selectedWidth)
+                } else {
+                    // 未选中状态：灰色边框，宽度变小
+                    layoutRoot.setBackgroundResource(com.xly.R.drawable.vip_card_item_border)
+                    animateWidth(cardRoot, cardRoot.layoutParams.width, normalWidth)
+                }
             }
         }
     }
-
-    private fun setupCoursePromotion() {
-        // 课程信息已在布局中设置，这里可以动态更新
-        Glide.with(this)
-            .load(com.xly.R.mipmap.head_img)
-            .circleCrop()
-            .into(viewBind.ivCourseAvatar)
+    
+    private fun animateWidth(view: View, fromWidth: Int, toWidth: Int) {
+        if (fromWidth == toWidth) return
+        
+        val animator = android.animation.ValueAnimator.ofInt(fromWidth, toWidth)
+        animator.duration = 300
+        animator.interpolator = android.view.animation.DecelerateInterpolator()
+        animator.addUpdateListener { animation ->
+            val width = animation.animatedValue as Int
+            view.layoutParams.width = width
+            view.requestLayout()
+        }
+        animator.start()
     }
+
+
 
     private fun setupPrivilegesTable() {
         val container = viewBind.llPrivilegesTable
@@ -275,7 +330,26 @@ class LookStarMeActivity : LYBaseActivity<ActivityVipRechargeBinding, MainViewMo
         selectedOption = subscriptionOptions.first().option
         if (viewBind.llSubscriptionOptions.childCount > 0) {
             val firstCard = viewBind.llSubscriptionOptions.getChildAt(0)
-            updateSubscriptionSelection(firstCard)
+            // 直接设置初始状态，不使用动画
+            val layoutRoot = firstCard.findViewById<ViewGroup>(com.xly.R.id.layoutRoot)
+            val cardRoot = firstCard.findViewById<androidx.cardview.widget.CardView>(com.xly.R.id.cardRoot)
+            if (layoutRoot != null && cardRoot != null) {
+                layoutRoot.setBackgroundResource(com.xly.R.drawable.vip_card_item_border_primary)
+                cardRoot.layoutParams.width = dp2px(115)
+                cardRoot.requestLayout()
+            }
+            
+            // 设置其他卡片为未选中状态
+            for (i in 1 until viewBind.llSubscriptionOptions.childCount) {
+                val child = viewBind.llSubscriptionOptions.getChildAt(i)
+                val childLayoutRoot = child.findViewById<ViewGroup>(com.xly.R.id.layoutRoot)
+                val childCardRoot = child.findViewById<androidx.cardview.widget.CardView>(com.xly.R.id.cardRoot)
+                if (childLayoutRoot != null && childCardRoot != null) {
+                    childLayoutRoot.setBackgroundResource(com.xly.R.drawable.vip_card_item_border)
+                    childCardRoot.layoutParams.width = dp2px(100)
+                    childCardRoot.requestLayout()
+                }
+            }
         }
     }
 

@@ -1,79 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cardRoot"
-    android:layout_width="140dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="12dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="0dp"
-    app:cardBackgroundColor="#FFFFFFFF">
+    android:layout_marginEnd="12dp">
 
-    <LinearLayout
-        android:id="@+id/layoutRoot"
-        android:layout_width="match_parent"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardRoot"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="12dp"
-        android:background="@drawable/vip_card_item_border">
+        android:layout_marginTop="10dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="#FFFFFFFF">
 
-        <!-- 折扣标签 -->
-        <TextView
-            android:id="@+id/tvDiscountTag"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/layoutRoot"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFFF9800"
-            android:paddingStart="6dp"
-            android:paddingEnd="6dp"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp"
-            android:text="专属2.9折"
-            android:textColor="#FFFFFFFF"
-            android:textSize="10sp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:background="@drawable/vip_card_item_border">
 
-        <!-- 套餐类型 -->
-        <TextView
-            android:id="@+id/tvPackageType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="连续包年"
-            android:textColor="#FF333333"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            <!-- 套餐类型 -->
+            <TextView
+                android:id="@+id/tvPackageType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="连续包年"
+                android:textColor="#FF333333"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
-        <!-- 时长 -->
-        <TextView
-            android:id="@+id/tvDuration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="12个月"
-            android:textColor="#FF666666"
-            android:textSize="12sp" />
+            <!-- 时长 -->
+            <TextView
+                android:id="@+id/tvDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="12个月"
+                android:textColor="#FF666666"
+                android:textSize="12sp" />
 
-        <!-- 价格 -->
-        <TextView
-            android:id="@+id/tvPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="¥688"
-            android:textColor="#FFFF3B3B"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            <!-- 价格 -->
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="¥688"
+                android:textColor="#FFFF3B3B"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-        <!-- 月均价格 -->
-        <TextView
-            android:id="@+id/tvMonthlyPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="¥57.3/月"
-            android:textColor="#FF999999"
-            android:textSize="11sp" />
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
+            <!-- 月均价格 -->
+            <TextView
+                android:id="@+id/tvMonthlyPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="¥57.3/月"
+                android:textColor="#FF999999"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
+    <!-- 折扣标签 - 放在边框上居中 -->
+    <TextView
+        android:id="@+id/tvDiscountTag"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:gravity="center"
+        android:background="@drawable/bg_discount_tag_rounded"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="专属2.9折"
+        android:textColor="#FFFFFFFF"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"/>
+</RelativeLayout>
