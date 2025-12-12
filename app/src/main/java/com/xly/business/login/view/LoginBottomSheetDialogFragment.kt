@@ -20,7 +20,7 @@ class LoginBottomSheetDialogFragment : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
 
     var onLoginClick: (() -> Unit)? = null
-    var isAgreeChecked: () -> Boolean = { binding.cbAgree.isChecked }
+    var isAgreeChecked: () -> Boolean = { binding.cbAgree.isChecked() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?

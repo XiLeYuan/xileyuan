@@ -160,7 +160,7 @@ class LookStarMeActivity : LYBaseActivity<ActivityVipRechargeBinding, MainViewMo
             showToast("规则")
         }
         viewBind.btnSubscribe.setOnClickListener {
-            if (!viewBind.cbAgreement.isChecked) {
+            if (!viewBind.cbAgreement.isChecked()) {
                 showToast("请先同意协议")
                 return@setOnClickListener
             }

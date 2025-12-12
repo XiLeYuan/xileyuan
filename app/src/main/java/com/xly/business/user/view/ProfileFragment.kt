@@ -22,6 +22,7 @@ import com.xly.R
 import com.xly.base.LYBaseFragment
 import com.xly.business.user.viewmodel.ProfileViewModel
 import com.xly.business.vip.view.LookStarMeActivity
+import com.xly.business.user.view.WalletActivity
 import com.xly.databinding.DialogFateUserCardBinding
 import com.xly.databinding.FragmentProfileBinding
 import com.xly.middlelibrary.utils.LYFontUtil
@@ -210,7 +211,7 @@ class ProfileFragment : LYBaseFragment<FragmentProfileBinding, ProfileViewModel>
 
         // 我的钱包点击
         viewBind.llMyWallet.setOnClickListener {
-            showToast("我的钱包")
+            WalletActivity.start(requireContext())
         }
 
         // 我的认证点击

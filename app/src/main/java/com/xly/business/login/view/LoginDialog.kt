@@ -20,7 +20,7 @@ class LoginDialog(context: Context) : Dialog(context) {
     
     private lateinit var binding: LayoutLoginBottomSheetBinding
     var onLoginClick: (() -> Unit)? = null
-    var isAgreeChecked: () -> Boolean = { binding.cbAgree.isChecked }
+    var isAgreeChecked: () -> Boolean = { binding.cbAgree.isChecked() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

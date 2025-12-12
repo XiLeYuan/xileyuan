@@ -103,6 +103,11 @@
             android:exported="true"
             android:theme="@style/AppTheme"/>
 
+        <activity
+            android:name="com.xly.business.user.view.WalletActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme"/>
+
 
 
 

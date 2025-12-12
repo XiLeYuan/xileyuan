@@ -20,6 +20,8 @@
         <item name="colorOnPrimary">@color/text_white</item>
         <item name="colorSecondary">@color/text_accent</item>
         <item name="colorError">@color/text_error</item>
+        <!-- RadioButton 全局样式 -->
+        <item name="android:radioButtonStyle">@style/AppRadioButtonStyle</item>
     </style>
 
     <style name="AppThemeMain" parent="Theme.AppCompat.DayNight.NoActionBar">
@@ -30,7 +32,8 @@
         <item name="android:windowContentTransitions">true</item>
         <item name="colorControlActivated">@color/sign_in_ed_btn_color</item>
         <item name="android:windowFullscreen">true</item>
-
+        <!-- RadioButton 全局样式 -->
+        <item name="android:radioButtonStyle">@style/AppRadioButtonStyle</item>
     </style>
 
 
@@ -71,6 +74,8 @@
         <item name="colorOnPrimary">@color/text_white</item>
         <item name="colorSecondary">@color/text_accent</item>
         <item name="colorError">@color/text_error</item>
+        <!-- RadioButton 全局样式 -->
+        <item name="android:radioButtonStyle">@style/AppRadioButtonStyle</item>
     </style>
 
     <!-- Splash Activity 主题 -->
@@ -188,6 +193,11 @@
     <style name="ShapeAppearanceOverlay.ProfilePhoto" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">12dp</item>
+    </style>
+
+    <!-- RadioButton 全局样式 -->
+    <style name="AppRadioButtonStyle" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/radio_button_selector</item>
     </style>
 
 </resources>

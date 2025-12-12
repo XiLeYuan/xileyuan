@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="12dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardRoot"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7.5dp"
+        android:minHeight="100dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="#FFFFFFFF">
+
+        <LinearLayout
+            android:id="@+id/layoutRoot"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:minHeight="100dp"
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:gravity="top"
+            android:background="@drawable/bg_wallet_card_border">
+
+            <!-- 钻石币图标和数量 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@mipmap/yuan_bi_icon"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/tvCoinAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="500"
+                    android:textColor="#FF333333"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- 额外说明文字（可选） -->
+            <TextView
+                android:id="@+id/tvExtraInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="=100位嘉宾"
+                android:textColor="#FF999999"
+                android:textSize="10sp"
+                android:visibility="gone" />
+
+            <!-- 价格 -->
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="¥56"
+                android:textColor="#FF333333"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- 折扣标签（可选） -->
+            <TextView
+                android:id="@+id/tvDiscountTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="8.3折"
+                android:textColor="#FFFF9800"
+                android:textSize="10sp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- 标签 - 放在边框上居中，与VIP充值样式一致 -->
+    <TextView
+        android:id="@+id/tvTag"
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:gravity="center"
+        android:background="@drawable/bg_discount_tag_rounded"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="最多人选"
+        android:textColor="#FFFFFFFF"
+        android:textSize="9sp"
+        android:layout_centerHorizontal="true"/>
+</RelativeLayout>

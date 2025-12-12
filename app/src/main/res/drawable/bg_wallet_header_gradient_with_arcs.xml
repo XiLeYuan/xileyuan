@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 主渐变背景 - 从温暖珊瑚红渐变到白色 -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="linear"
+                android:angle="180"
+                android:startColor="#FFFFE5E5"
+                android:centerColor="#FFFFF0F0"
+                android:endColor="#FFFFFFFF"
+                android:centerY="0.5"/>
+        </shape>
+    </item>
+    
+    <!-- 底部左侧圆弧装饰 - 较大，营造层次感 -->
+    <item
+        android:width="140dp"
+        android:height="140dp"
+        android:gravity="bottom|start"
+        android:bottom="-50dp"
+        android:start="-40dp">
+        <shape android:shape="oval">
+            <solid android:color="#18FF6B6B"/>
+        </shape>
+    </item>
+    
+    <!-- 底部中间左侧圆弧装饰 - 中等大小 -->
+    <item
+        android:width="100dp"
+        android:height="100dp"
+        android:gravity="bottom|start"
+        android:bottom="-35dp"
+        android:start="80dp">
+        <shape android:shape="oval">
+            <solid android:color="#20FF6B6B"/>
+        </shape>
+    </item>
+    
+    <!-- 底部中间圆弧装饰 - 主要装饰元素 -->
+    <item
+        android:width="120dp"
+        android:height="120dp"
+        android:gravity="bottom|center_horizontal"
+        android:bottom="-40dp">
+        <shape android:shape="oval">
+            <solid android:color="#22FF6B6B"/>
+        </shape>
+    </item>
+    
+    <!-- 底部中间右侧圆弧装饰 - 中等大小 -->
+    <item
+        android:width="95dp"
+        android:height="95dp"
+        android:gravity="bottom|end"
+        android:bottom="-32dp"
+        android:end="80dp">
+        <shape android:shape="oval">
+            <solid android:color="#1CFF6B6B"/>
+        </shape>
+    </item>
+    
+    <!-- 底部右侧圆弧装饰 - 较大，营造层次感 -->
+    <item
+        android:width="130dp"
+        android:height="130dp"
+        android:gravity="bottom|end"
+        android:bottom="-45dp"
+        android:end="-35dp">
+        <shape android:shape="oval">
+            <solid android:color="#18FF6B6B"/>
+        </shape>
+    </item>
+    
+    <!-- 底部渐变遮罩 - 让圆弧与白色背景自然过渡 -->
+    <item
+        android:top="100dp"
+        android:bottom="0dp">
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="linear"
+                android:angle="180"
+                android:startColor="#00FFFFFF"
+                android:endColor="#FFFFFFFF"/>
+        </shape>
+    </item>
+</layer-list>
+

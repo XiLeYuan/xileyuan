@@ -268,15 +268,34 @@ class UserInfoFirstStepActivity :
     }
 
     private fun setupGender() {
-        viewBind.rgGender.setOnCheckedChangeListener { _, checkedId ->
-            selectedGender =
-                    when (checkedId) {
-                        R.id.rbMale -> "1" // 男士
-                        R.id.rbFemale -> "2" // 女士
-                        else -> null
-                    }
-            updateNextButtonState()
+        // 男士选择
+        viewBind.llMale.setOnClickListener {
+            selectGender(true)
         }
+        viewBind.cbMale.setOnClickListener {
+            selectGender(true)
+        }
+        
+        // 女士选择
+        viewBind.llFemale.setOnClickListener {
+            selectGender(false)
+        }
+        viewBind.cbFemale.setOnClickListener {
+            selectGender(false)
+        }
+    }
+    
+    /**
+     * 选择性别（单选逻辑）
+     */
+    private fun selectGender(isMale: Boolean) {
+        // 更新选中状态
+        viewBind.cbMale.setChecked(isMale, animate = true)
+        viewBind.cbFemale.setChecked(!isMale, animate = true)
+        
+        // 更新选中的性别值
+        selectedGender = if (isMale) "1" else "2" // 1 男士, 2 女士
+        updateNextButtonState()
     }
 
     private fun setupAge() {
