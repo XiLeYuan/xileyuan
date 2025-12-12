@@ -121,6 +121,36 @@ class LookStarMeActivity : LYBaseActivity<ActivityVipRechargeBinding, MainViewMo
         setupSubscriptionOptions()
         setupPrivilegesTable()
         setupDefaultSelection()
+        setupScrollListener()
+    }
+    
+    private fun setupScrollListener() {
+        viewBind.nestedScrollView.viewTreeObserver.addOnScrollChangedListener {
+            val scrollY = viewBind.nestedScrollView.scrollY
+            updateToolbarBackground(scrollY)
+        }
+    }
+    
+    private fun updateToolbarBackground(scrollY: Int) {
+        val toolbarContainer = viewBind.toolbarContainer
+        val startThreshold = dp2px(0) // 开始渐变的位置
+        val endThreshold = dp2px(100) // 完全变成白色的位置
+        
+        // 计算渐变系数 (0.0 - 1.0)
+        val ratio = when {
+            scrollY <= startThreshold -> 0f // 完全透明
+            scrollY >= endThreshold -> 1f // 完全白色
+            else -> {
+                // 在阈值之间，计算渐变比例
+                (scrollY - startThreshold).toFloat() / (endThreshold - startThreshold)
+            }
+        }
+        
+        // 使用渐变系数混合透明和白色
+        // 白色: #FFFFFFFF, 透明: #00FFFFFF
+        val alpha = (ratio * 255).toInt().coerceIn(0, 255)
+        val color = Color.argb(alpha, 255, 255, 255)
+        toolbarContainer.setBackgroundColor(color)
     }
 
     override fun initOnClick() {

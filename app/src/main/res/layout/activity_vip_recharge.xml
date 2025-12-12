@@ -64,6 +64,7 @@
 
     <!-- 可滚动内容区域 -->
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottomLl"
@@ -263,14 +264,7 @@
             android:padding="4dp"
             tools:ignore="ContentDescription" />
 
-        <TextView
-            android:id="@+id/tvDateRange"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:text="12.9-12.14"
-            android:textColor="#FF666666"
-            android:textSize="14sp" />
+
 
         <View
             android:layout_width="0dp"
