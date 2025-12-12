@@ -1,17 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF5F5F5"
-    android:orientation="vertical">
+    android:background="#FFF5F5F5">
+
+    <!-- 顶部标题栏 -->
+    <LinearLayout
+        android:id="@+id/toolbarContainer"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@mipmap/ic_arrow_left_black"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="4dp"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tvDateRange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="12.9-12.14"
+            android:textColor="#FF666666"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tvRules"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="规则"
+            android:textColor="#FF666666"
+            android:textSize="14sp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp" />
+
+        <ImageView
+            android:id="@+id/ivCharacter"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="8dp"
+            android:src="@mipmap/head_img"
+            android:scaleType="centerCrop"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
+
+
+
+    <!-- 底部按钮和协议（固定在底部） -->
+    <LinearLayout
+        android:id="@+id/bottomLl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#FFF5F5F5"
+        android:elevation="8dp"
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
+
+        <TextView
+            android:id="@+id/btnSubscribe"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/main_button_selector_bg"
+            android:gravity="center"
+            android:text="同意协议并开通"
+            android:textColor="#FFFFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/cbAgreement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/checkbox_circle_selector"
+                android:checked="false" />
+
+            <TextView
+                android:id="@+id/tvAgreementText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="同意《青藤会员协议》《连续订阅会员服务协议》,享688订阅优惠价(原价798),可随时取消自动续费。"
+                android:textColor="#FF999999"
+                android:textSize="11sp"
+                android:lineSpacingMultiplier="1.2" />
+        </LinearLayout>
+    </LinearLayout>
 
     <!-- 可滚动内容区域 -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomLl"
         android:fillViewport="true"
         android:overScrollMode="never">
 
@@ -20,113 +128,80 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- 顶部标题栏 -->
-            <LinearLayout
-                android:id="@+id/toolbarContainer"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="#FFF5F5F5"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp">
+                android:layout_height="200dp"
+                android:background="@color/text_accent_light">
 
-                <ImageView
-                    android:id="@+id/ivBack"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@mipmap/ic_arrow_left_black"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:padding="4dp"
-                    tools:ignore="ContentDescription" />
-
+                <!-- 主标题 -->
                 <TextView
-                    android:id="@+id/tvDateRange"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tvMainTitle"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:text="12.9-12.14"
-                    android:textColor="#FF666666"
-                    android:textSize="14sp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/tvRules"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="规则"
-                    android:textColor="#FF666666"
-                    android:textSize="14sp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:padding="8dp" />
-
-                <ImageView
-                    android:id="@+id/ivCharacter"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="8dp"
-                    android:src="@mipmap/head_img"
-                    android:scaleType="centerCrop"
-                    tools:ignore="ContentDescription" />
-            </LinearLayout>
-
-            <!-- 主标题 -->
-            <TextView
-                android:id="@+id/tvMainTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="16dp"
-                android:text="10大交友特权, 轻松推进关系"
-                android:textColor="#FF333333"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
-            <!-- 用户状态卡片 -->
-            <LinearLayout
-                android:id="@+id/llUserStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/bg_card_white_rounded"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="12dp">
-
-                <com.xly.middlelibrary.widget.LYRoundImageView
-                    android:id="@+id/ivUserAvatar"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@mipmap/head_img"
-                    android:scaleType="centerCrop"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:id="@+id/tvUserStatus"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_weight="1"
-                    android:text="青藤用户6942 未开通会员"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="86dp"
+                    android:text="10大交友特权, 轻松推进关系"
                     android:textColor="#FF333333"
-                    android:textSize="14sp" />
-            </LinearLayout>
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <!-- 用户状态卡片 -->
+                <LinearLayout
+                    android:id="@+id/llUserStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/bg_card_white_rounded"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="12dp"
+                    android:visibility="gone">
+
+                    <com.xly.middlelibrary.widget.LYRoundImageView
+                        android:id="@+id/ivUserAvatar"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@mipmap/head_img"
+                        android:scaleType="centerCrop"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/tvUserStatus"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:text="结婚吧用户6942 未开通会员"
+                        android:textColor="#FF333333"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+
+
+            </RelativeLayout>
+
+
+
+
+
+             <LinearLayout
+                 android:id="@+id/containerLl"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:orientation="vertical"
+                 android:layout_marginTop="-20dp"
+                 android:background="@drawable/bg_card_white_top_rounded">
+
 
             <!-- 订阅选项容器 -->
             <HorizontalScrollView
                 android:id="@+id/hsvSubscriptionOptions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="20dp"
                 android:scrollbars="none"
                 android:fadingEdge="none">
 
@@ -285,56 +360,12 @@
 
                 <!-- 特权项将通过代码动态添加 -->
             </LinearLayout>
+
+            </LinearLayout>
+
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- 底部按钮和协议（固定在底部） -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFF5F5F5"
-        android:elevation="8dp"
-        android:orientation="vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp">
 
-        <TextView
-            android:id="@+id/btnSubscribe"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="@drawable/main_button_selector_bg"
-            android:gravity="center"
-            android:text="同意协议并开通"
-            android:textColor="#FFFFFFFF"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/cbAgreement"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:button="@drawable/checkbox_circle_selector"
-                android:checked="false" />
-
-            <TextView
-                android:id="@+id/tvAgreementText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:text="同意《青藤会员协议》《连续订阅会员服务协议》,享688订阅优惠价(原价798),可随时取消自动续费。"
-                android:textColor="#FF999999"
-                android:textSize="11sp"
-                android:lineSpacingMultiplier="1.2" />
-        </LinearLayout>
-    </LinearLayout>
-</LinearLayout>
+</RelativeLayout>
