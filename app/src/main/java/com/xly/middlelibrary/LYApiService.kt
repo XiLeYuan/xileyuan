@@ -27,10 +27,6 @@ interface LYApiService {
         @Query("phoneNumber") phoneNumber: String
     ): LYResponse<String>
 
-    /*@POST("api/auth/step-register")
-    suspend fun stepRegister(
-        @Body request: StepRegisterRequest
-    ): LYResponse<AuthResponse>*/
 
     @GET("api/auth/user-status")
     suspend fun getUserStatus(
