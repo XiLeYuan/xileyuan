@@ -7,14 +7,12 @@ import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.widget.RadioButton
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.luck.picture.lib.basic.PictureSelector
-import com.luck.picture.lib.config.SelectModeConfig
 import com.luck.picture.lib.config.SelectMimeType
+import com.luck.picture.lib.config.SelectModeConfig
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.xly.R
@@ -25,11 +23,13 @@ import com.xly.business.login.model.UserInfoRegisterReq
 import com.xly.business.login.viewmodel.LoginViewModel
 import com.xly.databinding.ActivityUserInfoFirstStepBinding
 import com.xly.index.LYMainActivity
+import com.xly.middlelibrary.utils.AliyunOSSHelper
 import com.xly.middlelibrary.utils.GlideEngine
 import com.xly.middlelibrary.utils.LYUtils
 import java.io.File
 
-class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBinding, LoginViewModel>() {
+class UserInfoFirstStepActivity :
+        LYBaseActivity<ActivityUserInfoFirstStepBinding, LoginViewModel>() {
 
     private var selectedGender: String? = null
     private var ageValue: String? = null
@@ -52,12 +52,15 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
         }
     }
 
-    override fun inflateBinding(layoutInflater: LayoutInflater) = 
-        ActivityUserInfoFirstStepBinding.inflate(layoutInflater)
+    override fun inflateBinding(layoutInflater: LayoutInflater) =
+            ActivityUserInfoFirstStepBinding.inflate(layoutInflater)
 
     override fun initViewModel() = ViewModelProvider(this)[LoginViewModel::class.java]
 
     override fun initView() {
+        // 初始化 OSS
+        AliyunOSSHelper.init(this)
+
         setupAvatar()
         setupNickname()
         setupGender()
@@ -75,31 +78,23 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
                 simulateNetworkRequest()
             }
         }
-        
+
         // 跳过按钮 - 直接进入首页
         viewBind.tvSkip.setOnClickListener {
-            ActivityStackManager.startActivityAndClearStack(
-                this,
-                LYMainActivity::class.java
-            )
+            ActivityStackManager.startActivityAndClearStack(this, LYMainActivity::class.java)
         }
     }
 
     private fun setupAvatar() {
-        viewBind.llAvatar.setOnClickListener {
-            showAvatarPickerDialog()
-        }
+        viewBind.llAvatar.setOnClickListener { showAvatarPickerDialog() }
     }
 
     private fun showAvatarPickerDialog() {
-        val dialog = AvatarPickerBottomSheetDialogFragment().apply {
-            onCameraClick = {
-                selectAvatarFromCamera()
-            }
-            onGalleryClick = {
-                selectAvatarFromGallery()
-            }
-        }
+        val dialog =
+                AvatarPickerBottomSheetDialogFragment().apply {
+                    onCameraClick = { selectAvatarFromCamera() }
+                    onGalleryClick = { selectAvatarFromGallery() }
+                }
         dialog.show(supportFragmentManager, "AvatarPickerDialog")
     }
 
@@ -116,31 +111,44 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
 
         // 使用PictureSelector拍照，启用裁剪，设置高大于宽的比例（3:2，高度:宽度）
         PictureSelector.create(this)
-            .openCamera(SelectMimeType.ofImage())
-            .setCropEngine(com.xly.middlelibrary.utils.AvatarCropEngine())
-            .forResult(object : OnResultCallbackListener<LocalMedia> {
-                override fun onResult(result: ArrayList<LocalMedia?>?) {
-                    if (result != null && result.isNotEmpty()) {
-                        val localMedia = result[0]
-                        val filePath = localMedia?.availablePath
-                        if (!filePath.isNullOrEmpty()) {
-                            // 如果是 content:// URI，直接使用 Uri，否则使用 File
-                            if (filePath.startsWith("content://")) {
-                                Glide.with(this@UserInfoFirstStepActivity)
-                                    .load(android.net.Uri.parse(filePath))
-                                    .circleCrop()
-                                    .into(viewBind.ivAvatar)
-                            } else {
-                                processSelectedImage(File(filePath))
+                .openCamera(SelectMimeType.ofImage())
+                .setCropEngine(com.xly.middlelibrary.utils.AvatarCropEngine())
+                .forResult(
+                        object : OnResultCallbackListener<LocalMedia> {
+                            override fun onResult(result: ArrayList<LocalMedia?>?) {
+                                if (result != null && result.isNotEmpty()) {
+                                    val localMedia = result[0]
+                                    val filePath = localMedia?.availablePath
+                                    if (!filePath.isNullOrEmpty()) {
+                                        // 如果是 content:// URI，直接使用 Uri，否则使用 File
+                                        if (filePath.startsWith("content://")) {
+                                            Glide.with(this@UserInfoFirstStepActivity)
+                                                    .load(android.net.Uri.parse(filePath))
+                                                    .circleCrop()
+                                                    .into(viewBind.ivAvatar)
+                                            // 对于 content:// URI，通常需要先复制到临时文件再上传，或者 PictureSelector
+                                            // 已经提供了 cutPath/compressPath
+                                            // 这里简化处理，假设 availablePath 是可用的文件路径，如果不是，可能需要额外处理
+                                            // 实际上 PictureSelector 裁剪后的路径通常是文件路径
+                                            val cutPath = localMedia.cutPath
+                                            if (!cutPath.isNullOrEmpty()) {
+                                                processSelectedImage(File(cutPath))
+                                            } else {
+                                                // 尝试处理 content uri
+                                                showToast("暂不支持直接上传 Content URI，请确保开启了裁剪")
+                                            }
+                                        } else {
+                                            processSelectedImage(File(filePath))
+                                        }
+                                    }
+                                }
+                            }
+
+                            override fun onCancel() {
+                                // 用户取消拍照
                             }
                         }
-                    }
-                }
-
-                override fun onCancel() {
-                    // 用户取消拍照
-                }
-            })
+                )
     }
 
     private fun selectAvatarFromGallery() {
@@ -152,184 +160,206 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
 
         // 使用PictureSelector选择图片，启用裁剪，设置高大于宽的比例（3:2，高度:宽度）
         PictureSelector.create(this)
-            .openGallery(SelectMimeType.ofImage())
-            .setImageEngine(GlideEngine.instance)
-            .setMaxSelectNum(1)
-            .setSelectionMode(SelectModeConfig.SINGLE)
-            .setCropEngine(com.xly.middlelibrary.utils.AvatarCropEngine())
-            .forResult(object : OnResultCallbackListener<LocalMedia> {
-                override fun onResult(result: ArrayList<LocalMedia?>?) {
-                    if (result != null && result.isNotEmpty()) {
-                        val localMedia = result[0]
-                        val filePath = localMedia?.availablePath
-                        if (!filePath.isNullOrEmpty()) {
-                            // 如果是 content:// URI，直接使用 Uri，否则使用 File
-                            if (filePath.startsWith("content://")) {
-                                Glide.with(this@UserInfoFirstStepActivity)
-                                    .load(android.net.Uri.parse(filePath))
-                                    .circleCrop()
-                                    .into(viewBind.ivAvatar)
-                            } else {
-                                processSelectedImage(File(filePath))
+                .openGallery(SelectMimeType.ofImage())
+                .setImageEngine(GlideEngine.instance)
+                .setMaxSelectNum(1)
+                .setSelectionMode(SelectModeConfig.SINGLE)
+                .setCropEngine(com.xly.middlelibrary.utils.AvatarCropEngine())
+                .forResult(
+                        object : OnResultCallbackListener<LocalMedia> {
+                            override fun onResult(result: ArrayList<LocalMedia?>?) {
+                                if (result != null && result.isNotEmpty()) {
+                                    val localMedia = result[0]
+                                    val filePath = localMedia?.availablePath
+                                    if (!filePath.isNullOrEmpty()) {
+                                        // 优先使用裁剪后的路径
+                                        val cutPath = localMedia.cutPath
+                                        val finalPath =
+                                                if (!cutPath.isNullOrEmpty()) cutPath else filePath
+
+                                        // 如果是 content:// URI，直接使用 Uri，否则使用 File
+                                        if (finalPath.startsWith("content://")) {
+                                            Glide.with(this@UserInfoFirstStepActivity)
+                                                    .load(android.net.Uri.parse(finalPath))
+                                                    .circleCrop()
+                                                    .into(viewBind.ivAvatar)
+                                            // 同样，Content URI 上传需要特殊处理，这里建议确保开启裁剪以获得文件路径
+                                            showToast("建议开启裁剪以获取文件路径")
+                                        } else {
+                                            Glide.with(this@UserInfoFirstStepActivity)
+                                                    .load(File(finalPath))
+                                                    .circleCrop()
+                                                    .into(viewBind.ivAvatar)
+                                            processSelectedImage(File(finalPath))
+                                        }
+                                    }
+                                }
+                            }
+
+                            override fun onCancel() {
+                                // 用户取消选择
                             }
                         }
-                    }
-                }
-
-                override fun onCancel() {
-                    // 用户取消选择
-                }
-            })
+                )
     }
 
     private fun processSelectedImage(imageFile: File) {
-        // 显示选择的图片
-        // 使用文件路径字符串加载，兼容 content:// URI
-        val imagePath = imageFile.absolutePath
-        Glide.with(this)
-            .load(if (imagePath.startsWith("content://")) android.net.Uri.parse(imagePath) else imageFile)
-            .circleCrop()
-            .into(viewBind.ivAvatar)
-        
-        // 保存图片路径到ViewModel（如果需要上传到服务器）
-        // viewModel.avatarPath = imagePath
+        showLoading()
+        AliyunOSSHelper.uploadFile(
+                imageFile.absolutePath,
+                object : AliyunOSSHelper.UploadCallback {
+                    override fun onSuccess(url: String) {
+                        runOnUiThread {
+                            hideLoading()
+                            avatarUrl = url
+                            showToast("头像上传成功")
+                            // Log.d("UserInfoFirstStep", "Avatar URL: $url")
+                        }
+                    }
+
+                    override fun onFailure(msg: String) {
+                        runOnUiThread {
+                            hideLoading()
+                            showToast("头像上传失败: $msg")
+                        }
+                    }
+                }
+        )
     }
 
     private fun setupNickname() {
-        viewBind.etNickname.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                nickname = s?.toString()?.trim() ?: ""
-                updateNextButtonState()
-            }
-            override fun afterTextChanged(s: Editable?) {}
-        })
-        
+        viewBind.etNickname.addTextChangedListener(
+                object : TextWatcher {
+                    override fun beforeTextChanged(
+                            s: CharSequence?,
+                            start: Int,
+                            count: Int,
+                            after: Int
+                    ) {}
+                    override fun onTextChanged(
+                            s: CharSequence?,
+                            start: Int,
+                            before: Int,
+                            count: Int
+                    ) {
+                        nickname = s?.toString()?.trim() ?: ""
+                        updateNextButtonState()
+                    }
+                    override fun afterTextChanged(s: Editable?) {}
+                }
+        )
+
         // 监听焦点变化，失去焦点时清除焦点隐藏光标
         viewBind.etNickname.setOnFocusChangeListener { view, hasFocus ->
             if (!hasFocus) {
                 view.clearFocus()
             }
         }
-        
+
         // 点击其他地方时隐藏键盘和光标
         viewBind.root.setOnClickListener {
             viewBind.etNickname.clearFocus()
             // 隐藏键盘
-            val imm = getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+            val imm =
+                    getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as
+                            android.view.inputmethod.InputMethodManager
             imm.hideSoftInputFromWindow(viewBind.etNickname.windowToken, 0)
         }
     }
 
     private fun setupGender() {
         viewBind.rgGender.setOnCheckedChangeListener { _, checkedId ->
-            selectedGender = when (checkedId) {
-                R.id.rbMale -> "1" // 男士
-                R.id.rbFemale -> "2" // 女士
-                else -> null
-            }
+            selectedGender =
+                    when (checkedId) {
+                        R.id.rbMale -> "1" // 男士
+                        R.id.rbFemale -> "2" // 女士
+                        else -> null
+                    }
             updateNextButtonState()
         }
     }
 
     private fun setupAge() {
-        viewBind.llAge.setOnClickListener {
-            showAgePicker()
-        }
+        viewBind.llAge.setOnClickListener { showAgePicker() }
     }
 
     private fun setupHeight() {
-        viewBind.llHeight.setOnClickListener {
-            showHeightPicker()
-        }
+        viewBind.llHeight.setOnClickListener { showHeightPicker() }
     }
 
     private fun setupHometown() {
-        viewBind.llHometown.setOnClickListener {
-            showHometownPicker()
-        }
+        viewBind.llHometown.setOnClickListener { showHometownPicker() }
     }
 
     private fun setupResidence() {
-        viewBind.llResidence.setOnClickListener {
-            showResidencePicker()
-        }
+        viewBind.llResidence.setOnClickListener { showResidencePicker() }
     }
 
     private fun showAgePicker() {
         val ageOptions = (18..50).map { "${it}岁" } + listOf("50+岁")
-        BottomPickerDialog(
-            this,
-            "选择年龄",
-            ageOptions
-        ) { selected ->
-            ageValue = selected
-            viewBind.tvAge.text = selected
-            viewBind.tvAge.setTextColor(getColor(R.color.text_primary))
-            updateNextButtonState()
-        }.show()
+        BottomPickerDialog(this, "选择年龄", ageOptions) { selected ->
+                    ageValue = selected
+                    viewBind.tvAge.text = selected
+                    viewBind.tvAge.setTextColor(getColor(R.color.text_primary))
+                    updateNextButtonState()
+                }
+                .show()
     }
 
     private fun showHeightPicker() {
         val heightOptions = (140..210).map { "${it}cm" }
-        HeightPickerDialog(
-            this,
-            heightOptions,
-            heightValue
-        ) { selected ->
-            heightValue = selected
-            viewBind.tvHeight.text = selected
-            viewBind.tvHeight.setTextColor(getColor(R.color.text_primary))
-            updateNextButtonState()
-        }.show()
+        HeightPickerDialog(this, heightOptions, heightValue) { selected ->
+                    heightValue = selected
+                    viewBind.tvHeight.text = selected
+                    viewBind.tvHeight.setTextColor(getColor(R.color.text_primary))
+                    updateNextButtonState()
+                }
+                .show()
     }
 
     private fun showHometownPicker() {
-        val dialog = AddressPickerDialog(
-            this,
-            "选择家乡"
-        ) { province, city, district ->
-            hometownProvince = province
-            hometownCity = city
-            hometownDistrict = district
-            // 显示格式：省 市 区，例如：北京 北京市 朝阳区
-            hometownValue = "$province $city $district"
-            viewBind.tvHometown.text = hometownValue
-            viewBind.tvHometown.setTextColor(getColor(R.color.text_primary))
-            updateNextButtonState()
-        }
+        val dialog =
+                AddressPickerDialog(this, "选择家乡") { province, city, district ->
+                    hometownProvince = province
+                    hometownCity = city
+                    hometownDistrict = district
+                    // 显示格式：省 市 区，例如：北京 北京市 朝阳区
+                    hometownValue = "$province $city $district"
+                    viewBind.tvHometown.text = hometownValue
+                    viewBind.tvHometown.setTextColor(getColor(R.color.text_primary))
+                    updateNextButtonState()
+                }
         // 如果有已选中的值，回显
         dialog.setSelectedAddress(hometownProvince, hometownCity, hometownDistrict)
         dialog.show()
     }
 
     private fun showResidencePicker() {
-        val dialog = AddressPickerDialog(
-            this,
-            "选择现居住地"
-        ) { province, city, district ->
-            residenceProvince = province
-            residenceCity = city
-            residenceDistrict = district
-            // 显示格式：省 市 区，例如：北京 北京市 朝阳区
-            residenceValue = "$province $city $district"
-            viewBind.tvResidence.text = residenceValue
-            viewBind.tvResidence.setTextColor(getColor(R.color.text_primary))
-            updateNextButtonState()
-        }
+        val dialog =
+                AddressPickerDialog(this, "选择现居住地") { province, city, district ->
+                    residenceProvince = province
+                    residenceCity = city
+                    residenceDistrict = district
+                    // 显示格式：省 市 区，例如：北京 北京市 朝阳区
+                    residenceValue = "$province $city $district"
+                    viewBind.tvResidence.text = residenceValue
+                    viewBind.tvResidence.setTextColor(getColor(R.color.text_primary))
+                    updateNextButtonState()
+                }
         // 如果有已选中的值，回显
         dialog.setSelectedAddress(residenceProvince, residenceCity, residenceDistrict)
         dialog.show()
     }
 
     private fun updateNextButtonState() {
-        val isValid = nickname.isNotEmpty() && 
-                     selectedGender != null && 
-                     ageValue != null && 
-                     heightValue != null &&
-                     hometownValue != null &&
-                     residenceValue != null
-        
+        val isValid =
+                nickname.isNotEmpty() &&
+                        selectedGender != null &&
+                        ageValue != null &&
+                        heightValue != null &&
+                        hometownValue != null &&
+                        residenceValue != null
+
         viewBind.btnNext.isEnabled = isValid
     }
 
@@ -346,35 +376,37 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
         val height = heightValue?.replace("cm", "")?.toIntOrNull() ?: 0
 
         // 创建第一步请求实体
-        val firstStepRequest = UserInfoFirstStepRequest().apply {
-            this.nickname = this@UserInfoFirstStepActivity.nickname
-            this.gender = selectedGender ?: ""
-            this.age = age
-            this.height = height
-            this.hometownProvince = hometownProvince ?: ""
-            this.hometownCity = hometownCity ?: ""
-            this.hometownDistrict = hometownDistrict ?: ""
-            this.residenceProvince = residenceProvince ?: ""
-            this.residenceCity = residenceCity ?: ""
-            this.residenceDistrict = residenceDistrict ?: ""
-            this.avatarUrl = this@UserInfoFirstStepActivity.avatarUrl
-        }
+        val firstStepRequest =
+                UserInfoFirstStepRequest().apply {
+                    this.nickname = this@UserInfoFirstStepActivity.nickname
+                    this.gender = selectedGender ?: ""
+                    this.age = age
+                    this.height = height
+                    this.hometownProvince = hometownProvince ?: ""
+                    this.hometownCity = hometownCity ?: ""
+                    this.hometownDistrict = hometownDistrict ?: ""
+                    this.residenceProvince = residenceProvince ?: ""
+                    this.residenceCity = residenceCity ?: ""
+                    this.residenceDistrict = residenceDistrict ?: ""
+                    this.avatarUrl = this@UserInfoFirstStepActivity.avatarUrl
+                }
 
         // 同时更新到 UserInfoRegisterReq（用于兼容现有接口）
-        val request = UserInfoRegisterReq().apply {
-            step = 1
-            this.nickname = firstStepRequest.nickname
-            this.gender = firstStepRequest.gender
-            this.age = firstStepRequest.age
-            this.height = firstStepRequest.height
-            this.hometownProvince = firstStepRequest.hometownProvince
-            this.hometownCity = firstStepRequest.hometownCity
-            this.hometownDistrict = firstStepRequest.hometownDistrict
-            this.currentProvince = firstStepRequest.residenceProvince
-            this.currentCity = firstStepRequest.residenceCity
-            this.currentDistrict = firstStepRequest.residenceDistrict
-            this.avatarUrl = firstStepRequest.avatarUrl
-        }
+        val request =
+                UserInfoRegisterReq().apply {
+                    step = 1
+                    this.nickname = firstStepRequest.nickname
+                    this.gender = firstStepRequest.gender
+                    this.age = firstStepRequest.age
+                    this.height = firstStepRequest.height
+                    this.hometownProvince = firstStepRequest.hometownProvince
+                    this.hometownCity = firstStepRequest.hometownCity
+                    this.hometownDistrict = firstStepRequest.hometownDistrict
+                    this.currentProvince = firstStepRequest.residenceProvince
+                    this.currentCity = firstStepRequest.residenceCity
+                    this.currentDistrict = firstStepRequest.residenceDistrict
+                    this.avatarUrl = firstStepRequest.avatarUrl
+                }
 
         showLoading()
         viewModel.userInfoRegister(request)
@@ -414,27 +446,31 @@ class UserInfoFirstStepActivity : LYBaseActivity<ActivityUserInfoFirstStepBindin
         viewBind.ivArrow.visibility = android.view.View.GONE
         viewBind.btnNext.isEnabled = false
         viewBind.btnNext.isClickable = false
-        
+
         // 保存到 ViewModel
         viewModel.nickname = nickname
         viewModel.gender = selectedGender
         // 解析年龄和身高数值
         val age = ageValue?.replace("岁", "")?.replace("+", "")?.toIntOrNull() ?: 0
         val height = heightValue?.replace("cm", "")?.toIntOrNull() ?: 0
-        
+
         // 模拟网络请求延迟（1.5秒）
-        Handler(Looper.getMainLooper()).postDelayed({
-            // 恢复按钮状态
-            viewBind.progressBar.visibility = android.view.View.GONE
-            viewBind.ivArrow.visibility = android.view.View.VISIBLE
-            viewBind.btnNext.isEnabled = true
-            viewBind.btnNext.isClickable = true
-            
-            // 跳转到第三步
-//            UserInfoThirdStepActivity.start(this)
-            UserInfoSecondStepActivity.start(this)
-            finish()
-        }, 1500)
+        Handler(Looper.getMainLooper())
+                .postDelayed(
+                        {
+                            // 恢复按钮状态
+                            viewBind.progressBar.visibility = android.view.View.GONE
+                            viewBind.ivArrow.visibility = android.view.View.VISIBLE
+                            viewBind.btnNext.isEnabled = true
+                            viewBind.btnNext.isClickable = true
+
+                            // 跳转到第三步
+                            //            UserInfoThirdStepActivity.start(this)
+                            UserInfoSecondStepActivity.start(this)
+                            finish()
+                        },
+                        1500
+                )
     }
 
     override fun initObservers() {

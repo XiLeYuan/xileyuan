@@ -4,10 +4,10 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.app.Dialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
 import android.os.Handler
 import android.os.Looper
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.OvershootInterpolator
@@ -21,10 +21,6 @@ import com.scwang.smart.refresh.header.MaterialHeader
 import com.xly.R
 import com.xly.base.LYBaseFragment
 import com.xly.business.user.viewmodel.ProfileViewModel
-import com.xly.business.user.view.SettingsActivity
-import com.xly.business.user.view.MyProfileActivity
-import com.xly.business.user.view.MyFateActivity
-import com.xly.business.user.view.UserInteractionActivity
 import com.xly.business.vip.view.LookStarMeActivity
 import com.xly.databinding.DialogFateUserCardBinding
 import com.xly.databinding.FragmentProfileBinding

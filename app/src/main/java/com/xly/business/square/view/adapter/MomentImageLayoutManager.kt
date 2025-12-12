@@ -1,9 +1,6 @@
 package com.xly.business.square.view.adapter
 
 import android.content.Context
-import android.view.ViewGroup
-import android.widget.ImageView
-import com.google.android.flexbox.FlexboxLayout
 
 /**
  * 动态图片布局管理器

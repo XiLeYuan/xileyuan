@@ -1,7 +1,6 @@
 package com.xly.business.square.view
 
 import android.content.Intent
-import com.xly.base.LYBaseFragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +11,7 @@ import androidx.core.util.Pair
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.xly.base.LYBaseFragment
 import com.xly.business.square.model.TodaySelectionUser
 import com.xly.business.square.view.adapter.CherryPickAdapter
 import com.xly.business.square.viewmodel.CherryPickViewModel

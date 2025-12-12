@@ -1,14 +1,13 @@
 package com.xly.business.recommend.view
 
-import android.animation.ObjectAnimator
 import android.content.Intent
-import androidx.core.app.ActivityOptionsCompat
-import androidx.core.util.Pair
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import com.jspp.adapter.UserCardAdapter
 import com.jspp.model.UserCard
@@ -22,7 +21,6 @@ import com.yuyakaido.android.cardstackview.Duration
 import com.yuyakaido.android.cardstackview.StackFrom
 import com.yuyakaido.android.cardstackview.SwipeAnimationSetting
 import com.yuyakaido.android.cardstackview.SwipeableMethod
-import kotlin.random.Random
 
 class RecommendContentFragment : Fragment() {
 

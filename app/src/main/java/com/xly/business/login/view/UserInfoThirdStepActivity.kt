@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.xly.R
 import com.xly.base.ActivityStackManager
 import com.xly.base.LYBaseActivity
-import com.xly.business.login.model.UserInfoThirdStepRequest
 import com.xly.business.login.model.UserInfoRegisterReq
+import com.xly.business.login.model.UserInfoThirdStepRequest
 import com.xly.business.login.viewmodel.LoginViewModel
 import com.xly.databinding.ActivityUserInfoThirdStepBinding
 import com.xly.index.LYMainActivity

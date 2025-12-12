@@ -5,7 +5,6 @@ import android.content.Intent
 import android.view.LayoutInflater
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.xly.R
 import com.xly.base.LYBaseActivity
 import com.xly.databinding.ActivityEditBasicInfoBinding
 import com.xly.middlelibrary.utils.click

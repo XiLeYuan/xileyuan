@@ -1,6 +1,5 @@
 package com.xly.business.user.utils
 
-import android.content.Context
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.google.android.flexbox.FlexboxLayout

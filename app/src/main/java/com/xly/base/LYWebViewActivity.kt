@@ -2,17 +2,16 @@ package com.xly.base
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.View
+import android.view.Gravity
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.appcompat.app.AppCompatActivity
-import com.xly.databinding.ActivityWebviewBinding
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.LinearLayout
-import android.view.Gravity
 import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.xly.R
+import com.xly.databinding.ActivityWebviewBinding
 
 class LYWebViewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWebviewBinding

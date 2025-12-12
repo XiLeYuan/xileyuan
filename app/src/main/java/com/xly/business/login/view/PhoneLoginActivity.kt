@@ -5,16 +5,16 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.ViewTreeObserver
-import android.view.inputmethod.InputMethodManager
 import android.view.animation.DecelerateInterpolator
+import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
+import com.xly.R
 import com.xly.base.LYBaseActivity
 import com.xly.business.login.viewmodel.LoginViewModel
 import com.xly.databinding.ActivityPhoneLoginBinding
-import com.xly.R
 
 class PhoneLoginActivity : LYBaseActivity<ActivityPhoneLoginBinding, LoginViewModel>() {
     override fun inflateBinding(layoutInflater: android.view.LayoutInflater) = ActivityPhoneLoginBinding.inflate(layoutInflater)

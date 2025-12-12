@@ -1,6 +1,5 @@
 package com.xly.business.login.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
@@ -11,12 +10,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.xly.base.ActivityStackManager
 import com.xly.base.LYBaseActivity
-import com.xly.business.login.model.LoginUser
 import com.xly.business.login.viewmodel.LoginViewModel
-import com.xly.business.recommend.model.User
-import com.xly.business.user.UserInfo
 import com.xly.databinding.ActivityCodeLoginBinding
-import com.xly.index.LYMainActivity
 import com.xly.middlelibrary.utils.MMKVManager
 
 class CodeLoginActivity : LYBaseActivity<ActivityCodeLoginBinding, LoginViewModel>() {

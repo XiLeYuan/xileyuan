@@ -7,11 +7,10 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.xly.R
 import com.xly.base.ActivityStackManager
 import com.xly.base.LYBaseActivity
-import com.xly.business.login.model.UserInfoSixthStepRequest
 import com.xly.business.login.model.UserInfoRegisterReq
+import com.xly.business.login.model.UserInfoSixthStepRequest
 import com.xly.business.login.viewmodel.LoginViewModel
 import com.xly.databinding.ActivityUserInfoSixthStepBinding
 import com.xly.index.LYMainActivity

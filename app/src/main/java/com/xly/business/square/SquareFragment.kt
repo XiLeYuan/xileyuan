@@ -2,7 +2,6 @@ package com.xly.business.square
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.xly.base.LYBaseFragment
 import com.xly.business.favorite.view.LikeFragment
-import com.xly.business.favorite.view.VisitorFragment
 import com.xly.business.recommend.viewmodel.RecommendViewModel
 import com.xly.business.square.view.CherryPickFragment
 import com.xly.business.square.view.MatchmakerFragment

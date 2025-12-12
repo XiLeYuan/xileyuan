@@ -238,13 +238,13 @@ android {
         implementation 'com.umeng.umsdk:oaid_oppo:1.0.4' // (可选)
         implementation 'com.umeng.umsdk:oaid_vivo:1.0.0.1' // (可选)*/
 
+
         implementation  'com.umeng.umsdk:common:9.4.7'// 必选
         implementation  'com.umeng.umsdk:asms:1.4.0'// 必选
         implementation 'com.umeng.umsdk:apm:1.4.2'
 
-
-
-
+        // Aliyun OSS
+        implementation 'com.aliyun.dpa:oss-android-sdk:2.9.13'
     }
     lint {
         disable 'GoogleAppIndexingWarning'

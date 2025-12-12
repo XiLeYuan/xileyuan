@@ -3,11 +3,7 @@ package com.xly.business.login.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -17,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.jaygoo.widget.RangeSeekBar
 import com.luck.picture.lib.basic.PictureSelector
@@ -26,36 +23,32 @@ import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.xly.R
 import com.xly.base.LYBaseFragment
+import com.xly.business.login.view.adapter.LifePhotoAdapter
 import com.xly.business.login.viewmodel.LoginViewModel
+import com.xly.business.user.view.BubbleChooseActivity
 import com.xly.databinding.FragmentUserInfoStepAddressBinding
 import com.xly.databinding.FragmentUserInfoStepAgeHeightBinding
 import com.xly.databinding.FragmentUserInfoStepBinding
 import com.xly.databinding.FragmentUserInfoStepEducationBinding
 import com.xly.databinding.FragmentUserInfoStepGenderBinding
 import com.xly.databinding.FragmentUserInfoStepHouseCarBinding
+import com.xly.databinding.FragmentUserInfoStepIntro2Binding
+import com.xly.databinding.FragmentUserInfoStepIntro3Binding
+import com.xly.databinding.FragmentUserInfoStepIntroBinding
 import com.xly.databinding.FragmentUserInfoStepJobIncomeBinding
+import com.xly.databinding.FragmentUserInfoStepLifePhotosBinding
 import com.xly.databinding.FragmentUserInfoStepMarriageChildrenBinding
 import com.xly.databinding.FragmentUserInfoStepMarryPlanBinding
 import com.xly.databinding.FragmentUserInfoStepNicknameAvatarBinding
 import com.xly.databinding.FragmentUserInfoStepSchoolBinding
+import com.xly.databinding.FragmentUserInfoStepTagsBinding
+import com.xly.databinding.FragmentUserInfoStepVerificationBinding
 import com.xly.middlelibrary.utils.GlideEngine
 import com.xly.middlelibrary.utils.LYUtils
 import com.xly.middlelibrary.utils.MMKVManager
 import top.zibin.luban.Luban
 import top.zibin.luban.OnCompressListener
 import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.util.ArrayList
-import androidx.recyclerview.widget.GridLayoutManager
-import com.xly.business.login.view.adapter.LifePhotoAdapter
-import com.xly.business.user.view.BubbleChooseActivity
-import com.xly.databinding.FragmentUserInfoStepLifePhotosBinding
-import com.xly.databinding.FragmentUserInfoStepIntroBinding
-import com.xly.databinding.FragmentUserInfoStepIntro2Binding
-import com.xly.databinding.FragmentUserInfoStepIntro3Binding
-import com.xly.databinding.FragmentUserInfoStepTagsBinding
-import com.xly.databinding.FragmentUserInfoStepVerificationBinding
 
 class UserInfoStepFragment : LYBaseFragment<FragmentUserInfoStepBinding, LoginViewModel>() {
     private var stepIndex: Int = 0

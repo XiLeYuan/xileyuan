@@ -4,11 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import com.xly.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.xly.R
 import com.xly.base.LYBaseActivity
 import com.xly.business.message.view.MessageListFragment
 import com.xly.business.recommend.view.RecommendFragment

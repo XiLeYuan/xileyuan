@@ -17,7 +17,6 @@ import com.bumptech.glide.Glide
 import com.xly.R
 import com.xly.business.recommend.view.HometownFragment
 import com.xly.business.square.model.Matchmaker
-import com.xly.business.square.view.adapter.BlurTransformation
 import com.xly.databinding.ItemHometownUserBinding
 import com.xly.databinding.ItemMatchmakerHeaderBinding
 
