@@ -15,6 +15,7 @@ import com.xly.R
 import com.xly.base.LYBaseActivity
 import com.xly.business.login.viewmodel.LoginViewModel
 import com.xly.databinding.ActivityPhoneLoginBinding
+import com.xly.middlelibrary.utils.click
 
 class PhoneLoginActivity : LYBaseActivity<ActivityPhoneLoginBinding, LoginViewModel>() {
     override fun inflateBinding(layoutInflater: android.view.LayoutInflater) = ActivityPhoneLoginBinding.inflate(layoutInflater)
@@ -22,6 +23,52 @@ class PhoneLoginActivity : LYBaseActivity<ActivityPhoneLoginBinding, LoginViewMo
 
     private var isKeyboardVisible = false
     private var lastKeyboardHeight = 0
+
+    override fun initObservers() {
+        super.initObservers()
+        
+        // 观察加载状态
+        viewModel.isLoading.observe(this) { isLoading ->
+            updateButtonLoadingState(isLoading)
+        }
+        
+        // 观察发送验证码结果
+        viewModel.sendCodeResult.observe(this) { result ->
+            result.fold(
+                onSuccess = { message ->
+                    // 发送成功，跳转到验证码输入页面
+                    val phone = viewBind.etPhone.text.toString()
+                    val intent = Intent(this, CodeLoginActivity::class.java)
+                    intent.putExtra("phone", phone)
+                    startActivity(intent)
+                },
+                onFailure = { exception ->
+                    // 发送失败，显示错误信息
+                    viewBind.textInputLayoutPhone.error = exception.message ?: "发送验证码失败，请重试"
+                }
+            )
+        }
+    }
+    
+    /**
+     * 更新按钮加载状态
+     */
+    private fun updateButtonLoadingState(isLoading: Boolean) {
+        if (isLoading) {
+            // 显示进度条，隐藏箭头
+            viewBind.progressBar.visibility = android.view.View.VISIBLE
+            viewBind.ivArrow.visibility = android.view.View.GONE
+            viewBind.btnNext.isEnabled = false
+        } else {
+            // 隐藏进度条，显示箭头
+            viewBind.progressBar.visibility = android.view.View.GONE
+            viewBind.ivArrow.visibility = android.view.View.VISIBLE
+            // 恢复按钮状态
+            val phone = viewBind.etPhone.text.toString()
+            val enable = phone.length == 11 && isValidPhoneNumber(phone)
+            viewBind.btnNext.isEnabled = enable
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,14 +108,13 @@ class PhoneLoginActivity : LYBaseActivity<ActivityPhoneLoginBinding, LoginViewMo
             }
             override fun afterTextChanged(s: Editable?) {}
         })
-        
+
+
         viewBind.btnNext.setOnClickListener {
             val phone = viewBind.etPhone.text.toString()
             if (phone.length == 11 && isValidPhoneNumber(phone)) {
-                // 跳转验证码登录页
-                val intent = Intent(this, CodeLoginActivity::class.java)
-                intent.putExtra("phone", phone)
-                startActivity(intent)
+                // 发送验证码
+                viewModel.sendVerificationCode(phone)
             } else {
                 viewBind.textInputLayoutPhone.error = "请输入正确的手机号"
             }
@@ -279,9 +325,11 @@ class PhoneLoginActivity : LYBaseActivity<ActivityPhoneLoginBinding, LoginViewMo
     }
     
     /**
-     * 验证手机号格式（简单验证：11位数字，以1开头）
+     * 验证手机号格式（与服务器端保持一致：^1[3-9]\\d{9}$）
      */
     private fun isValidPhoneNumber(phone: String): Boolean {
+        // 服务器端验证规则：^1[3-9]\\d{9}$
+        // 必须以1开头，第二位是3-9，后面9位数字
         return phone.matches(Regex("^1[3-9]\\d{9}$"))
     }
 } 

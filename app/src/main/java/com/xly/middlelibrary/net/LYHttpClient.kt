@@ -13,8 +13,13 @@ import java.util.concurrent.TimeUnit
 object LYHttpClient {
 
     //CY本地"http://192.168.1.6:9090/" CL本地："http://192.168.1.102:9090/"
-//    private const val BASE_URL = "http://192.168.3.143:8080/"
-    private const val BASE_URL = "http://127.0.0.1:8080/"
+    // 注意：Android设备无法访问127.0.0.1，需要使用以下地址：
+    // - 模拟器：使用 10.0.2.2 访问PC的localhost
+    // - 真机：使用PC的局域网IP地址（如 192.168.x.x）
+    // 当前PC IP: 192.168.20.121（根据实际情况修改）
+    private const val BASE_URL = "http://192.168.20.121:8080/"  // 真机使用PC的局域网IP
+    // private const val BASE_URL = "http://10.0.2.2:8080/"  // 模拟器使用此地址
+    // private const val BASE_URL = "http://127.0.0.1:8080/"  // 仅PC浏览器可用，Android设备不可用
 
     // 日志拦截器
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
@@ -39,11 +44,13 @@ object LYHttpClient {
         chain.proceed(newRequest)
     }
 
-    // 错误处理拦截器
+    // 错误处理拦截器 - 处理HTTP错误状态码，允许解析响应体
     private val errorInterceptor = Interceptor { chain ->
         val request = chain.request()
         val response = chain.proceed(request)
 
+        // 对于400等错误状态码，如果响应体是JSON格式，允许继续解析
+        // 这样可以让JsonResponseConverter正常解析服务器返回的错误信息
         when (response.code) {
             401 -> {
                 // Token过期，清除本地token
@@ -53,8 +60,9 @@ object LYHttpClient {
             403 -> {
                 // 权限不足
             }
-            500 -> {
-                // 服务器错误
+            400, 500 -> {
+                // 400和500错误，如果响应体是JSON，允许继续解析
+                // Retrofit默认会抛出HttpException，但我们的JsonResponseConverter会处理
             }
         }
 

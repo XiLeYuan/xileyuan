@@ -39,6 +39,13 @@ class LoginRepository {
         }
     }
 
+    // 发送验证码
+    suspend fun sendVerificationCode(phoneNumber: String): Result<String> {
+        return NetworkUtils.safeApiCall {
+            apiService.sendVerificationCode(phoneNumber)
+        }
+    }
+
 
 
 

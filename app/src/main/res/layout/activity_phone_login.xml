@@ -73,7 +73,7 @@
     </LinearLayout>
 
     <!-- 右下角箭头按钮 -->
-    <ImageButton
+    <FrameLayout
         android:id="@+id/btnNext"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
@@ -82,14 +82,31 @@
         android:layout_marginBottom="24dp"
         android:minWidth="120dp"
         android:background="@drawable/bg_arrow_button"
-        android:src="@mipmap/login_arrow_icon"
-        android:contentDescription="下一步"
-        android:scaleType="centerInside"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
+        android:clickable="true"
+        android:focusable="true"
         android:enabled="false"
-        android:alpha="0.5"/>
+        android:alpha="0.5">
+
+        <ImageView
+            android:id="@+id/ivArrow"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/login_arrow_icon"
+            android:contentDescription="下一步"
+            android:scaleType="fitCenter" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progressBar"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:indicatorColor="@color/white"
+            app:indicatorSize="20dp"
+            app:trackThickness="2dp" />
+
+    </FrameLayout>
 
 </FrameLayout>

@@ -47,6 +47,12 @@ class LoginViewModel : ViewModel() {
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
 
+    private val _sendCodeResult = MutableLiveData<Result<String>>()
+    val sendCodeResult: LiveData<Result<String>> = _sendCodeResult
+
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     val repository: LoginRepository by lazy {
         LoginRepository()
     }
@@ -109,6 +115,16 @@ class LoginViewModel : ViewModel() {
             } catch (e: Exception) {
                 onError(e.message ?: "上传失败")
             }
+        }
+    }
+
+    // 发送验证码
+    fun sendVerificationCode(phoneNumber: String) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            val result = repository.sendVerificationCode(phoneNumber)
+            _isLoading.value = false
+            _sendCodeResult.value = result
         }
     }
 
