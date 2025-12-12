@@ -120,7 +120,7 @@
                     android:id="@+id/ivHelp"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@mipmap/ic_arrow_left_black"
+                    android:src="@mipmap/help_icon"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:padding="4dp"
                     tools:ignore="ContentDescription" />
