@@ -161,7 +161,6 @@ class LookStarMeActivity : LYBaseActivity<ActivityVipRechargeBinding, MainViewMo
         
         val dateFormat = SimpleDateFormat("M.d", Locale.getDefault())
         val dateRange = "${dateFormat.format(startDate.time)}-${dateFormat.format(endDate.time)}"
-        viewBind.tvDateRange.text = dateRange
     }
 
     private fun setupUserInfo() {
