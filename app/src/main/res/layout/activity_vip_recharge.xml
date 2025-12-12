@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:text="同意《青藤会员协议》《连续订阅会员服务协议》,享688订阅优惠价(原价798),可随时取消自动续费。"
+                android:text="同意《结婚吧会员协议》《连续订阅会员服务协议》,享688订阅优惠价(原价798),可随时取消自动续费。"
                 android:textColor="#FF999999"
                 android:textSize="11sp"
                 android:lineSpacingMultiplier="1.2" />
