@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.gyf.immersionbar.ImmersionBar
 import com.xly.base.LYBaseActivity
 import com.xly.business.vip.model.VipRechargeOption
 import com.xly.databinding.ActivityVipRechargeBinding
@@ -277,7 +276,7 @@ class LookStarMeActivity : LYBaseActivity<ActivityVipRechargeBinding, MainViewMo
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 ).apply {
-                    setMargins(0, dp2px(12), 0, dp2px(12))
+                    setMargins(0, 0, 0, 0)
                 }
             }
 
@@ -292,6 +291,7 @@ class LookStarMeActivity : LYBaseActivity<ActivityVipRechargeBinding, MainViewMo
                 text = privilege.benefit
                 setTextColor(Color.parseColor("#FF333333"))
                 textSize = 13f
+                setPadding(0, dp2px(12), 0, dp2px(12))
             }
 
             // VIP会员用户权益
@@ -306,7 +306,7 @@ class LookStarMeActivity : LYBaseActivity<ActivityVipRechargeBinding, MainViewMo
                 setTextColor(Color.parseColor("#FF333333"))
                 textSize = 13f
                 setBackgroundColor(Color.parseColor("#FFF9E6"))
-                setPadding(0, dp2px(8), 0, dp2px(8))
+                setPadding(0, dp2px(12), 0, dp2px(12))
             }
 
             // 普通用户权益
@@ -320,6 +320,7 @@ class LookStarMeActivity : LYBaseActivity<ActivityVipRechargeBinding, MainViewMo
                 text = privilege.regularBenefit
                 setTextColor(Color.parseColor("#FF999999"))
                 textSize = 13f
+                setPadding(0, dp2px(12), 0, dp2px(12))
             }
 
             rowLayout.addView(tvBenefit)

@@ -230,18 +230,18 @@
                 android:textColor="#FF333333"
                 android:textSize="18sp" />
 
-            <!-- 特权对比表格 -->
-            <LinearLayout
-                android:id="@+id/llPrivilegesTable"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/bg_card_white_rounded"
-                android:orientation="vertical"
-                android:padding="16dp">
+        <!-- 特权对比表格 -->
+        <LinearLayout
+            android:id="@+id/llPrivilegesTable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_privileges_table"
+            android:orientation="vertical"
+            android:padding="16dp">
 
                 <!-- 表头 -->
                 <LinearLayout
@@ -256,7 +256,7 @@
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:text="权益"
-                        android:textColor="#FF666666"
+                        android:textColor="#333333"
                         android:textSize="14sp" />
 
                     <TextView
@@ -265,10 +265,9 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="VIP会员用户"
-                        android:textColor="#FF333333"
+                        android:textColor="#333333"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        android:background="@drawable/bg_vip_column"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp" />
 
@@ -278,15 +277,15 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="普通用户"
-                        android:textColor="#FF666666"
+                        android:textColor="#333333"
                         android:textSize="14sp" />
                 </LinearLayout>
 
                 <!-- 分割线 -->
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#FFE8E8E8" />
+                    android:layout_height="1px"
+                    android:background="#dcdcdc" />
 
                 <!-- 特权项将通过代码动态添加 -->
             </LinearLayout>
