@@ -264,7 +264,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:layout_centerVertical="true"
                 tools:ignore="ContentDescription"
-                android:padding="8dp"/>
+                android:padding="4dp"/>
 
 
 
