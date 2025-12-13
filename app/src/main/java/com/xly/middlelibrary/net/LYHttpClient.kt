@@ -17,7 +17,8 @@ object LYHttpClient {
     // - 模拟器：使用 10.0.2.2 访问PC的localhost
     // - 真机：使用PC的局域网IP地址（如 192.168.x.x）
     // 当前PC IP: 192.168.20.121（根据实际情况修改）
-    private const val BASE_URL = "http://192.168.20.121:8080/"  // 真机使用PC的局域网IP
+//    private const val BASE_URL = "http://192.168.20.121:8080/"  // 真机使用PC的局域网IP
+    private const val BASE_URL = "http://8.136.53.120/"  // 真机使用PC的局域网IP
     // private const val BASE_URL = "http://10.0.2.2:8080/"  // 模拟器使用此地址
     // private const val BASE_URL = "http://127.0.0.1:8080/"  // 仅PC浏览器可用，Android设备不可用
 
